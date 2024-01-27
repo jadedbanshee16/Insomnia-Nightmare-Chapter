@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6572276871216706340
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6572276871216706342}
+  - component: {fileID: 6572276871216706341}
+  - component: {fileID: 6572276871216706343}
+  m_Layer: 0
+  m_Name: Wind_Fog Zone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6572276871216706342
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6572276871216706340}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.26, y: -5.47, z: -22.17}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &6572276871216706341
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6572276871216706340}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 10
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6572276871216706343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6572276871216706340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f015f943b515c944d9fce1b7e7c78390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleAmount: 20
+  TimeBetweenSpawns: 0.1
+  dayParticles:
+  - {fileID: 9148339159135767106, guid: 7beabfaeb8d8fa84dbbcc72c26e0206a, type: 3}
+  - {fileID: 9148339159135767106, guid: 814cb40caaae4d44a951a8acb36c4565, type: 3}
+  nightParticles:
+  - {fileID: 5754884632021641986, guid: 7844b533555e3e24db28093cda6aa979, type: 3}
+  - {fileID: 2695958724704279737, guid: feda8982b59e09b49b7c7c60f157c09d, type: 3}
+  isDay: 1
