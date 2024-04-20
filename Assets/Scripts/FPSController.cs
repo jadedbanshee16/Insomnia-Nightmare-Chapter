@@ -19,6 +19,9 @@ public class FPSController : MonoBehaviour
     private float moveSpeed;
 
     [SerializeField]
+    private float reach = 0.3f;
+
+    [SerializeField]
     private Vector2 colliderSizes;
     private float colliderSize;
 
@@ -104,5 +107,27 @@ public class FPSController : MonoBehaviour
         m_camera.changeHeadBob((int)currentStatus);
 
         m_collider.height = colliderSize;
+
+
+        //Make the controls for the mouse button.
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            isInInteraction();
+        }
+    }
+
+    //Check if reaction is possible. If so, then make interaction.
+    void isInInteraction()
+    {
+        RaycastHit hitPoint;
+
+        //If the ray hits something within reach, see if it has button. If so, complete whatever interaction button is set.
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hitPoint, reach))
+        {
+            if (hitPoint.collider.GetComponent<InteractionClass>())
+            {
+                hitPoint.collider.GetComponent<InteractionClass>().interact();
+            }
+        }
     }
 }

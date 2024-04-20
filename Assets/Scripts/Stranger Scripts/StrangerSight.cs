@@ -45,7 +45,7 @@ public class StrangerSight : MonoBehaviour
         // Send ray 
         if (Physics.Raycast(ray, out hit))
         {
-            Debug.Log("tag: " + hit.collider.gameObject.tag + ", name: " + hit.collider.gameObject.name);
+            //Debug.Log("tag: " + hit.collider.gameObject.tag + ", name: " + hit.collider.gameObject.name);
             if (hit.collider.gameObject.name == "Player")
             {
                 return true;
