@@ -16,6 +16,9 @@ public class RopeController : MonoBehaviour
     [SerializeField]
     Rigidbody firstAnchor;
 
+    [SerializeField]
+    float breakThreshold;
+
     public Transform[] segmentPositions;
     LineRenderer line;
     // Start is called before the first frame update
@@ -23,7 +26,7 @@ public class RopeController : MonoBehaviour
     {
         //Set the first point and list size.
         Rigidbody lastPoint = firstAnchor;
-        segmentPositions = new Transform[segmentAmount + 1];
+        segmentPositions = new Transform[segmentAmount + 2];
         segmentPositions[0] = firstAnchor.transform;
 
         //Now, spawn segments and set up their joints to each other.
@@ -37,8 +40,6 @@ public class RopeController : MonoBehaviour
             ConfigurableJoint joint = Instantiate(segment, newPos, Quaternion.identity, this.transform.parent).GetComponent<ConfigurableJoint>();
 
             joint.connectedBody = lastPoint;
-            joint.projectionDistance = 0.01f;
-            joint.projectionAngle = 0;
 
             //Reset the last point, and iterate.
             lastPoint = joint.gameObject.GetComponent<Rigidbody>();
@@ -48,8 +49,8 @@ public class RopeController : MonoBehaviour
         }
 
         //Set the final destination to be the child of the cable point.
-        finalDestination.transform.parent = lastPoint.transform;
-        finalDestination.transform.localPosition = Vector3.zero;
+        finalDestination.gameObject.GetComponent<ConfigurableJoint>().connectedBody = lastPoint;
+        segmentPositions[segmentPositions.Length - 1] = finalDestination.transform;
 
         //Now, generate a line between the first anchor to final destination.
         line = GetComponent<LineRenderer>();
@@ -62,11 +63,48 @@ public class RopeController : MonoBehaviour
         setLinePositions();
     }
 
+    //A function to set new line positions for the line renderer.
     void setLinePositions()
     {
         for (int i = 0; i < segmentPositions.Length; i++)
         {
             line.SetPosition(i, segmentPositions[i].position);
+        }
+    }
+
+    //Test the new line to ensure all items aren't too far away from each other.
+    public bool testLinePositions()
+    {
+        Vector3 currentPos = segmentPositions[0].position;
+
+        for(int i = 1; i < segmentPositions.Length; i++)
+        {
+            if(Vector3.Distance(currentPos, segmentPositions[i].position) > breakThreshold)
+            {
+                return true;
+            }
+
+            currentPos = segmentPositions[i].position;
+        }
+
+        return false;
+    }
+
+    //Function to make all balls have no colliders while held.
+    public void removeColliders()
+    {
+        for (int i = 1; i < segmentPositions.Length - 1; i++)
+        {
+            segmentPositions[i].gameObject.GetComponent<SphereCollider>().enabled = false;
+        }
+    }
+
+    //Function to return colliders to cable chain.
+    public void addColliders()
+    {
+        for (int i = 1; i < segmentPositions.Length - 1; i++)
+        {
+            segmentPositions[i].gameObject.GetComponent<SphereCollider>().enabled = true;
         }
     }
 }

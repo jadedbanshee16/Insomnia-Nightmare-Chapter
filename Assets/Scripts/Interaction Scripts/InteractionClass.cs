@@ -9,4 +9,9 @@ public class InteractionClass : MonoBehaviour
     {
         
     }
+
+    virtual public void interact(Transform heldPosition)
+    {
+
+    }
 }

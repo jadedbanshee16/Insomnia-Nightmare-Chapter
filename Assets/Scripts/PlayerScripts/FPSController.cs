@@ -34,6 +34,11 @@ public class FPSController : MonoBehaviour
 
     [SerializeField]
     private playerStatus currentStatus;
+
+    [SerializeField]
+    private Transform playerHand;
+    public GameObject holdingItem;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -114,6 +119,12 @@ public class FPSController : MonoBehaviour
         {
             isInInteraction();
         }
+
+        if (Input.GetKey(KeyCode.G) && holdingItem)
+        {
+            holdingItem.GetComponent<HoldItemClass>().release();
+            removeHeldItem();
+        }
     }
 
     //Check if reaction is possible. If so, then make interaction.
@@ -124,10 +135,35 @@ public class FPSController : MonoBehaviour
         //If the ray hits something within reach, see if it has button. If so, complete whatever interaction button is set.
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hitPoint, reach))
         {
-            if (hitPoint.collider.GetComponent<InteractionClass>())
+            Debug.Log(hitPoint.collider.gameObject.name);
+            //Check if an item first.
+            if (hitPoint.collider.CompareTag("HandItem"))
+            {
+                hitPoint.collider.GetComponent<InteractionClass>().interact(playerHand);
+                holdingItem = hitPoint.collider.gameObject;
+            } else if (hitPoint.collider.CompareTag("ItemPort"))
+            {
+                //Ensure an item is held.
+                if (holdingItem)
+                {
+                    hitPoint.collider.GetComponent<InteractionClass>().interact(holdingItem.transform);
+                }
+                removeHeldItem();
+            } else if (hitPoint.collider.GetComponent<InteractionClass>())
             {
                 hitPoint.collider.GetComponent<InteractionClass>().interact();
             }
         }
+    }
+
+    //A function to return the current held item if any.
+    public GameObject getHeldItem()
+    {
+        return holdingItem;
+    }
+
+    public void removeHeldItem()
+    {
+        holdingItem = null;
     }
 }
