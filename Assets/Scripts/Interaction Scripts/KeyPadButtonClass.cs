@@ -26,7 +26,7 @@ public class KeyPadButtonClass : InteractionClass
     }
 
     //Interaction with this button.
-    public override void interact()
+    public override void interact(Transform player, Transform newPosition)
     {
         //Ensure only press button when not using at the moment.
         if (!isUsing)

@@ -19,6 +19,8 @@ public class PlugClass : HoldItemClass
         currentTransform = GetComponent<Transform>();
 
         fixedPosition = false;
+
+        currentHolder = null;
     }
 
     // Update is called once per frame
@@ -50,29 +52,45 @@ public class PlugClass : HoldItemClass
     }
 
     //A function to do what an interaction would do.
-    public override void interact(Transform heldPosition)
+    public override void interact(Transform holder, Transform newPos)
     {
-        Debug.Log("Working?");
+        if (currentHolder != null)
+        {
+            //If current holder, find either player or held item class to remove item from that point.
+            release(currentHolder);
+        }
+
+        //Debug.Log("Working?");
         fixedPosition = true;
 
-        newPosition = heldPosition;
+        newPosition = newPos;
+
+
+
+        currentHolder = holder;
 
         _cable.removeColliders();
     }
 
     //A function to release item from where it is held.
-    public override void release()
+    public override void release(Transform holder)
     {
+        Debug.Log("Released");
+        
         fixedPosition = false;
         newPosition = null;
 
-        GameObject item = GameObject.Find("Player").GetComponent<FPSController>().getHeldItem();
-
-        //Ensure player is no longer holding this item.
-        if (item && item == this.gameObject)
+        //Find out what is holding item if item held.
+        if (holder && holder.GetComponent<FPSController>())
         {
-            GameObject.Find("Player").GetComponent<FPSController>().removeHeldItem();
+            holder.GetComponent<FPSController>().removeHeldItem();
+        } else if (holder && holder.GetComponent<ItemPositionClass>())
+        {
+            holder.GetComponent<ItemPositionClass>().removeHeldItem();
         }
+
+        //Set current holder to null.
+        currentHolder = null;
 
         forceAddColliders();
     }
@@ -82,7 +100,8 @@ public class PlugClass : HoldItemClass
     {
         if (_cable.testLinePositions())
         {
-            release();
+            Debug.Log("Cable Fail");
+            release(currentHolder);
         }
     }
 

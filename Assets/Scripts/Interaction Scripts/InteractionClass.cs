@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class InteractionClass : MonoBehaviour
 {
-    //Have the interaction base.
-    virtual public void interact()
+    protected enum interactionLevel
     {
-        
+        player,
+        plug
     }
 
-    virtual public void interact(Transform heldPosition)
+    [SerializeField]
+    interactionLevel[] permittedInteractions;
+
+    //Interaction base that takes two arguments.
+    //The holder transform.
+    //The position the item must go to.
+    virtual public void interact(Transform holder, Transform newPosition)
     {
 
     }

@@ -39,6 +39,9 @@ public class FPSController : MonoBehaviour
     private Transform playerHand;
     public GameObject holdingItem;
 
+    private float interactionCooldown = 0.2f;
+    private float interactionTimer = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -114,17 +117,33 @@ public class FPSController : MonoBehaviour
         m_collider.height = colliderSize;
 
 
-        //Make the controls for the mouse button.
-        if (Input.GetKey(KeyCode.Mouse0))
+        //Go through interaction timer if there is an interaction.
+        if (interactionTimer == 0)
         {
-            isInInteraction();
+            //Make the controls for the mouse button.
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                isInInteraction();
+            }
+
+            //Controls for dropping items in held hand.
+            if (Input.GetKey(KeyCode.G) && holdingItem)
+            {
+                holdingItem.GetComponent<HoldItemClass>().release(this.transform);
+            }
+        } else
+        {
+            //If interaction made, then run cooldown until the timer is 0.
+            interactionTimer -= Time.deltaTime;
+
+            if(interactionTimer < 0)
+            {
+                interactionTimer = 0;
+            }
         }
 
-        if (Input.GetKey(KeyCode.G) && holdingItem)
-        {
-            holdingItem.GetComponent<HoldItemClass>().release();
-            removeHeldItem();
-        }
+
+
     }
 
     //Check if reaction is possible. If so, then make interaction.
@@ -135,23 +154,33 @@ public class FPSController : MonoBehaviour
         //If the ray hits something within reach, see if it has button. If so, complete whatever interaction button is set.
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hitPoint, reach))
         {
-            Debug.Log(hitPoint.collider.gameObject.name);
+            //Debug.Log(hitPoint.collider.gameObject.name);
             //Check if an item first.
             if (hitPoint.collider.CompareTag("HandItem"))
             {
-                hitPoint.collider.GetComponent<InteractionClass>().interact(playerHand);
+                hitPoint.collider.GetComponent<InteractionClass>().interact(this.transform, playerHand);
                 holdingItem = hitPoint.collider.gameObject;
+
+                interactionTimer = interactionCooldown;
+
+            //If interaction with something that holds items.
             } else if (hitPoint.collider.CompareTag("ItemPort"))
             {
                 //Ensure an item is held.
                 if (holdingItem)
                 {
-                    hitPoint.collider.GetComponent<InteractionClass>().interact(holdingItem.transform);
+                    hitPoint.collider.GetComponent<InteractionClass>().interact(hitPoint.transform, holdingItem.transform);
+
+                    interactionTimer = interactionCooldown;
                 }
                 removeHeldItem();
+
+            //If nothing else, see if item can be interacted to.
             } else if (hitPoint.collider.GetComponent<InteractionClass>())
             {
-                hitPoint.collider.GetComponent<InteractionClass>().interact();
+                hitPoint.collider.GetComponent<InteractionClass>().interact(this.transform, null);
+
+                interactionTimer = interactionCooldown;
             }
         }
     }
