@@ -69,7 +69,7 @@ public class PlugClass : HoldItemClass
 
         currentHolder = holder;
 
-        _cable.removeColliders();
+        //_cable.removeColliders();
     }
 
     //A function to release item from where it is held.
@@ -92,7 +92,7 @@ public class PlugClass : HoldItemClass
         //Set current holder to null.
         currentHolder = null;
 
-        forceAddColliders();
+        //forceAddColliders();
     }
 
     //A function to test the rope position to make it not stretch.
@@ -105,8 +105,8 @@ public class PlugClass : HoldItemClass
         }
     }
 
-    public override void forceAddColliders()
+    /*public override void forceAddColliders()
     {
         _cable.addColliders();
-    }
+    }*/
 }

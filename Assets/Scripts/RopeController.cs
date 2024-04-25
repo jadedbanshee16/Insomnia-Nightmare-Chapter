@@ -91,7 +91,7 @@ public class RopeController : MonoBehaviour
     }
 
     //Function to make all balls have no colliders while held.
-    public void removeColliders()
+    /*public void removeColliders()
     {
         for (int i = 1; i < segmentPositions.Length - 1; i++)
         {
@@ -106,5 +106,5 @@ public class RopeController : MonoBehaviour
         {
             segmentPositions[i].gameObject.GetComponent<SphereCollider>().enabled = true;
         }
-    }
+    }*/
 }
