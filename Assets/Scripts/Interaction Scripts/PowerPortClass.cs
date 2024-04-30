@@ -2,23 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemPositionClass : InteractionClass
+public class PowerPortClass : ItemPositionClass
 {
-    //Show what item is permitted to be placed onto this position.
     [SerializeField]
-    protected string permittedItem;
+    EnergizerScript powerPort;
 
-    //The current position of this item.
-    [SerializeField]
-    protected Transform holdPosition;
+    private void Start()
+    {
+        powerPort = GetComponent<EnergizerScript>();
+    }
 
-    //Something to show if item is on position or not.
-    protected bool hasItem = false;
-
-    //Interaction.
-    /* Summary:
-     * Get a held item from player. If permitted item, place into this position.
-     */
     public override void interact(Transform holder, Transform obj)
     {
 
@@ -30,12 +23,14 @@ public class ItemPositionClass : InteractionClass
 
             hasItem = true;
 
-            
+            //Power up the current powerport.
+            powerPort.energize();
         }
     }
 
-    public virtual void removeHeldItem()
+    public override void removeHeldItem()
     {
         hasItem = false;
+        powerPort.deEnergize();
     }
 }

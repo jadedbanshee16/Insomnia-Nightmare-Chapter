@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.5645233, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -827,7 +827,7 @@ Transform:
   m_GameObject: {fileID: 982992940}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.205, y: -0.193, z: 0.437}
+  m_LocalPosition: {x: 0.289, y: -0.193, z: 0.449}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1047,8 +1047,9 @@ GameObject:
   - component: {fileID: 1581890667}
   - component: {fileID: 1581890666}
   - component: {fileID: 1581890665}
-  - component: {fileID: 1581890669}
+  - component: {fileID: 1581890671}
   - component: {fileID: 1581890670}
+  - component: {fileID: 1581890672}
   m_Layer: 0
   m_Name: Port
   m_TagString: ItemPort
@@ -1143,22 +1144,6 @@ Transform:
   - {fileID: 404126326}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 94, z: 0}
---- !u!114 &1581890669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1581890664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e4d3dd143cd8c5439c0fb51b44e5137, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  permittedInteractions: 
-  permittedItem: Plug
-  holdPosition: {fileID: 404126326}
-  hasItem: 0
 --- !u!54 &1581890670
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1186,6 +1171,37 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1581890671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581890664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48b3a604d7af0a34f97829be53eb85a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  permittedInteractions: 
+  permittedItem: Plug
+  holdPosition: {fileID: 404126326}
+  powerPort: {fileID: 0}
+--- !u!114 &1581890672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581890664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beecd1d979d27f3449148c782d833884, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toPower:
+  - {fileID: 1368928924064312561}
+  - {fileID: 2442374983276390338}
 --- !u!1 &1746891839
 GameObject:
   m_ObjectHideFlags: 0
@@ -1717,6 +1733,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 112741812}
   m_SourcePrefab: {fileID: 100100000, guid: 63a4f69f8ef0535468dfee2c1c5bb2bf, type: 3}
+--- !u!1 &1368928924064312561 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1368928924514637870, guid: 63a4f69f8ef0535468dfee2c1c5bb2bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1368928924064312560}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2442374983276390337
 PrefabInstance:
   m_ObjectHideFlags: 0

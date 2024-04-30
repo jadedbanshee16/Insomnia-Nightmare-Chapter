@@ -8,21 +8,25 @@ public class DoorClass : MonoBehaviour
     private Animator anim_;
 
     bool energized;
+    bool opened;
 
     private void Start()
     {
-        energized = true;
+        energized = false;
         closeDoor();
     }
 
-    public void closeDoor()
+
+    //Use animation to close the door.
+    private void closeDoor()
     {
         anim_.SetBool("Open", false);
     }
 
-    public void openDoor()
+    //Use animation to open door.
+    private void openDoor()
     {
-        Debug.Log("Worked");
+        //Debug.Log("Worked");
         if (energized)
         {
 
@@ -30,12 +34,29 @@ public class DoorClass : MonoBehaviour
         }
     }
 
-
-    public void getEnergized(bool b)
+    //Run the door when energize.
+    public void energizeItem(bool b)
     {
         energized = b;
 
         if (!b)
+        {
+            closeDoor();
+        } else
+        {
+            setOpened(opened);
+        }
+    }
+
+    //Change if door is open.
+    public void setOpened(bool b)
+    {
+        opened = b;
+
+        if (opened && energized)
+        {
+            openDoor();
+        } else
         {
             closeDoor();
         }

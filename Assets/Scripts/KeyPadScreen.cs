@@ -18,6 +18,8 @@ public class KeyPadScreen : MonoBehaviour
     [SerializeField]
     DoorClass door;
 
+    private bool energized;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,37 +31,61 @@ public class KeyPadScreen : MonoBehaviour
         {
             theCode = "0000";
         }
+
+        energized = false;
     }
 
     //A function to add a new string to text.
     public void addString(string newString)
     {
-        string newTex = string.Concat(currentString, newString);
-
-        if(newTex.Length <= inputSize)
+        if (energized)
         {
-            currentString = newTex;
-            text_.text = currentString;
+            string newTex = string.Concat(currentString, newString);
+
+            if (newTex.Length <= inputSize)
+            {
+                currentString = newTex;
+                text_.text = currentString;
+            }
+        } else
+        {
+            text_.text = "";
         }
     }
 
     //Remove the text string.
     public void clearString()
     {
-        currentString = "";
+        if (energized)
+        {
+            currentString = "";
 
-        text_.text = currentString;
+            text_.text = currentString;
+        }
     }
 
     //A function to test code, and open door if it works.
     public void enterString()
     {
-        if(string.Equals(currentString, theCode))
+        if (energized)
         {
-            door.openDoor();
-        } else
-        {
-            door.closeDoor();
+            if (string.Equals(currentString, theCode))
+            {
+                door.setOpened(true);
+            }
+            else
+            {
+                door.setOpened(false);
+            }
         }
+
+    }
+
+    public void energizeItem(bool b)
+    {
+        energized = b;
+
+        //Make the system run once after being energized or not.
+        addString("");
     }
 }
