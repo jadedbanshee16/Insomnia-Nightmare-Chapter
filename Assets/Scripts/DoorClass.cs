@@ -2,18 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorClass : MonoBehaviour
+public class DoorClass : EnergyObject
 {
     [SerializeField]
     private Animator anim_;
 
-    bool energized;
     bool opened;
 
     private void Start()
     {
-        energized = false;
-        closeDoor();
+        dePowerObject();
     }
 
 
@@ -27,25 +25,24 @@ public class DoorClass : MonoBehaviour
     private void openDoor()
     {
         //Debug.Log("Worked");
-        if (energized)
-        {
-
-            anim_.SetBool("Open", true);
-        }
+        anim_.SetBool("Open", true);
     }
 
-    //Run the door when energize.
-    public void energizeItem(bool b)
+    //An override to power this object and find open or close door.
+    public override void powerObject()
     {
-        energized = b;
+        //Power itself.
+        powered = true;
 
-        if (!b)
-        {
-            closeDoor();
-        } else
-        {
-            setOpened(opened);
-        }
+        setOpened(opened);
+    }
+
+    //And override to depower this object and close door.
+    public override void dePowerObject()
+    {
+        powered = false;
+
+        closeDoor();
     }
 
     //Change if door is open.
@@ -53,7 +50,7 @@ public class DoorClass : MonoBehaviour
     {
         opened = b;
 
-        if (opened && energized)
+        if (opened && powered)
         {
             openDoor();
         } else

@@ -7,6 +7,9 @@ public class PowerPortClass : ItemPositionClass
     [SerializeField]
     EnergizerScript powerPort;
 
+    [SerializeField]
+    float energyProvided = 0;
+
     private void Start()
     {
         powerPort = GetComponent<EnergizerScript>();
@@ -24,13 +27,13 @@ public class PowerPortClass : ItemPositionClass
             hasItem = true;
 
             //Power up the current powerport.
-            powerPort.energize();
+            powerPort.setPowersource(energyProvided, true);
         }
     }
 
     public override void removeHeldItem()
     {
         hasItem = false;
-        powerPort.deEnergize();
+        powerPort.setPowersource(energyProvided, false);
     }
 }

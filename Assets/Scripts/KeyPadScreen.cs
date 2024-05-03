@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class KeyPadScreen : MonoBehaviour
+public class KeyPadScreen : EnergyObject
 {
     TextMeshProUGUI text_;
 
@@ -18,74 +18,80 @@ public class KeyPadScreen : MonoBehaviour
     [SerializeField]
     DoorClass door;
 
-    private bool energized;
+    //private bool energized;
 
     // Start is called before the first frame update
     void Start()
     {
         text_ = gameObject.GetComponentInChildren<TextMeshProUGUI>();
 
-        text_.text = currentString;
+        displayText(currentString);
 
         if(string.Equals(theCode, ""))
         {
             theCode = "0000";
         }
 
-        energized = false;
+        dePowerObject();
     }
 
     //A function to add a new string to text.
     public void addString(string newString)
     {
-        if (energized)
-        {
-            string newTex = string.Concat(currentString, newString);
+        string newTex = string.Concat(currentString, newString);
 
-            if (newTex.Length <= inputSize)
-            {
-                currentString = newTex;
-                text_.text = currentString;
-            }
-        } else
+        if (newTex.Length <= inputSize)
         {
-            text_.text = "";
+            currentString = newTex;
+            displayText(currentString);
         }
     }
 
     //Remove the text string.
     public void clearString()
     {
-        if (energized)
-        {
-            currentString = "";
+        currentString = "";
 
-            text_.text = currentString;
-        }
+        displayText(currentString);
     }
 
     //A function to test code, and open door if it works.
     public void enterString()
     {
-        if (energized)
+        if (string.Equals(currentString, theCode))
         {
-            if (string.Equals(currentString, theCode))
-            {
-                door.setOpened(true);
-            }
-            else
-            {
-                door.setOpened(false);
-            }
+            door.setOpened(true);
         }
-
+        else
+        {
+            door.setOpened(false);
+        }
     }
 
-    public void energizeItem(bool b)
+    //An override to power this object and change display.
+    public override void powerObject()
     {
-        energized = b;
+        //Power itself.
+        powered = true;
+        displayText(currentString);
+    }
 
-        //Make the system run once after being energized or not.
-        addString("");
+    //And override to depower this object and change display.
+    public override void dePowerObject()
+    {
+        powered = false;
+        displayText("Err: No Pwr");
+    }
+
+    //Display the text provided.
+    public void displayText(string tex)
+    {
+        text_.text = tex;
+    }
+
+    //Get the current string provided.
+    public string getCurrentString()
+    {
+        return currentString;
     }
 }

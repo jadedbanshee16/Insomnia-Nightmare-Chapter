@@ -5,31 +5,52 @@ using UnityEngine;
 public class EnergizerScript : MonoBehaviour
 {
     [SerializeField]
-    GameObject[] toPower;
+    EnergyObject[] toPower;
+    private bool[] systems;
 
-    bool energized;
+    private float energyAmount;
+    private float energyUsed;
+    private bool energized;
+
+
 
     private void Start()
     {
+        energyAmount = 0;
         energized = false;
+        //Make open types the same length as the energyobject type enum. Set all to false.
+        systems = new bool[System.Enum.GetValues(typeof(EnergyObject.objectType)).Length];
+
+        for(int i = 0; i < systems.Length; i++)
+        {
+            systems[i] = true;
+        }
     }
 
     //Energize every item connected to this power source.
     public void energize()
     {
+        energyUsed = energyAmount;
+        //Cycle through all power items and check for energyObject component.
+        //Add energy.
         for(int i = 0; i < toPower.Length; i++)
         {
-            //Test if object is Keypad. If so, can turn on or off.
-            if(toPower[i] && toPower[i].GetComponent<KeyPadScreen>())
+            //Check if current system is online.
+            if (checkIfTypeIsOn(toPower[i].getType()))
             {
-                toPower[i].GetComponent<KeyPadScreen>().energizeItem(true);
+                //If energy output is made less than zero, trip the system.
+                if (energyUsed - toPower[i].getEnergyAmount() < 0)
+                {
+                    deEnergize();
+                    energyUsed = 0;
+                }
+                else
+                {
+                    energyUsed-= toPower[i].getEnergyAmount();
+                    toPower[i].powerObject();
+                }
             }
 
-            //Test if object is door object.
-            if (toPower[i] && toPower[i].GetComponent<DoorClass>())
-            {
-                toPower[i].GetComponent<DoorClass>().energizeItem(true);
-            }
         }
     }
 
@@ -41,15 +62,53 @@ public class EnergizerScript : MonoBehaviour
          */
         for (int i = 0; i < toPower.Length; i++)
         {
-            if (toPower[i] && toPower[i].GetComponent<KeyPadScreen>())
+            if (toPower[i])
             {
-                toPower[i].GetComponent<KeyPadScreen>().energizeItem(false);
+                toPower[i].dePowerObject();
             }
+        }
+    }
 
-            if (toPower[i] && toPower[i].GetComponent<DoorClass>())
+    //A function to see if the type matches a system and if that system is online.
+    public bool checkIfTypeIsOn(EnergyObject.objectType t)
+    {
+        //Go through the systems and match the type to system.
+        //Return whether system is on or not.
+        for(int i = 0; i < systems.Length; i++)
+        {
+            if((int)t == i)
             {
-                toPower[i].GetComponent<DoorClass>().energizeItem(false);
+                return systems[i];
             }
+        }
+
+        return false;
+    }
+
+    //A function to set the powersource of this energizer.
+    public void setPowersource(float energy, bool on)
+    {
+        if (on)
+        {
+            energyAmount = energy;
+            energized = true;
+            energize();
+        } else
+        {
+            energyAmount = 0;
+            energized = false;
+            deEnergize();
+        }
+    }
+
+    //A function to adjust one of the systems. If already energized, then energize.
+    public void setSystem(int ind)
+    {
+        systems[ind] = !systems[ind];
+
+        if (energized)
+        {
+            energize();
         }
     }
 

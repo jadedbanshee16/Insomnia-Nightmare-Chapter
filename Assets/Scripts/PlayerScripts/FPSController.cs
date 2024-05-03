@@ -39,7 +39,7 @@ public class FPSController : MonoBehaviour
     private Transform playerHand;
     public GameObject holdingItem;
 
-    private float interactionCooldown = 0.2f;
+    private float interactionCooldown = 0.5f;
     private float interactionTimer = 0;
 
     // Start is called before the first frame update

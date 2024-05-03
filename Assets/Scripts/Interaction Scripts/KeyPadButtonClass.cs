@@ -29,39 +29,30 @@ public class KeyPadButtonClass : InteractionClass
     public override void interact(Transform player, Transform newPosition)
     {
         //Ensure only press button when not using at the moment.
-        if (!isUsing)
-        {
-            Anim.SetTrigger("Pressed");
-            isUsing = true;
+        Anim.SetTrigger("Pressed");
 
-            if(string.Equals(input, "Clear"))
+        if (string.Equals(input, "Clear"))
+        {
+            //This is the delete button.
+            if (screen_.isPowered())
             {
-                //This is the delete button.
                 screen_.clearString();
-            } else if (string.Equals(input, "Enter"))
-            {
-                //If enter is pressed, then make it test the current string.
-                screen_.enterString();
-            } else
-            {
-                //If it's anything else, then it's a number. Add string.
-                screen_.addString(input);
             }
         }
-    }
-
-    private void Update()
-    {
-        //Ensure you can't click many times in one go.
-        if (isUsing)
+        else if (string.Equals(input, "Enter"))
         {
-            if(timer > 0)
+            //If enter is pressed, then make it test the current string.
+            if (screen_.isPowered())
             {
-                timer -= Time.deltaTime;
-            } else
+                screen_.enterString();
+            }
+        }
+        else
+        {
+            //If it's anything else, then it's a number. Add string.
+            if (screen_.isPowered())
             {
-                isUsing = false;
-                timer = buttonDuration;
+                screen_.addString(input);
             }
         }
     }
