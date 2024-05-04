@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.5645233, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1187,7 +1187,7 @@ MonoBehaviour:
   permittedItem: Plug
   holdPosition: {fileID: 404126326}
   powerPort: {fileID: 0}
-  energyProvided: 40
+  energyProvided: 20
 --- !u!114 &1581890672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1203,7 +1203,6 @@ MonoBehaviour:
   toPower:
   - {fileID: 1368928924064312562}
   - {fileID: 2442374983276390340}
-  energyAmount: 0
 --- !u!1 &1746891839
 GameObject:
   m_ObjectHideFlags: 0
@@ -1696,6 +1695,11 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 0.14
       objectReference: {fileID: 0}
+    - target: {fileID: 1368928925176154758, guid: 63a4f69f8ef0535468dfee2c1c5bb2bf,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c30303d0a3e9f404a83b5d618f4490fc, type: 2}
     - target: {fileID: 1368928925860943565, guid: 63a4f69f8ef0535468dfee2c1c5bb2bf,
         type: 3}
       propertyPath: m_Name
@@ -1756,6 +1760,56 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1368928926103595744, guid: 63a4f69f8ef0535468dfee2c1c5bb2bf,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c30303d0a3e9f404a83b5d618f4490fc, type: 2}
+    - target: {fileID: 1368928926103595745, guid: 63a4f69f8ef0535468dfee2c1c5bb2bf,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c30303d0a3e9f404a83b5d618f4490fc, type: 2}
+    - target: {fileID: 1368928926103595746, guid: 63a4f69f8ef0535468dfee2c1c5bb2bf,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c30303d0a3e9f404a83b5d618f4490fc, type: 2}
+    - target: {fileID: 1368928926103595748, guid: 63a4f69f8ef0535468dfee2c1c5bb2bf,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c30303d0a3e9f404a83b5d618f4490fc, type: 2}
+    - target: {fileID: 1368928926103595749, guid: 63a4f69f8ef0535468dfee2c1c5bb2bf,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c30303d0a3e9f404a83b5d618f4490fc, type: 2}
+    - target: {fileID: 1368928926103595751, guid: 63a4f69f8ef0535468dfee2c1c5bb2bf,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c30303d0a3e9f404a83b5d618f4490fc, type: 2}
+    - target: {fileID: 1368928926103595756, guid: 63a4f69f8ef0535468dfee2c1c5bb2bf,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c30303d0a3e9f404a83b5d618f4490fc, type: 2}
+    - target: {fileID: 1368928926103595758, guid: 63a4f69f8ef0535468dfee2c1c5bb2bf,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c30303d0a3e9f404a83b5d618f4490fc, type: 2}
+    - target: {fileID: 1368928926142948836, guid: 63a4f69f8ef0535468dfee2c1c5bb2bf,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c30303d0a3e9f404a83b5d618f4490fc, type: 2}
+    - target: {fileID: 8878505809085647130, guid: 63a4f69f8ef0535468dfee2c1c5bb2bf,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c30303d0a3e9f404a83b5d618f4490fc, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
