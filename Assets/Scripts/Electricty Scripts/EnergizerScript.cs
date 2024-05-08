@@ -6,7 +6,10 @@ public class EnergizerScript : MonoBehaviour
 {
     [SerializeField]
     EnergyObject[] toPower;
-    private bool[] systems;
+    public bool[] systems;
+
+    [SerializeField]
+    SwitchBoard board_;
 
     private float energyAmount;
     private float energyUsed;
@@ -20,11 +23,6 @@ public class EnergizerScript : MonoBehaviour
         energized = false;
         //Make open types the same length as the energyobject type enum. Set all to false.
         systems = new bool[System.Enum.GetValues(typeof(EnergyObject.objectType)).Length];
-
-        for(int i = 0; i < systems.Length; i++)
-        {
-            systems[i] = true;
-        }
     }
 
     //Energize every item connected to this power source.
@@ -42,13 +40,22 @@ public class EnergizerScript : MonoBehaviour
                 if (energyUsed - toPower[i].getEnergyAmount() < 0)
                 {
                     deEnergize();
+                    //Also remove all switches in current switchboard connected to this.
+                    if (board_)
+                    {
+                        board_.turnOffSwitches();
+                    }
                     energyUsed = 0;
                 }
                 else
                 {
-                    energyUsed-= toPower[i].getEnergyAmount();
+                    energyUsed -= toPower[i].getEnergyAmount();
                     toPower[i].powerObject();
                 }
+            } else
+            {
+                //If the type is off, depower the object.
+                toPower[i].dePowerObject();
             }
 
         }
@@ -102,9 +109,9 @@ public class EnergizerScript : MonoBehaviour
     }
 
     //A function to adjust one of the systems. If already energized, then energize.
-    public void setSystem(int ind)
+    public void setSystem(int ind, bool on)
     {
-        systems[ind] = !systems[ind];
+        systems[ind] = on;
 
         if (energized)
         {
