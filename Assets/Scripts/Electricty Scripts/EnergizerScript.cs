@@ -12,7 +12,7 @@ public class EnergizerScript : MonoBehaviour
     SwitchBoard board_;
 
     private float energyAmount;
-    private float energyUsed;
+    public float energyUsed;
     private bool energized;
 
 
@@ -37,17 +37,12 @@ public class EnergizerScript : MonoBehaviour
             if (checkIfTypeIsOn(toPower[i].getType()))
             {
                 //If energy output is made less than zero, trip the system.
-                if (energyUsed - toPower[i].getEnergyAmount() < 0)
+                if (toPower[i].isUsed() && energyUsed - toPower[i].getEnergyAmount() < 0)
                 {
-                    deEnergize();
-                    //Also remove all switches in current switchboard connected to this.
-                    if (board_)
-                    {
-                        board_.turnOffSwitches();
-                    }
+                    deEnergize(true);
                     energyUsed = 0;
                 }
-                else
+                else if(toPower[i].isUsed())
                 {
                     energyUsed -= toPower[i].getEnergyAmount();
                     toPower[i].powerObject();
@@ -61,11 +56,24 @@ public class EnergizerScript : MonoBehaviour
         }
     }
 
+    //This will take a float number and check if adding the extra number to energy used will cause a fault.
+    public void checkForTooMuchPower(float energy)
+    {
+        if(energyUsed - energy < 0)
+        {
+            //If too much power, turn off all objects.
+            deEnergize(true);
+        } else
+        {
+            energyUsed -= energy;
+        }
+    }
+
     //Remove energy to everything connected to this power source.
-    public void deEnergize()
+    public void deEnergize(bool shorting)
     {
         /*
-         * Same as with energize.
+         * Same as with energize, just for depowering.
          */
         for (int i = 0; i < toPower.Length; i++)
         {
@@ -73,6 +81,12 @@ public class EnergizerScript : MonoBehaviour
             {
                 toPower[i].dePowerObject();
             }
+        }
+
+        //Also remove all switches in current switchboard connected to this.
+        if (board_ && shorting)
+        {
+            board_.turnOffSwitches();
         }
     }
 
@@ -104,7 +118,7 @@ public class EnergizerScript : MonoBehaviour
         {
             energyAmount = 0;
             energized = false;
-            deEnergize();
+            deEnergize(false);
         }
     }
 

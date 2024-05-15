@@ -16,7 +16,10 @@ public class KeyPadScreen : EnergyObject
     string theCode;
 
     [SerializeField]
-    DoorClass door;
+    EnergyObject usableObject;
+
+    [SerializeField]
+    EnergizerScript powerBox;
 
     //private bool energized;
 
@@ -60,11 +63,12 @@ public class KeyPadScreen : EnergyObject
     {
         if (string.Equals(currentString, theCode))
         {
-            door.setOpened(true);
+            usableObject.useObject(true);
+            powerBox.energize();
         }
         else
         {
-            door.setOpened(false);
+            usableObject.useObject(false);
         }
     }
 

@@ -17,13 +17,17 @@ public class EnergyObject : MonoBehaviour
     [SerializeField]
     private objectType type;
 
-    protected bool powered;
+    public bool powered;
+
+    [SerializeField]
+    protected EnergizerScript energyizer;
 
     //A function to power the 
     public virtual void powerObject()
     {
         //Power itself.
         powered = true;
+
     }
 
     //A function to depower the object.
@@ -31,6 +35,12 @@ public class EnergyObject : MonoBehaviour
     {
         //Remove power of self.
         powered = false;
+    }
+
+    //A function to use the current energy object.
+    public virtual void useObject(bool b)
+    {
+        //Do nothing as this energy object is unusable.
     }
 
     //Return the amount of energy this object takes.
@@ -49,5 +59,12 @@ public class EnergyObject : MonoBehaviour
     public objectType getType()
     {
         return type;
+    }
+
+    //Return if the object is currently being used.
+    public virtual bool isUsed()
+    {
+        //If default with nothing, return true.
+        return true;
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightObject : EnergyObject
 {
-    bool isOn;
+    public bool isOn;
 
     MeshRenderer lightMat_;
     Light theLight;
@@ -20,9 +20,7 @@ public class LightObject : EnergyObject
         lightMat_ = GetComponentInChildren<MeshRenderer>();
         theLight = GetComponentInChildren<Light>();
 
-        setLight(false);
-
-        isOn = true;
+        useObject(false);
     }
 
     //A function to power the object.
@@ -30,22 +28,19 @@ public class LightObject : EnergyObject
     {
         //Power itself.
         powered = true;
-
-        setLight(true);
+        useObject(isOn);
     }
 
     //A function to depower the object.
     public override void dePowerObject()
     {
-        //Remove power of self.
+        //Power itself.
         powered = false;
-
-        //Set light depending of it is powered or not.
-        setLight(false);
+        useObject(isOn);
     }
 
     //Set the light by turning on or off the light, and setting the light material.
-    public void setLight(bool on)
+    public override void useObject(bool on)
     {
         isOn = on;
 
@@ -58,5 +53,10 @@ public class LightObject : EnergyObject
             lightMat_.material = offMat;
             theLight.gameObject.SetActive(false);
         }
+    }
+
+    public override bool isUsed()
+    {
+        return isOn;
     }
 }

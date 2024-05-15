@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class SwitchBoard : MonoBehaviour
 {
-    SwitchClass[] switches;
+    PowerSwitchClass[] switches;
+
+    [SerializeField]
+    LightSwitchClass[] externalSwitches;
     // Start is called before the first frame update
     void Start()
     {
-        switches = GetComponentsInChildren<SwitchClass>();
+        switches = GetComponentsInChildren<PowerSwitchClass>();
     }
 
     //Turn off all switches in the current switchboard.
@@ -17,6 +20,11 @@ public class SwitchBoard : MonoBehaviour
         for(int i = 0; i < switches.Length; i++)
         {
             switches[i].turnOff();
+        }
+
+        for (int i = 0; i < externalSwitches.Length; i++)
+        {
+            externalSwitches[i].turnOff();
         }
     }
 }

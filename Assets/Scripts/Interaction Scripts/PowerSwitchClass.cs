@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwitchClass : InteractionClass
+public class PowerSwitchClass : InteractionClass
 {
-
 
     [SerializeField]
     EnergyObject.objectType index;
@@ -14,15 +13,8 @@ public class SwitchClass : InteractionClass
     [SerializeField]
     EnergizerScript powerBox;
 
-
     [SerializeField]
-    Material[] lightMats;
-
-    [SerializeField]
-    MeshRenderer onLight;
-    [SerializeField]
-    MeshRenderer offLight;
-
+    InteractionIndicatorScript switchIndicator;
 
 
     Animator Anim;
@@ -30,6 +22,8 @@ public class SwitchClass : InteractionClass
     void Start()
     {
         Anim = GetComponentInChildren<Animator>();
+
+        switchIndicator = GetComponent<InteractionIndicatorScript>();
 
         isOn = false;
         setSwitch();
@@ -51,15 +45,18 @@ public class SwitchClass : InteractionClass
     {
         Anim.SetBool("isOn", isOn);
 
-        if (isOn)
+        if (switchIndicator)
         {
-            onLight.material = lightMats[1];
-            offLight.material = lightMats[0];
-        } else
-        {
-            onLight.material = lightMats[0];
-            offLight.material = lightMats[2];
+            if (isOn)
+            {
+                switchIndicator.switchToOn();
+            }
+            else
+            {
+                switchIndicator.switchToOff();
+            }
         }
+
     }
 
     //A function to turn off light.
