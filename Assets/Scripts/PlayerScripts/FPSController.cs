@@ -37,6 +37,8 @@ public class FPSController : MonoBehaviour
 
     [SerializeField]
     private Transform playerHand;
+    [SerializeField]
+    private Transform playerHead;
     public GameObject holdingItem;
 
     private float interactionCooldown = 0.5f;
@@ -123,7 +125,18 @@ public class FPSController : MonoBehaviour
             //Make the controls for the mouse button.
             if (Input.GetKey(KeyCode.Mouse0))
             {
-                isInInteraction();
+                //If the interaction type has it use the player controller, then drop the holding item instead of making an interaction.
+                if (holdingItem && holdingItem.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionLevel.playerController))
+                {
+                    //Remove holding item.
+                    holdingItem.GetComponent<HoldItemClass>().release(this.transform);
+                    //Reset interaction.
+                    interactionTimer = interactionCooldown;
+                }
+                else
+                {
+                    isInInteraction();
+                }
             }
 
             //Controls for dropping items in held hand.
@@ -158,7 +171,24 @@ public class FPSController : MonoBehaviour
             //Check if an item first.
             if (hitPoint.collider.CompareTag("HandItem"))
             {
-                hitPoint.collider.GetComponent<InteractionClass>().interact(this.transform, playerHand);
+                //Figure out if the interaction should move object to right hand or closer to the player face.
+                if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionLevel.playerController))
+                {
+
+                    //If this, then move the player head to starting position on the hitpoint transform.
+                    playerHead.position = hitPoint.transform.position;
+
+                    hitPoint.collider.GetComponent<InteractionClass>().interact(this.transform, playerHead);
+                } else
+                {
+                    hitPoint.collider.GetComponent<InteractionClass>().interact(this.transform, playerHand);
+                }
+
+                if (holdingItem)
+                {
+                    holdingItem.GetComponent<HoldItemClass>().release(this.transform);
+                }
+
                 holdingItem = hitPoint.collider.gameObject;
 
                 interactionTimer = interactionCooldown;
@@ -173,7 +203,6 @@ public class FPSController : MonoBehaviour
 
                     interactionTimer = interactionCooldown;
                 }
-                removeHeldItem();
 
             //If nothing else, see if item can be interacted to.
             } else if (hitPoint.collider.GetComponent<InteractionClass>())

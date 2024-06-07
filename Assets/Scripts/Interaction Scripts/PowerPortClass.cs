@@ -22,7 +22,7 @@ public class PowerPortClass : ItemPositionClass
         if (string.Equals(obj.gameObject.name, permittedItem))
         {
             obj.gameObject.GetComponent<InteractionClass>().interact(this.transform, holdPosition);
-            obj.gameObject.GetComponent<HoldItemClass>().forceAddColliders();
+            //obj.gameObject.GetComponent<HoldItemClass>().forceAddColliders();
 
             hasItem = true;
 

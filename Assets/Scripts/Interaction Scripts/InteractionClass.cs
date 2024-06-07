@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class InteractionClass : MonoBehaviour
 {
-    protected enum interactionLevel
+    public enum interactionLevel
     {
         player,
-        plug
+        playerController,
+        plug,
     }
 
     [SerializeField]
@@ -19,5 +20,18 @@ public class InteractionClass : MonoBehaviour
     virtual public void interact(Transform holder, Transform newPosition)
     {
 
+    }
+
+    public bool isInteractionType(interactionLevel lvl)
+    {
+        for(int i = 0; i < permittedInteractions.Length; i++)
+        {
+            if(permittedInteractions[i] == lvl)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

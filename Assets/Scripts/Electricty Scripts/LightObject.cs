@@ -46,11 +46,17 @@ public class LightObject : EnergyObject
 
         if (isOn && powered)
         {
-            lightMat_.material = onMat;
+            if (lightMat_)
+            {
+                lightMat_.material = onMat;
+            }
             theLight.gameObject.SetActive(true);
         } else
         {
-            lightMat_.material = offMat;
+            if (lightMat_)
+            {
+                lightMat_.material = offMat;
+            }
             theLight.gameObject.SetActive(false);
         }
     }

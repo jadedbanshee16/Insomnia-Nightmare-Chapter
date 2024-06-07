@@ -27,7 +27,24 @@ public class LightSwitchClass : InteractionClass
         switchIndicator = GetComponent<InteractionIndicatorScript>();
 
         isOn = false;
-        setSwitch();
+        //setSwitch();
+
+        Anim.SetBool("isOn", isOn);
+
+        if (isOn)
+        {
+            if (switchIndicator)
+            {
+                switchIndicator.switchToOn();
+            }
+        }
+        else
+        {
+            if (switchIndicator)
+            {
+                switchIndicator.switchToOff();
+            }
+        }
 
         for (int i = 0; i < interactions_.Length; i++)
         {
