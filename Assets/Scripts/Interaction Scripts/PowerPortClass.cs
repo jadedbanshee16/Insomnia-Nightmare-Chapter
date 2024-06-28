@@ -4,36 +4,44 @@ using UnityEngine;
 
 public class PowerPortClass : ItemPositionClass
 {
-    [SerializeField]
     EnergizerScript powerPort;
 
     [SerializeField]
-    float energyProvided = 0;
-
-    private void Start()
-    {
-        powerPort = GetComponent<EnergizerScript>();
-    }
+    GameObject currentObj;
 
     public override void interact(Transform holder, Transform obj)
     {
-
+        currentObj = obj.gameObject;
         //If the added obj is a permitted object, then set new obj to new position.
-        if (string.Equals(obj.gameObject.name, permittedItem))
+        if (string.Equals(currentObj.name, permittedItem))
         {
-            obj.gameObject.GetComponent<InteractionClass>().interact(this.transform, holdPosition);
+            //Set the given plug class to the new position.
+            currentObj.GetComponent<InteractionClass>().interact(this.transform, holdPosition);
             //obj.gameObject.GetComponent<HoldItemClass>().forceAddColliders();
 
             hasItem = true;
 
-            //Power up the current powerport.
-            powerPort.setPowersource(energyProvided, true);
+            //Check if plug. So that we don't access the plug class when it is not a plug.
+            if (currentObj.GetComponent<PlugClass>())
+            {
+                //Power up the current powerport.
+                powerPort.setPowersource(currentObj.GetComponent<PlugClass>().getMainObject());
+            }
+
         }
     }
 
     public override void removeHeldItem()
     {
         hasItem = false;
-        powerPort.setPowersource(energyProvided, false);
+        powerPort.setPowersource(null);
+        currentObj.GetComponent<PlugClass>().getMainObject().unSetGrid();
+        currentObj = null;
+
+    }
+
+    public void setPowerPort(EnergizerScript script) 
+    {
+        powerPort = script;
     }
 }

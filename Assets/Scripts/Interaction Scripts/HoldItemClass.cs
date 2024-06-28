@@ -13,7 +13,9 @@ public class HoldItemClass : InteractionClass
     //Variables used to lock the item to a position while being held.
     [SerializeField]
     protected Transform lockedPosition;
+    [SerializeField]
     protected float dist;
+    protected float maxDist;
 
     protected bool fixedPosition;
     protected Transform newPosition;
@@ -23,7 +25,10 @@ public class HoldItemClass : InteractionClass
         currentTransform = GetComponent<Transform>();
 
         //Set the distance from the locked position.
-        dist = Vector3.Distance(lockedPosition.position, currentTransform.position);
+        if (dist == 0)
+        {
+            dist = Vector3.Distance(lockedPosition.position, currentTransform.position);
+        }
 
         fixedPosition = false;
 

@@ -20,7 +20,12 @@ public class EnergyObject : MonoBehaviour
     public bool powered;
 
     [SerializeField]
-    protected EnergizerScript energyizer;
+    protected EnergizerScript powerBox;
+
+    public void setPowerBox(EnergizerScript script)
+    {
+        powerBox = script;
+    }
 
     //A function to power the 
     public virtual void powerObject()

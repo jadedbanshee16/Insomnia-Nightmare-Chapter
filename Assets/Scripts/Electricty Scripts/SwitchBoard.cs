@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class SwitchBoard : MonoBehaviour
 {
-    PowerSwitchClass[] switches;
-
     [SerializeField]
-    LightSwitchClass[] externalSwitches;
+    ControlEnergyObject[] switches;
+
     // Start is called before the first frame update
     void Start()
     {
-        switches = GetComponentsInChildren<PowerSwitchClass>();
+        //Find all switches on the grid.
+        switches = GetComponentInParent<EnergizerScript>().gameObject.GetComponentsInChildren<ControlEnergyObject>();
     }
 
     //Turn off all switches in the current switchboard.
@@ -19,12 +19,14 @@ public class SwitchBoard : MonoBehaviour
     {
         for(int i = 0; i < switches.Length; i++)
         {
-            switches[i].turnOff();
-        }
 
-        for (int i = 0; i < externalSwitches.Length; i++)
-        {
-            externalSwitches[i].turnOff();
+            switches[i].setPower(false);
+            SwitchClass swtch = switches[i].gameObject.GetComponent<SwitchClass>();
+
+            if (swtch)
+            {
+                swtch.turnOff();
+            }
         }
     }
 }

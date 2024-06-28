@@ -4,56 +4,122 @@ using UnityEngine;
 
 public class EnergizerScript : MonoBehaviour
 {
-    [SerializeField]
-    EnergyObject[] toPower;
+    public EnergyObject[] toPower;
     public bool[] systems;
+    public SwitchBoard board_;
+    public PowerPortClass plug;
+
+    /*bool powerOn;
 
     [SerializeField]
-    SwitchBoard board_;
+    private float energyAmount;*/
 
-    private float energyAmount;
-    public float energyUsed;
-    private bool energized;
+    [SerializeField]
+    private GeneratorClass currentGenerator;
+
+    private bool usingInternalGenerator;
+
+    [SerializeField]
+    private float energyUsed;
 
 
 
     private void Start()
     {
-        energyAmount = 0;
-        energized = false;
+        //Get all energy objects as children.
+        toPower = this.GetComponentsInChildren<EnergyObject>();
+
         //Make open types the same length as the energyobject type enum. Set all to false.
         systems = new bool[System.Enum.GetValues(typeof(EnergyObject.objectType)).Length];
+
+        plug = GetComponentInChildren<PowerPortClass>();
+
+        for(int i = 0; i < toPower.Length; i++)
+        {
+            toPower[i].setPowerBox(this.GetComponent<EnergizerScript>());
+        }
+
+        //Set power on based on if using internal power.
+        if (plug)
+        {
+            usingInternalGenerator = false;
+            //Set the power port with this energizer script.
+            GetComponentInChildren<PowerPortClass>().setPowerPort(this.GetComponent<EnergizerScript>());
+        }
+        else
+        {
+            usingInternalGenerator = true;
+        }
+
+        if (GetComponentInChildren<SwitchBoard>())
+        {
+            board_ = this.GetComponentInChildren<SwitchBoard>();
+        }
+
+        //Make open types the same length as the energyobject type enum. Set all to false.
+        systems = new bool[System.Enum.GetValues(typeof(EnergyObject.objectType)).Length];
+
+        //Now, go through and find all the switches that affect energy objects. Ensure all of them are linked to this object.
+        ControlEnergyObject[] controlObjects = GetComponentsInChildren<ControlEnergyObject>();
+
+        for(int i = 0; i < controlObjects.Length; i++)
+        {
+            controlObjects[i].setPowerObject(this.GetComponent<EnergizerScript>());
+        }
     }
 
     //Energize every item connected to this power source.
     public void energize()
     {
-        energyUsed = energyAmount;
-        //Cycle through all power items and check for energyObject component.
-        //Add energy.
-        for(int i = 0; i < toPower.Length; i++)
+        energyUsed = 0;
+
+        if (usingInternalGenerator)
         {
-            //Check if current system is online.
-            if (checkIfTypeIsOn(toPower[i].getType()))
+            energyUsed = 250;
+        } else
+        {
+            if (currentGenerator && currentGenerator.getPowerOn())
             {
-                //If energy output is made less than zero, trip the system.
-                if (toPower[i].isUsed() && energyUsed - toPower[i].getEnergyAmount() < 0)
-                {
-                    deEnergize(true);
-                    energyUsed = 0;
-                }
-                else if(toPower[i].isUsed())
-                {
-                    energyUsed -= toPower[i].getEnergyAmount();
-                    toPower[i].powerObject();
-                }
-            } else
+                energyUsed = currentGenerator.getEnergyAmount();
+            }
+        }
+
+        if(energyUsed > 0)
+        {
+            //Cycle through all power items and check for energyObject component.
+            //Add energy.
+            for (int i = 0; i < toPower.Length; i++)
             {
-                //If the type is off, depower the object.
+                //Check if current system is online.
+                if (checkIfTypeIsOn(toPower[i].getType()))
+                {
+                    //If energy output is made less than zero, trip the system.
+                    if (toPower[i].isUsed() && energyUsed - toPower[i].getEnergyAmount() < 0)
+                    {
+                        deEnergize(true);
+                        energyUsed = 0;
+                    }
+                    else if (toPower[i].isUsed())
+                    {
+                        energyUsed -= toPower[i].getEnergyAmount();
+                        toPower[i].powerObject();
+                    }
+                }
+                else
+                {
+                    //If the type is off, depower the object.
+                    toPower[i].dePowerObject();
+                }
+
+            }
+        } else
+        {
+            for(int i = 0; i < toPower.Length; i++)
+            {
                 toPower[i].dePowerObject();
             }
-
         }
+
     }
 
     //This will take a float number and check if adding the extra number to energy used will cause a fault.
@@ -88,6 +154,13 @@ public class EnergizerScript : MonoBehaviour
         {
             board_.turnOffSwitches();
         }
+
+        if (currentGenerator)
+        {
+            //Now, deenergize the generator.
+            currentGenerator.gameObject.GetComponentInChildren<ControlEnergyObject>().setPower(false);
+            currentGenerator.gameObject.GetComponentInChildren<SwitchClass>().turnOff();
+        }
     }
 
     //A function to see if the type matches a system and if that system is online.
@@ -107,17 +180,16 @@ public class EnergizerScript : MonoBehaviour
     }
 
     //A function to set the powersource of this energizer.
-    public void setPowersource(float energy, bool on)
+    public void setPowersource(GeneratorClass gen)
     {
-        if (on)
+        if (gen)
         {
-            energyAmount = energy;
-            energized = true;
+            currentGenerator = gen;
+            currentGenerator.setGrid(this.GetComponent<EnergizerScript>());
             energize();
         } else
         {
-            energyAmount = 0;
-            energized = false;
+            currentGenerator = null;
             deEnergize(false);
         }
     }
@@ -127,7 +199,7 @@ public class EnergizerScript : MonoBehaviour
     {
         systems[ind] = on;
 
-        if (energized)
+        if (currentGenerator)
         {
             energize();
         }

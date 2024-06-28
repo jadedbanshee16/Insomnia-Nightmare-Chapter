@@ -18,9 +18,6 @@ public class KeyPadScreen : EnergyObject
     [SerializeField]
     EnergyObject usableObject;
 
-    [SerializeField]
-    EnergizerScript powerBox;
-
     //private bool energized;
 
     // Start is called before the first frame update

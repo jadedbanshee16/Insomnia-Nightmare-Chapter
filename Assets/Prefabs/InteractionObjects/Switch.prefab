@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8412242984147834186}
   - component: {fileID: 5980959059473594368}
-  - component: {fileID: 8204674090688367168}
+  - component: {fileID: 7838891637711938070}
+  - component: {fileID: 6876937676445738802}
   m_Layer: 0
   m_Name: Switch
   m_TagString: Untagged
@@ -53,9 +54,9 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.025188426, y: 0.037026644, z: 0.023434272}
-  m_Center: {x: 0.0025034454, y: 0.00052571297, z: -0.00030069984}
---- !u!114 &8204674090688367168
+  m_Size: {x: 0.025188426, y: 0.023119211, z: 0.037196744}
+  m_Center: {x: 0.0025034454, y: 0.0010273457, z: 0.000014364719}
+--- !u!114 &7838891637711938070
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,14 +65,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 448376267324560543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9aa2556da557d7f46a7b5796ce0b3ad2, type: 3}
+  m_Script: {fileID: 11500000, guid: 2c6e57e36fabb314081eefd40287d2d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   permittedInteractions: 00000000
   switchIndicator: {fileID: 0}
+--- !u!114 &6876937676445738802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448376267324560543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f7cc806ceb150f46939f995f7fbd887, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   powerBox: {fileID: 0}
   interactions_:
   - {fileID: 0}
+  currentType: 3
 --- !u!1001 &680188823523164937
 PrefabInstance:
   m_ObjectHideFlags: 0

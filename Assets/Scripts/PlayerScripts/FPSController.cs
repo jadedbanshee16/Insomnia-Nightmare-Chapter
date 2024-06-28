@@ -207,9 +207,11 @@ public class FPSController : MonoBehaviour
             //If nothing else, see if item can be interacted to.
             } else if (hitPoint.collider.GetComponent<InteractionClass>())
             {
+                interactionTimer = interactionCooldown;
+
                 hitPoint.collider.GetComponent<InteractionClass>().interact(this.transform, null);
 
-                interactionTimer = interactionCooldown;
+
             }
         }
     }
