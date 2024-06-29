@@ -805,12 +805,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1826decc9513393499353eb49f71a186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energyUsage: 50
+  energyUsage: 5
   type: 0
   powered: 0
   powerBox: {fileID: 0}
-  powerProvided: 50
-  currentGrid: {fileID: 0}
 --- !u!4 &926653372 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5246993415991535751, guid: 17e69d351e8e7634095e6713d04ccf35,
@@ -1001,8 +999,6 @@ MonoBehaviour:
   systems: 
   board_: {fileID: 0}
   plug: {fileID: 0}
-  currentGenerator: {fileID: 0}
-  energyUsed: 0
 --- !u!4 &1357923916 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1719130462648813412, guid: a348f63665015a84ea9315af8d36ca4f,
@@ -2770,6 +2766,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GridBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 7756489151017175936, guid: 17e69d351e8e7634095e6713d04ccf35,
+        type: 3}
+      propertyPath: prioritizeSystems.Array.size
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

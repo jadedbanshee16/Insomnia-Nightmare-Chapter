@@ -59,13 +59,17 @@ public class SwitchClass : InteractionClass
     //A function to set the animation and light of the switch.
     private void setSwitch()
     {
+        setIndicator();
+
+        objectController.setObject(isOn);
+    }
+
+    private void setIndicator()
+    {
         if (Anim)
         {
             Anim.SetBool("isOn", isOn);
         }
-
-        objectController.setObject(isOn);
-
 
         if (isOn)
         {
@@ -81,14 +85,13 @@ public class SwitchClass : InteractionClass
                 switchIndicator.switchToOff();
             }
         }
-
     }
 
     //A function to turn off light.
     public void turnOff()
     {
         isOn = false;
-        setSwitch();
+        setIndicator();
         objectController.setPower(isOn);
     }
 }

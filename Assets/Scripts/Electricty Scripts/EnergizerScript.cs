@@ -14,12 +14,10 @@ public class EnergizerScript : MonoBehaviour
     [SerializeField]
     private float energyAmount;*/
 
-    [SerializeField]
     private GeneratorClass currentGenerator;
 
     private bool usingInternalGenerator;
 
-    [SerializeField]
     private float energyUsed;
 
 
@@ -154,13 +152,6 @@ public class EnergizerScript : MonoBehaviour
         {
             board_.turnOffSwitches();
         }
-
-        if (currentGenerator)
-        {
-            //Now, deenergize the generator.
-            currentGenerator.gameObject.GetComponentInChildren<ControlEnergyObject>().setPower(false);
-            currentGenerator.gameObject.GetComponentInChildren<SwitchClass>().turnOff();
-        }
     }
 
     //A function to see if the type matches a system and if that system is online.
@@ -203,6 +194,11 @@ public class EnergizerScript : MonoBehaviour
         {
             energize();
         }
+    }
+
+    public GeneratorClass getGenerator()
+    {
+        return currentGenerator;
     }
 
 }

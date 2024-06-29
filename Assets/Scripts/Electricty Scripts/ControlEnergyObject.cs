@@ -61,7 +61,10 @@ public class ControlEnergyObject : MonoBehaviour
         {
             powerBox.setSystem((int)currentType, isOn);
         }
+    }
 
-
+    public interactionType getPowerType()
+    {
+        return currentType;
     }
 }

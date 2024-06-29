@@ -12,7 +12,7 @@ public class EnergyObject : MonoBehaviour
     }
 
     [SerializeField]
-    private float energyUsage;
+    protected float energyUsage;
 
     [SerializeField]
     private objectType type;

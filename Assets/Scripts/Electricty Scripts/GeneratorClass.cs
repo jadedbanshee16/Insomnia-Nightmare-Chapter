@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class GeneratorClass : EnergyObject
 {
-    [SerializeField]
-    private float powerProvided;
-
-    [SerializeField]
-    private EnergizerScript currentGrid;
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +21,7 @@ public class GeneratorClass : EnergyObject
 
     public float getPowerAmount()
     {
-        return powerProvided;
+        return energyUsage;
     }
 
     public bool getPowerOn()
@@ -43,15 +36,15 @@ public class GeneratorClass : EnergyObject
 
     public void setGrid(EnergizerScript script)
     {
-        currentGrid = script;
+        powerBox = script;
 
         //Set this in the controller as well.
-        GetComponentInChildren<ControlEnergyObject>().setPowerObject(currentGrid);
+        GetComponentInChildren<ControlEnergyObject>().setPowerObject(powerBox);
     }
 
     public void unSetGrid()
     {
-        currentGrid = null;
+        powerBox = null;
         GetComponentInChildren<ControlEnergyObject>().setPowerObject(null);
     }
 }
