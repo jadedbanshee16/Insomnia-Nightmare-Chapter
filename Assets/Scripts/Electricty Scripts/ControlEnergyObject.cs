@@ -16,51 +16,33 @@ public class ControlEnergyObject : MonoBehaviour
     EnergizerScript powerBox;
 
     [SerializeField]
-    EnergyObject[] interactions_;
+    protected EnergyObject[] interactions_;
 
     [SerializeField]
     interactionType currentType;
 
-    float totalPower;
-
-    // Start is called before the first frame update
-    void Start()
+    public virtual void setObject(bool isOn)
     {
-        for (int i = 0; i < interactions_.Length; i++)
+        if(currentType == interactionType.individual)
         {
-            totalPower += interactions_[i].getEnergyAmount();
+            for (int i = 0; i < interactions_.Length; i++)
+            {
+                powerBox.useObject(interactions_[i], isOn);
+            }
+        } else
+        {
+            powerBox.setSystem((int)currentType, isOn);
         }
     }
 
-    public void setObject(bool isOn)
+    public virtual void setObject()
     {
-        //Go through the interactions and use object.
-        for (int i = 0; i < interactions_.Length; i++)
-        {
-            if (interactions_[i].GetComponent<EnergyObject>())
-            {
-                interactions_[i].GetComponent<EnergyObject>().useObject(isOn);
-            }
-        }
-
-        if (powerBox)
-        {
-            powerBox.energize();
-        }
-
+        //By default, this should not be used. This is specific to setting up inputs using the inheritance.
     }
 
     public void setPowerObject(EnergizerScript script)
     {
         powerBox = script;
-    }
-
-    public void setPower(bool isOn)
-    {
-        if (currentType != interactionType.individual)
-        {
-            powerBox.setSystem((int)currentType, isOn);
-        }
     }
 
     public interactionType getPowerType()

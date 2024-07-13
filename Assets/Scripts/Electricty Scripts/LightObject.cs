@@ -19,32 +19,18 @@ public class LightObject : EnergyObject
     {
         lightMat_ = GetComponentInChildren<MeshRenderer>();
         theLight = GetComponentInChildren<Light>();
-
-        useObject(false);
     }
 
-    //A function to power the object.
-    public override void powerObject()
+    public override void powerObject(bool b)
     {
-        //Power itself.
-        powered = true;
-        useObject(isOn);
-    }
-
-    //A function to depower the object.
-    public override void dePowerObject()
-    {
-        //Power itself.
-        powered = false;
-        useObject(isOn);
+        isOn = b;
     }
 
     //Set the light by turning on or off the light, and setting the light material.
-    public override void useObject(bool on)
+    public override void useObject()
     {
-        isOn = on;
 
-        if (isOn && powered)
+        if (isOn)
         {
             if (lightMat_)
             {
@@ -59,10 +45,5 @@ public class LightObject : EnergyObject
             }
             theLight.gameObject.SetActive(false);
         }
-    }
-
-    public override bool isUsed()
-    {
-        return isOn;
     }
 }

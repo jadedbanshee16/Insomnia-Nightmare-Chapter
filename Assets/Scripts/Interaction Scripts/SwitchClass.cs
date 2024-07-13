@@ -51,17 +51,14 @@ public class SwitchClass : InteractionClass
     {
         //Ensure only press button when not using at the moment.
         isOn = !isOn;
+        objectController.setObject(isOn);
         setSwitch();
-
-        objectController.setPower(isOn);
     }
 
     //A function to set the animation and light of the switch.
     private void setSwitch()
     {
         setIndicator();
-
-        objectController.setObject(isOn);
     }
 
     private void setIndicator()
@@ -92,6 +89,5 @@ public class SwitchClass : InteractionClass
     {
         isOn = false;
         setIndicator();
-        objectController.setPower(isOn);
     }
 }

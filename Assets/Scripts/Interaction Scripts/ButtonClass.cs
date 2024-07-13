@@ -5,23 +5,19 @@ using UnityEngine;
 public class ButtonClass : InteractionClass
 {
 
-
-    [SerializeField]
-    string input;
-
     //[SerializeField]
     //float buttonDuration = 1f;
     //float timer;
 
     [SerializeField]
-    KeyPadScreen screen_;
+    ControlEnergyObject obj_;
 
     Animator Anim;
-    bool isUsing = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        Anim = GetComponent<Animator>();
+        Anim = GetComponentInChildren<Animator>();
         //timer = buttonDuration;
     }
 
@@ -31,7 +27,9 @@ public class ButtonClass : InteractionClass
         //Ensure only press button when not using at the moment.
         Anim.SetTrigger("Pressed");
 
-        if (string.Equals(input, "Clear"))
+        obj_.setObject();
+
+        /*if (string.Equals(input, "Clear"))
         {
             //This is the delete button.
             if (screen_.isPowered())
@@ -54,7 +52,7 @@ public class ButtonClass : InteractionClass
             {
                 screen_.addString(input);
             }
-        }
+        }*/
     }
 
 }

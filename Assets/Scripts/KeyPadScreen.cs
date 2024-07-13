@@ -32,7 +32,7 @@ public class KeyPadScreen : EnergyObject
             theCode = "0000";
         }
 
-        dePowerObject();
+        powerObject(true);
     }
 
     //A function to add a new string to text.
@@ -60,39 +60,63 @@ public class KeyPadScreen : EnergyObject
     {
         if (string.Equals(currentString, theCode))
         {
-            usableObject.useObject(true);
-            powerBox.energize();
+            usableObject.gameObject.GetComponent<ControlEnergyObject>().setObject(true);
+            //powerBox.energize();
         }
         else
         {
-            usableObject.useObject(false);
+            usableObject.gameObject.GetComponent<ControlEnergyObject>().setObject(false);
         }
     }
 
     //An override to power this object and change display.
-    public override void powerObject()
+    public override void powerObject(bool b)
     {
         //Power itself.
-        powered = true;
-        displayText(currentString);
+        powered = b;
+
+        if (powered)
+        {
+            displayText(currentString);
+        } else
+        {
+            displayText("Err: No Pwr");
+        }
+
     }
 
-    //And override to depower this object and change display.
-    public override void dePowerObject()
+    public override void useObject(string input)
     {
-        powered = false;
-        displayText("Err: No Pwr");
+        //Do nothing as this energy object is unusable.
+        if (string.Equals(input, "Clear"))
+        {
+            //This is the delete button.
+            if (powered)
+            {
+                clearString();
+            }
+        }
+        else if (string.Equals(input, "Enter"))
+        {
+            //If enter is pressed, then make it test the current string.
+            if (powered)
+            {
+                enterString();
+            }
+        }
+        else
+        {
+            //If it's anything else, then it's a number. Add string.
+            if (powered)
+            {
+                addString(input);
+            }
+        }
     }
 
     //Display the text provided.
     public void displayText(string tex)
     {
         text_.text = tex;
-    }
-
-    //Get the current string provided.
-    public string getCurrentString()
-    {
-        return currentString;
     }
 }

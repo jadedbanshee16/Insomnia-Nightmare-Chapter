@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GeneratorClass : EnergyObject
+public class GeneratorClass : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,7 +14,7 @@ public class GeneratorClass : EnergyObject
         }
     }
 
-    public override void useObject(bool b)
+    /*public void useObject()
     {
         setPower(b);
     }
@@ -46,5 +46,5 @@ public class GeneratorClass : EnergyObject
     {
         powerBox = null;
         GetComponentInChildren<ControlEnergyObject>().setPowerObject(null);
-    }
+    }*/
 }

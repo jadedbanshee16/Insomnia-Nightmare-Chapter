@@ -37,7 +37,7 @@ public class SwitchBoard : MonoBehaviour
             //If not on list of prioritized systems, then turn off.
             if (turnOff)
             {
-                switches[i].setPower(false);
+                //switches[i].setPower(false);
                 SwitchClass swtch = switches[i].gameObject.GetComponent<SwitchClass>();
 
                 if (swtch)
@@ -54,7 +54,7 @@ public class SwitchBoard : MonoBehaviour
         if (gen)
         {
             //Now, deenergize the generator.
-            gen.gameObject.GetComponentInChildren<ControlEnergyObject>().setPower(false);
+            //gen.gameObject.GetComponentInChildren<ControlEnergyObject>().setPower(false);
             gen.gameObject.GetComponentInChildren<SwitchClass>().turnOff();
         }
     }

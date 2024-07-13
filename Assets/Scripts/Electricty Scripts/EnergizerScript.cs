@@ -9,6 +9,9 @@ public class EnergizerScript : MonoBehaviour
     public SwitchBoard board_;
     public PowerPortClass plug;
 
+    //Keep whether a certain toPower object is on.
+
+
     /*bool powerOn;
 
     [SerializeField]
@@ -67,7 +70,7 @@ public class EnergizerScript : MonoBehaviour
     }
 
     //Energize every item connected to this power source.
-    public void energize()
+    /*public void energize()
     {
         energyUsed = 0;
 
@@ -100,13 +103,13 @@ public class EnergizerScript : MonoBehaviour
                     else if (toPower[i].isUsed())
                     {
                         energyUsed -= toPower[i].getEnergyAmount();
-                        toPower[i].powerObject();
+                        toPower[i].powerObject(true);
                     }
                 }
                 else
                 {
                     //If the type is off, depower the object.
-                    toPower[i].dePowerObject();
+                    toPower[i].powerObject(false);
                 }
 
             }
@@ -114,11 +117,11 @@ public class EnergizerScript : MonoBehaviour
         {
             for(int i = 0; i < toPower.Length; i++)
             {
-                toPower[i].dePowerObject();
+                toPower[i].powerObject(false);
             }
         }
 
-    }
+    }*/
 
     //This will take a float number and check if adding the extra number to energy used will cause a fault.
     public void checkForTooMuchPower(float energy)
@@ -143,7 +146,7 @@ public class EnergizerScript : MonoBehaviour
         {
             if (toPower[i])
             {
-                toPower[i].dePowerObject();
+                toPower[i].powerObject(false);
             }
         }
 
@@ -176,8 +179,8 @@ public class EnergizerScript : MonoBehaviour
         if (gen)
         {
             currentGenerator = gen;
-            currentGenerator.setGrid(this.GetComponent<EnergizerScript>());
-            energize();
+            //currentGenerator.setGrid(this.GetComponent<EnergizerScript>());
+            //energize();
         } else
         {
             currentGenerator = null;
@@ -192,7 +195,39 @@ public class EnergizerScript : MonoBehaviour
 
         if (currentGenerator)
         {
-            energize();
+            //energize();
+        }
+    }
+
+    //Turn on a system or an object.
+    public void useObject(EnergyObject obj, bool isOn)
+    {
+        EnergyObject currentObject = null;
+
+        //Ensure object is part of the grid.
+        for(int i = 0; i < toPower.Length; i++)
+        {
+            if(toPower[i].gameObject == obj.gameObject)
+            {
+                currentObject = toPower[i];
+            }
+        }
+
+        if (currentObject)
+        {
+            currentObject.powerObject(isOn);
+        }
+
+    }
+
+    public void updateObjects()
+    {
+        for(int i = 0; i < toPower.Length; i++)
+        {
+            if (systems[(int)toPower[i].getType()])
+            {
+                toPower[i].useObject();
+            }
         }
     }
 

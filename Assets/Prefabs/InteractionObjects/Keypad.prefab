@@ -120,8 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   permittedInteractions: 
-  input: 8
-  screen_: {fileID: 427769711488691549}
+  obj_: {fileID: 0}
 --- !u!95 &6339868017320752570
 Animator:
   serializedVersion: 5
@@ -359,8 +358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   permittedInteractions: 
-  input: 5
-  screen_: {fileID: 427769711488691549}
+  obj_: {fileID: 0}
 --- !u!95 &4736171587151819494
 Animator:
   serializedVersion: 5
@@ -502,8 +500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   permittedInteractions: 
-  input: Enter
-  screen_: {fileID: 427769711488691549}
+  obj_: {fileID: 0}
 --- !u!95 &6268941383820199794
 Animator:
   serializedVersion: 5
@@ -709,8 +706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   permittedInteractions: 
-  input: 4
-  screen_: {fileID: 427769711488691549}
+  obj_: {fileID: 0}
 --- !u!95 &5531058805557404660
 Animator:
   serializedVersion: 5
@@ -852,8 +848,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   permittedInteractions: 
-  input: 0
-  screen_: {fileID: 427769711488691549}
+  obj_: {fileID: 0}
 --- !u!95 &1716103878428273616
 Animator:
   serializedVersion: 5
@@ -993,11 +988,10 @@ MonoBehaviour:
   energyUsage: 0
   type: 0
   powered: 0
-  energyizer: {fileID: 0}
+  powerBox: {fileID: 0}
   inputSize: 4
   theCode: 
   usableObject: {fileID: 0}
-  powerBox: {fileID: 0}
 --- !u!1 &3809861033617342813
 GameObject:
   m_ObjectHideFlags: 0
@@ -1361,8 +1355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   permittedInteractions: 
-  input: 9
-  screen_: {fileID: 427769711488691549}
+  obj_: {fileID: 0}
 --- !u!95 &6464442167198149954
 Animator:
   serializedVersion: 5
@@ -1536,8 +1529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   permittedInteractions: 
-  input: 6
-  screen_: {fileID: 427769711488691549}
+  obj_: {fileID: 0}
 --- !u!95 &4278438655986740691
 Animator:
   serializedVersion: 5
@@ -1743,8 +1735,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   permittedInteractions: 
-  input: 7
-  screen_: {fileID: 427769711488691549}
+  obj_: {fileID: 0}
 --- !u!95 &7124869634096781100
 Animator:
   serializedVersion: 5
@@ -1886,8 +1877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   permittedInteractions: 
-  input: 2
-  screen_: {fileID: 427769711488691549}
+  obj_: {fileID: 0}
 --- !u!95 &6390105711746696229
 Animator:
   serializedVersion: 5
@@ -2067,8 +2057,6 @@ GameObject:
   - component: {fileID: 6251123279793029677}
   - component: {fileID: 233541835435643535}
   - component: {fileID: 7212488656155440822}
-  - component: {fileID: 2209570953159164261}
-  - component: {fileID: 1163874659634923451}
   - component: {fileID: 6340646200621187115}
   m_Layer: 0
   m_Name: 1
@@ -2142,42 +2130,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2209570953159164261
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8899819196551857967}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.02, y: 0.019999998, z: 0.019999998}
-  m_Center: {x: 0, y: 0.0000019073486, z: -0.00000011920929}
---- !u!114 &1163874659634923451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8899819196551857967}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f48d57ddd3be47c47b527ef3d6650147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  permittedInteractions: 
-  input: 1
-  screen_: {fileID: 427769711488691549}
 --- !u!95 &6340646200621187115
 Animator:
   serializedVersion: 5
@@ -2208,6 +2160,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2242820417367528889}
+  - component: {fileID: 437526404937838637}
+  - component: {fileID: 7735903836546438561}
+  - component: {fileID: 7774152870064830887}
   m_Layer: 0
   m_Name: Key1
   m_TagString: Untagged
@@ -2231,6 +2186,58 @@ Transform:
   - {fileID: 6251123279793029677}
   m_Father: {fileID: 3806831106232043488}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &437526404937838637
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8975608180422946999}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.13968685, y: 0.14255027, z: 0.13822226}
+  m_Center: {x: 0.005763413, y: 0.000000056142422, z: -0.0021600998}
+--- !u!114 &7735903836546438561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8975608180422946999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f48d57ddd3be47c47b527ef3d6650147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  permittedInteractions: 00000000
+  obj_: {fileID: 7774152870064830887}
+--- !u!114 &7774152870064830887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8975608180422946999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6394dc274fd0ec4f868bbac320f2fc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerBox: {fileID: 0}
+  interactions_:
+  - {fileID: 427769711488691549}
+  currentType: 3
+  input: 1
 --- !u!1 &9078562722487873743
 GameObject:
   m_ObjectHideFlags: 0
@@ -2351,8 +2358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   permittedInteractions: 
-  input: 3
-  screen_: {fileID: 427769711488691549}
+  obj_: {fileID: 0}
 --- !u!95 &701204452226986471
 Animator:
   serializedVersion: 5
@@ -2494,8 +2500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   permittedInteractions: 
-  input: Clear
-  screen_: {fileID: 427769711488691549}
+  obj_: {fileID: 0}
 --- !u!95 &331498672279540772
 Animator:
   serializedVersion: 5

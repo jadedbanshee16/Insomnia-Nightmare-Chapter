@@ -11,7 +11,7 @@ public class DoorClass : EnergyObject
 
     private void Start()
     {
-        dePowerObject();
+        powerObject(false);
     }
 
 
@@ -29,25 +29,15 @@ public class DoorClass : EnergyObject
     }
 
     //An override to power this object and find open or close door.
-    public override void powerObject()
+    public override void powerObject(bool b)
     {
         //Power itself.
-        powered = true;
-        useObject(opened);
-    }
-
-    //And override to depower this object and close door.
-    public override void dePowerObject()
-    {
-        //Power itself.
-        powered = false;
-        useObject(opened);
+        opened = b;
     }
 
     //Change if door is open.
-    public override void useObject(bool b)
+    public override void useObject()
     {
-        opened = b;
 
         if (opened && powered)
         {
@@ -57,10 +47,5 @@ public class DoorClass : EnergyObject
         {
             closeDoor();
         }
-    }
-
-    public override bool isUsed()
-    {
-        return opened;
     }
 }

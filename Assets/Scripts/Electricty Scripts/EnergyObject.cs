@@ -28,22 +28,21 @@ public class EnergyObject : MonoBehaviour
     }
 
     //A function to power the 
-    public virtual void powerObject()
+    public virtual void powerObject(bool b)
     {
         //Power itself.
-        powered = true;
+        powered = b;
 
-    }
-
-    //A function to depower the object.
-    public virtual void dePowerObject()
-    {
-        //Remove power of self.
-        powered = false;
     }
 
     //A function to use the current energy object.
-    public virtual void useObject(bool b)
+    public virtual void useObject()
+    {
+        //Do nothing as this energy object is unusable.
+    }
+
+    //A function to use the current energy object.
+    public virtual void useObject(string input)
     {
         //Do nothing as this energy object is unusable.
     }
@@ -64,12 +63,5 @@ public class EnergyObject : MonoBehaviour
     public objectType getType()
     {
         return type;
-    }
-
-    //Return if the object is currently being used.
-    public virtual bool isUsed()
-    {
-        //If default with nothing, return true.
-        return true;
     }
 }

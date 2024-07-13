@@ -35,7 +35,7 @@ public class PowerPortClass : ItemPositionClass
     {
         hasItem = false;
         powerPort.setPowersource(null);
-        currentObj.GetComponent<PlugClass>().getMainObject().unSetGrid();
+        //currentObj.GetComponent<PlugClass>().getMainObject().unSetGrid();
         currentObj = null;
 
     }
