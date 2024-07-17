@@ -39,7 +39,7 @@ public class FPSController : MonoBehaviour
     private Transform playerHand;
     [SerializeField]
     private Transform playerHead;
-    public GameObject holdingItem;
+    public HoldInteractionClass holdingItem;
 
     private float interactionCooldown = 0.5f;
     private float interactionTimer = 0;
@@ -122,27 +122,32 @@ public class FPSController : MonoBehaviour
         //Go through interaction timer if there is an interaction.
         if (interactionTimer == 0)
         {
+
             //Make the controls for the mouse button.
             if (Input.GetKey(KeyCode.Mouse0))
             {
                 //If the interaction type has it use the player controller, then drop the holding item instead of making an interaction.
-                if (holdingItem && holdingItem.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionLevel.playerController))
+                /*if (holdingItem && holdingItem.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.player))
                 {
                     //Remove holding item.
-                    holdingItem.GetComponent<HoldItemClass>().release(this.transform);
+                    //holdingItem.GetComponent<HoldItemClass>().release(this.transform);
                     //Reset interaction.
                     interactionTimer = interactionCooldown;
                 }
                 else
                 {
-                    isInInteraction();
-                }
+                    
+                }*/
+
+                isInInteraction();
             }
 
             //Controls for dropping items in held hand.
             if (Input.GetKey(KeyCode.G) && holdingItem)
             {
-                holdingItem.GetComponent<HoldItemClass>().release(this.transform);
+                holdingItem.Interact(frontPosition(), Quaternion.identity, null);
+                holdingItem.removeHeld();
+                removeHeldItem();
             }
         } else
         {
@@ -155,7 +160,10 @@ public class FPSController : MonoBehaviour
             }
         }
 
-
+        if (holdingItem)
+        {
+            holdingItem.GetComponent<InteractionClass>().Interact(playerHand.position, playerHand.rotation, playerHand);
+        }
 
     }
 
@@ -169,24 +177,24 @@ public class FPSController : MonoBehaviour
         {
             //Debug.Log(hitPoint.collider.gameObject.name);
             //Check if an item first.
-            if (hitPoint.collider.CompareTag("HandItem"))
+            /*if (hitPoint.collider.CompareTag("HandItem"))
             {
                 //Figure out if the interaction should move object to right hand or closer to the player face.
-                if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionLevel.playerController))
+                if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.player))
                 {
 
                     //If this, then move the player head to starting position on the hitpoint transform.
                     playerHead.position = hitPoint.transform.position;
 
-                    hitPoint.collider.GetComponent<InteractionClass>().interact(this.transform, playerHead);
+                    hitPoint.collider.GetComponent<InteractionClass>().Interact(this.transform, playerHead);
                 } else
                 {
-                    hitPoint.collider.GetComponent<InteractionClass>().interact(this.transform, playerHand);
+                    hitPoint.collider.GetComponent<InteractionClass>().Interact(this.transform, playerHand);
                 }
 
                 if (holdingItem)
                 {
-                    holdingItem.GetComponent<HoldItemClass>().release(this.transform);
+                    //holdingItem.GetComponent<HoldItemClass>().release(this.transform);
                 }
 
                 holdingItem = hitPoint.collider.gameObject;
@@ -199,31 +207,93 @@ public class FPSController : MonoBehaviour
                 //Ensure an item is held.
                 if (holdingItem)
                 {
-                    hitPoint.collider.GetComponent<InteractionClass>().interact(hitPoint.transform, holdingItem.transform);
+                    hitPoint.collider.GetComponent<InteractionClass>().Interact(hitPoint.transform, holdingItem.transform);
 
                     interactionTimer = interactionCooldown;
                 }
 
             //If nothing else, see if item can be interacted to.
+            } else*/
+
+            //This is for interactions with holdable items.
+            if (hitPoint.collider.GetComponent<HoldInteractionClass>())
+            {
+                interactionTimer = interactionCooldown;
+
+                //Ensure item can be touched by the player.
+                if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.player))
+                {
+                    //Make the interact happen.
+                    hitPoint.collider.GetComponent<InteractionClass>().Interact(playerHand.position, playerHand.rotation, playerHand);
+                    setHeldItem(hitPoint.collider.GetComponent<HoldInteractionClass>());
+                }
+            
+            //This is interactions with position items that can hold holdable items.
+            } else if (hitPoint.collider.GetComponent<PositionInteractionClass>())
+            {
+                interactionTimer = interactionCooldown;
+
+                //Make the interact happen.
+                if (holdingItem)
+                {
+                    if (hitPoint.collider.GetComponent<PositionInteractionClass>().canHoldItem(holdingItem.gameObject))
+                    {
+                        hitPoint.collider.GetComponent<InteractionClass>().Interact(holdingItem.gameObject);
+                        removeHeldItem();
+                    }
+                }
+
+            //This is for interactions with everything else that doesn't deal with the hold or position systems.
             } else if (hitPoint.collider.GetComponent<InteractionClass>())
             {
                 interactionTimer = interactionCooldown;
 
-                hitPoint.collider.GetComponent<InteractionClass>().interact(this.transform, null);
-
-
+                //Ensure item can be touched by the player.
+                if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.player))
+                {
+                    //Make the interact happen.
+                    hitPoint.collider.GetComponent<InteractionClass>().Interact();
+                }
             }
         }
     }
 
     //A function to return the current held item if any.
-    public GameObject getHeldItem()
+    public HoldInteractionClass getHeldItem()
     {
         return holdingItem;
     }
 
-    public void removeHeldItem()
+    //A function to make holding item equal to an object.
+    private void setHeldItem(HoldInteractionClass obj)
+    {
+        holdingItem = obj;
+    }
+
+    //This removes held item and sets the held item to it's unheld state.
+    private void removeHeldItem()
     {
         holdingItem = null;
+    }
+
+    //A function that will look for the next closest position, either within reach or when it hits something.
+    private Vector3 frontPosition()
+    {
+        Vector3 trans = playerHead.position;
+
+        RaycastHit hitPoint;
+        Ray hitRay = new Ray(trans, playerHead.forward);
+
+        //If the ray hits something within reach, see if it hits an object.
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hitPoint, reach))
+        {
+            trans = hitRay.GetPoint(hitPoint.distance);
+        } else
+        {
+            trans = hitRay.GetPoint(reach / 2);
+        }
+
+
+        return trans;
     }
 }
