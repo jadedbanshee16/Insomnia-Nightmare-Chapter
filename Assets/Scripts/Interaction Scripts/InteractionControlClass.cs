@@ -8,18 +8,6 @@ public class InteractionControlClass : MonoBehaviour
 
     InteractionIndicatorScript indicator;
 
-    private void Start()
-    {
-        anim_ = GetComponentInChildren<Animator>();
-
-        indicator = GetComponentInChildren<InteractionIndicatorScript>();
-
-        if (indicator)
-        {
-            indicator.switchToOff();
-        }
-    }
-
     //Set the position of this current object to a given other position.
     public void setPosition(Vector3 pos, Quaternion rot)
     {
@@ -49,6 +37,12 @@ public class InteractionControlClass : MonoBehaviour
     //Set the indicator if an indicator script is connected.
     public void setIndicator(bool isOn)
     {
+        //Ensure an indicator is found before moving on to the next thing.
+        if (!indicator)
+        {
+            indicator = GetComponentInChildren<InteractionIndicatorScript>();
+        }
+
         if (indicator)
         {
             if (isOn)
@@ -61,5 +55,18 @@ public class InteractionControlClass : MonoBehaviour
             }
         }
 
+    }
+
+    //A function to update this interaction control.
+    public void updateThisInteraction()
+    {
+        anim_ = GetComponentInChildren<Animator>();
+
+        indicator = GetComponentInChildren<InteractionIndicatorScript>();
+
+        if (indicator)
+        {
+            indicator.switchToOff();
+        }
     }
 }

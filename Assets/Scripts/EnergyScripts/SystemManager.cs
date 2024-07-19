@@ -16,11 +16,11 @@ public class SystemManager : MonoBehaviour
     float currentPower;
 
     //Generator gen;
-    private void Start()
+    private void Awake()
     {
         for(int i = 0; i < managers.Length; i++)
         {
-            managers[i].setGrid(true);
+            managers[i].updateTheGrid();
         }
 
         powerSystems();

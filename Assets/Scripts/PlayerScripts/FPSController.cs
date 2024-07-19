@@ -220,12 +220,15 @@ public class FPSController : MonoBehaviour
             {
                 interactionTimer = interactionCooldown;
 
-                //Ensure item can be touched by the player.
-                if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.player))
+                if (!holdingItem)
                 {
-                    //Make the interact happen.
-                    hitPoint.collider.GetComponent<InteractionClass>().Interact(playerHand.position, playerHand.rotation, playerHand);
-                    setHeldItem(hitPoint.collider.GetComponent<HoldInteractionClass>());
+                    //Ensure item can be touched by the player.
+                    if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.player))
+                    {
+                        //Make the interact happen.
+                        hitPoint.collider.GetComponent<InteractionClass>().Interact(playerHand.position, playerHand.rotation, playerHand);
+                        setHeldItem(hitPoint.collider.GetComponent<HoldInteractionClass>());
+                    }
                 }
             
             //This is interactions with position items that can hold holdable items.

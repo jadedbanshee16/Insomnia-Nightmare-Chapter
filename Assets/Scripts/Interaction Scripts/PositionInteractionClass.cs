@@ -10,9 +10,6 @@ public class PositionInteractionClass : InteractionClass
     HoldInteractionClass currentHeldItem;
 
     [SerializeField]
-    HoldInteractionClass.holdType[] permittedTypes;
-
-    [SerializeField]
     string uniqueObjectOverride;
 
     //This will keep the interaction with this object. It takes an obj input and sees if it is a permitted object.
@@ -39,11 +36,11 @@ public class PositionInteractionClass : InteractionClass
         if(uniqueObjectOverride != null && string.Equals(uniqueObjectOverride, obj.gameObject.name))
         {
             canHold = true;
-        } else
+        } else if (string.Equals(uniqueObjectOverride, ""))
         {
-            for (int i = 0; i < permittedTypes.Length; i++)
+            for (int i = 0; i < permittedInteractions.Length; i++)
             {
-                if (permittedTypes[i] == obj.GetComponent<HoldInteractionClass>().getType())
+                if (permittedInteractions[i] == obj.GetComponent<HoldInteractionClass>().getType())
                 {
                     canHold = true;
                 }

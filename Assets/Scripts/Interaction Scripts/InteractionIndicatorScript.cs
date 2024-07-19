@@ -34,6 +34,5 @@ public class InteractionIndicatorScript : MonoBehaviour
         {
             secondaryLight.material = lightMats[2];
         }
-
     }
 }

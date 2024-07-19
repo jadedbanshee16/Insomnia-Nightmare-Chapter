@@ -5,13 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class HoldInteractionClass : InteractionClass
 {
-    public enum holdType
-    {
-        plug,
-        general
-    }
-    
-
     private bool isHeld;
 
     //Keep the object that this item is designed to be connected to. This is for plugs and such.
@@ -23,7 +16,7 @@ public class HoldInteractionClass : InteractionClass
     Rigidbody rig_;
 
     [SerializeField]
-    private holdType type;
+    private interactionType type;
 
     private void Start()
     {
@@ -66,7 +59,7 @@ public class HoldInteractionClass : InteractionClass
         rig_.isKinematic = false;
     }
 
-    public holdType getType()
+    public interactionType getType()
     {
         return type;
     }

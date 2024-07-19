@@ -16,18 +16,6 @@ public class GridManager : MonoBehaviour
 
     SystemManager man_;
 
-    private void Start()
-    {
-        objs = GetComponentsInChildren<EnergyObjectClass>();
-
-        man_ = GetComponentInParent<SystemManager>();
-
-        for(int i = 0; i < objs.Length; i++)
-        {
-            objs[i].setEnergyManager(this.GetComponent<GridManager>());
-        }
-    }
-
     //Update an object to be on or off in the system.
     public void updateObject(EnergyObjectClass obj, bool b)
     {
@@ -40,7 +28,7 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        man_.powerSystems();
+        updateGrids();
     }
 
     //A function that will update the on and off state for each object object based on being on or off.
@@ -65,6 +53,11 @@ public class GridManager : MonoBehaviour
     //Return the amount of power being used.
     public float getPowerUsed()
     {
+        if (!gridPowered)
+        {
+            return 0;
+        }
+
         float powerUsed = 0;
 
         for(int i = 0; i < objs.Length; i++)
@@ -87,6 +80,7 @@ public class GridManager : MonoBehaviour
          */
         EnergyInteractionClass[] interactions = GetComponentsInChildren<EnergyInteractionClass>();
 
+        //Go through interactions and turn of the object as well as setting the Interaction classes.
         for(int i = 0; i < interactions.Length; i++)
         {
             interactions[i].turnOffObject();
@@ -96,13 +90,58 @@ public class GridManager : MonoBehaviour
         {
             objs[i].setIsOn(false);
         }
+
+        //Find and turn off this grid interactions as well.
+        GetComponentInChildren<GridInteractionClass>().setToOff();
+
+
     }
 
     //Set the grid to being on or off.
     public void setGrid(bool b)
     {
         gridPowered = b;
-
         updatePower();
+    }
+
+    //A function that will return the current powered state of this grid object.
+    public bool getIsOn()
+    {
+        return gridPowered;
+    }
+
+    //Update the systems this grid is a part of.
+    public void updateGrids()
+    {
+        man_.powerSystems();
+    }
+
+    public void updateTheGrid()
+    {
+        objs = GetComponentsInChildren<EnergyObjectClass>();
+
+        man_ = GetComponentInParent<SystemManager>();
+
+        for (int i = 0; i < objs.Length; i++)
+        {
+            objs[i].setEnergyManager(this.GetComponent<GridManager>());
+        }
+
+        setGrid(true);
+
+        //Go through all interaction control classes in this system and update them with the basic updates.
+        InteractionControlClass[] controllers = GetComponentsInChildren<InteractionControlClass>();
+        for(int i = 0; i < controllers.Length; i++)
+        {
+            controllers[i].updateThisInteraction();
+        }
+
+        //Now, find the switch linked to this system, if it has a link (this should be MUST) and set it to whatever position is currently on.
+        if (GetComponentInChildren<GridInteractionClass>())
+        {
+            GetComponentInChildren<GridInteractionClass>().updateGridSwitch();
+        }
+
+
     }
 }

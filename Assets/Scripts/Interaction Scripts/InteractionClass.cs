@@ -17,7 +17,7 @@ public class InteractionClass : MonoBehaviour
 
 
     [SerializeField]
-    interactionType[] permittedInteractions;
+    protected interactionType[] permittedInteractions;
 
     protected InteractionControlClass controller;
 

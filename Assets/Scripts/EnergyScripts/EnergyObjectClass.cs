@@ -32,7 +32,7 @@ public class EnergyObjectClass : MonoBehaviour
     {
         if(isPowered && isOn)
         {
-            Debug.Log("UsingItem");
+            //This is just an empty template.
         }
     }
 
