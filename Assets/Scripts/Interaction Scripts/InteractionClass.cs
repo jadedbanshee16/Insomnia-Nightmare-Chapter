@@ -71,5 +71,11 @@ public class InteractionClass : MonoBehaviour
     protected void setController()
     {
         controller = GetComponent<InteractionControlClass>();
+
+        //Test to see if this function has a grid manager. If not, then update the controller.
+        if (!GetComponentInParent<GridManager>())
+        {
+            controller.updateThisInteraction();
+        }
     }
 }

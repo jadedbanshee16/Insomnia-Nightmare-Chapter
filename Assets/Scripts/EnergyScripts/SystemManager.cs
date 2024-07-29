@@ -10,6 +10,8 @@ public class SystemManager : MonoBehaviour
     [SerializeField]
     GridManager[] managers;
 
+    bool generatorPowered;
+
     [SerializeField]
     float generatorPower;
     [SerializeField]
@@ -21,6 +23,11 @@ public class SystemManager : MonoBehaviour
         for(int i = 0; i < managers.Length; i++)
         {
             managers[i].updateTheGrid();
+        }
+
+        if(generatorPower > 0)
+        {
+            generatorPowered = true;
         }
 
         powerSystems();
@@ -36,16 +43,39 @@ public class SystemManager : MonoBehaviour
     //A function that will power each grid until it runs out of energy to give.
     public void powerSystems()
     {
-        currentPower = 0;
-        for(int i = 0; i < managers.Length; i++)
+        //If there is generator power, then complete the generator coding.
+        if(generatorPower > 0 && generatorPowered)
         {
-            currentPower += managers[i].getPowerUsed();
-
-            if(currentPower > generatorPower)
+            currentPower = 0;
+            for (int i = 0; i < managers.Length; i++)
             {
-                dePowerGrid(i);
+                currentPower += managers[i].getPowerUsed();
+
+                if (currentPower > generatorPower)
+                {
+                    dePowerGrid(i);
+                }
+            }
+        //If power is 0, then assume generator is turned off or unplugged, which means turn off grids without tripping system.
+        } else
+        {
+            for (int i = 0; i < managers.Length; i++)
+            {
+                managers[i].setSystem(false);
             }
         }
+
+    }
+
+    public void setGeneratorPower(float newNumber)
+    {
+        generatorPower = newNumber;
+        powerSystems();
+    }
+
+    public void setGenerator(bool b)
+    {
+        generatorPowered = b;
     }
 
     /*public void setGenerator(GeneratorClass g)

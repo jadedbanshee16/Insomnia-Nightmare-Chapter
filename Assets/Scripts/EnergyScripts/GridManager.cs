@@ -14,6 +14,9 @@ public class GridManager : MonoBehaviour
     [SerializeField]
     bool gridPowered;
 
+    [SerializeField]
+    bool systemPowered;
+
     SystemManager man_;
 
     //Update an object to be on or off in the system.
@@ -34,20 +37,30 @@ public class GridManager : MonoBehaviour
     //A function that will update the on and off state for each object object based on being on or off.
     public void updatePower()
     {
-        if (gridPowered)
+        if (systemPowered)
         {
-            for (int i = 0; i < objs.Length; i++)
+            if (gridPowered)
             {
-                objs[i].powerObject(true);
+                for (int i = 0; i < objs.Length; i++)
+                {
+                    objs[i].powerObject(true);
+                }
             }
-        }
-        else
+            else
+            {
+                for (int i = 0; i < objs.Length; i++)
+                {
+                    objs[i].powerObject(false);
+                }
+            }
+        } else
         {
             for (int i = 0; i < objs.Length; i++)
             {
                 objs[i].powerObject(false);
             }
         }
+
     }
 
     //Return the amount of power being used.
@@ -101,6 +114,13 @@ public class GridManager : MonoBehaviour
     public void setGrid(bool b)
     {
         gridPowered = b;
+        updatePower();
+    }
+
+    //Set whether the system is gaining power.
+    public void setSystem(bool b)
+    {
+        systemPowered = b;
         updatePower();
     }
 

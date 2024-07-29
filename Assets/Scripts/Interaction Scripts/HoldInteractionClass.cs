@@ -41,6 +41,7 @@ public class HoldInteractionClass : InteractionClass
             if (currentHolder.gameObject.GetComponent<PositionInteractionClass>())
             {
                 currentHolder.gameObject.GetComponent<PositionInteractionClass>().setCurrentHeldItem(null);
+                setSystem(null);
             }
         }
 
@@ -57,6 +58,25 @@ public class HoldInteractionClass : InteractionClass
         isHeld = false;
         currentHolder = null;
         rig_.isKinematic = false;
+    }
+
+    public void setSystem(GameObject newObject)
+    {
+        if (newObject)
+        {
+            //Test to see if the position is connected to the system manager and the ocnnected object is a generator.
+            if (newObject.GetComponent<SystemManager>() && connectedObj.GetComponent<GeneratorInteractionClass>())
+            {
+                connectedObj.GetComponent<GeneratorInteractionClass>().setManager(newObject.GetComponent<SystemManager>());
+            }
+        } else
+        {
+            if (connectedObj.GetComponent<GeneratorInteractionClass>())
+            {
+                connectedObj.GetComponent<GeneratorInteractionClass>().setManager(null);
+            }
+        }
+
     }
 
     public interactionType getType()
