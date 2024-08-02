@@ -63,6 +63,8 @@ public class SystemManager : MonoBehaviour
             {
                 managers[i].setSystem(false);
             }
+
+            currentPower = 0;
         }
 
     }
@@ -70,6 +72,13 @@ public class SystemManager : MonoBehaviour
     public void setGeneratorPower(float newNumber)
     {
         generatorPower = newNumber;
+
+        //Tell grid that system is powered.
+        for (int i = 0; i < managers.Length; i++)
+        {
+            managers[i].setSystem(true);
+        }
+
         powerSystems();
     }
 

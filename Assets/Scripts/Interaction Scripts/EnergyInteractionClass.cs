@@ -9,7 +9,7 @@ Note: This takes another energy screen object as an option that would provide th
 */
 public class EnergyInteractionClass : InteractionClass
 {
-    GridManager powerManager;
+    private GridManager powerManager;
 
     bool isOn;
 

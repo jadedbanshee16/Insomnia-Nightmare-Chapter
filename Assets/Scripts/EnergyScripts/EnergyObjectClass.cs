@@ -13,22 +13,21 @@ public class EnergyObjectClass : MonoBehaviour
     int energyUsage;
 
     [SerializeField]
-    bool isOn;
+    protected bool isOn;
 
     [SerializeField]
-    bool isPowered;
+    protected bool isPowered;
 
-    GridManager energyManager;
-
+    protected GridManager energyManager;
 
     //A function that will power the current object.
-    public void powerObject(bool b)
+    public virtual void powerObject(bool b)
     {
         isPowered = b;
     }
 
     //A function that will make the object be used if it is powered on on.
-    public void useObject()
+    public virtual void useObject()
     {
         if(isPowered && isOn)
         {
@@ -37,9 +36,12 @@ public class EnergyObjectClass : MonoBehaviour
     }
 
     //A function to set the energy manager of this object.
-    public void setEnergyManager(GridManager man)
+    public virtual void setEnergyManager(GridManager man)
     {
         energyManager = man;
+
+        //When manager is set, set on depending on energyObject type. Default is off.
+        isOn = false;
     }
 
     //Return the amount of energy this object uses.
@@ -61,7 +63,7 @@ public class EnergyObjectClass : MonoBehaviour
     }
 
     //Set the current on state of the object.
-    public void setIsOn(bool b)
+    public virtual void setIsOn(bool b)
     {
         isOn = b;
     }
