@@ -24,7 +24,11 @@ public class InputInteractionClass : InteractionClass
     public override void Interact()
     {
         //Set the animation of the controller.
-        controller.setAnimation("Pressed");
+        if (controller)
+        {
+            controller.setAnimation("Pressed");
+        }
+
 
 
         if (String.Equals(input, "%DELETE"))
@@ -46,6 +50,7 @@ public class InputInteractionClass : InteractionClass
     //Update power manager with the new system.
     public void setObject(EnergyObjectClass c)
     {
+        Debug.Log(c.gameObject.name);
         powerManager.updateObject(c, screen.isCurrentCode());
     }
 

@@ -11,7 +11,7 @@ public class PlayerControlInteractionClass : InteractionClass
 
     CinemachineVirtualCamera currentCam;
 
-    public bool isOn;
+    private bool isOn;
 
     private void Start()
     {

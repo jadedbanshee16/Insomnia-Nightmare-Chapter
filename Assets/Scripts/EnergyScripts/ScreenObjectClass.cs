@@ -36,17 +36,24 @@ public class ScreenObjectClass : EnergyObjectClass
     //Combine the added string to the current string.
     public void addString(string s)
     {
-        currentCode = currentCode + s;
+        if (isPowered)
+        {
+            currentCode = currentCode + s;
 
-        displayText(currentCode);
+            displayText(currentCode);
+        }
     }
 
     //Remove the last element of the string.
     public void removeString()
     {
-        currentCode = currentCode.Substring(0, currentCode.Length - 1);
+        if (isPowered)
+        {
+            currentCode = currentCode.Substring(0, currentCode.Length - 1);
 
-        displayText(currentCode);
+            displayText(currentCode);
+        }
+
     }
 
     //Return the current affected object of this screen.
@@ -58,9 +65,12 @@ public class ScreenObjectClass : EnergyObjectClass
     //Make string empty.
     public void clearString()
     {
-        currentCode = "";
+        if (isPowered)
+        {
+            currentCode = "";
 
-        displayText(currentCode);
+            displayText(currentCode);
+        }
     }
 
     //A function that returns of current code is equal to command code.
