@@ -41,6 +41,14 @@ public class ScreenObjectClass : EnergyObjectClass
         displayText(currentCode);
     }
 
+    //Remove the last element of the string.
+    public void removeString()
+    {
+        currentCode = currentCode.Substring(0, currentCode.Length - 1);
+
+        displayText(currentCode);
+    }
+
     //Return the current affected object of this screen.
     public EnergyObjectClass getAffectedObject()
     {
@@ -60,9 +68,11 @@ public class ScreenObjectClass : EnergyObjectClass
     {
         if(String.Equals(currentCode, commandCode))
         {
+            displayText("Accessed");
             return true;
         }
 
+        displayText("Denied");
         return false;
     }
 

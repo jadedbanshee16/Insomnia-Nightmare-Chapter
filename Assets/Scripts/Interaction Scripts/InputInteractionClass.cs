@@ -27,14 +27,16 @@ public class InputInteractionClass : InteractionClass
         controller.setAnimation("Pressed");
 
 
-        if(String.Equals(input, "%DELETE"))
+        if (String.Equals(input, "%DELETE"))
         {
             screen.clearString();
         } else if (String.Equals(input, "%ENTER"))
         {
             //Now set object based on affected object in the screen.
             setObject(screen.getAffectedObject());
-
+        } else if (String.Equals(input, "%BACKSPACE"))
+        {
+            screen.removeString();
         } else
         {
             screen.addString(input);
@@ -45,5 +47,20 @@ public class InputInteractionClass : InteractionClass
     public void setObject(EnergyObjectClass c)
     {
         powerManager.updateObject(c, screen.isCurrentCode());
+    }
+
+    public void setInput(String s)
+    {
+        input = s;
+
+        //First, when a keycode is pressed and is not a common character, then return the item for that character.
+        if (Input.GetKey(KeyCode.Backspace))
+        {
+            input = "%BACKSPACE";
+        }
+        else if (Input.GetKey(KeyCode.Return))
+        {
+            input = "%ENTER";
+        }
     }
 }

@@ -52,8 +52,6 @@ public class FPSCamera : MonoBehaviour
 
         //Now, rotate the player with the inputX.
         m_player.Rotate(Vector3.up * inputX);
-
-
     }
 
     public void changeHeadBob(int i)

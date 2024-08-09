@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,8 +42,13 @@ public class FPSController : MonoBehaviour
     private Transform playerHead;
     public HoldInteractionClass holdingItem;
 
+    public GameObject lockingObject;
+
     private float interactionCooldown = 0.5f;
     private float interactionTimer = 0;
+
+    private bool movementLocked;
+    private bool interactionLocked;
 
     // Start is called before the first frame update
     void Start()
@@ -54,12 +60,49 @@ public class FPSController : MonoBehaviour
         currentStatus = playerStatus.idle;
         //Set the default move speed.
         moveSpeed = speedVariations.y;
+
+        movementLocked = false;
+        interactionLocked = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Ensure movement is only moved when not locked.
+        if (!movementLocked)
+        {
+            Move();
+        }
 
+        //Ensure interaction is only interacted when not locked.
+        if (!interactionLocked)
+        {
+            makeInteraction();
+        }
+
+        //If holding the item, set the item to current playerHand position.
+        if (holdingItem)
+        {
+            holdingItem.GetComponent<InteractionClass>().Interact(playerHand.position, playerHand.rotation, playerHand);
+        }
+
+        //Work with the exit input to get out of locking positions without touching the interaction.
+        if (Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.Mouse0))
+        {
+            if (lockingObject && lockingObject.GetComponent<PlayerControlInteractionClass>())
+            {
+                if (interactionTimer == 0)
+                {
+                    interactionTimer = interactionCooldown;
+                    lockingObject.GetComponent<InteractionClass>().Interact(this.gameObject);
+                }
+            }
+        }
+    }
+
+    //Keep all player movement.
+    private void Move()
+    {
         //Get an input from keyboard. If so, make a move. For forward and back
         if (Input.GetKey(KeyCode.W))
         {
@@ -88,7 +131,8 @@ public class FPSController : MonoBehaviour
         {
             moveSpeed = speedVariations.x;
             currentStatus = playerStatus.crouch;
-        } else if (Input.GetKeyUp(KeyCode.LeftControl))
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftControl))
         {
             currentStatus = playerStatus.walk;
         }
@@ -98,7 +142,8 @@ public class FPSController : MonoBehaviour
         {
             moveSpeed = speedVariations.z;
             currentStatus = playerStatus.run;
-        } else if (Input.GetKeyUp(KeyCode.LeftShift))
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             moveSpeed = speedVariations.y;
             currentStatus = playerStatus.walk;
@@ -109,7 +154,7 @@ public class FPSController : MonoBehaviour
             colliderSize -= Time.fixedDeltaTime;
         }
 
-        if(currentStatus != playerStatus.crouch && colliderSize < colliderSizes.y)
+        if (currentStatus != playerStatus.crouch && colliderSize < colliderSizes.y)
         {
             colliderSize += Time.fixedDeltaTime;
         }
@@ -117,8 +162,11 @@ public class FPSController : MonoBehaviour
         m_camera.changeHeadBob((int)currentStatus);
 
         m_collider.height = colliderSize;
+    }
 
-
+    //Keep all player interaction.
+    private void makeInteraction()
+    {
         //Go through interaction timer if there is an interaction.
         if (interactionTimer == 0)
         {
@@ -126,20 +174,14 @@ public class FPSController : MonoBehaviour
             //Make the controls for the mouse button.
             if (Input.GetKey(KeyCode.Mouse0))
             {
-                //If the interaction type has it use the player controller, then drop the holding item instead of making an interaction.
-                /*if (holdingItem && holdingItem.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.player))
-                {
-                    //Remove holding item.
-                    //holdingItem.GetComponent<HoldItemClass>().release(this.transform);
-                    //Reset interaction.
-                    interactionTimer = interactionCooldown;
-                }
-                else
-                {
-                    
-                }*/
-
                 isInInteraction();
+
+                //This is to ensure that if camera and player is locked, and player cannot interact with the lockingobject again,
+                //then this will force an interaction if the click is ever made.
+                /*if (lockingObject && lockingObject.GetComponent<PlayerControlInteractionClass>())
+                {
+                    lockingObject.GetComponent<InteractionClass>().Interact(this.gameObject);
+                }*/
             }
 
             //Controls for dropping items in held hand.
@@ -149,22 +191,30 @@ public class FPSController : MonoBehaviour
                 holdingItem.removeHeld();
                 removeHeldItem();
             }
-        } else
+        }
+        else
         {
             //If interaction made, then run cooldown until the timer is 0.
             interactionTimer -= Time.deltaTime;
 
-            if(interactionTimer < 0)
+            if (interactionTimer < 0)
             {
                 interactionTimer = 0;
             }
         }
 
-        if (holdingItem)
+        //If currently locked onto an object, attempt to find an input. If an input is found, then put string input character into that input class.
+        if (lockingObject && lockingObject.GetComponent<InputInteractionClass>())
         {
-            holdingItem.GetComponent<InteractionClass>().Interact(playerHand.position, playerHand.rotation, playerHand);
-        }
+            //Get input from user.
+            string input = Input.inputString;
 
+            if (!String.Equals(input, ""))
+            {
+                lockingObject.GetComponent<InputInteractionClass>().setInput(input);
+                lockingObject.GetComponent<InputInteractionClass>().Interact();
+            }
+        }
     }
 
     //Check if reaction is possible. If so, then make interaction.
@@ -230,9 +280,10 @@ public class FPSController : MonoBehaviour
                         setHeldItem(hitPoint.collider.GetComponent<HoldInteractionClass>());
                     }
                 }
-            
-            //This is interactions with position items that can hold holdable items.
-            } else if (hitPoint.collider.GetComponent<PositionInteractionClass>())
+
+                //This is interactions with position items that can hold holdable items.
+            }
+            else if (hitPoint.collider.GetComponent<PositionInteractionClass>())
             {
                 interactionTimer = interactionCooldown;
 
@@ -246,7 +297,19 @@ public class FPSController : MonoBehaviour
                     }
                 }
 
-            //This is for interactions with everything else that doesn't deal with the hold or position systems.
+            //Interactions that change the player controller.
+            } else if (hitPoint.collider.GetComponent<PlayerControlInteractionClass>())
+            {
+                interactionTimer = interactionCooldown;
+
+                //Ensure item can be touched by the player.
+                if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.player))
+                {
+                    //Make the interact happen.
+                    hitPoint.collider.GetComponent<InteractionClass>().Interact(this.gameObject);
+                }
+
+                //This is for interactions with everything else that doesn't deal with the hold or position systems.
             } else if (hitPoint.collider.GetComponent<InteractionClass>())
             {
                 interactionTimer = interactionCooldown;
@@ -298,5 +361,18 @@ public class FPSController : MonoBehaviour
 
 
         return trans;
+    }
+
+    //A function to set the locked section.
+    public void setLock(bool b, GameObject obj)
+    {
+        movementLocked = b;
+
+        lockingObject = obj;
+    }
+
+    public bool getLock()
+    {
+        return movementLocked;
     }
 }
