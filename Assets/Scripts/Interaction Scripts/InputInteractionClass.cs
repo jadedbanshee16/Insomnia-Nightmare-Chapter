@@ -37,7 +37,11 @@ public class InputInteractionClass : InteractionClass
         } else if (String.Equals(input, "%ENTER"))
         {
             //Now set object based on affected object in the screen.
-            setObject(screen.getAffectedObject());
+            if (screen.isObjectPowered())
+            {
+                setObject(screen.getAffectedObject());
+            }
+            
         } else if (String.Equals(input, "%BACKSPACE"))
         {
             screen.removeString();
@@ -50,7 +54,6 @@ public class InputInteractionClass : InteractionClass
     //Update power manager with the new system.
     public void setObject(EnergyObjectClass c)
     {
-        Debug.Log(c.gameObject.name);
         powerManager.updateObject(c, screen.isCurrentCode());
     }
 

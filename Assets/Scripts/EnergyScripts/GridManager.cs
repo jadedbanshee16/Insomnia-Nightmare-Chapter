@@ -24,7 +24,7 @@ public class GridManager : MonoBehaviour
     {
         for(int i = 0; i < objs.Length; i++)
         {
-            if(obj.gameObject.name == objs[i].gameObject.name)
+            if(obj.gameObject == objs[i].gameObject)
             {
                 objs[i].setIsOn(b);
                 objs[i].useObject();
