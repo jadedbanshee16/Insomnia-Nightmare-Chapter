@@ -5,18 +5,33 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class HoldInteractionClass : InteractionClass
 {
-    private bool isHeld;
+    public bool isHeld;
 
     //Keep the object that this item is designed to be connected to. This is for plugs and such.
     [SerializeField]
     GameObject connectedObj;
 
-    private Transform currentHolder;
+
+    public Transform currentHolder;
 
     Rigidbody rig_;
 
     [SerializeField]
     private interactionType type;
+
+    [Header("Anchor Settings")]
+    //An object that this object may be anchored to.
+    //If there is no anchor, then this item is free to move.
+    [SerializeField]
+    Transform anchorObject;
+
+    //The distance an object can go from anchor.
+    [SerializeField]
+    float anchorThreshold;
+
+    //The distance an object's new position can be before the holding must be disconnected.
+    [SerializeField]
+    float stretchThreshold;
 
     private void Start()
     {
@@ -27,9 +42,6 @@ public class HoldInteractionClass : InteractionClass
 
     public override void Interact(Vector3 newPos, Quaternion newRot, Transform obj)
     {
-        //Set the animation of the controller.
-        setObject(newPos, newRot);
-
         //Set the object to be held.
         if (!isHeld)
         {
@@ -46,11 +58,41 @@ public class HoldInteractionClass : InteractionClass
         }
 
         currentHolder = obj;
+
+        //Set the animation of the controller.
+        setObject(newPos, newRot);
     }
 
+    //Set this current object with the position and rotation of new 
     void setObject(Vector3 pos, Quaternion rot)
     {
-        controller.setPosition(pos, rot);
+
+        Vector3 newPos = pos;
+
+        if (anchorObject != null)
+        {
+            //Ensure new position is within anchor distance.
+            if (Vector3.Distance(pos, anchorObject.position) > anchorThreshold)
+            {
+                //Get direction from anchor to new postion.
+                Vector3 dir = (pos - anchorObject.position).normalized;
+                newPos = anchorObject.position + dir * anchorThreshold;
+            }
+
+            //If the new position is further from the possible position than is the stretch threshhold, break the connection.
+            if (Vector3.Distance(pos, newPos) > stretchThreshold)
+            {
+                //If an fps controller holding this item, then first remove from that.
+                if (currentHolder.GetComponentInParent<FPSController>())
+                {
+                    currentHolder.GetComponentInParent<FPSController>().removeHeldItem();
+                    removeHeld();
+                }
+            }
+        }
+
+
+        controller.setPosition(newPos, rot);
     }
 
     public void removeHeld()
@@ -60,23 +102,28 @@ public class HoldInteractionClass : InteractionClass
         rig_.isKinematic = false;
     }
 
+    //Sets the system if the object is connected to a system.
     public void setSystem(GameObject newObject)
     {
-        if (newObject)
+        //Only attempt this if connected object is not null.
+        if (connectedObj)
         {
-            //Test to see if the position is connected to the system manager and the ocnnected object is a generator.
-            if (newObject.GetComponent<SystemManager>() && connectedObj.GetComponent<GeneratorInteractionClass>())
+            if (newObject != null)
             {
-                connectedObj.GetComponent<GeneratorInteractionClass>().setManager(newObject.GetComponent<SystemManager>());
+                //Test to see if the position is connected to the system manager and the ocnnected object is a generator.
+                if (newObject.GetComponent<SystemManager>() && connectedObj.GetComponent<GeneratorInteractionClass>())
+                {
+                    connectedObj.GetComponent<GeneratorInteractionClass>().setManager(newObject.GetComponent<SystemManager>());
+                }
             }
-        } else
-        {
-            if (connectedObj.GetComponent<GeneratorInteractionClass>())
+            else
             {
-                connectedObj.GetComponent<GeneratorInteractionClass>().setManager(null);
+                if (connectedObj.GetComponent<GeneratorInteractionClass>())
+                {
+                    connectedObj.GetComponent<GeneratorInteractionClass>().setManager(null);
+                }
             }
         }
-
     }
 
     public interactionType getType()

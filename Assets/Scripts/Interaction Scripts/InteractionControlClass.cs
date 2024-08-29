@@ -69,4 +69,10 @@ public class InteractionControlClass : MonoBehaviour
             indicator.switchToOff();
         }
     }
+
+    //A function to get the current transform of this object.
+    public Transform getThisTransform()
+    {
+        return this.transform;
+    }
 }

@@ -337,8 +337,9 @@ public class FPSController : MonoBehaviour
     }
 
     //This removes held item and sets the held item to it's unheld state.
-    private void removeHeldItem()
+    public void removeHeldItem()
     {
+        Debug.Log("Remove's held item");
         holdingItem = null;
     }
 
