@@ -12,7 +12,8 @@ public class InteractionClass : MonoBehaviour
     {
         player,
         generalPosition,
-        powerPosition
+        powerPosition,
+        autoPosition
     }
 
 

@@ -6,16 +6,16 @@ using UnityEngine;
 public class PositionInteractionClass : InteractionClass
 {    
     [SerializeField]
-    Transform targetPos;
+    protected Transform targetPos;
 
     [SerializeField]
-    HoldInteractionClass currentHeldItem;
+    protected HoldInteractionClass currentHeldItem;
 
     [SerializeField]
     string uniqueObjectOverride;
 
     [SerializeField]
-    GameObject connectedObject;
+    protected GameObject connectedObject;
 
     //This will keep the interaction with this object. It takes an obj input and sees if it is a permitted object.
     public override void Interact(GameObject obj)
@@ -24,7 +24,7 @@ public class PositionInteractionClass : InteractionClass
         setObject();
     }
 
-    void setObject()
+    public virtual void setObject()
     {
         currentHeldItem.Interact(targetPos.position, targetPos.rotation, this.transform);
 
@@ -32,9 +32,14 @@ public class PositionInteractionClass : InteractionClass
         currentHeldItem.setSystem(connectedObject);
     }
 
-    public void setCurrentHeldItem(HoldInteractionClass c)
+    public virtual void setCurrentHeldItem(HoldInteractionClass c)
     {
         currentHeldItem = c;
+    }
+
+    public HoldInteractionClass getCurrentHeldItem()
+    {
+        return currentHeldItem;
     }
 
     public bool canHoldItem(GameObject obj)
@@ -46,13 +51,7 @@ public class PositionInteractionClass : InteractionClass
             canHold = true;
         } else if (string.Equals(uniqueObjectOverride, ""))
         {
-            for (int i = 0; i < permittedInteractions.Length; i++)
-            {
-                if (permittedInteractions[i] == obj.GetComponent<HoldInteractionClass>().getType())
-                {
-                    canHold = true;
-                }
-            }
+            canHold = hasPermission(obj.GetComponent<HoldInteractionClass>().getType());
         }
 
         if (currentHeldItem)
@@ -61,5 +60,33 @@ public class PositionInteractionClass : InteractionClass
         }
 
         return canHold;
+    }
+
+    //A function which tests to see if this object has permission to hold a certain interaction type.
+    private bool hasPermission(interactionType t)
+    {
+        bool hasPerm = false;
+
+        for(int i = 0; i < permittedInteractions.Length; i++)
+        {
+            if(permittedInteractions[i] == t)
+            {
+                hasPerm = true;
+            }
+        }
+
+        return hasPerm;
+    }
+
+    //A trigger enter for colliding with an interaction.
+    //This should only be activated if current type is autoPosition.
+    private void OnTriggerStay(Collider other)
+    {
+        //Only see if trigger if this object is an autoposition.
+        if (hasPermission(interactionType.autoPosition) && canHoldItem(other.gameObject))
+        {
+            //If met, the interact with object.
+            Interact(other.gameObject);
+        }
     }
 }

@@ -46,7 +46,12 @@ public class HoldInteractionClass : InteractionClass
         if (!isHeld)
         {
             isHeld = true;
-            rig_.isKinematic = true;
+
+            //Ensure kinematic is on only if a hinge is not used.
+            if (!this.GetComponent<HingeJoint>())
+            {
+                rig_.isKinematic = true;
+            }
         } else
         {
             //If already held, remove the current holder if it is not player.
@@ -91,8 +96,17 @@ public class HoldInteractionClass : InteractionClass
             }
         }
 
-
-        controller.setPosition(newPos, rot);
+        //If a hinge and anchor object is provided, then change direction rather than position.
+        if (GetComponent<HingeJoint>())
+        {
+            if (anchorObject && currentHolder)
+            {
+                controller.setAngle(currentHolder.GetComponentInParent<Transform>().position - anchorObject.position);
+            }
+        } else
+        {
+            controller.setPosition(newPos, rot);
+        }
     }
 
     public void removeHeld()
@@ -100,6 +114,9 @@ public class HoldInteractionClass : InteractionClass
         isHeld = false;
         currentHolder = null;
         rig_.isKinematic = false;
+
+        //To tell controller to remove angle targets.
+        controller.unsetAngle();
     }
 
     //Sets the system if the object is connected to a system.
@@ -126,6 +143,7 @@ public class HoldInteractionClass : InteractionClass
         }
     }
 
+    //Return the type of this hold position.
     public interactionType getType()
     {
         return type;

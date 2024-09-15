@@ -288,16 +288,23 @@ public class FPSController : MonoBehaviour
                 interactionTimer = interactionCooldown;
 
                 //Make the interact happen.
-                if (holdingItem)
+                if (holdingItem && hitPoint.collider.GetComponent<PositionInteractionClass>().canHoldItem(holdingItem.gameObject))
                 {
-                    if (hitPoint.collider.GetComponent<PositionInteractionClass>().canHoldItem(holdingItem.gameObject))
+                    hitPoint.collider.GetComponent<InteractionClass>().Interact(holdingItem.gameObject);
+                    removeHeldItem();
+                } else
+                {
+                    //If not holding an item, try to pick up item from the positionInteraction.
+                    if (hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem() &&
+                        hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem().isInteractionType(InteractionClass.interactionType.player))
                     {
-                        hitPoint.collider.GetComponent<InteractionClass>().Interact(holdingItem.gameObject);
-                        removeHeldItem();
+                        setHeldItem(hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem());
+                        hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem().Interact(playerHand.position, playerHand.rotation, playerHand);
+
                     }
                 }
 
-            //Interactions that change the player controller.
+                //Interactions that change the player controller.
             } else if (hitPoint.collider.GetComponent<PlayerControlInteractionClass>())
             {
                 interactionTimer = interactionCooldown;
@@ -339,7 +346,6 @@ public class FPSController : MonoBehaviour
     //This removes held item and sets the held item to it's unheld state.
     public void removeHeldItem()
     {
-        Debug.Log("Remove's held item");
         holdingItem = null;
     }
 
