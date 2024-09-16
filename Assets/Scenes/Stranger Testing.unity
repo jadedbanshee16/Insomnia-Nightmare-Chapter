@@ -148,7 +148,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7392584}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.03366898, y: -0.7063047, z: -0.033668976, w: 0.7063048}
+  m_LocalRotation: {x: -0.03366897, y: -0.7063047, z: -0.033668965, w: 0.7063048}
   m_LocalPosition: {x: 0.45, y: 0.257, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -621,7 +621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e2a9dd10da71ae4da5eaf0f613328a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  permittedInteractions: 00000000
+  permittedInteractions: 0300000000000000
   isHeld: 0
   connectedObj: {fileID: 0}
   currentHolder: {fileID: 0}
@@ -3491,7 +3491,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 804680377}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.19357729, y: -1.686, z: 16.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3499,7 +3499,7 @@ Transform:
   - {fileID: 39375298}
   - {fileID: 419158255}
   - {fileID: 1725843099}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1175516796}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &843940646 stripped
 GameObject:
@@ -4591,6 +4591,55 @@ Transform:
   - {fileID: 25117528}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1078978709
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1078978711}
+  - component: {fileID: 1078978710}
+  m_Layer: 0
+  m_Name: EnergylessSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1078978710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078978709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4daff1088e8e34342ab1f9f4328a6d06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  managers:
+  - {fileID: 1175516795}
+  generatorPower: 500
+  currentPower: 500
+--- !u!4 &1078978711
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078978709}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1175516796}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1131768979
 GameObject:
   m_ObjectHideFlags: 0
@@ -4755,6 +4804,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae737c7b56583254db7dcf7a20769655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1175516794
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1175516796}
+  - component: {fileID: 1175516795}
+  m_Layer: 0
+  m_Name: EnergyLessGrid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1175516795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175516794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc64b6788fd5b0446a792368f5567870, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridPowered: 1
+  systemPowered: 1
+--- !u!4 &1175516796
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175516794}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 804680378}
+  m_Father: {fileID: 1078978711}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1183375007
 GameObject:
   m_ObjectHideFlags: 0
@@ -7634,6 +7730,7 @@ GameObject:
   - component: {fileID: 1725843100}
   - component: {fileID: 1725843104}
   - component: {fileID: 1725843103}
+  - component: {fileID: 1725843105}
   m_Layer: 0
   m_Name: DoorLock
   m_TagString: Untagged
@@ -7740,11 +7837,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803fad5ae9cd7a445bba465c18a120a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  permittedInteractions: 03000000
+  permittedInteractions: 0300000000000000
   targetPos: {fileID: 2085533553}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: Door
-  connectedObject: {fileID: 0}
+  connectedObject: {fileID: 1725843098}
 --- !u!114 &1725843104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7757,6 +7854,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae737c7b56583254db7dcf7a20769655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1725843105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725843098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60c4a29909042e34198428a072012428, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyUsage: 0
+  isOn: 0
+  isPowered: 0
+  connectedLockedObject: {fileID: 39375304}
 --- !u!1 &1746891839
 GameObject:
   m_ObjectHideFlags: 0
@@ -10580,6 +10693,7 @@ SceneRoots:
   - {fileID: 928578640}
   - {fileID: 437929636}
   - {fileID: 2052714713}
+  - {fileID: 1078978711}
   - {fileID: 1946973989}
   - {fileID: 268608826}
   - {fileID: 2112761083}
@@ -10589,4 +10703,3 @@ SceneRoots:
   - {fileID: 1070014363}
   - {fileID: 373458214}
   - {fileID: 1448522290}
-  - {fileID: 804680378}

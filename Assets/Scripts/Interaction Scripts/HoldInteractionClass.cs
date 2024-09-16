@@ -132,6 +132,13 @@ public class HoldInteractionClass : InteractionClass
                 {
                     connectedObj.GetComponent<GeneratorInteractionClass>().setManager(newObject.GetComponent<SystemManager>());
                 }
+
+                //Other possible systems including:
+                //The lock class.
+                if (newObject.GetComponent<LockObjectClass>())
+                {
+                    newObject.GetComponent<LockObjectClass>().useObject();
+                }
             }
             else
             {

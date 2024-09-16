@@ -62,6 +62,11 @@ public class PositionInteractionClass : InteractionClass
         return canHold;
     }
 
+    public string getUniqueOverride()
+    {
+        return uniqueObjectOverride;
+    }
+
     //A function which tests to see if this object has permission to hold a certain interaction type.
     private bool hasPermission(interactionType t)
     {

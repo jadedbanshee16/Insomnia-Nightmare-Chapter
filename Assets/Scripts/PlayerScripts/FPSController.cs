@@ -63,6 +63,7 @@ public class FPSController : MonoBehaviour
 
         movementLocked = false;
         interactionLocked = false;
+
     }
 
     // Update is called once per frame
@@ -292,7 +293,9 @@ public class FPSController : MonoBehaviour
                 {
                     hitPoint.collider.GetComponent<InteractionClass>().Interact(holdingItem.gameObject);
                     removeHeldItem();
-                } else
+
+                }
+                else
                 {
                     //If not holding an item, try to pick up item from the positionInteraction.
                     if (hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem() &&
@@ -305,7 +308,8 @@ public class FPSController : MonoBehaviour
                 }
 
                 //Interactions that change the player controller.
-            } else if (hitPoint.collider.GetComponent<PlayerControlInteractionClass>())
+            }
+            else if (hitPoint.collider.GetComponent<PlayerControlInteractionClass>())
             {
                 interactionTimer = interactionCooldown;
 

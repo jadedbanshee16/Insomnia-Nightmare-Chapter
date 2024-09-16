@@ -79,4 +79,71 @@ public class InteractionClass : MonoBehaviour
             controller.updateThisInteraction();
         }
     }
+
+    //Add a new interaction type to the list of permitted interactions of this object.
+    public void addPermission(interactionType t)
+    {
+        bool alreadyHasType = false;
+
+        //Check if new permission is already a listed permission.
+        for(int i = 0; i < permittedInteractions.Length; i++)
+        {
+            if(permittedInteractions[i] == t)
+            {
+                alreadyHasType = true;
+            }
+        }
+
+        //If not already in, then add it.
+        if (!alreadyHasType)
+        {
+            interactionType[] newPermissionsList = new interactionType[permittedInteractions.Length + 1];
+
+            for(int i = 0; i < permittedInteractions.Length; i++)
+            {
+                newPermissionsList[i] = permittedInteractions[i];
+            }
+
+            //Add the new permission.
+            newPermissionsList[newPermissionsList.Length - 1] = t;
+
+            //Replace the old list.
+            permittedInteractions = newPermissionsList;
+        }
+    }
+
+    //Remove an interaction type from the list of permitted interactions.
+    public void removePermission(interactionType t)
+    {
+        int hasType = -1;
+
+        //Check if new permission is already a listed permission.
+        for (int i = 0; i < permittedInteractions.Length; i++)
+        {
+            if (permittedInteractions[i] == t)
+            {
+                hasType = i;
+            }
+        }
+
+        //Create a new array and populate with all elements except for the hasType.
+        if(hasType >= 0)
+        {
+            interactionType[] newPermissionList = new interactionType[permittedInteractions.Length - 1];
+
+            int currentIndex = 0;
+
+            for(int i = 0; i < permittedInteractions.Length; i++)
+            {
+                if(i != hasType)
+                {
+                    newPermissionList[currentIndex] = permittedInteractions[i];
+                }
+
+                currentIndex++;
+            }
+
+            permittedInteractions = newPermissionList;
+        }
+    }
 }
