@@ -7,6 +7,9 @@ public class LockObjectClass : EnergyObjectClass
     [SerializeField]
     InteractionClass connectedLockedObject;
 
+    [SerializeField]
+    PositionInteractionClass connectedLockPosition;
+
     //A function to set the energy manager of this object.
     public override void setEnergyManager(GridManager man)
     {
@@ -38,5 +41,15 @@ public class LockObjectClass : EnergyObjectClass
         {
             connectedLockedObject.GetComponent<InteractionClass>().removePermission(InteractionClass.interactionType.player);
         }
+    }
+
+    public bool checkLock()
+    {
+        if(connectedLockedObject.GetComponent<HoldInteractionClass>() && connectedLockedObject.GetComponent<HoldInteractionClass>().getCurrentHolder() == connectedLockPosition.gameObject)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

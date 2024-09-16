@@ -55,7 +55,7 @@ public class HoldInteractionClass : InteractionClass
         } else
         {
             //If already held, remove the current holder if it is not player.
-            if (currentHolder.gameObject.GetComponent<PositionInteractionClass>())
+            if (currentHolder && currentHolder.gameObject.GetComponent<PositionInteractionClass>())
             {
                 currentHolder.gameObject.GetComponent<PositionInteractionClass>().setCurrentHeldItem(null);
                 setSystem(null);
@@ -88,7 +88,7 @@ public class HoldInteractionClass : InteractionClass
             if (Vector3.Distance(pos, newPos) > stretchThreshold)
             {
                 //If an fps controller holding this item, then first remove from that.
-                if (currentHolder.GetComponentInParent<FPSController>())
+                if (currentHolder && currentHolder.GetComponentInParent<FPSController>())
                 {
                     currentHolder.GetComponentInParent<FPSController>().removeHeldItem();
                     removeHeld();
@@ -132,13 +132,6 @@ public class HoldInteractionClass : InteractionClass
                 {
                     connectedObj.GetComponent<GeneratorInteractionClass>().setManager(newObject.GetComponent<SystemManager>());
                 }
-
-                //Other possible systems including:
-                //The lock class.
-                if (newObject.GetComponent<LockObjectClass>())
-                {
-                    newObject.GetComponent<LockObjectClass>().useObject();
-                }
             }
             else
             {
@@ -148,11 +141,34 @@ public class HoldInteractionClass : InteractionClass
                 }
             }
         }
+
+        //Other possible systems including:
+        //The lock class.
+        if (newObject && newObject.GetComponent<LockObjectClass>())
+        {
+            if (newObject.GetComponent<LockObjectClass>().checkLock())
+            {
+                newObject.GetComponent<LockObjectClass>().setIsOn(!newObject.GetComponent<EnergyObjectClass>().getIsOn());
+                newObject.GetComponent<LockObjectClass>().useObject();
+            }
+
+        }
     }
 
     //Return the type of this hold position.
     public interactionType getType()
     {
         return type;
+    }
+
+    //Return the currentHolder gameobject.
+    public GameObject getCurrentHolder()
+    {
+        if (currentHolder)
+        {
+            return currentHolder.gameObject;
+        }
+
+        return null;
     }
 }
