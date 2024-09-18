@@ -40,6 +40,16 @@ public class HoldInteractionClass : InteractionClass
         rig_ = GetComponent<Rigidbody>();
     }
 
+
+    //Try to fix this if at all possible.
+    private void FixedUpdate()
+    {
+        if(currentHolder && currentHolder.position != this.transform.position && !currentHolder.GetComponentInParent<FPSController>())
+        {
+            setObject(currentHolder.GetChild(0).position, currentHolder.GetChild(0).rotation);
+        }
+    }
+
     public override void Interact(Vector3 newPos, Quaternion newRot, Transform obj)
     {
         //Set the object to be held.
@@ -101,7 +111,10 @@ public class HoldInteractionClass : InteractionClass
         {
             if (anchorObject && currentHolder)
             {
-                controller.setAngle(currentHolder.GetComponentInParent<Transform>().position - anchorObject.position);
+                Vector3 dir = currentHolder.GetComponentInParent<Transform>().position - anchorObject.position;
+                //dir = Quaternion.Inverse(this.transform.rotation) * dir;
+
+                controller.setAngle(dir);
             }
         } else
         {

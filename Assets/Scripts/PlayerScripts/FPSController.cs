@@ -297,14 +297,18 @@ public class FPSController : MonoBehaviour
                 }
                 else
                 {
-                    //If not holding an item, try to pick up item from the positionInteraction.
-                    if (hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem() &&
-                        hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem().isInteractionType(InteractionClass.interactionType.player))
+                    if (!holdingItem)
                     {
-                        setHeldItem(hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem());
-                        hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem().Interact(playerHand.position, playerHand.rotation, playerHand);
+                        //If not holding an item, try to pick up item from the positionInteraction.
+                        if (hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem() &&
+                            hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem().isInteractionType(InteractionClass.interactionType.player))
+                        {
+                            setHeldItem(hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem());
+                            hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem().Interact(playerHand.position, playerHand.rotation, playerHand);
 
+                        }
                     }
+
                 }
 
                 //Interactions that change the player controller.

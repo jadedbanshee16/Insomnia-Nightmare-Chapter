@@ -33,6 +33,8 @@ public class InteractionControlClass : MonoBehaviour
         rad1 = rad1 * Mathf.Rad2Deg;
         rad1 = rad1 - 90;
 
+        float deg1 = Vector3.Angle(-dir, Vector3.forward);
+
         JointSpring spring = new JointSpring();
         spring.targetPosition = rad1;
         spring.spring = 100;
