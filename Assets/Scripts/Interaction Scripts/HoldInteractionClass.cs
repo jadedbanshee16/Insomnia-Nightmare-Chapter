@@ -111,10 +111,10 @@ public class HoldInteractionClass : InteractionClass
         {
             if (anchorObject && currentHolder)
             {
-                Vector3 dir = currentHolder.GetComponentInParent<Transform>().position - anchorObject.position;
+                Vector3 dir = currentHolder.GetComponentInChildren<Transform>().position - anchorObject.position;
                 //dir = Quaternion.Inverse(this.transform.rotation) * dir;
 
-                controller.setAngle(dir);
+                controller.setAngle(dir.normalized);
             }
         } else
         {
@@ -164,7 +164,6 @@ public class HoldInteractionClass : InteractionClass
                 newObject.GetComponent<LockObjectClass>().setIsOn(!newObject.GetComponent<EnergyObjectClass>().getIsOn());
                 newObject.GetComponent<LockObjectClass>().useObject();
             }
-
         }
     }
 
