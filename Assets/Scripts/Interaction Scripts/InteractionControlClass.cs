@@ -8,6 +8,11 @@ public class InteractionControlClass : MonoBehaviour
 
     InteractionIndicatorScript indicator;
 
+    AudioSource aud_;
+
+    [SerializeField]
+    AudioClip[] clips;
+
     //Set the position of this current object to a given other position.
     public void setPosition(Vector3 pos, Quaternion rot)
     {
@@ -88,6 +93,23 @@ public class InteractionControlClass : MonoBehaviour
                 indicator.switchToOff();
             }
         }
+
+    }
+
+    //A function to play a given audio clip.
+    public void playInteractionAudio(int ind)
+    {
+        aud_ = GetComponent<AudioSource>();
+
+        if(aud_ && clips.Length > 0)
+        {
+            if(clips.Length > ind)
+            {
+                aud_.PlayOneShot(clips[ind]);
+            }
+            
+        }
+
 
     }
 

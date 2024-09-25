@@ -30,6 +30,8 @@ public class PositionInteractionClass : InteractionClass
 
         //When run, then input connected item into the holdInteraction class.
         currentHeldItem.setSystem(connectedObject);
+
+        controller.playInteractionAudio(0);
     }
 
     public virtual void setCurrentHeldItem(HoldInteractionClass c)
@@ -42,7 +44,7 @@ public class PositionInteractionClass : InteractionClass
         return currentHeldItem;
     }
 
-    public bool canHoldItem(GameObject obj)
+    public bool canHoldItem(GameObject obj, bool auto)
     {
         bool canHold = false;
 
@@ -55,6 +57,13 @@ public class PositionInteractionClass : InteractionClass
         }
 
         if (currentHeldItem)
+        {
+            canHold = false;
+        }
+
+        if( auto && obj.GetComponent<HoldInteractionClass>() && 
+            obj.GetComponent<HoldInteractionClass>().getCurrentHolder() != null && 
+            obj.GetComponent<HoldInteractionClass>().getCurrentHolder().GetComponentInParent<FPSController>())
         {
             canHold = false;
         }
@@ -88,7 +97,7 @@ public class PositionInteractionClass : InteractionClass
     private void OnTriggerStay(Collider other)
     {
         //Only see if trigger if this object is an autoposition.
-        if (hasPermission(interactionType.autoPosition) && canHoldItem(other.gameObject))
+        if (hasPermission(interactionType.autoPosition) && canHoldItem(other.gameObject, true))
         {
             //If met, the interact with object.
             Interact(other.gameObject);

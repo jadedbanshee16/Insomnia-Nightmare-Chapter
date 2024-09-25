@@ -13,7 +13,8 @@ public class InteractionClass : MonoBehaviour
         player,
         generalPosition,
         powerPosition,
-        autoPosition
+        autoPosition,
+        secondaryInteraction
     }
 
 
@@ -50,6 +51,12 @@ public class InteractionClass : MonoBehaviour
     public virtual void Interact(GameObject obj)
     {
         controller.setAnimation("Pressed");
+    }
+
+    //A function that completes a secondary or minor interaction.
+    public virtual void secondaryInteract()
+    {
+        //This does nothing here.
     }
 
     //See if the inputted interaction type is on the list of permitted interactions.
@@ -138,9 +145,8 @@ public class InteractionClass : MonoBehaviour
                 if(i != hasType)
                 {
                     newPermissionList[currentIndex] = permittedInteractions[i];
+                    currentIndex++;
                 }
-
-                currentIndex++;
             }
 
             permittedInteractions = newPermissionList;

@@ -34,6 +34,8 @@ public class GeneratorInteractionClass : InteractionClass
 
         controller.setIndicator(isOn);
 
+        controller.playInteractionAudio(0);
+
         setObject();
     }
 

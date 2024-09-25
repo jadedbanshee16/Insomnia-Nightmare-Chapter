@@ -20,6 +20,19 @@ public class ScreenObjectClass : EnergyObjectClass
     [SerializeField]
     private EnergyObjectClass affectedObj;
 
+    [SerializeField]
+    private MeshRenderer thescreen;
+
+    [SerializeField]
+    private Material screenMatOn;
+    [SerializeField]
+    private Material screenMatOff;
+
+    [SerializeField]
+    private String[] messages;
+
+
+
     private void Start()
     {
         currentCode = "";
@@ -49,7 +62,11 @@ public class ScreenObjectClass : EnergyObjectClass
     {
         if (isPowered)
         {
-            currentCode = currentCode.Substring(0, currentCode.Length - 1);
+            if(currentCode.Length > 0)
+            {
+                currentCode = currentCode.Substring(0, currentCode.Length - 1);
+            }
+
 
             displayText(currentCode);
         }
@@ -92,9 +109,23 @@ public class ScreenObjectClass : EnergyObjectClass
         if (isPowered)
         {
             tex_.text = s;
+
+            if(thescreen)
+            {
+                Material[] mats = thescreen.materials;
+                mats[1] = screenMatOn;
+                thescreen.materials = mats;
+            }
         } else
         {
-            tex_.text = "err: No pwr";
+            if(thescreen)
+            {
+                Material[] mats = thescreen.materials;
+                mats[1] = screenMatOff;
+                thescreen.materials = mats;
+            }
+
+            tex_.text = messages[0];
         }
 
     }

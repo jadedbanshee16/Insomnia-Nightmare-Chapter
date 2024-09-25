@@ -33,8 +33,11 @@ public class HoldInteractionClass : InteractionClass
     [SerializeField]
     float stretchThreshold;
 
+    private bool playOnce;
+
     private void Start()
     {
+        playOnce = false;
         setController();
 
         rig_ = GetComponent<Rigidbody>();
@@ -69,6 +72,7 @@ public class HoldInteractionClass : InteractionClass
             {
                 currentHolder.gameObject.GetComponent<PositionInteractionClass>().setCurrentHeldItem(null);
                 setSystem(null);
+                playOnce = false;
             }
         }
 
@@ -76,6 +80,11 @@ public class HoldInteractionClass : InteractionClass
 
         //Set the animation of the controller.
         setObject(newPos, newRot);
+    }
+
+    public override void secondaryInteract()
+    {
+        controller.playInteractionAudio(1);
     }
 
     //Set this current object with the position and rotation of new 
@@ -120,6 +129,15 @@ public class HoldInteractionClass : InteractionClass
         {
             controller.setPosition(newPos, rot);
         }
+
+        if (!playOnce)
+        {
+            if (currentHolder && !currentHolder.GetComponent<PositionInteractionClass>())
+            {
+                controller.playInteractionAudio(0);
+                playOnce = true;
+            }
+        }
     }
 
     public void removeHeld()
@@ -130,6 +148,8 @@ public class HoldInteractionClass : InteractionClass
 
         //To tell controller to remove angle targets.
         controller.unsetAngle();
+
+        playOnce = false;
     }
 
     //Sets the system if the object is connected to a system.

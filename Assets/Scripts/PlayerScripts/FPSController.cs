@@ -14,7 +14,7 @@ public class FPSController : MonoBehaviour
         die
     }
 
-
+    [HeaderAttribute("Character Attributes")]
     [SerializeField]
     private Vector3 speedVariations;
     private float moveSpeed;
@@ -26,28 +26,35 @@ public class FPSController : MonoBehaviour
     private Vector2 colliderSizes;
     private float colliderSize;
 
+    [HeaderAttribute("Player Objects")]
     [SerializeField]
     private FPSCamera m_camera;
     [SerializeField]
     private GameObject hitBox;
     private CapsuleCollider m_collider;
     private Rigidbody m_rig;
-
-    [SerializeField]
     private playerStatus currentStatus;
 
     [SerializeField]
     private Transform playerHand;
     [SerializeField]
     private Transform playerHead;
-    public HoldInteractionClass holdingItem;
+    private HoldInteractionClass holdingItem;
+    private GameObject lockingObject;
 
-    public GameObject lockingObject;
+    //Audio based fields.
+    private AudioManager audioManager_;
+    private AudioSource playerSource;
+    int walkingClipLength;
+    int runningClipLength;
+
+    public float footstepTime = 1;
+    private float footstepTimer = 0;
 
     private float interactionCooldown = 0.5f;
     private float interactionTimer = 0;
 
-    private bool movementLocked;
+    public bool movementLocked;
     private bool interactionLocked;
 
     // Start is called before the first frame update
@@ -63,6 +70,13 @@ public class FPSController : MonoBehaviour
 
         movementLocked = false;
         interactionLocked = false;
+
+        //Set the audio system.
+        audioManager_ = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AudioManager>();
+        playerSource = GetComponent<AudioSource>();
+
+        walkingClipLength = audioManager_.getCurrentClipLength(0);
+        runningClipLength = audioManager_.getCurrentClipLength(1);
 
     }
 
@@ -82,7 +96,7 @@ public class FPSController : MonoBehaviour
         }
 
         //If holding the item, set the item to current playerHand position.
-        if (holdingItem)
+        if (holdingItem && holdingItem.GetComponent<InteractionClass>())
         {
             holdingItem.GetComponent<InteractionClass>().Interact(playerHand.position, playerHand.rotation, playerHand);
         }
@@ -104,38 +118,46 @@ public class FPSController : MonoBehaviour
     //Keep all player movement.
     private void Move()
     {
+        bool didMove = false;
+
         //Get an input from keyboard. If so, make a move. For forward and back
         if (Input.GetKey(KeyCode.W))
         {
             m_rig.position += transform.forward * Time.deltaTime * moveSpeed;
-            currentStatus = playerStatus.walk;
+            didMove = true;
         }
         else if (Input.GetKey(KeyCode.S))
         {
             m_rig.position -= transform.forward * Time.deltaTime * moveSpeed;
-            currentStatus = playerStatus.walk;
+            didMove = true;
         }
         //Get input from keyboard. Id so, make a move. For left and right.
         if (Input.GetKey(KeyCode.A))
         {
             m_rig.position -= transform.right * Time.deltaTime * moveSpeed;
-            currentStatus = playerStatus.walk;
+            didMove = true;
         }
         else if (Input.GetKey(KeyCode.D))
         {
             m_rig.position += transform.right * Time.deltaTime * moveSpeed;
-            currentStatus = playerStatus.walk;
+            didMove = true;
         }
+
+        currentStatus = playerStatus.walk;
 
         //Create the crouch buttons.
         if (Input.GetKey(KeyCode.LeftControl))
         {
             moveSpeed = speedVariations.x;
             currentStatus = playerStatus.crouch;
+
+            didMove = true;
         }
         else if (Input.GetKeyUp(KeyCode.LeftControl))
         {
             currentStatus = playerStatus.walk;
+
+            footstepTimer = footstepTime;
         }
 
         //Set up the running.
@@ -143,6 +165,8 @@ public class FPSController : MonoBehaviour
         {
             moveSpeed = speedVariations.z;
             currentStatus = playerStatus.run;
+
+            didMove = true;
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
@@ -160,7 +184,25 @@ public class FPSController : MonoBehaviour
             colliderSize += Time.fixedDeltaTime;
         }
 
-        m_camera.changeHeadBob((int)currentStatus);
+        if (didMove)
+        {
+            m_camera.changeHeadBob((int)currentStatus);
+
+            //Audio play.
+            if (footstepTimer > 0)
+            {
+                footstepTimer -= Time.deltaTime * moveSpeed * 1.5f;
+            }
+            else
+            {
+                makeRandomFootstep();
+                footstepTimer = footstepTime;
+            }
+        } else
+        {
+            footstepTimer = 0;
+        }
+        
 
         m_collider.height = colliderSize;
     }
@@ -279,6 +321,12 @@ public class FPSController : MonoBehaviour
                         //Make the interact happen.
                         hitPoint.collider.GetComponent<InteractionClass>().Interact(playerHand.position, playerHand.rotation, playerHand);
                         setHeldItem(hitPoint.collider.GetComponent<HoldInteractionClass>());
+
+                    //If available for a secondary interaction, then interact.
+                    } else if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.secondaryInteraction))
+                    {
+                        Debug.Log("Secondary?");
+                        hitPoint.collider.GetComponent<InteractionClass>().secondaryInteract();
                     }
                 }
 
@@ -289,11 +337,12 @@ public class FPSController : MonoBehaviour
                 interactionTimer = interactionCooldown;
 
                 //Make the interact happen.
-                if (holdingItem && hitPoint.collider.GetComponent<PositionInteractionClass>().canHoldItem(holdingItem.gameObject))
+                if (holdingItem && hitPoint.collider.GetComponent<PositionInteractionClass>().canHoldItem(holdingItem.gameObject, false))
                 {
                     hitPoint.collider.GetComponent<InteractionClass>().Interact(holdingItem.gameObject);
                     removeHeldItem();
 
+                //Potential to still be interacted with in some way, even if this item cannot be held.
                 }
                 else
                 {
@@ -376,6 +425,23 @@ public class FPSController : MonoBehaviour
 
 
         return trans;
+    }
+
+    private void makeRandomFootstep()
+    {
+        int randNum = 0;
+
+        if (moveSpeed > 1)
+        {
+            randNum = (int)UnityEngine.Random.Range(0f, (float)runningClipLength);
+
+            playerSource.PlayOneShot(audioManager_.getAudio(1, randNum));
+        } else
+        {
+            randNum = (int)UnityEngine.Random.Range(0f, (float)walkingClipLength);
+            playerSource.PlayOneShot(audioManager_.getAudio(0, randNum));
+        }
+            
     }
 
     //A function to set the locked section.

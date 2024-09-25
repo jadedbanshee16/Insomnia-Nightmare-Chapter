@@ -10,6 +10,9 @@ public class LockObjectClass : EnergyObjectClass
     [SerializeField]
     PositionInteractionClass connectedLockPosition;
 
+    [SerializeField]
+    LockObjectClass pairedLock;
+
     //A function to set the energy manager of this object.
     public override void setEnergyManager(GridManager man)
     {
@@ -31,6 +34,10 @@ public class LockObjectClass : EnergyObjectClass
     //A function that will make the object be used if it is powered on on.
     public override void useObject()
     {
+        if (pairedLock)
+        {
+            pairedLock.setIsOn(isOn);
+        }
         //If the object is powered and is on, then switch material to the on materials and turn on light.
         //If not, turn them off.
         if (isPowered && !isOn)
