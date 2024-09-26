@@ -21,11 +21,6 @@ public class AnimationObject : EnergyObjectClass
     //A function that will make the object be used if it is powered on on.
     public override void useObject()
     {
-        if (!controller)
-        {
-            controller = GetComponent<InteractionControlClass>();
-        }
-
         //If the object is powered and is on, then use the animation 'isOn' is any given animation.
         if (isPowered && isOn)
         {
@@ -33,12 +28,6 @@ public class AnimationObject : EnergyObjectClass
             controller.playInteractionAudio(0);
 
             wasOn = true;
-
-            //This is in case audio or other such things need to be played here.
-            if (controller)
-            {
-                
-            }
         }
         else
         {

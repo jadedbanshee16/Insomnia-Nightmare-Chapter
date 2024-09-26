@@ -120,6 +120,8 @@ public class InteractionControlClass : MonoBehaviour
     //A function to update this interaction control.
     public void updateThisInteraction()
     {
+        Debug.Log("Update to: " + this.gameObject.name);
+        
         anim_ = GetComponentInChildren<Animator>();
 
         indicator = GetComponentInChildren<InteractionIndicatorScript>();
