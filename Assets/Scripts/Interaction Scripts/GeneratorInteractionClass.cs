@@ -13,6 +13,8 @@ public class GeneratorInteractionClass : InteractionClass
     [SerializeField]
     float maxPower;
 
+    private bool wasOn;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,10 +50,24 @@ public class GeneratorInteractionClass : InteractionClass
             {
                 powerManager.setGenerator(true);
                 powerManager.setGeneratorPower(maxPower);
+                controller.playInteractionAudio(2);
+                controller.playInteractionAudio(3);
+                controller.playInbuiltAudio(0.8f, true);
+
+                wasOn = true;
 
             } else
             {
                 powerManager.setGeneratorPower(0);
+
+                if (wasOn)
+                {
+                    controller.playInbuiltAudio(0, false);
+                    controller.playInteractionAudio(3);
+
+                    wasOn = false;
+                }
+
             }
         }
     }

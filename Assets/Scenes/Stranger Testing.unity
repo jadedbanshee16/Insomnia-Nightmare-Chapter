@@ -6129,7 +6129,7 @@ PrefabInstance:
         type: 3}
       propertyPath: clips.Array.data[0]
       value: 
-      objectReference: {fileID: 8300000, guid: 542081404603e433b8a311def57beb0f, type: 3}
+      objectReference: {fileID: 8300000, guid: 1be86b1f3892dc3488cfa2ffe2093e41, type: 3}
     - target: {fileID: 8479432578929759305, guid: 2d6a8cb8a2f232f4abdfeb4ce1b8023f,
         type: 3}
       propertyPath: pairedLock
@@ -6144,7 +6144,7 @@ PrefabInstance:
         type: 3}
       propertyPath: clips.Array.data[0]
       value: 
-      objectReference: {fileID: 8300000, guid: 542081404603e433b8a311def57beb0f, type: 3}
+      objectReference: {fileID: 8300000, guid: 1be86b1f3892dc3488cfa2ffe2093e41, type: 3}
     - target: {fileID: 8947458990774748483, guid: 2d6a8cb8a2f232f4abdfeb4ce1b8023f,
         type: 3}
       propertyPath: clips.Array.size
@@ -6824,33 +6824,43 @@ PrefabInstance:
     - target: {fileID: 465126192879898776, guid: b61cfa80d04be2c458bccfbab9523cb4,
         type: 3}
       propertyPath: clips.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 465126192879898776, guid: b61cfa80d04be2c458bccfbab9523cb4,
         type: 3}
-      propertyPath: clips.Array.data[0]
+      propertyPath: clips.Array.data[2]
       value: 
-      objectReference: {fileID: 8300000, guid: 1f7c72d7f348183439f9bd7abcc2c264, type: 3}
+      objectReference: {fileID: 8300000, guid: 56c7ad2bedbbf3a4cbb0173ec0e9d740, type: 3}
     - target: {fileID: 465126192879898776, guid: b61cfa80d04be2c458bccfbab9523cb4,
         type: 3}
-      propertyPath: clips.Array.data[1]
+      propertyPath: clips.Array.data[3]
       value: 
-      objectReference: {fileID: 8300000, guid: 1f7c72d7f348183439f9bd7abcc2c264, type: 3}
-    - target: {fileID: 2310305654513220686, guid: b61cfa80d04be2c458bccfbab9523cb4,
+      objectReference: {fileID: 8300000, guid: 756116c850111024dafcf2544d5cc905, type: 3}
+    - target: {fileID: 2299072711668270439, guid: b61cfa80d04be2c458bccfbab9523cb4,
         type: 3}
-      propertyPath: clips.Array.size
-      value: 2
+      propertyPath: Loop
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2310305654513220686, guid: b61cfa80d04be2c458bccfbab9523cb4,
+    - target: {fileID: 2299072711668270439, guid: b61cfa80d04be2c458bccfbab9523cb4,
         type: 3}
-      propertyPath: clips.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: 23db2906a379567449187aa00968fc1b, type: 3}
-    - target: {fileID: 2310305654513220686, guid: b61cfa80d04be2c458bccfbab9523cb4,
+      propertyPath: MaxDistance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2299072711668270439, guid: b61cfa80d04be2c458bccfbab9523cb4,
         type: 3}
-      propertyPath: clips.Array.data[1]
+      propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 23db2906a379567449187aa00968fc1b, type: 3}
+      objectReference: {fileID: 8300000, guid: c502041826854664683f9914f63427b0, type: 3}
+    - target: {fileID: 2299072711668270439, guid: b61cfa80d04be2c458bccfbab9523cb4,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2299072711668270439, guid: b61cfa80d04be2c458bccfbab9523cb4,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5787790948845124760, guid: b61cfa80d04be2c458bccfbab9523cb4,
         type: 3}
       propertyPath: m_Name
@@ -7017,22 +7027,22 @@ PrefabInstance:
     - target: {fileID: 8377532855792351211, guid: 8146add63ddf1ae4bab1348927d134d5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9975127
+      value: 0.99751264
       objectReference: {fileID: 0}
     - target: {fileID: 8377532855792351211, guid: 8146add63ddf1ae4bab1348927d134d5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.049025044
+      value: 0.04902503
       objectReference: {fileID: 0}
     - target: {fileID: 8377532855792351211, guid: 8146add63ddf1ae4bab1348927d134d5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.050585836
+      value: 0.050585866
       objectReference: {fileID: 0}
     - target: {fileID: 8377532855792351211, guid: 8146add63ddf1ae4bab1348927d134d5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0024861582
+      value: -0.0024861544
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

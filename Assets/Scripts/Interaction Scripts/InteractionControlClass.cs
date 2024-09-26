@@ -107,8 +107,21 @@ public class InteractionControlClass : MonoBehaviour
             }
             
         }
+    }
 
-
+    public void playInbuiltAudio(float delay, bool isOn)
+    {
+        if(aud_ && aud_.clip != null)
+        {
+            if (isOn)
+            {
+                aud_.PlayDelayed(delay);
+            } else
+            {
+                aud_.Stop();
+            }
+            
+        }
     }
 
     //Return the amount of clips in the clips section.
