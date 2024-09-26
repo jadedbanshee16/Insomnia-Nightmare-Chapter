@@ -325,7 +325,6 @@ public class FPSController : MonoBehaviour
                     //If available for a secondary interaction, then interact.
                     } else if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.secondaryInteraction))
                     {
-                        Debug.Log("Secondary?");
                         hitPoint.collider.GetComponent<InteractionClass>().secondaryInteract();
                     }
                 }

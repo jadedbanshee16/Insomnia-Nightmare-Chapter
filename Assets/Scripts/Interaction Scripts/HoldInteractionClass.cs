@@ -6,6 +6,7 @@ using UnityEngine;
 public class HoldInteractionClass : InteractionClass
 {
     public bool isHeld;
+    private bool wasHeld;
 
     //Keep the object that this item is designed to be connected to. This is for plugs and such.
     [SerializeField]
@@ -67,6 +68,7 @@ public class HoldInteractionClass : InteractionClass
             }
         } else
         {
+            wasHeld = true;
             //If already held, remove the current holder if it is not player.
             if (currentHolder && currentHolder.gameObject.GetComponent<PositionInteractionClass>())
             {
@@ -84,7 +86,7 @@ public class HoldInteractionClass : InteractionClass
 
     public override void secondaryInteract()
     {
-        controller.playInteractionAudio(1);
+        controller.playInteractionAudio(2);
     }
 
     //Set this current object with the position and rotation of new 
@@ -134,7 +136,15 @@ public class HoldInteractionClass : InteractionClass
         {
             if (currentHolder && !currentHolder.GetComponent<PositionInteractionClass>())
             {
-                controller.playInteractionAudio(0);
+                if (!wasHeld)
+                {
+                    controller.playInteractionAudio(1);
+                } else
+                {
+                    controller.playInteractionAudio(0);
+                }
+
+                
                 playOnce = true;
             }
         }
@@ -143,6 +153,7 @@ public class HoldInteractionClass : InteractionClass
     public void removeHeld()
     {
         isHeld = false;
+        wasHeld = false;
         currentHolder = null;
         rig_.isKinematic = false;
 

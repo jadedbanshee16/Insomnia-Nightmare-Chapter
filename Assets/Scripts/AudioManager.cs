@@ -22,8 +22,7 @@ public class AudioManager : MonoBehaviour
 
     walkingStatus status = walkingStatus.metal;
 
-    // Start is called before the first frame update
-    void Start()
+    public void setUpManager()
     {
         allRunning = new AudioClip[1][];
         allRunning[0] = metalRunning;

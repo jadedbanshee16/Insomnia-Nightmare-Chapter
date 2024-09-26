@@ -99,8 +99,6 @@ public class InteractionControlClass : MonoBehaviour
     //A function to play a given audio clip.
     public void playInteractionAudio(int ind)
     {
-        aud_ = GetComponent<AudioSource>();
-
         if(aud_ && clips.Length > 0)
         {
             if(clips.Length > ind)
@@ -111,6 +109,12 @@ public class InteractionControlClass : MonoBehaviour
         }
 
 
+    }
+
+    //Return the amount of clips in the clips section.
+    public int getAudioLength()
+    {
+        return clips.Length;
     }
 
     //A function to update this interaction control.
@@ -124,6 +128,8 @@ public class InteractionControlClass : MonoBehaviour
         {
             indicator.switchToOff();
         }
+
+        aud_ = GetComponent<AudioSource>();
     }
 
     //A function to get the current transform of this object.

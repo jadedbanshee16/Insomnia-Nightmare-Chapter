@@ -17,15 +17,15 @@ public class SystemManager : MonoBehaviour
     [SerializeField]
     float currentPower;
 
-    //Generator gen;
-    private void Awake()
+    //Update this grid system.
+    public void setManager()
     {
-        for(int i = 0; i < managers.Length; i++)
+        for (int i = 0; i < managers.Length; i++)
         {
             managers[i].updateTheGrid();
         }
 
-        if(generatorPower > 0)
+        if (generatorPower > 0)
         {
             generatorPowered = true;
         }

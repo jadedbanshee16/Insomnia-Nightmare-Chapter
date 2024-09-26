@@ -23,17 +23,14 @@ public class InputInteractionClass : InteractionClass
     //The main interaction. A player may call this for an interaction. So far, it will just run an animation to begin with.
     public override void Interact()
     {
-        //Set the animation of the controller.
-        if (controller)
-        {
-            controller.setAnimation("Pressed");
-        }
+        controller.setAnimation("Pressed");
 
 
 
         if (String.Equals(input, "%DELETE"))
         {
             screen.clearString();
+            controller.playInteractionAudio(1);
         } else if (String.Equals(input, "%ENTER"))
         {
             //Now set object based on affected object in the screen.
@@ -41,13 +38,18 @@ public class InputInteractionClass : InteractionClass
             {
                 setObject(screen.getAffectedObject());
             }
-            
+
+            controller.playInteractionAudio(1);
+
         } else if (String.Equals(input, "%BACKSPACE"))
         {
             screen.removeString();
+            controller.playInteractionAudio(1);
         } else
         {
             screen.addString(input);
+
+            controller.playInteractionAudio((int)UnityEngine.Random.Range(2,  controller.getAudioLength() - 1));
         }
     }
 

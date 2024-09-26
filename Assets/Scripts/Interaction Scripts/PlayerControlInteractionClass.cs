@@ -25,6 +25,8 @@ public class PlayerControlInteractionClass : InteractionClass
     {
         controller.setAnimation("Pressed");
 
+        controller.playInteractionAudio(0);
+
 
         //Set the player.
         if (!player_ && obj.GetComponent<FPSController>())
