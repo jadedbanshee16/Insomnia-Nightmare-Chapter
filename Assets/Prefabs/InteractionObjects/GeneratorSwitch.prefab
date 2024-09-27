@@ -50,7 +50,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clips:
   - {fileID: 8300000, guid: 1f7c72d7f348183439f9bd7abcc2c264, type: 3}
-  - {fileID: 8300000, guid: 1f7c72d7f348183439f9bd7abcc2c264, type: 3}
+  - {fileID: 8300000, guid: 56c7ad2bedbbf3a4cbb0173ec0e9d740, type: 3}
+  - {fileID: 8300000, guid: 756116c850111024dafcf2544d5cc905, type: 3}
+  - {fileID: 8300000, guid: 67533b85bdc93b643963dbf1e22569eb, type: 3}
+  activeObjects: []
 --- !u!114 &4274510720914093487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,20 +101,20 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_audioClip: {fileID: 8300000, guid: c502041826854664683f9914f63427b0, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.564
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 5
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -144,7 +147,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

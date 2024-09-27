@@ -5,7 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(InteractionControlClass))]
 public class AnimationObject : EnergyObjectClass
 {
-    InteractionControlClass controller;
 
     bool wasOn = true;
 
@@ -40,17 +39,5 @@ public class AnimationObject : EnergyObjectClass
                 wasOn = false;
             }
         }
-    }
-
-    //A function to set the energy manager of this object.
-    public override void setEnergyManager(GridManager man)
-    {
-        energyManager = man;
-
-        //When manager is set, set on depending on energyObject type. Default is off.
-        isOn = false;
-
-        //Set any components that needed to be made.
-        controller = GetComponent<InteractionControlClass>();
     }
 }

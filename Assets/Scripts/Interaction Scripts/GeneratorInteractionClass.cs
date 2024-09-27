@@ -50,8 +50,8 @@ public class GeneratorInteractionClass : InteractionClass
             {
                 powerManager.setGenerator(true);
                 powerManager.setGeneratorPower(maxPower);
+                controller.playInteractionAudio(1);
                 controller.playInteractionAudio(2);
-                controller.playInteractionAudio(3);
                 controller.playInbuiltAudio(0.8f, true);
 
                 wasOn = true;

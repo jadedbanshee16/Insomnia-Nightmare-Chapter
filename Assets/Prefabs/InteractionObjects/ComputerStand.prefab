@@ -254,7 +254,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4299479650747205512}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.049025044, y: 0.050585836, z: -0.0024861582, w: 0.9975127}
+  m_LocalRotation: {x: 0.049025003, y: 0.050585706, z: -0.002486148, w: 0.99751264}
   m_LocalPosition: {x: -0.014000788, y: 0.263, z: -0.24000046}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -414,6 +414,7 @@ GameObject:
   - component: {fileID: 1273964585622168906}
   - component: {fileID: 5252145202222524609}
   - component: {fileID: 3118759462975382400}
+  - component: {fileID: 5906524330388097093}
   m_Layer: 0
   m_Name: ComputerStand
   m_TagString: Untagged
@@ -490,6 +491,20 @@ MonoBehaviour:
   screenMatOff: {fileID: 2100000, guid: c22fd55d7a9c02841a626faade05de5f, type: 2}
   messages:
   - 
+--- !u!114 &5906524330388097093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7263003531291352483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae737c7b56583254db7dcf7a20769655, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips: []
+  activeObjects: []
 --- !u!1 &8798765386156817797
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,6 +610,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0d54653003bc3524ab6b64cac060bd52, type: 3}
   - {fileID: 8300000, guid: 89dc6bbba2ae6c54a9e835dbe6fbf288, type: 3}
   - {fileID: 8300000, guid: 9b05bf85194a6994e87a326b55b12087, type: 3}
+  activeObjects: []
 --- !u!114 &3460202210434202416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,9 +660,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 2
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0

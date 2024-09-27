@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class LightObjectClass : EnergyObjectClass
 {
-    [SerializeField]
-    Material[] switchMats;
-
-    [SerializeField]
-    GameObject litObj;
-
     MeshRenderer rend_;
 
     //A function that will power the current object.
@@ -28,12 +22,12 @@ public class LightObjectClass : EnergyObjectClass
         //If not, turn them off.
         if (isPowered && isOn)
         {
-            rend_.material = switchMats[0];
-            litObj.SetActive(true);
+            controller.setIndicator(isOn);
+            controller.setActive(isOn);
         } else
         {
-            rend_.material = switchMats[1];
-            litObj.SetActive(false);
+            controller.setIndicator(false);
+            controller.setActive(false);
         }
     }
 
@@ -47,5 +41,7 @@ public class LightObjectClass : EnergyObjectClass
 
         //Set any components that needed to be made.
         rend_ = GetComponentInChildren<MeshRenderer>();
+
+        controller = GetComponent<InteractionControlClass>();
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine;
 
 This is for all objects which require energy to function. This includes electric doors, screens, lights, etc.
 */
+[RequireComponent(typeof(InteractionControlClass))]
 public class EnergyObjectClass : MonoBehaviour
 {
     [SerializeField]
@@ -19,6 +20,8 @@ public class EnergyObjectClass : MonoBehaviour
     protected bool isPowered;
 
     protected GridManager energyManager;
+
+    protected InteractionControlClass controller;
 
     //A function that will power the current object.
     public virtual void powerObject(bool b)
@@ -42,6 +45,9 @@ public class EnergyObjectClass : MonoBehaviour
 
         //When manager is set, set on depending on energyObject type. Default is off.
         isOn = false;
+
+        //Set any components that needed to be made.
+        controller = GetComponent<InteractionControlClass>();
     }
 
     //Return the amount of energy this object uses.

@@ -13,6 +13,9 @@ public class InteractionControlClass : MonoBehaviour
     [SerializeField]
     AudioClip[] clips;
 
+    [SerializeField]
+    GameObject[] activeObjects;
+
     //Set the position of this current object to a given other position.
     public void setPosition(Vector3 pos, Quaternion rot)
     {
@@ -109,6 +112,7 @@ public class InteractionControlClass : MonoBehaviour
         }
     }
 
+    //A function which would play the inbuilt audio clip using a delay.
     public void playInbuiltAudio(float delay, bool isOn)
     {
         if(aud_ && aud_.clip != null)
@@ -121,6 +125,18 @@ public class InteractionControlClass : MonoBehaviour
                 aud_.Stop();
             }
             
+        }
+    }
+
+    //Set the objects meant to be active to and from active.
+    public void setActive(bool isOn)
+    {
+        if(activeObjects.Length > 0)
+        {
+            for(int i = 0; i < activeObjects.Length; i++)
+            {
+                activeObjects[i].SetActive(isOn);
+            }
         }
     }
 
