@@ -328,6 +328,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   energyUsage: 20
   isOn: 0
+  amountInteractionsNeeded: 1
+  amountOn: 0
   isPowered: 0
 --- !u!114 &70889184
 MonoBehaviour:
@@ -2019,6 +2021,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   energyUsage: 20
   isOn: 0
+  amountInteractionsNeeded: 1
+  amountOn: 0
   isPowered: 0
 --- !u!114 &576547552
 MonoBehaviour:
@@ -3289,6 +3293,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   energyUsage: 20
   isOn: 0
+  amountInteractionsNeeded: 1
+  amountOn: 0
   isPowered: 0
 --- !u!114 &1201999591
 MonoBehaviour:
@@ -3498,6 +3504,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   energyUsage: 20
   isOn: 1
+  amountInteractionsNeeded: 1
+  amountOn: 0
   isPowered: 0
 --- !u!114 &1352556979
 MonoBehaviour:
@@ -3909,6 +3917,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   energyUsage: 20
   isOn: 0
+  amountInteractionsNeeded: 1
+  amountOn: 0
   isPowered: 0
 --- !u!1001 &1493041271
 PrefabInstance:
@@ -4577,6 +4587,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   energyUsage: 20
   isOn: 0
+  amountInteractionsNeeded: 1
+  amountOn: 0
   isPowered: 0
 --- !u!114 &1639021995
 MonoBehaviour:
@@ -5162,7 +5174,6 @@ GameObject:
   - component: {fileID: 1861016711}
   - component: {fileID: 1861016713}
   - component: {fileID: 1861016712}
-  - component: {fileID: 1861016714}
   m_Layer: 0
   m_Name: EnergyObject (6)
   m_TagString: Untagged
@@ -5216,24 +5227,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   energyUsage: 20
   isOn: 0
-  isPowered: 0
---- !u!114 &1861016714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1861016710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34d25c7a721c96948a58853efa4a604a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  amountNeeded: 2
+  amountInteractionsNeeded: 2
   amountOn: 0
-  connectedObjects:
-  - {fileID: 1861016713}
-  - {fileID: 1454374995}
+  isPowered: 0
 --- !u!1 &1890757643
 GameObject:
   m_ObjectHideFlags: 0
@@ -5283,6 +5279,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   energyUsage: 20
   isOn: 0
+  amountInteractionsNeeded: 1
+  amountOn: 0
   isPowered: 0
 --- !u!114 &1890757646
 MonoBehaviour:
@@ -6158,6 +6156,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1522350484}
     m_Modifications:
+    - target: {fileID: 1228102130210077818, guid: 85ff3962868fb8a4299b20c9d586629d,
+        type: 3}
+      propertyPath: amountInteractionsNeeded
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1642686570773949723, guid: 85ff3962868fb8a4299b20c9d586629d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6455,6 +6458,11 @@ PrefabInstance:
       propertyPath: affectedObj
       value: 
       objectReference: {fileID: 1964824818}
+    - target: {fileID: 6982632887244082613, guid: 63a4f69f8ef0535468dfee2c1c5bb2bf,
+        type: 3}
+      propertyPath: amountInteractionsNeeded
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7000875297964931851, guid: 63a4f69f8ef0535468dfee2c1c5bb2bf,
         type: 3}
       propertyPath: MaxDistance
@@ -6827,6 +6835,11 @@ PrefabInstance:
       propertyPath: affectedObj
       value: 
       objectReference: {fileID: 1352556978}
+    - target: {fileID: 3118759462975382400, guid: 8146add63ddf1ae4bab1348927d134d5,
+        type: 3}
+      propertyPath: amountInteractionsNeeded
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7263003531291352483, guid: 8146add63ddf1ae4bab1348927d134d5,
         type: 3}
       propertyPath: m_Name

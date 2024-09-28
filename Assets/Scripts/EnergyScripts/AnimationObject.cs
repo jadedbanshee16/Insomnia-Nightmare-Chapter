@@ -15,6 +15,8 @@ public class AnimationObject : EnergyObjectClass
 
         //Maybe will break. Will find out.
         useObject();
+
+
     }
 
     //A function that will make the object be used if it is powered on on.

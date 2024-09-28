@@ -11,10 +11,15 @@ This is for all objects which require energy to function. This includes electric
 public class EnergyObjectClass : MonoBehaviour
 {
     [SerializeField]
-    int energyUsage;
+    protected int energyUsage;
 
     [SerializeField]
     protected bool isOn;
+
+    [SerializeField]
+    protected int amountInteractionsNeeded = 1;
+    [SerializeField]
+    protected int amountOn;
 
     [SerializeField]
     protected bool isPowered;
@@ -26,7 +31,14 @@ public class EnergyObjectClass : MonoBehaviour
     //A function that will power the current object.
     public virtual void powerObject(bool b)
     {
-        isPowered = b;
+        if(energyUsage == 0)
+        {
+            isPowered = true;
+        } else
+        {
+            isPowered = b;
+        }
+
     }
 
     //A function that will make the object be used if it is powered on on.
@@ -76,6 +88,21 @@ public class EnergyObjectClass : MonoBehaviour
     //Set the current on state of the object.
     public virtual void setIsOn(bool b)
     {
-        isOn = b;
+        Debug.Log("isOn?");
+        if (b)
+        {
+            amountOn++;
+        } else
+        {
+            amountOn--;
+        }
+
+        if(amountOn >= amountInteractionsNeeded)
+        {
+            isOn = true;
+        } else
+        {
+            isOn = false;
+        }
     }
 }

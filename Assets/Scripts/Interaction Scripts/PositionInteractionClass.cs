@@ -39,18 +39,9 @@ public class PositionInteractionClass : InteractionClass
         currentHeldItem = c;
 
         //Complete any connected object interactions if item is removed.
-        //THIS IS SPECIFIC TO ENERGY OBJECTS THAT ARE NOT LOCKED OBJECTS.
-        //This is to ensure that locked objects will stay locked when key is removed, but energy objects will turn off.
-        if (connectedObject && connectedObject.GetComponent<EnergyObjectClass>() && !connectedObject.GetComponent<LockObjectClass>())
+        if (connectedObject && connectedObject.GetComponent<EnergyObjectClass>() && !connectedObject.GetComponent<LockObjectClass>() && currentHeldItem == null)
         {
             connectedObject.GetComponent<EnergyObjectClass>().getEnergyManager().updateObject(connectedObject.GetComponent<EnergyObjectClass>(), false);
-        }
-
-        //If this is a multi energy class, then ensure it turns off. This should only happen with current object in position is null.
-        if (connectedObject &&
-            connectedObject.GetComponent<MultiInteractionEnergyClass>() && c == null)
-        {
-            connectedObject.GetComponent<MultiInteractionEnergyClass>().setIsOn(false);
         }
     }
 

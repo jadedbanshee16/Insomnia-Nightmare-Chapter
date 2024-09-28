@@ -198,12 +198,9 @@ public class HoldInteractionClass : InteractionClass
                 newObject.GetComponent<LockObjectClass>().setIsOn(!newObject.GetComponent<EnergyObjectClass>().getIsOn());
                 newObject.GetComponent<LockObjectClass>().useObject();
             }
-        } else if (newObject && newObject.GetComponent<MultiInteractionEnergyClass>())
-        {
-            newObject.GetComponent<MultiInteractionEnergyClass>().setIsOn(true);
         } else if (newObject && newObject.GetComponent<EnergyObjectClass>() && !newObject.GetComponent<LockObjectClass>())
         {
-            
+            Debug.Log("Updated");
             newObject.GetComponent<EnergyObjectClass>().getEnergyManager().updateObject(newObject.GetComponent<EnergyObjectClass>(), true);
         }
     }
