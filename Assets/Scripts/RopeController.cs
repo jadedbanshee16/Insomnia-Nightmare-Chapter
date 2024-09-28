@@ -19,7 +19,10 @@ public class RopeController : MonoBehaviour
     [SerializeField]
     float breakThreshold;
 
-    public Transform[] segmentPositions;
+    [SerializeField]
+    private float distance;
+
+    private Transform[] segmentPositions;
     LineRenderer line;
     // Start is called before the first frame update
     void Start()
@@ -40,6 +43,8 @@ public class RopeController : MonoBehaviour
             ConfigurableJoint joint = Instantiate(segment, newPos, Quaternion.identity, this.transform.parent).GetComponent<ConfigurableJoint>();
 
             joint.connectedBody = lastPoint;
+
+            joint.anchor = new Vector3(distance, 0, 0);
 
             //Reset the last point, and iterate.
             lastPoint = joint.gameObject.GetComponent<Rigidbody>();

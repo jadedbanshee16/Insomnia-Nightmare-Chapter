@@ -274,7 +274,7 @@ MonoBehaviour:
   currentHolder: {fileID: 0}
   type: 2
   anchorObject: {fileID: 7149220614866168087}
-  anchorThreshold: 2
+  anchorThreshold: 1.5
   stretchThreshold: 0.4
 --- !u!82 &3015072971012848573
 AudioSource:
@@ -499,7 +499,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
@@ -623,12 +623,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc51560c268f82f44b514ea254340754, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  segmentAmount: 15
+  segmentAmount: 6
   finalDestination: {fileID: 1340229294}
   segment: {fileID: 1278187900729356155, guid: d9ccec5e03367ca4c9d5d72a588570b5, type: 3}
   firstAnchor: {fileID: 7149220614866168086}
   breakThreshold: 1
-  segmentPositions: []
+  distance: 2
 --- !u!1 &7149220615164559642
 GameObject:
   m_ObjectHideFlags: 0

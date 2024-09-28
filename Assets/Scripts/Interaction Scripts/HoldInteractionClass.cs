@@ -48,7 +48,7 @@ public class HoldInteractionClass : InteractionClass
     //Try to fix this if at all possible.
     private void FixedUpdate()
     {
-        if(currentHolder && currentHolder.position != this.transform.position && !currentHolder.GetComponentInParent<FPSController>())
+        if(currentHolder && Vector3.Distance(currentHolder.position, this.transform.position) > 0.01f && !currentHolder.GetComponentInParent<FPSController>())
         {
             setObject(currentHolder.GetChild(0).position, currentHolder.GetChild(0).rotation);
         }
@@ -60,25 +60,26 @@ public class HoldInteractionClass : InteractionClass
         if (!isHeld)
         {
             isHeld = true;
-
-            //Ensure kinematic is on only if a hinge is not used.
-            if (!this.GetComponent<HingeJoint>())
-            {
-                rig_.isKinematic = true;
-            }
         } else
         {
             wasHeld = true;
             //If already held, remove the current holder if it is not player.
             if (currentHolder && currentHolder.gameObject.GetComponent<PositionInteractionClass>())
             {
+                playOnce = false;
+                
                 currentHolder.gameObject.GetComponent<PositionInteractionClass>().setCurrentHeldItem(null);
                 setSystem(null);
-                playOnce = false;
             }
         }
 
         currentHolder = obj;
+
+        //Ensure kinematic is on only if a hinge is not used.
+        if (!this.GetComponent<HingeJoint>())
+        {
+            rig_.isKinematic = true;
+        }
 
         //Set the animation of the controller.
         setObject(newPos, newRot);
@@ -176,6 +177,7 @@ public class HoldInteractionClass : InteractionClass
                 {
                     connectedObj.GetComponent<GeneratorInteractionClass>().setManager(newObject.GetComponent<SystemManager>());
                 }
+
             }
             else
             {
@@ -185,9 +187,10 @@ public class HoldInteractionClass : InteractionClass
                 }
             }
         }
-
         //Other possible systems including:
         //The lock class.
+        //MultiInteraction class
+        //Energy class
         if (newObject && newObject.GetComponent<LockObjectClass>())
         {
             if (newObject.GetComponent<LockObjectClass>().checkLock())
@@ -195,6 +198,13 @@ public class HoldInteractionClass : InteractionClass
                 newObject.GetComponent<LockObjectClass>().setIsOn(!newObject.GetComponent<EnergyObjectClass>().getIsOn());
                 newObject.GetComponent<LockObjectClass>().useObject();
             }
+        } else if (newObject && newObject.GetComponent<MultiInteractionEnergyClass>())
+        {
+            newObject.GetComponent<MultiInteractionEnergyClass>().setIsOn(true);
+        } else if (newObject && newObject.GetComponent<EnergyObjectClass>() && !newObject.GetComponent<LockObjectClass>())
+        {
+            
+            newObject.GetComponent<EnergyObjectClass>().getEnergyManager().updateObject(newObject.GetComponent<EnergyObjectClass>(), true);
         }
     }
 

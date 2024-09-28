@@ -68,6 +68,11 @@ public class EnergyObjectClass : MonoBehaviour
         return isOn;
     }
 
+    public GridManager getEnergyManager()
+    {
+        return energyManager;
+    }
+
     //Set the current on state of the object.
     public virtual void setIsOn(bool b)
     {
