@@ -28,13 +28,14 @@ public class LockObjectClass : EnergyObjectClass
         isPowered = b;
 
         //Maybe will break. Will find out.
-        //useObject();
+        useObject();
     }
 
     //A function that will make the object be used if it is powered on on.
     public override void useObject()
     {
-        if (pairedLock)
+        //Ensure the paired lock has the same 'isOn' statement.
+        if (pairedLock && pairedLock.getIsOn() != isOn)
         {
             pairedLock.setIsOn(isOn);
         }
