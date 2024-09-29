@@ -200,7 +200,6 @@ public class HoldInteractionClass : InteractionClass
             }
         } else if (newObject && newObject.GetComponent<EnergyObjectClass>() && !newObject.GetComponent<LockObjectClass>())
         {
-            Debug.Log("Updated");
             newObject.GetComponent<EnergyObjectClass>().getEnergyManager().updateObject(newObject.GetComponent<EnergyObjectClass>(), true);
         }
     }

@@ -18,7 +18,6 @@ public class EnergyObjectClass : MonoBehaviour
 
     [SerializeField]
     protected int amountInteractionsNeeded = 1;
-    [SerializeField]
     protected int amountOn;
 
     [SerializeField]
@@ -88,7 +87,6 @@ public class EnergyObjectClass : MonoBehaviour
     //Set the current on state of the object.
     public virtual void setIsOn(bool b)
     {
-        Debug.Log("isOn?");
         if (b)
         {
             amountOn++;
