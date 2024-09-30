@@ -24,9 +24,13 @@ public class PositionInteractionClass : InteractionClass
         setObject();
     }
 
-    public virtual void setObject()
+    public void setObject()
     {
-        currentHeldItem.Interact(targetPos.position, targetPos.rotation, this.transform);
+        //If this is not a senser, then make it interact.
+        if(currentHeldItem.getType() != interactionType.senserInteraction)
+        {
+            currentHeldItem.Interact(targetPos.position, targetPos.rotation, this.transform);
+        }
 
         //When run, then input connected item into the holdInteraction class.
         currentHeldItem.setSystem(connectedObject);
@@ -107,6 +111,39 @@ public class PositionInteractionClass : InteractionClass
         {
             //If met, the interact with object.
             Interact(other.gameObject);
+        } else if(hasPermission(interactionType.senserInteraction) && canHoldItem(other.gameObject, true))
+        {
+            
+            //If true, then doesn't need to set any objects. Just set the connected object.
+            if (connectedObject.GetComponent<LockObjectClass>())
+            {
+                connectedObject.GetComponent<EnergyObjectClass>().setIsOn(true);
+                connectedObject.GetComponent<EnergyObjectClass>().useObject();
+            }
+
+            setCurrentHeldItem(other.GetComponent<HoldInteractionClass>());
+        }
+    }
+
+    //Play when leaving a given function.
+    private void OnTriggerExit(Collider other)
+    {
+        bool isOther = false;
+        if (currentHeldItem)
+        {
+            isOther = currentHeldItem.gameObject.GetInstanceID() == other.gameObject.GetInstanceID();
+        }
+
+        if(isOther && currentHeldItem.GetComponent<HoldInteractionClass>() && currentHeldItem.GetComponent<HoldInteractionClass>().getType() == interactionType.senserInteraction)
+        {
+            if (connectedObject.GetComponent<LockObjectClass>())
+            {
+                connectedObject.GetComponent<EnergyObjectClass>().setIsOn(false);
+                connectedObject.GetComponent<EnergyObjectClass>().useObject();
+            }
+
+            currentHeldItem.removeHeld();
+            setCurrentHeldItem(null);
         }
     }
 

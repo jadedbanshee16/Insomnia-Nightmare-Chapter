@@ -18,6 +18,7 @@ public class EnergyObjectClass : MonoBehaviour
 
     [SerializeField]
     protected int amountInteractionsNeeded = 1;
+    [SerializeField]
     protected int amountOn;
 
     [SerializeField]
@@ -100,6 +101,21 @@ public class EnergyObjectClass : MonoBehaviour
             isOn = true;
         } else
         {
+            isOn = false;
+        }
+    }
+
+    //A function to force isOn and off.
+    //WARNING. When turning on, this would probably make 'amount on' incorrect.
+    public void forceIsOn(bool b)
+    {
+        if (b)
+        {
+            amountOn = amountInteractionsNeeded;
+            isOn = true;
+        } else
+        {
+            amountOn = 0;
             isOn = false;
         }
     }

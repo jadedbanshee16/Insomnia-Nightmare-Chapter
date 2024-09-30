@@ -13,13 +13,16 @@ public class LockObjectClass : EnergyObjectClass
     [SerializeField]
     LockObjectClass pairedLock;
 
+    [SerializeField]
+    bool initialLockPosition;
+
     //A function to set the energy manager of this object.
     public override void setEnergyManager(GridManager man)
     {
         energyManager = man;
 
         //When manager is set, set on depending on energyObject type. Default is off.
-        isOn = false;
+        isOn = initialLockPosition;
     }
 
     //A function that will power the current object.

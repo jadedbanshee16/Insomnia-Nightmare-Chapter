@@ -23,6 +23,20 @@ public class InteractionControlClass : MonoBehaviour
         this.transform.rotation = rot;
     }
 
+    //A function to set the position of a specified object.
+    public void setPosition(Vector3 pos, Quaternion rot, Transform obj)
+    {
+        if (obj)
+        {
+            obj.position = pos;
+            obj.rotation = rot;
+        } else
+        {
+            this.transform.position = pos;
+            this.transform.rotation = rot;
+        }
+    }
+
     //Make an animation run in the bool position.
     public void setAnimation(string animationPrompt, bool turnOn)
     {

@@ -48,7 +48,8 @@ public class HoldInteractionClass : InteractionClass
     //Try to fix this if at all possible.
     private void FixedUpdate()
     {
-        if(currentHolder && Vector3.Distance(currentHolder.position, this.transform.position) > 0.01f && !currentHolder.GetComponentInParent<FPSController>())
+        if(currentHolder && Vector3.Distance(currentHolder.position, this.transform.position) > 0.01f && !currentHolder.GetComponentInParent<FPSController>() 
+            && getType() != interactionType.senserInteraction)
         {
             setObject(currentHolder.GetChild(0).position, currentHolder.GetChild(0).rotation);
         }

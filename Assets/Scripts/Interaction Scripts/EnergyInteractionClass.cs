@@ -11,6 +11,7 @@ public class EnergyInteractionClass : InteractionClass
 {
     private GridManager powerManager;
 
+    [SerializeField]
     bool isOn;
 
     [SerializeField]
