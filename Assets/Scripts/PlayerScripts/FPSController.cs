@@ -56,6 +56,7 @@ public class FPSController : MonoBehaviour
 
     public bool movementLocked;
     private bool interactionLocked;
+    private bool mouseLocked;
 
     // Start is called before the first frame update
     void Start()
@@ -77,6 +78,10 @@ public class FPSController : MonoBehaviour
 
         walkingClipLength = audioManager_.getCurrentClipLength(0);
         runningClipLength = audioManager_.getCurrentClipLength(1);
+
+        //Set cursor to middle of screen.
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
     }
 
@@ -102,7 +107,7 @@ public class FPSController : MonoBehaviour
         }
 
         //Work with the exit input to get out of locking positions without touching the interaction.
-        if (Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Escape) || (mouseLocked && Input.GetKey(KeyCode.Mouse0)))
         {
             if (lockingObject && lockingObject.GetComponent<PlayerControlInteractionClass>())
             {
@@ -265,8 +270,10 @@ public class FPSController : MonoBehaviour
     {
         RaycastHit hitPoint;
 
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
         //If the ray hits something within reach, see if it has button. If so, complete whatever interaction button is set.
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hitPoint, reach))
+        if (Physics.Raycast(ray, out hitPoint, reach))
         {
             //Debug.Log(hitPoint.collider.gameObject.name);
             //Check if an item first.
@@ -444,11 +451,24 @@ public class FPSController : MonoBehaviour
     }
 
     //A function to set the locked section.
-    public void setLock(bool b, GameObject obj)
+    public void setLock(bool b, GameObject obj, bool usingMouse)
     {
         movementLocked = b;
 
         lockingObject = obj;
+
+        mouseLocked = !usingMouse;
+
+        if (!mouseLocked)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+        } else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
     }
 
     public bool getLock()

@@ -5,6 +5,9 @@ using UnityEngine;
 public class CombinationInteractionClass : InteractionClass
 {
     [SerializeField]
+    int combinationNumber;
+    
+    [SerializeField]
     float rotationOffset;
 
     bool isRotating;
@@ -18,6 +21,19 @@ public class CombinationInteractionClass : InteractionClass
     private void Start()
     {
         setController();
+
+        //Ensure only the positive system makes this change.
+        if(rotationOffset >= 0)
+        {
+            int comb = combinationNumber + 5;
+
+            if(comb >= connectedObject.childCount)
+            {
+                comb = 0 + (comb - connectedObject.childCount);
+            }
+
+            connectedObject.GetChild(comb).gameObject.SetActive(false);
+        }
     }
 
     //If object is moved, 
@@ -28,7 +44,7 @@ public class CombinationInteractionClass : InteractionClass
             //Update the timer.
             if(timer < 1)
             {
-                timer += Time.deltaTime;
+                timer += Time.deltaTime * 3;
             } else
             {
                 timer = 1;
@@ -42,7 +58,6 @@ public class CombinationInteractionClass : InteractionClass
     //Another overload for the interaction.
     public override void Interact()
     {
-        //Find new quaterion.
         Vector3 rot = connectedObject.transform.rotation.eulerAngles;
 
         rot.z += rotationOffset;
@@ -52,5 +67,7 @@ public class CombinationInteractionClass : InteractionClass
         isRotating = true;
 
         timer = 0;
+
+        controller.playInteractionAudio(0);
     }
 }

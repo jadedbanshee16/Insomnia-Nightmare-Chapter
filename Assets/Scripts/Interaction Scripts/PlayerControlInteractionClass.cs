@@ -15,6 +15,9 @@ public class PlayerControlInteractionClass : InteractionClass
     private bool isAdjusting;
 
     [SerializeField]
+    private bool useMouse;
+
+    [SerializeField]
     Transform adjustedObject;
 
     Quaternion initialPosition;
@@ -39,17 +42,19 @@ public class PlayerControlInteractionClass : InteractionClass
         {
             if(timer < 1)
             {
-                timer += Time.deltaTime;
+                timer += Time.deltaTime * 3;
             } else
             {
                 timer = 1;
                 isAdjusting = false;
+                //makeUninteractable(false);
             }
 
             //Adjust connected object, given it has to face the camera.
             if (isOn)
             {
                 Vector3 newPos = currentCam.transform.position - adjustedObject.position;
+                newPos.x += 90;
                 controller.setPosition(adjustedObject.position, Quaternion.Slerp(initialPosition, Quaternion.Euler(newPos.x, newPos.y, newPos.z), timer), adjustedObject);
             } else
             {
@@ -84,14 +89,15 @@ public class PlayerControlInteractionClass : InteractionClass
         {
             isAdjusting = true;
             timer = 0;
+            //makeUninteractable(true);
         }
 
         if (isOn)
         {
-            player_.setLock(isOn, this.gameObject);
+            player_.setLock(isOn, this.gameObject, useMouse);
         } else
         {
-            player_.setLock(isOn, null);
+            player_.setLock(isOn, null, false);
         }
         
 
@@ -102,6 +108,31 @@ public class PlayerControlInteractionClass : InteractionClass
         } else
         {
             camManager_.setCamera(0);
+        }
+    }
+
+    //A function which can make all objects in adjustedObject set permissions of player.
+    private void makeUninteractable(bool noInteraction)
+    {
+        if (noInteraction)
+        {
+            for (int i = 0; i < adjustedObject.childCount; i++)
+            {
+                if (adjustedObject.GetChild(i).GetComponent<InteractionClass>())
+                {
+                    adjustedObject.GetChild(i).GetComponent<InteractionClass>().removePermission(interactionType.player);
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < adjustedObject.childCount; i++)
+            {
+                if (adjustedObject.GetChild(i).GetComponent<InteractionClass>())
+                {
+                    adjustedObject.GetChild(i).GetComponent<InteractionClass>().addPermission(interactionType.player);
+                }
+            }
         }
     }
 }
