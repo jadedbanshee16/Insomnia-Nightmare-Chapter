@@ -50,24 +50,33 @@ public class GeneratorInteractionClass : InteractionClass
             {
                 powerManager.setGenerator(true);
                 powerManager.setGeneratorPower(maxPower);
-                controller.playInteractionAudio(2);
-                controller.playInteractionAudio(3);
-                controller.playInbuiltAudio(0.8f, true);
-
-                wasOn = true;
 
             } else
             {
                 powerManager.setGeneratorPower(0);
+            }
+        }
 
-                if (wasOn)
-                {
-                    controller.playInbuiltAudio(0, false);
-                    controller.playInteractionAudio(3);
+        //Make sounds work despite whether powerManager is in or not.
+        if (isOn)
+        {
+            if (!wasOn)
+            {
+                controller.playInteractionAudio(1);
+                controller.playInteractionAudio(2);
+                controller.playInbuiltAudio(0.8f, true);
 
-                    wasOn = false;
-                }
+                wasOn = true;
+            }
 
+        } else
+        {
+            if (wasOn)
+            {
+                controller.playInbuiltAudio(0, false);
+                controller.playInteractionAudio(3);
+
+                wasOn = false;
             }
         }
     }

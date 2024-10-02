@@ -20,6 +20,8 @@ public class GridInteractionClass : InteractionClass
 
         controller.setIndicator(isOn);
 
+        controller.playInteractionAudio(0);
+
         setObject();
 
     }

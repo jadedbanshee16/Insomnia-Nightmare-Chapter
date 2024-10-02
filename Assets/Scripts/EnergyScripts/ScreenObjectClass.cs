@@ -43,6 +43,8 @@ public class ScreenObjectClass : EnergyObjectClass
     public override void powerObject(bool b)
     {
         isPowered = b;
+
+        //Maybe will break. Will find out.
         displayText(currentCode);
     }
 

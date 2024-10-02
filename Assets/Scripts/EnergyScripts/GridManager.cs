@@ -101,7 +101,7 @@ public class GridManager : MonoBehaviour
 
         for(int i = 0; i < objs.Length; i++)
         {
-            objs[i].setIsOn(false);
+            objs[i].forceIsOn(false);
         }
 
         //Find and turn off this grid interactions as well.

@@ -143,7 +143,7 @@ ConfigurableJoint:
   m_GameObject: {fileID: 1278187900729356155}
   m_ConnectedBody: {fileID: 0}
   m_ConnectedArticulationBody: {fileID: 0}
-  m_Anchor: {x: 1, y: 0, z: 0}
+  m_Anchor: {x: 3, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 0
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
@@ -156,8 +156,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 0
-    damper: 5
+    spring: 2
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0

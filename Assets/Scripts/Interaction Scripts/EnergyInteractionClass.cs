@@ -11,6 +11,7 @@ public class EnergyInteractionClass : InteractionClass
 {
     private GridManager powerManager;
 
+    [SerializeField]
     bool isOn;
 
     [SerializeField]
@@ -38,6 +39,8 @@ public class EnergyInteractionClass : InteractionClass
         controller.setAnimation("isOn", isOn);
 
         controller.setIndicator(isOn);
+
+        controller.playInteractionAudio(0);
 
         setObject();
     }

@@ -13,11 +13,28 @@ public class InteractionControlClass : MonoBehaviour
     [SerializeField]
     AudioClip[] clips;
 
+    [SerializeField]
+    GameObject[] activeObjects;
+
     //Set the position of this current object to a given other position.
     public void setPosition(Vector3 pos, Quaternion rot)
     {
         this.transform.position = pos;
         this.transform.rotation = rot;
+    }
+
+    //A function to set the position of a specified object.
+    public void setPosition(Vector3 pos, Quaternion rot, Transform obj)
+    {
+        if (obj)
+        {
+            obj.position = pos;
+            obj.rotation = rot;
+        } else
+        {
+            this.transform.position = pos;
+            this.transform.rotation = rot;
+        }
     }
 
     //Make an animation run in the bool position.
@@ -109,6 +126,7 @@ public class InteractionControlClass : MonoBehaviour
         }
     }
 
+    //A function which would play the inbuilt audio clip using a delay.
     public void playInbuiltAudio(float delay, bool isOn)
     {
         if(aud_ && aud_.clip != null)
@@ -124,6 +142,18 @@ public class InteractionControlClass : MonoBehaviour
         }
     }
 
+    //Set the objects meant to be active to and from active.
+    public void setActive(bool isOn)
+    {
+        if(activeObjects.Length > 0)
+        {
+            for(int i = 0; i < activeObjects.Length; i++)
+            {
+                activeObjects[i].SetActive(isOn);
+            }
+        }
+    }
+
     //Return the amount of clips in the clips section.
     public int getAudioLength()
     {
@@ -132,9 +162,7 @@ public class InteractionControlClass : MonoBehaviour
 
     //A function to update this interaction control.
     public void updateThisInteraction()
-    {
-        Debug.Log("Update to: " + this.gameObject.name);
-        
+    {        
         anim_ = GetComponentInChildren<Animator>();
 
         indicator = GetComponentInChildren<InteractionIndicatorScript>();
