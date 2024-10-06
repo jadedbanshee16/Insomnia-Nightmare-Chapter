@@ -20,6 +20,7 @@ public class DayNightManager : MonoBehaviour
 
     private Color col;
 
+
     private void Start()
     {
         sun = GameObject.FindGameObjectWithTag("Sun");
