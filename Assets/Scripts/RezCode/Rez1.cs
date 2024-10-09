@@ -78,4 +78,14 @@ public class Rez1 : MonoBehaviour
             cams[i].transform.rotation = currentCamPositions[i].rotation;
         }
     }
+
+    public int getSetCam()
+    {
+        return setCam;
+    }
+
+    public void setSetCam(int newInt)
+    {
+        setCam = newInt;
+    }
 }

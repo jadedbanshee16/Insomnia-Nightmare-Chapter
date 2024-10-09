@@ -48,7 +48,8 @@ public class FPSController : MonoBehaviour
     int walkingClipLength;
     int runningClipLength;
 
-    public float footstepTime = 1;
+
+    private float footstepTime = 1;
     private float footstepTimer = 0;
 
     private float interactionCooldown = 0.5f;

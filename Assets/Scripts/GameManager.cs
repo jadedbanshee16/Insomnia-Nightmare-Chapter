@@ -17,10 +17,17 @@ public class GameManager : MonoBehaviour
         //Set up audio to happen in the awake section.
         GetComponent<AudioManager>().setUpManager();
 
-        for(int i = 0; i < systemManagers.Length; i++)
+        if (systemManagers.Length > 0)
         {
-            systemManagers[i].setManager();
+            for (int i = 0; i < systemManagers.Length; i++)
+            {
+                systemManagers[i].setManager();
+            }
+        } else
+        {
+            Debug.LogWarning("Game Manager does not have any systems to manage.");
         }
+
     }
 
 
