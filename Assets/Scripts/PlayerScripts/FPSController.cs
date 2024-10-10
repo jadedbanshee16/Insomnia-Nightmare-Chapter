@@ -32,7 +32,7 @@ public class FPSController : MonoBehaviour
     [SerializeField]
     private GameObject hitBox;
     private CapsuleCollider m_collider;
-    private Rigidbody m_rig;
+    private CharacterController m_controller;
     private playerStatus currentStatus;
 
     [SerializeField]
@@ -62,7 +62,8 @@ public class FPSController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_rig = GetComponent<Rigidbody>();
+        //m_rig = GetComponent<Rigidbody>();
+        m_controller = GetComponent<CharacterController>();
         m_collider = GetComponent<CapsuleCollider>();
         colliderSize = colliderSizes.y;
 
@@ -126,29 +127,41 @@ public class FPSController : MonoBehaviour
     {
         bool didMove = false;
 
+        Vector3 moveDirection = Vector3.zero;
+
         //Get an input from keyboard. If so, make a move. For forward and back
         if (Input.GetKey(KeyCode.W))
         {
-            m_rig.position += transform.forward * Time.deltaTime * moveSpeed;
-            didMove = true;
+            moveDirection += transform.forward;
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            m_rig.position -= transform.forward * Time.deltaTime * moveSpeed;
-            didMove = true;
+            moveDirection -= transform.forward;
         }
         //Get input from keyboard. Id so, make a move. For left and right.
         if (Input.GetKey(KeyCode.A))
         {
-            m_rig.position -= transform.right * Time.deltaTime * moveSpeed;
-            didMove = true;
+            moveDirection -= transform.right;
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            m_rig.position += transform.right * Time.deltaTime * moveSpeed;
-            didMove = true;
+            moveDirection += transform.right;
         }
 
+        if (Vector3.Distance(moveDirection, Vector3.zero) > 0)
+        {
+            //this.transform.position += moveDirection.normalized * Time.deltaTime * moveSpeed;
+            //m_rig.position += moveDirection.normalized * Time.deltaTime * (1f);
+
+            //m_rig.AddForce((moveDirection.normalized * moveSpeed * 10));
+            m_controller.SimpleMove(moveDirection.normalized * moveSpeed);
+            didMove = true;
+        } else
+        {
+            m_controller.SimpleMove(moveDirection * moveSpeed);
+        }
+
+        moveSpeed = speedVariations.y;
         currentStatus = playerStatus.walk;
 
         //Create the crouch buttons.
@@ -183,11 +196,15 @@ public class FPSController : MonoBehaviour
         if (currentStatus == playerStatus.crouch && colliderSize > colliderSizes.x)
         {
             colliderSize -= Time.fixedDeltaTime;
+            m_collider.height = colliderSize;
+            m_controller.height = colliderSize;
         }
 
         if (currentStatus != playerStatus.crouch && colliderSize < colliderSizes.y)
         {
             colliderSize += Time.fixedDeltaTime;
+            m_collider.height = colliderSize;
+            m_controller.height = colliderSize;
         }
 
         if (didMove)
@@ -208,9 +225,6 @@ public class FPSController : MonoBehaviour
         {
             footstepTimer = 0;
         }
-        
-
-        m_collider.height = colliderSize;
     }
 
     //Keep all player interaction.
