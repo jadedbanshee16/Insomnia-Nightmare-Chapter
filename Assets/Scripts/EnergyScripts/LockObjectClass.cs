@@ -16,6 +16,9 @@ public class LockObjectClass : EnergyObjectClass
     [SerializeField]
     bool initialLockPosition;
 
+    [SerializeField]
+    InteractionClass.interactionType lockAgainst;
+
     //A function to set the energy manager of this object.
     public override void setEnergyManager(GridManager man)
     {
@@ -46,11 +49,11 @@ public class LockObjectClass : EnergyObjectClass
         //If not, turn them off.
         if (isPowered && !isOn)
         {
-            connectedLockedObject.GetComponent<InteractionClass>().addPermission(InteractionClass.interactionType.player);
+            connectedLockedObject.GetComponent<InteractionClass>().addPermission(lockAgainst);
         }
         else
         {
-            connectedLockedObject.GetComponent<InteractionClass>().removePermission(InteractionClass.interactionType.player);
+            connectedLockedObject.GetComponent<InteractionClass>().removePermission(lockAgainst);
         }
     }
 

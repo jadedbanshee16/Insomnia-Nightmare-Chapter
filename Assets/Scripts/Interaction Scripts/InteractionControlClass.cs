@@ -49,16 +49,44 @@ public class InteractionControlClass : MonoBehaviour
 
     //This controller function changes the angle of an time using a hinge.
     //Ensure hinge is attached, then change targetPosition based on given angle.
-    public void setAngle(Vector3 dir)
+    public void setAngle(Vector3 dir, Transform offset)
     {
-        float rad1 = Mathf.Atan2(dir.x, dir.z);
-        rad1 = rad1 * Mathf.Rad2Deg;
-        rad1 = rad1 - 90;
+        //dir = offset.InverseTransformPoint(dir);
 
-        float deg1 = Vector3.Angle(-dir, Vector3.forward);
+        //dir = dir - offset.position;
+
+        /*float dot = Vector3.Dot(offset.forward, dir - offset.position);
+
+        float angle = Mathf.Acos(dot) / Mathf.PI;
+
+        angle = angle * Mathf.Rad2Deg;
+
+        //dir = offset.InverseTransformPoint(dir);
+
+        float rad1 = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
+
+        rad1 = rad1 - 90;*/
+
+        dir.y = offset.position.y;
+
+        float ang = Vector3.Angle(dir - offset.position, offset.right);
+
+        if(Vector3.Dot(offset.forward, dir - offset.position) > 0)
+        {
+            ang = -ang;
+        }
+
+
+
+        //Debug.DrawRay(offset.position, dir - offset.position, Color.white, 3f);
+        //Debug.DrawRay(offset.position, offset.forward, Color.blue, 3f);
+
+        //Debug.Log(ang);
+
+        //float deg1 = Vector3.Angle(-dir, Vector3.forward);
 
         JointSpring spring = new JointSpring();
-        spring.targetPosition = rad1;
+        spring.targetPosition = ang;
         spring.spring = 100;
 
         if (GetComponent<HingeJoint>())

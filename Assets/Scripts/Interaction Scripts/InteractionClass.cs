@@ -15,7 +15,8 @@ public class InteractionClass : MonoBehaviour
         powerPosition,
         autoPosition,
         secondaryInteraction,
-        senserInteraction
+        senserInteraction,
+        playerHold
     }
 
 

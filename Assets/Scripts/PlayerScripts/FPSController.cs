@@ -105,7 +105,7 @@ public class FPSController : MonoBehaviour
         //If holding the item, set the item to current playerHand position.
         if (holdingItem && holdingItem.GetComponent<InteractionClass>())
         {
-            holdingItem.GetComponent<InteractionClass>().Interact(playerHand.position, playerHand.rotation, playerHand);
+            holdingItem.GetComponent<InteractionClass>().Interact(playerHand.GetChild(0).position, playerHand.GetChild(0).rotation, playerHand.GetChild(0));
         }
 
         //Work with the exit input to get out of locking positions without touching the interaction.
@@ -170,7 +170,7 @@ public class FPSController : MonoBehaviour
             moveSpeed = speedVariations.x;
             currentStatus = playerStatus.crouch;
 
-            didMove = true;
+            //didMove = true;
         }
         else if (Input.GetKeyUp(KeyCode.LeftControl))
         {
@@ -185,7 +185,7 @@ public class FPSController : MonoBehaviour
             moveSpeed = speedVariations.z;
             currentStatus = playerStatus.run;
 
-            didMove = true;
+            //didMove = true;
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
@@ -341,14 +341,23 @@ public class FPSController : MonoBehaviour
                     if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.player))
                     {
                         //Make the interact happen.
-                        hitPoint.collider.GetComponent<InteractionClass>().Interact(playerHand.position, playerHand.rotation, playerHand);
+                        hitPoint.collider.GetComponent<InteractionClass>().Interact(playerHand.GetChild(0).position, playerHand.GetChild(0).rotation, playerHand);
                         setHeldItem(hitPoint.collider.GetComponent<HoldInteractionClass>());
 
+                    
+                    }
+                    //If for holding then change the position of the right hand to the position of the interaction.
+                    else if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.playerHold))
+                    {
+                        playerHand.GetChild(0).transform.position = hitPoint.point;
+                        hitPoint.collider.GetComponent<InteractionClass>().Interact(playerHand.GetChild(0).position, playerHand.GetChild(0).rotation, playerHand.GetComponentInChildren<Transform>());
+                        setHeldItem(hitPoint.collider.GetComponent<HoldInteractionClass>());
+                    }
                     //If available for a secondary interaction, then interact.
-                    } else if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.secondaryInteraction))
+                    else if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.secondaryInteraction))
                     {
                         hitPoint.collider.GetComponent<InteractionClass>().secondaryInteract();
-                    }
+                    } 
                 }
 
                 //This is interactions with position items that can hold holdable items.
@@ -425,6 +434,9 @@ public class FPSController : MonoBehaviour
     public void removeHeldItem()
     {
         holdingItem = null;
+
+        //reset the newPosition back to hand.
+        playerHand.GetChild(0).transform.position = playerHand.position;
     }
 
     //A function that will look for the next closest position, either within reach or when it hits something.

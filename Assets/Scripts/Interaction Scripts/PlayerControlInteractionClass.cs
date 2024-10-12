@@ -9,6 +9,7 @@ public class PlayerControlInteractionClass : InteractionClass
 
     CameraManager camManager_;
 
+    [SerializeField]
     CinemachineVirtualCamera currentCam;
 
     private bool isOn;
@@ -25,7 +26,15 @@ public class PlayerControlInteractionClass : InteractionClass
 
     private void Start()
     {
+        foreach(Transform child in this.transform)
+        {
+            child.gameObject.SetActive(true);
+        }
+
+
         currentCam = GetComponentInChildren<CinemachineVirtualCamera>();
+
+        currentCam.gameObject.SetActive(false);
 
         setController();
 

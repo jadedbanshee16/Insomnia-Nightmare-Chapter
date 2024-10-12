@@ -113,7 +113,6 @@ public class PositionInteractionClass : InteractionClass
             Interact(other.gameObject);
         } else if(hasPermission(interactionType.senserInteraction) && canHoldItem(other.gameObject, true))
         {
-            
             //If true, then doesn't need to set any objects. Just set the connected object.
             if (connectedObject.GetComponent<LockObjectClass>())
             {

@@ -48,10 +48,18 @@ public class HoldInteractionClass : InteractionClass
     //Try to fix this if at all possible.
     private void FixedUpdate()
     {
-        if(currentHolder && Vector3.Distance(currentHolder.position, this.transform.position) > 0.01f && !currentHolder.GetComponentInParent<FPSController>() 
+        if(currentHolder && !currentHolder.GetComponentInParent<FPSController>() 
             && getType() != interactionType.senserInteraction)
         {
-            setObject(currentHolder.GetChild(0).position, currentHolder.GetChild(0).rotation);
+            if(Vector3.Distance(currentHolder.position, this.transform.position) > 0.01f)
+            {
+                rig_.isKinematic = false;
+                setObject(currentHolder.position, currentHolder.rotation);
+            } else
+            {
+                //Ensure door cannot be pushed if locked in place.
+                rig_.isKinematic = true;
+            }
         }
     }
 
@@ -77,9 +85,14 @@ public class HoldInteractionClass : InteractionClass
         currentHolder = obj;
 
         //Ensure kinematic is on only if a hinge is not used.
+        //If used with hing joint, hinge will not swing as normal.
         if (!this.GetComponent<HingeJoint>())
         {
             rig_.isKinematic = true;
+        } else
+        {
+            //When interacted with, ensure rig can be rotated first.
+            rig_.isKinematic = false;
         }
 
         //Set the animation of the controller.
@@ -124,10 +137,10 @@ public class HoldInteractionClass : InteractionClass
         {
             if (anchorObject && currentHolder)
             {
-                Vector3 dir = currentHolder.GetComponentInChildren<Transform>().position - anchorObject.position;
+                //Vector3 dir = pos - anchorObject.position;
                 //dir = Quaternion.Inverse(this.transform.rotation) * dir;
 
-                controller.setAngle(dir.normalized);
+                controller.setAngle(pos, anchorObject);
             }
         } else
         {
@@ -157,6 +170,7 @@ public class HoldInteractionClass : InteractionClass
         isHeld = false;
         wasHeld = false;
         currentHolder = null;
+
         rig_.isKinematic = false;
 
         //To tell controller to remove angle targets.

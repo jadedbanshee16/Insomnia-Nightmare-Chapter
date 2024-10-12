@@ -13,6 +13,7 @@ public class CameraManager : MonoBehaviour
     void Start()
     {
         curCam = 0;
+        setCamera(0);
     }
 
     private void updateCamera(int cam)
