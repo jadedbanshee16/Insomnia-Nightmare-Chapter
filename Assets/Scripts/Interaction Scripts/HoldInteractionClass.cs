@@ -53,11 +53,15 @@ public class HoldInteractionClass : InteractionClass
         {
             if(Vector3.Distance(currentHolder.position, this.transform.position) > 0.01f)
             {
-                rig_.isKinematic = false;
-                setObject(currentHolder.position, currentHolder.rotation);
+                //Ensure that if an object that is supposed to move even when locked, it can move physically.
+                if(getType() == interactionType.autoPosition)
+                {
+                    rig_.isKinematic = false;
+                }
+                setObject(currentHolder.GetChild(0).position, currentHolder.GetChild(0).rotation);
             } else
             {
-                //Ensure door cannot be pushed if locked in place.
+                //Ensure held object remains held when it hits a position cannot be pushed if locked in place.
                 rig_.isKinematic = true;
             }
         }

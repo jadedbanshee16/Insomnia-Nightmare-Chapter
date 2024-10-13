@@ -58,6 +58,8 @@ public class FPSController : MonoBehaviour
     public bool movementLocked;
     private bool interactionLocked;
     private bool mouseLocked;
+    //This variable is used pick up items but cannot hold them without holding down the pick up button.
+    private bool handLocked;
 
     // Start is called before the first frame update
     void Start()
@@ -105,7 +107,15 @@ public class FPSController : MonoBehaviour
         //If holding the item, set the item to current playerHand position.
         if (holdingItem && holdingItem.GetComponent<InteractionClass>())
         {
-            holdingItem.GetComponent<InteractionClass>().Interact(playerHand.GetChild(0).position, playerHand.GetChild(0).rotation, playerHand.GetChild(0));
+            holdingItem.GetComponent<InteractionClass>().Interact(playerHand.GetChild(0).position, playerHand.GetChild(0).rotation, playerHand);
+        }
+
+        if (Input.GetKeyUp(KeyCode.Mouse0) && handLocked && holdingItem)
+        {
+            holdingItem.Interact(frontPosition(), Quaternion.identity, null);
+            holdingItem.removeHeld();
+            removeHeldItem();
+            handLocked = false;
         }
 
         //Work with the exit input to get out of locking positions without touching the interaction.
@@ -333,13 +343,15 @@ public class FPSController : MonoBehaviour
             //This is for interactions with holdable items.
             if (hitPoint.collider.GetComponent<HoldInteractionClass>())
             {
-                interactionTimer = interactionCooldown;
+                
 
                 if (!holdingItem)
                 {
                     //Ensure item can be touched by the player.
                     if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.player))
                     {
+                        interactionTimer = interactionCooldown;
+
                         //Make the interact happen.
                         hitPoint.collider.GetComponent<InteractionClass>().Interact(playerHand.GetChild(0).position, playerHand.GetChild(0).rotation, playerHand);
                         setHeldItem(hitPoint.collider.GetComponent<HoldInteractionClass>());
@@ -349,6 +361,9 @@ public class FPSController : MonoBehaviour
                     //If for holding then change the position of the right hand to the position of the interaction.
                     else if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.playerHold))
                     {
+                        //Do not reset interaction timer as this will be used for holding the button.
+                        handLocked = true;
+
                         playerHand.GetChild(0).transform.position = hitPoint.point;
                         hitPoint.collider.GetComponent<InteractionClass>().Interact(playerHand.GetChild(0).position, playerHand.GetChild(0).rotation, playerHand.GetComponentInChildren<Transform>());
                         setHeldItem(hitPoint.collider.GetComponent<HoldInteractionClass>());
@@ -356,6 +371,8 @@ public class FPSController : MonoBehaviour
                     //If available for a secondary interaction, then interact.
                     else if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.secondaryInteraction))
                     {
+                        interactionTimer = interactionCooldown;
+
                         hitPoint.collider.GetComponent<InteractionClass>().secondaryInteract();
                     } 
                 }
@@ -367,7 +384,7 @@ public class FPSController : MonoBehaviour
                 interactionTimer = interactionCooldown;
 
                 //Make the interact happen.
-                if (holdingItem && hitPoint.collider.GetComponent<PositionInteractionClass>().canHoldItem(holdingItem.gameObject, false))
+                if (holdingItem && hitPoint.collider.GetComponent<PositionInteractionClass>().canHoldItem(holdingItem, false))
                 {
                     hitPoint.collider.GetComponent<InteractionClass>().Interact(holdingItem.gameObject);
                     removeHeldItem();

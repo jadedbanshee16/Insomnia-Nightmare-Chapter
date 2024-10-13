@@ -54,26 +54,33 @@ public class PositionInteractionClass : InteractionClass
         return currentHeldItem;
     }
 
-    public bool canHoldItem(GameObject obj, bool auto)
+    //Used to check if position item can hold the item it is interacting with.
+    public bool canHoldItem(HoldInteractionClass obj, bool auto)
     {
         bool canHold = false;
 
-        if(uniqueObjectOverride != null && string.Equals(uniqueObjectOverride, obj.gameObject.name))
+        //Test for unique first, if unique and string is not empty, then check if name is correct.
+        if (hasPermission(interactionType.unique) && string.Equals(uniqueObjectOverride, ""))
         {
-            canHold = true;
-        } else if (string.Equals(uniqueObjectOverride, ""))
+            //If unique, then check name.
+            if (string.Equals(uniqueObjectOverride, obj.gameObject.name))
+            {
+                canHold = true;
+            }
+        } else
         {
+            //If override is empty or not interaction unique, check for any other interactions.
             canHold = hasPermission(obj.GetComponent<HoldInteractionClass>().getType());
         }
+
 
         if (currentHeldItem)
         {
             canHold = false;
         }
 
-        if( auto && obj.GetComponent<HoldInteractionClass>() && 
-            obj.GetComponent<HoldInteractionClass>().getCurrentHolder() != null && 
-            obj.GetComponent<HoldInteractionClass>().getCurrentHolder().GetComponentInParent<FPSController>())
+        if(auto && obj.GetComponent<HoldInteractionClass>() && 
+            obj.GetComponent<HoldInteractionClass>().getCurrentHolder() != null)
         {
             canHold = false;
         }
@@ -107,11 +114,11 @@ public class PositionInteractionClass : InteractionClass
     private void OnTriggerStay(Collider other)
     {
         //Only see if trigger if this object is an autoposition.
-        if (hasPermission(interactionType.autoPosition) && canHoldItem(other.gameObject, true))
+        if (hasPermission(interactionType.autoPosition) && other.GetComponent<HoldInteractionClass>() && canHoldItem(other.GetComponent<HoldInteractionClass>(), true))
         {
             //If met, the interact with object.
             Interact(other.gameObject);
-        } else if(hasPermission(interactionType.senserInteraction) && canHoldItem(other.gameObject, true))
+        } else if(hasPermission(interactionType.senserInteraction) && other.GetComponent<HoldInteractionClass>() && canHoldItem(other.GetComponent<HoldInteractionClass>(), true))
         {
             //If true, then doesn't need to set any objects. Just set the connected object.
             if (connectedObject.GetComponent<LockObjectClass>())
