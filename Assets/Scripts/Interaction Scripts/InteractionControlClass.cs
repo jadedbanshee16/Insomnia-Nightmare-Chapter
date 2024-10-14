@@ -100,11 +100,13 @@ public class InteractionControlClass : MonoBehaviour
     {
         JointSpring spring = new JointSpring();
 
-        spring.targetPosition = 0;
         spring.spring = 0;
+        //spring.targetPosition = 0;
 
         if (GetComponent<HingeJoint>())
         {
+            GetComponent<HingeJoint>().spring = spring;
+            spring.targetPosition = 0;
             GetComponent<HingeJoint>().spring = spring;
         }
     }

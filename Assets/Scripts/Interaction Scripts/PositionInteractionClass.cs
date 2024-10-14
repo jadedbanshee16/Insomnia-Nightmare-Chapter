@@ -70,7 +70,7 @@ public class PositionInteractionClass : InteractionClass
         } else
         {
             //If override is empty or not interaction unique, check for any other interactions.
-            canHold = hasPermission(obj.GetComponent<HoldInteractionClass>().getType());
+            canHold = hasPermission(obj.getType());
         }
 
 
@@ -79,8 +79,7 @@ public class PositionInteractionClass : InteractionClass
             canHold = false;
         }
 
-        if(auto && obj.GetComponent<HoldInteractionClass>() && 
-            obj.GetComponent<HoldInteractionClass>().getCurrentHolder() != null)
+        if(auto && obj.getCurrentHolder() != null)
         {
             canHold = false;
         }
@@ -110,7 +109,7 @@ public class PositionInteractionClass : InteractionClass
     }
 
     //A trigger enter for colliding with an interaction.
-    //This should only be activated if current type is autoPosition.
+    //This should only be activated if current type is autoPosition or senser
     private void OnTriggerStay(Collider other)
     {
         //Only see if trigger if this object is an autoposition.

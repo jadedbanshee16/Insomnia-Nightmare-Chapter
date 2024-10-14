@@ -105,11 +105,11 @@ MonoBehaviour:
   isOn: 0
   amountInteractionsNeeded: 1
   amountOn: 0
-  isPowered: 0
+  isPowered: 1
   connectedLockedObject: {fileID: 3891277030727795931}
   connectedLockPosition: {fileID: 9100838526897859562}
   pairedLock: {fileID: 8479432578929759305}
-  initialLockPosition: 0
+  initialLockPosition: 1
   lockAgainst: 6
 --- !u!114 &8905776753520333080
 MonoBehaviour:
@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803fad5ae9cd7a445bba465c18a120a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  permittedInteractions: 00000000
+  permittedInteractions: 0000000007000000
   targetPos: {fileID: 900265998272521295}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: BlueKey
@@ -317,7 +317,7 @@ MonoBehaviour:
   connectedLockedObject: {fileID: 3891277030727795931}
   connectedLockPosition: {fileID: 9100838526897859562}
   pairedLock: {fileID: 5844980959444056624}
-  initialLockPosition: 0
+  initialLockPosition: 1
   lockAgainst: 6
 --- !u!114 &6667886729939116632
 MonoBehaviour:
@@ -346,7 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803fad5ae9cd7a445bba465c18a120a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  permittedInteractions: 00000000
+  permittedInteractions: 0000000007000000
   targetPos: {fileID: 8222917984532183225}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: BlueKey
@@ -566,17 +566,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d12515de978ad92449be87b5a25bcc65,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.0519981
+      value: 0.134
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d12515de978ad92449be87b5a25bcc65,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.48700047
+      value: -1.709
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d12515de978ad92449be87b5a25bcc65,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.945
+      value: 18.858
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d12515de978ad92449be87b5a25bcc65,
         type: 3}
@@ -895,7 +895,7 @@ MonoBehaviour:
   isHeld: 0
   connectedObj: {fileID: 0}
   currentHolder: {fileID: 0}
-  type: 0
+  type: 3
   anchorObject: {fileID: 6741098796964945498}
   anchorThreshold: 0.1
   stretchThreshold: 0.6
@@ -1055,7 +1055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803fad5ae9cd7a445bba465c18a120a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  permittedInteractions: 0300000000000000
+  permittedInteractions: 030000000000000007000000
   targetPos: {fileID: 1684366042914899968}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: Door

@@ -26,6 +26,14 @@ public class LockObjectClass : EnergyObjectClass
 
         //When manager is set, set on depending on energyObject type. Default is off.
         isOn = initialLockPosition;
+
+        if (isOn)
+        {
+            forceIsOn(true);
+        }
+
+        //Set any components that needed to be made.
+        controller = GetComponent<InteractionControlClass>();
     }
 
     //A function that will power the current object.
@@ -50,6 +58,7 @@ public class LockObjectClass : EnergyObjectClass
         if (isPowered && !isOn)
         {
             connectedLockedObject.GetComponent<InteractionClass>().addPermission(lockAgainst);
+            controller.playInteractionAudio(0);
         }
         else
         {
