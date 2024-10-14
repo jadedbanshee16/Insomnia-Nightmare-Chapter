@@ -48,7 +48,10 @@ public class EnergyInteractionClass : InteractionClass
     //Update power manager with the new system.
     public void setObject()
     {
-        powerManager.updateObject(obj, isOn);
+        if (powerManager && obj)
+        {
+            powerManager.updateObject(obj, isOn);
+        }
     }
 
     //Turn off the object and set controller to the false position.

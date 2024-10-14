@@ -42,6 +42,8 @@ public class InteractionClass : MonoBehaviour
 
         //controller.setIndicator(true);
 
+        controller.playInteractionAudio(0);
+
     }
 
     //Another overload for the interaction.
