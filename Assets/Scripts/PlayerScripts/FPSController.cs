@@ -52,8 +52,9 @@ public class FPSController : MonoBehaviour
     private float footstepTime = 1;
     private float footstepTimer = 0;
 
+    [SerializeField]
     private float interactionCooldown = 0.5f;
-    private float interactionTimer = 0;
+    public float interactionTimer = 0;
 
     public bool movementLocked;
     private bool interactionLocked;
@@ -297,8 +298,14 @@ public class FPSController : MonoBehaviour
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
+        //Select an int mask for mask (3).
+        int layerM = 1 << 3;
+        layerM = ~layerM;
+
+        ///Debug.DrawRay(ray.origin, ray.direction, Color.black, 5f);
+
         //If the ray hits something within reach, see if it has button. If so, complete whatever interaction button is set.
-        if (Physics.Raycast(ray, out hitPoint, reach))
+        if (Physics.Raycast(ray, out hitPoint, reach, layerM))
         {
             //Debug.Log(hitPoint.collider.gameObject.name);
             //Check if an item first.
@@ -462,10 +469,14 @@ public class FPSController : MonoBehaviour
         Vector3 trans = playerHead.position;
 
         RaycastHit hitPoint;
-        Ray hitRay = new Ray(trans, playerHead.forward);
+        Ray hitRay = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+
+        int layerM = 1 << 3;
+
+        layerM = ~layerM;
 
         //If the ray hits something within reach, see if it hits an object.
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hitPoint, reach))
+        if (Physics.Raycast(hitRay, out hitPoint, reach / 2, layerM))
         {
             trans = hitRay.GetPoint(hitPoint.distance);
         } else
