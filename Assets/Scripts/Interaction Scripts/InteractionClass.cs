@@ -82,7 +82,7 @@ public class InteractionClass : MonoBehaviour
     }
 
     //A function to set the controller of this current item.
-    protected void setController()
+    protected virtual void setController()
     {
         controller = GetComponent<InteractionControlClass>();
 

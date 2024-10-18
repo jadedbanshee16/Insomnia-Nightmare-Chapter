@@ -69,6 +69,11 @@ public class HoldInteractionClass : InteractionClass
 
     public override void Interact(Vector3 newPos, Quaternion newRot, Transform obj)
     {
+        if (!rig_)
+        {
+            rig_ = GetComponent<Rigidbody>();
+        }
+
         //Set the object to be held.
         if (!isHeld)
         {
@@ -111,6 +116,10 @@ public class HoldInteractionClass : InteractionClass
     //Set this current object with the position and rotation of new 
     void setObject(Vector3 pos, Quaternion rot)
     {
+        if (!controller)
+        {
+            setController();
+        }
 
         Vector3 newPos = pos;
 

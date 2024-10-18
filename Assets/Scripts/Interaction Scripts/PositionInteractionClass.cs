@@ -26,6 +26,11 @@ public class PositionInteractionClass : InteractionClass
 
     public void setObject()
     {
+        if (!controller)
+        {
+            setController();
+        }
+
         //If this is not a senser, then make it interact.
         if(currentHeldItem.getType() != interactionType.senserInteraction)
         {

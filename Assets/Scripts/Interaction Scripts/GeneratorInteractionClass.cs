@@ -8,7 +8,7 @@ public class GeneratorInteractionClass : InteractionClass
     SystemManager powerManager;
 
     [SerializeField]
-    bool isOn;
+    bool isOn = false;
 
     [SerializeField]
     float maxPower;
@@ -18,7 +18,7 @@ public class GeneratorInteractionClass : InteractionClass
     // Start is called before the first frame update
     void Start()
     {
-        isOn = false;
+        //isOn = false;
 
         setController();
     }
