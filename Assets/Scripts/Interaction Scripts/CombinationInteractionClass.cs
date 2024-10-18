@@ -37,7 +37,7 @@ public class CombinationInteractionClass : InteractionClass
             //Rotated to a random number.
             float rand = Random.Range(0, connectedObject.childCount);
 
-            Debug.Log("First: " + rand);
+            //Debug.Log("First: " + rand);
 
             rand += 5;
 
@@ -48,7 +48,7 @@ public class CombinationInteractionClass : InteractionClass
                 rand = 0 + (rand - connectedObject.childCount);
             }
 
-            Debug.Log("Second: " + rand);
+            //Debug.Log("Second: " + rand);
             //Rotate to point.
             float newOffset = 0;
             for (int i = 0; i < rand; i++)
