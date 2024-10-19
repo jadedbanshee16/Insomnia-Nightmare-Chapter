@@ -28,6 +28,9 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Game Manager does not have any systems to manage.");
         }
 
+        //Initiate the first state of the world.
+        GetComponent<WorldStateManager>().loadWorld();
+
     }
 
 

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7968044618919207550}
   - component: {fileID: 9208528613481695977}
   - component: {fileID: 5890557767970724310}
+  - component: {fileID: 6590697696840238543}
   m_Layer: 11
   m_Name: BlueKey
   m_TagString: Untagged
@@ -150,8 +151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: df6574222a94b4409bd44cf9fa9543e6, type: 3}
-  - {fileID: 8300000, guid: df6574222a94b4409bd44cf9fa9543e6, type: 3}
+  - {fileID: 8300000, guid: 9afe8844cce9c47538e6aaf62d7b0ac2, type: 3}
+  - {fileID: 8300000, guid: 9afe8844cce9c47538e6aaf62d7b0ac2, type: 3}
   activeObjects: []
 --- !u!114 &9208528613481695977
 MonoBehaviour:
@@ -269,6 +270,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6590697696840238543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5874952201845748418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9ab8566c92e3e40984fd2f9e5d4746, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7003642370498250347
 GameObject:
   m_ObjectHideFlags: 0

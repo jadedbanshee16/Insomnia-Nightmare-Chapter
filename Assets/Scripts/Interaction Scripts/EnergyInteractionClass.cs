@@ -12,7 +12,7 @@ public class EnergyInteractionClass : InteractionClass
     private GridManager powerManager;
 
     [SerializeField]
-    bool isOn;
+    bool isOn = false;
 
     [SerializeField]
     EnergyObjectClass obj;
@@ -20,7 +20,7 @@ public class EnergyInteractionClass : InteractionClass
     // Start is called before the first frame update
     void Start()
     {
-        isOn = false;
+        //isOn = false;
 
         setController();
 
