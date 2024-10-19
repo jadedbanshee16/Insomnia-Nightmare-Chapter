@@ -127,8 +127,7 @@ public class WorldStateManager : MonoBehaviour
         for (int i = 0; i < interactables.Length; i++)
         {
             if (interactables[i].GetComponent<HoldInteractionClass>() &&
-                (interactables[i].GetComponent<HoldInteractionClass>().isInteractionType(InteractionClass.interactionType.player) ||
-                interactables[i].GetComponent<HoldInteractionClass>().isInteractionType(InteractionClass.interactionType.playerHold)))
+               (interactables[i].GetComponent<HoldInteractionClass>().isInteractionType(InteractionClass.interactionType.player)))
             {
                 if (interactables[i].GetComponent<HoldInteractionClass>().getCurrentHolder())
                 {
@@ -159,21 +158,29 @@ public class WorldStateManager : MonoBehaviour
             }
         }
 
-        //Change holdable or touchable hold time to the new position... or actual position.
-        for(int i = 0; i < _state.items.Count; i++)
-        {
-            GameObject obj = GameObject.Find(_state.items[i].name);
+        InteractionClass[] interactables = GameObject.FindObjectsOfType<InteractionClass>();
 
-            if (obj)
+        int count = 0;
+
+        //Go through and save data of moveable objects.
+        for (int i = 0; i < interactables.Length; i++)
+        {
+            if (interactables[i].GetComponent<HoldInteractionClass>() &&
+               (interactables[i].GetComponent<HoldInteractionClass>().isInteractionType(InteractionClass.interactionType.player)) &&
+                interactables[i].gameObject.name == _state.items[count].name)
             {
-                obj.transform.position = _state.items[i].position;
-                obj.transform.rotation = _state.items[i].rotation;
-                //Now make a connection.
-                GameObject connObj = GameObject.Find(_state.items[i].connectedObjectId);
+
+                interactables[i].transform.position = _state.items[count].position;
+                interactables[i].transform.rotation = _state.items[count].rotation;
+
+
+                GameObject connObj = GameObject.Find(_state.items[count].connectedObjectId);
+
+                count++;
 
                 if (connObj)
                 {
-                    connObj.GetComponent<PositionInteractionClass>().Interact(obj);
+                    connObj.GetComponent<PositionInteractionClass>().Interact(interactables[i].gameObject);
                 }
             }
         }
