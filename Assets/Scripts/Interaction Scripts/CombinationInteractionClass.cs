@@ -6,6 +6,9 @@ public class CombinationInteractionClass : InteractionClass
 {
     [SerializeField]
     int combinationNumber;
+
+    [SerializeField]
+    int initialNumber;
     
     [SerializeField]
     float rotationOffset;
@@ -35,13 +38,7 @@ public class CombinationInteractionClass : InteractionClass
             connectedObject.GetChild(comb).gameObject.SetActive(false);
 
             //Rotated to a random number.
-            float rand = Random.Range(0, connectedObject.childCount);
-
-            //Debug.Log("First: " + rand);
-
-            rand += 5;
-
-            rand = (int)rand;
+            int rand = initialNumber;
 
             if(rand >= connectedObject.childCount)
             {
