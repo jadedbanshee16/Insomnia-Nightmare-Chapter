@@ -11,7 +11,7 @@ public class WorldStateManager : MonoBehaviour
     int currentCam;
     CameraManager camController;
     [SerializeField]
-    HoldInteractionClass[] interactionablesItems;
+    List<HoldInteractionClass> interactionablesItems;
     [SerializeField]
     PositionInteractionClass[] interactablePositions;
     [SerializeField]
@@ -116,6 +116,7 @@ public class WorldStateManager : MonoBehaviour
         InteractionClass[] interactables = GameObject.FindObjectsOfType<InteractionClass>();
 
         _state = new worldState();
+        interactionablesItems = new List<HoldInteractionClass>();
 
         for (int i = 0; i < entities.Length; i++)
         {
@@ -138,6 +139,7 @@ public class WorldStateManager : MonoBehaviour
                     _state.setItem(interactables[i].name, interactables[i].transform.position, interactables[i].transform.rotation, null);
                 }
 
+                interactionablesItems.Add(interactables[i].GetComponent<HoldInteractionClass>());
             }
         }
     }
@@ -149,16 +151,37 @@ public class WorldStateManager : MonoBehaviour
         //Change all entities to the current world state.
         for (int i = 0; i < _state.entities.Count; i++)
         {
-            GameObject obj = GameObject.Find(_state.entities[i].instanceId);
-
-            if (obj)
+            for(int v = 0; v < entities.Length; v++)
             {
-                obj.transform.position = _state.entities[i].position;
-                obj.transform.rotation = _state.entities[i].rotation;
+                if(entities[v].name == _state.entities[i].instanceId)
+                {
+                    entities[v].transform.position = _state.entities[i].position;
+                    entities[v].transform.rotation = _state.entities[i].rotation;
+                }
             }
         }
 
-        InteractionClass[] interactables = GameObject.FindObjectsOfType<InteractionClass>();
+        //Go through each state item and match it to a given interactive reference.
+        for (int i = 0; i < _state.items.Count; i++)
+        {
+            for (int v = 0; v < interactionablesItems.Count; v++)
+            {
+                if (interactionablesItems[v].gameObject.name == _state.items[i].name)
+                {
+                    interactionablesItems[v].transform.position = _state.items[i].position;
+                    interactionablesItems[v].transform.rotation = _state.items[i].rotation;
+
+                    GameObject connObj = GameObject.Find(_state.items[i].connectedObjectId);
+
+                    if (connObj)
+                    {
+                        connObj.GetComponent<PositionInteractionClass>().Interact(interactionablesItems[v].gameObject);
+                    }
+                }
+            }
+        }
+
+        /*InteractionClass[] interactables = GameObject.FindObjectsOfType<InteractionClass>();
 
         int count = 0;
 
@@ -183,7 +206,7 @@ public class WorldStateManager : MonoBehaviour
                     connObj.GetComponent<PositionInteractionClass>().Interact(interactables[i].gameObject);
                 }
             }
-        }
+        }*/
     }
 
     public void generateInitialState()
@@ -206,6 +229,38 @@ public class WorldStateManager : MonoBehaviour
 
         System.IO.File.WriteAllText(Application.persistentDataPath + "/saveFiles/" + sceneName + "InitialState.json", text);
 
+
+    }
+
+    public void saveNewState()
+    {
+        saveWorldState();
+
+        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+
+        //Get path for the file manager.
+        string p = string.Concat(Application.persistentDataPath, "/saveFiles/fileManager" + sceneName + ".txt");
+
+        //If the manager file doesn't exist, create one.
+        if (!System.IO.File.Exists(p))
+        {
+            createNewManager(p);
+        }
+
+        //Get a json text of all datas.
+        string text = JsonUtility.ToJson(_state, true);
+
+        //Find the current world index.
+        int count = getSaveAmount(p);
+
+        System.IO.File.WriteAllText(Application.persistentDataPath + "/saveFiles/" + sceneName + "SaveState" + count + ".json", text);
+
+        //Write the file path to the manager.
+        System.IO.StreamWriter wr = new System.IO.StreamWriter(p, true);
+
+        wr.WriteLine(Application.persistentDataPath + "/saveFiles/" + sceneName + "SaveState" + count + ".json");
+
+        wr.Close();
 
     }
 
@@ -238,9 +293,9 @@ public class WorldStateManager : MonoBehaviour
         }
     }*/
 
-    /*public int getSaveAmount()
+    public int getSaveAmount(string path)
     {
-        System.IO.StreamReader re = new System.IO.StreamReader(Application.persistentDataPath + "/saveFiles/fileManager" + ".txt");
+        System.IO.StreamReader re = new System.IO.StreamReader(path);
 
         int count = 0;
         while(re.ReadLine() != null)
@@ -251,7 +306,7 @@ public class WorldStateManager : MonoBehaviour
         re.Close();
 
         return count;
-    }*/
+    }
 }
 
 [System.Serializable]

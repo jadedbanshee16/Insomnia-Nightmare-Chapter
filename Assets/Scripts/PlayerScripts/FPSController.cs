@@ -31,6 +31,7 @@ public class FPSController : MonoBehaviour
     private FPSCamera m_camera;
     [SerializeField]
     private GameObject hitBox;
+    private MenuManager menu_;
     private CapsuleCollider m_collider;
     private CharacterController m_controller;
     private playerStatus currentStatus;
@@ -58,9 +59,10 @@ public class FPSController : MonoBehaviour
 
     public bool movementLocked;
     private bool interactionLocked;
-    private bool mouseLocked;
+    public bool mouseLocked;
     //This variable is used pick up items but cannot hold them without holding down the pick up button.
     private bool handLocked;
+    public bool menuLocked;
 
     // Start is called before the first frame update
     void Start()
@@ -70,12 +72,15 @@ public class FPSController : MonoBehaviour
         m_collider = GetComponent<CapsuleCollider>();
         colliderSize = colliderSizes.y;
 
+        menu_ = GetComponent<MenuManager>();
+
         currentStatus = playerStatus.idle;
         //Set the default move speed.
         moveSpeed = speedVariations.y;
 
         movementLocked = false;
         interactionLocked = false;
+        menuLocked = false;
 
         //Set the audio system.
         audioManager_ = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AudioManager>();
@@ -105,6 +110,12 @@ public class FPSController : MonoBehaviour
             makeInteraction();
         }
 
+        //If menulocked, then go through and complete interactions with menu.
+        if (menuLocked)
+        {
+
+        }
+
         //If holding the item, set the item to current playerHand position.
         if (holdingItem && holdingItem.GetComponent<InteractionClass>())
         {
@@ -122,6 +133,7 @@ public class FPSController : MonoBehaviour
         //Work with the exit input to get out of locking positions without touching the interaction.
         if (Input.GetKey(KeyCode.Escape) || (mouseLocked && Input.GetKey(KeyCode.Mouse0)))
         {
+            //If a locking object is found then complete path to locking object,
             if (lockingObject && lockingObject.GetComponent<PlayerControlInteractionClass>())
             {
                 if (interactionTimer == 0)
@@ -129,8 +141,29 @@ public class FPSController : MonoBehaviour
                     interactionTimer = interactionCooldown;
                     lockingObject.GetComponent<InteractionClass>().Interact(this.gameObject);
                 }
+            //If no locking object, then assume menu is opened.
             }
         }
+
+        if (Input.GetKey(KeyCode.Escape) && !lockingObject)
+        {
+            if (interactionTimer == 0)
+            {
+                interactionTimer = interactionCooldown;
+
+                //If menu is already open, then unlock menu.
+                if (menuLocked)
+                {
+                    setMenu(false, false);
+                }
+                else
+                {
+                    setMenu(true, true);
+                }
+            }
+        }
+
+
     }
 
     //Keep all player movement.
@@ -524,6 +557,39 @@ public class FPSController : MonoBehaviour
             Cursor.visible = false;
         }
 
+    }
+
+    public void setMenu(bool b, bool usingMouse)
+    {
+        movementLocked = b;
+
+        menuLocked = b;
+
+        //interactionLocked = b;
+
+        mouseLocked = !usingMouse;
+
+        if (!mouseLocked)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+
+            //Set the menu to true.
+            //Menu is index 1, stylus is index 0.
+            menu_.updateMenuGroup(1, true);
+            menu_.updateMenuGroup(0, false);
+            m_camera.lockHead(true);
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            //Set the menu to true.
+            //Menu is index 1, stylus is index 0.
+            menu_.updateMenuGroup(0, true);
+            menu_.updateMenuGroup(1, false);
+            m_camera.lockHead(false);
+        }
     }
 
     public bool getLock()
