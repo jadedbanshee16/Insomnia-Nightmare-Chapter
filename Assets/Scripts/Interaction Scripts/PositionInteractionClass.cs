@@ -65,7 +65,7 @@ public class PositionInteractionClass : InteractionClass
         bool canHold = false;
 
         //Test for unique first, if unique and string is not empty, then check if name is correct.
-        if (hasPermission(interactionType.unique) && string.Equals(uniqueObjectOverride, ""))
+        if (hasPermission(interactionType.unique) && !string.Equals(uniqueObjectOverride, ""))
         {
             //If unique, then check name.
             if (string.Equals(uniqueObjectOverride, obj.gameObject.name))

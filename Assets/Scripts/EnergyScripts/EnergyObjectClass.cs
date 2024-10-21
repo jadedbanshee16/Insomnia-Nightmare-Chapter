@@ -80,6 +80,11 @@ public class EnergyObjectClass : MonoBehaviour
         return isOn;
     }
 
+    public int getAmount()
+    {
+        return amountOn;
+    }
+
     public GridManager getEnergyManager()
     {
         return energyManager;

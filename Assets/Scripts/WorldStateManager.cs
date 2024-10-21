@@ -13,13 +13,7 @@ public class WorldStateManager : MonoBehaviour
     [SerializeField]
     List<HoldInteractionClass> interactionablesItems;
     [SerializeField]
-    PositionInteractionClass[] interactablePositions;
-    [SerializeField]
-    EnergyInteractionClass[] energyInteractions;
-    [SerializeField]
-    GeneratorInteractionClass[] generatorInteractions;
-    [SerializeField]
-    GridInteractionClass[] gridInteractions;
+    List<LockObjectClass> interactionablesLocks;
 
     private worldState _state;
 
@@ -35,6 +29,7 @@ public class WorldStateManager : MonoBehaviour
         if (!System.IO.File.Exists(p))
         {
             createNewManager(p);
+            generateInitialState();
 
             //Because this is the first boot in this level, then use the first boot file.
 
@@ -101,7 +96,7 @@ public class WorldStateManager : MonoBehaviour
     public void createNewManager(string path)
     {
         //Now save the new current file name to the list of names in manager.
-        System.IO.StreamWriter wr = new System.IO.StreamWriter(path, true);
+        System.IO.StreamWriter wr = new System.IO.StreamWriter(path, false);
 
         string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 
@@ -113,10 +108,11 @@ public class WorldStateManager : MonoBehaviour
     //A function to save the current world state.
     public void saveWorldState()
     {
-        InteractionClass[] interactables = GameObject.FindObjectsOfType<InteractionClass>();
+        InteractionClass[] interactables = GameObject.FindObjectsByType<InteractionClass>(FindObjectsSortMode.None);
 
         _state = new worldState();
         interactionablesItems = new List<HoldInteractionClass>();
+        interactionablesLocks = new List<LockObjectClass>();
 
         for (int i = 0; i < entities.Length; i++)
         {
@@ -128,25 +124,37 @@ public class WorldStateManager : MonoBehaviour
         for (int i = 0; i < interactables.Length; i++)
         {
             if (interactables[i].GetComponent<HoldInteractionClass>() &&
-               (interactables[i].GetComponent<HoldInteractionClass>().isInteractionType(InteractionClass.interactionType.player)))
+               (interactables[i].GetComponent<HoldInteractionClass>().isInteractionType(InteractionClass.interactionType.player) ||
+                interactables[i].GetComponent<HoldInteractionClass>().isInteractionType(InteractionClass.interactionType.playerHold)))
             {
                 if (interactables[i].GetComponent<HoldInteractionClass>().getCurrentHolder())
                 {
-                    _state.setItem(interactables[i].name, interactables[i].transform.position, interactables[i].transform.rotation, interactables[i].GetComponent<HoldInteractionClass>().getCurrentHolder().gameObject.name);
+                    _state.setItem(interactables[i].name, interactables[i].getObjectID(), interactables[i].transform.position, interactables[i].transform.rotation, interactables[i].GetComponent<HoldInteractionClass>().getCurrentHolder().GetComponent<InteractionClass>().getObjectID());
                 }
                 else
                 {
-                    _state.setItem(interactables[i].name, interactables[i].transform.position, interactables[i].transform.rotation, null);
+                    _state.setItem(interactables[i].name, interactables[i].getObjectID(), interactables[i].transform.position, interactables[i].transform.rotation, -1);
                 }
 
                 interactionablesItems.Add(interactables[i].GetComponent<HoldInteractionClass>());
             }
         }
+
+        LockObjectClass[] lockables = GameObject.FindObjectsByType<LockObjectClass>(FindObjectsSortMode.None);
+
+        //Go through and save data of lockable objects.
+        /*for(int i = 0; i < lockables.Length; i++)
+        {
+            _state.setLocks(lockables[i].gameObject.name, lockables[i].getInitialLock(),  lockables[i].getIsOn(), lockables[i].checkLock());
+            interactionablesLocks.Add(lockables[i]);
+        }*/
     }
 
     //A function to load the world based on the current state in the manager.
     private void loadWorldState()
     {
+        //Get eveyr interactable object in one go.
+        InteractionClass[] objs = GameObject.FindObjectsByType<InteractionClass>(FindObjectsSortMode.None);
 
         //Change all entities to the current world state.
         for (int i = 0; i < _state.entities.Count; i++)
@@ -164,22 +172,55 @@ public class WorldStateManager : MonoBehaviour
         //Go through each state item and match it to a given interactive reference.
         for (int i = 0; i < _state.items.Count; i++)
         {
-            for (int v = 0; v < interactionablesItems.Count; v++)
+            //Go through interaction items to find if correct position.
+            for(int v = 0; v < interactionablesItems.Count; v++)
             {
-                if (interactionablesItems[v].gameObject.name == _state.items[i].name)
+                if(interactionablesItems[v].getObjectID() == _state.items[i].id)
                 {
                     interactionablesItems[v].transform.position = _state.items[i].position;
                     interactionablesItems[v].transform.rotation = _state.items[i].rotation;
 
-                    GameObject connObj = GameObject.Find(_state.items[i].connectedObjectId);
+                    GameObject connObj = null;
 
-                    if (connObj)
+                    //Find the matching object if connected object is there.
+                    if (_state.items[i].connectedObjectId >= 0)
+                    {
+                        int count = 0;
+                        //Go through every object in list and find the matching id.
+                        while (count < objs.Length && !connObj)
+                        {
+                            if (objs[count].getObjectID() == _state.items[i].connectedObjectId)
+                            {
+                                connObj = objs[count].gameObject;
+                            }
+
+                            count++;
+                        }
+                    }
+
+                    if (connObj && connObj.GetComponent<PositionInteractionClass>())
                     {
                         connObj.GetComponent<PositionInteractionClass>().Interact(interactionablesItems[v].gameObject);
                     }
+                    else if (connObj && connObj.GetComponentInParent<FPSController>())
+                    {
+                        connObj.GetComponentInParent<FPSController>().setHeldItem(interactionablesItems[v]);
+                    }
                 }
             }
+
         }
+
+        //Do all locked objects.
+        /*for(int i = 0; i < _state.locks.Count; i++)
+        {
+            //Set isOn to the initial position, then force to that position.
+            if (_state.locks[i].initialLock)
+            {
+                interactionablesLocks[i].forceIsOn(true);
+                interactionablesLocks[i].useObject();
+            }
+        }*/
 
         /*InteractionClass[] interactables = GameObject.FindObjectsOfType<InteractionClass>();
 
@@ -315,6 +356,7 @@ public class worldState
     public List<entityData> entities;
     //public cameraData cam;
     public List<itemData> items;
+    public List<lockData> locks;
     //public List<positionData> positions;
     //public List<energyData> energy;
 
@@ -330,18 +372,10 @@ public class worldState
         entities.Add(d);
     }
 
-    //Set the camera of this state.
-    /*public void setCurrentCam(int i)
-    {
-        cam = new cameraData();
-
-        cam.currentCam = i;
-    }*/
-
     //Set the item data of this state.
-    public void setItem(string i, Vector3 pos, Quaternion rot, string ci)
+    public void setItem(string i, float ident, Vector3 pos, Quaternion rot, float ci)
     {
-        itemData ib = new itemData(i, pos, rot, ci);
+        itemData ib = new itemData(i, ident, pos, rot, ci);
 
         if (items == null)
         {
@@ -349,6 +383,26 @@ public class worldState
         }
         items.Add(ib);
     }
+
+    //Set lock data of this state.
+    public void setLocks(string i, bool init, bool isOn, bool isC)
+    {
+        lockData il = new lockData(i, init, isOn, isC);
+
+        if(locks == null)
+        {
+            locks = new List<lockData>();
+        }
+        locks.Add(il);
+    }
+
+    //Set the camera of this state.
+    /*public void setCurrentCam(int i)
+    {
+        cam = new cameraData();
+
+        cam.currentCam = i;
+    }*/
 
     /*public void setEnergy(int i, bool a)
     {
@@ -391,30 +445,50 @@ public class entityData
     }
 }
 
-//For the camera data that needs to be saved.
-[System.Serializable]
-public class cameraData
-{
-    public int currentCam;
-}
-
 //For items that can be held or moved.
 [System.Serializable]
 public class itemData
 {
     public string name;
+    public float id;
     public Vector3 position;
     public Quaternion rotation;
-    public string connectedObjectId;
+    public float connectedObjectId;
 
-    public itemData(string i, Vector3 pos, Quaternion rot, string ci)
+    public itemData(string i, float ident, Vector3 pos, Quaternion rot, float ci)
     {
         name = i;
+        id = ident;
         position = pos;
         rotation = rot;
         connectedObjectId = ci;
     }
 }
+
+//For locked energy objects.
+[System.Serializable]
+public class lockData
+{
+    public string name;
+    public bool initialLock;
+    public bool isLocked;
+    public bool isClosed;
+
+    public lockData(string i, bool init, bool isOn, bool isC)
+    {
+        name = i;
+        initialLock = init;
+        isLocked = isOn;
+        isClosed = isC;
+    }
+}
+
+//For the camera data that needs to be saved.
+/*[System.Serializable]
+public class cameraData
+{
+    public int currentCam;
+}*/
 
 //For positions that can hold an item.
 /*public class positionData
@@ -427,7 +501,7 @@ public class itemData
     }
 }*/
 
-[System.Serializable]
+/*[System.Serializable]
 //For energy items that can be turned on or off.
 public class energyData
 {
@@ -439,6 +513,6 @@ public class energyData
         id = i;
         isOn = b;
     }
-}
+}*/
 
 //For gridManagers.

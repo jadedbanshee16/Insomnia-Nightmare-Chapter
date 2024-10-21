@@ -138,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803fad5ae9cd7a445bba465c18a120a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 0000000007000000
   targetPos: {fileID: 900265998272521295}
   currentHeldItem: {fileID: 0}
@@ -346,6 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803fad5ae9cd7a445bba465c18a120a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 0000000007000000
   targetPos: {fileID: 8222917984532183225}
   currentHeldItem: {fileID: 0}
@@ -676,7 +678,7 @@ PrefabInstance:
     - target: {fileID: -1330247291698806279, guid: d12515de978ad92449be87b5a25bcc65,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.01
       objectReference: {fileID: 0}
     - target: {fileID: -1330247291698806279, guid: d12515de978ad92449be87b5a25bcc65,
         type: 3}
@@ -835,7 +837,7 @@ HingeJoint:
   m_Anchor: {x: -0.0067, y: 0, z: 0}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.035567626, y: -1.679, z: 18.858}
+  m_ConnectedAnchor: {x: -0.047556072, y: -1.676879, z: 18.858}
   serializedVersion: 2
   m_UseSpring: 1
   m_Spring:
@@ -891,6 +893,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e2a9dd10da71ae4da5eaf0f613328a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 030000000400000006000000
   isHeld: 0
   connectedObj: {fileID: 0}
@@ -1055,6 +1058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803fad5ae9cd7a445bba465c18a120a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 030000000000000007000000
   targetPos: {fileID: 1684366042914899968}
   currentHeldItem: {fileID: 0}

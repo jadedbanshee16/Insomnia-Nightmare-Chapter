@@ -16,12 +16,18 @@ public class GenerateInitialState : EditorWindow
     {
         if (GUILayout.Button("Generate initial state"))
         {
+            generateId();
             GenerateState();
         }
     }
 
     private void GenerateState()
-    {
+    {        
         GameObject.FindGameObjectWithTag("GameManager").GetComponent<WorldStateManager>().generateInitialState();
+    }
+
+    private void generateId()
+    {
+        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().setInteractables();
     }
 }

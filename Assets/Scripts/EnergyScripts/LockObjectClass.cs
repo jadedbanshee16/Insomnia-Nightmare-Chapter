@@ -52,6 +52,8 @@ public class LockObjectClass : EnergyObjectClass
         if (pairedLock && pairedLock.getIsOn() != isOn)
         {
             pairedLock.setIsOn(isOn);
+            initialLockPosition = isOn;
+            pairedLock.setInitialLock(isOn);
         }
         //If the object is powered and is on, then switch material to the on materials and turn on light.
         //If not, turn them off.
@@ -62,6 +64,7 @@ public class LockObjectClass : EnergyObjectClass
         }
         else
         {
+            //Make absolutely sure that the door is closed first.
             connectedLockedObject.GetComponent<InteractionClass>().removePermission(lockAgainst);
         }
     }
@@ -74,5 +77,15 @@ public class LockObjectClass : EnergyObjectClass
         }
 
         return false;
+    }
+
+    public bool getInitialLock()
+    {
+        return initialLockPosition;
+    }
+
+    public void setInitialLock(bool b)
+    {
+        initialLockPosition = b;
     }
 }

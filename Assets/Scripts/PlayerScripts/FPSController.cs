@@ -482,7 +482,7 @@ public class FPSController : MonoBehaviour
     }
 
     //A function to make holding item equal to an object.
-    private void setHeldItem(HoldInteractionClass obj)
+    public void setHeldItem(HoldInteractionClass obj)
     {
         holdingItem = obj;
     }
