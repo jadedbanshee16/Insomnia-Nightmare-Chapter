@@ -12,9 +12,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     SystemManager[] systemManagers;
 
-    //Keep all interactionObjects.
-    InteractionClass[] interactables;
-
     private void Awake()
     {
         setInteractables();
@@ -40,7 +37,8 @@ public class GameManager : MonoBehaviour
 
     public void setInteractables()
     {
-        interactables = GameObject.FindObjectsByType<InteractionClass>(FindObjectsSortMode.None);
+        InteractionClass[] interactables = GameObject.FindObjectsByType<InteractionClass>(FindObjectsSortMode.None);
+        EnergyObjectClass[] energies = GameObject.FindObjectsByType<EnergyObjectClass>(FindObjectsSortMode.None);
 
         //Assign id based on start up before any moves have been made. This should be solid throughout.
         for(int i = 0; i < interactables.Length; i++)
@@ -70,6 +68,36 @@ public class GameManager : MonoBehaviour
                 Debug.LogWarning("Repeat ID detected - Item: " + interactables[i].gameObject.name + " | " + interactables[i].getObjectID());
             } 
         }
+
+        //Assign id based on start up before any moves have been made. This should be solid throughout.
+        for (int i = 0; i < energies.Length; i++)
+        {
+            float id = energies[i].transform.position.sqrMagnitude + (energies[i].transform.rotation.eulerAngles.sqrMagnitude);
+            energies[i].setObjectID(id);
+
+            //Debug.Log(interactables[i] + ": " + interactables[i].getObjectID());
+        }
+
+        //Find duplicates.
+        for (int i = 0; i < energies.Length; i++)
+        {
+            float value = energies[i].getObjectID();
+            int count = 0;
+
+            for (int v = 0; v < energies.Length; v++)
+            {
+                if (energies[v].getObjectID() == value)
+                {
+                    count++;
+                }
+            }
+
+            if (count > 1)
+            {
+                Debug.LogWarning("Repeat ID detected - Energy: " + energies[i].gameObject.name + " | " + energies[i].getObjectID());
+            }
+        }
+
     }
 
 

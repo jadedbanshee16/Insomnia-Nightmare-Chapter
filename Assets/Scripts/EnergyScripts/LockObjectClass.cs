@@ -25,12 +25,12 @@ public class LockObjectClass : EnergyObjectClass
         energyManager = man;
 
         //When manager is set, set on depending on energyObject type. Default is off.
-        isOn = initialLockPosition;
+        /*isOn = initialLockPosition;
 
         if (isOn)
         {
             forceIsOn(true);
-        }
+        }*/
 
         //Set any components that needed to be made.
         controller = GetComponent<InteractionControlClass>();

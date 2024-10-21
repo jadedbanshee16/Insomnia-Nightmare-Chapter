@@ -143,11 +143,11 @@ public class WorldStateManager : MonoBehaviour
         LockObjectClass[] lockables = GameObject.FindObjectsByType<LockObjectClass>(FindObjectsSortMode.None);
 
         //Go through and save data of lockable objects.
-        /*for(int i = 0; i < lockables.Length; i++)
+        for(int i = 0; i < lockables.Length; i++)
         {
-            _state.setLocks(lockables[i].gameObject.name, lockables[i].getInitialLock(),  lockables[i].getIsOn(), lockables[i].checkLock());
+            _state.setLocks(lockables[i].gameObject.name, lockables[i].getObjectID(), lockables[i].getInitialLock());
             interactionablesLocks.Add(lockables[i]);
-        }*/
+        }
     }
 
     //A function to load the world based on the current state in the manager.
@@ -212,15 +212,31 @@ public class WorldStateManager : MonoBehaviour
         }
 
         //Do all locked objects.
-        /*for(int i = 0; i < _state.locks.Count; i++)
+        for(int i = 0; i < _state.locks.Count; i++)
         {
-            //Set isOn to the initial position, then force to that position.
-            if (_state.locks[i].initialLock)
+            for(int v = 0; v < interactionablesLocks.Count; v++)
             {
-                interactionablesLocks[i].forceIsOn(true);
-                interactionablesLocks[i].useObject();
+                //If the same object, set the initial lock.
+                if(interactionablesLocks[v].getObjectID() == _state.locks[i].id)
+                {
+                    interactionablesLocks[v].setInitialLock(_state.locks[i].initialLock);
+
+                    //Now set the forceIsOn to true.
+                    if (interactionablesLocks[v].getInitialLock())
+                    {
+                        //Set the isOn.
+                        interactionablesLocks[v].setIsOn(interactionablesLocks[v].getInitialLock());
+                        interactionablesLocks[v].forceIsOn(true);
+                    }
+
+                    //Because all objects have been used already on making the grid function, reuse the locks.
+                    interactionablesLocks[v].useObject();
+                }
+
+
+
             }
-        }*/
+        }
 
         /*InteractionClass[] interactables = GameObject.FindObjectsOfType<InteractionClass>();
 
@@ -385,9 +401,9 @@ public class worldState
     }
 
     //Set lock data of this state.
-    public void setLocks(string i, bool init, bool isOn, bool isC)
+    public void setLocks(string i, float ident, bool init)
     {
-        lockData il = new lockData(i, init, isOn, isC);
+        lockData il = new lockData(i, ident, init);
 
         if(locks == null)
         {
@@ -470,16 +486,14 @@ public class itemData
 public class lockData
 {
     public string name;
+    public float id;
     public bool initialLock;
-    public bool isLocked;
-    public bool isClosed;
 
-    public lockData(string i, bool init, bool isOn, bool isC)
+    public lockData(string i, float ident, bool init)
     {
         name = i;
         initialLock = init;
-        isLocked = isOn;
-        isClosed = isC;
+        id = ident;
     }
 }
 
