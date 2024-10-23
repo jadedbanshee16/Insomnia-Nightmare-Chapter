@@ -14,6 +14,8 @@ public class WorldStateManager : MonoBehaviour
     List<HoldInteractionClass> interactionablesItems;
     [SerializeField]
     List<LockObjectClass> interactionablesLocks;
+    [SerializeField]
+    List<EnergyInteractionClass> interactionablesEnergy;
 
     private worldState _state;
 
@@ -109,10 +111,12 @@ public class WorldStateManager : MonoBehaviour
     public void saveWorldState()
     {
         InteractionClass[] interactables = GameObject.FindObjectsByType<InteractionClass>(FindObjectsSortMode.None);
+        LockObjectClass[] lockables = GameObject.FindObjectsByType<LockObjectClass>(FindObjectsSortMode.None);
 
         _state = new worldState();
         interactionablesItems = new List<HoldInteractionClass>();
         interactionablesLocks = new List<LockObjectClass>();
+        interactionablesEnergy = new List<EnergyInteractionClass>();
 
         for (int i = 0; i < entities.Length; i++)
         {
@@ -140,13 +144,21 @@ public class WorldStateManager : MonoBehaviour
             }
         }
 
-        LockObjectClass[] lockables = GameObject.FindObjectsByType<LockObjectClass>(FindObjectsSortMode.None);
-
         //Go through and save data of lockable objects.
         for(int i = 0; i < lockables.Length; i++)
         {
             _state.setLocks(lockables[i].gameObject.name, lockables[i].getObjectID(), lockables[i].getInitialLock());
             interactionablesLocks.Add(lockables[i]);
+        }
+
+        //Go through energyInteraction classes.
+        for(int i = 0; i < interactables.Length; i++)
+        {
+            if (interactables[i].GetComponent<EnergyInteractionClass>())
+            {
+                _state.setEnergyInteractions(interactables[i].gameObject.name, interactables[i].getObjectID(), interactables[i].GetComponent<EnergyInteractionClass>().getIsOn());
+                interactionablesEnergy.Add(interactables[i].GetComponent<EnergyInteractionClass>());
+            }
         }
     }
 
@@ -232,38 +244,25 @@ public class WorldStateManager : MonoBehaviour
                     //Because all objects have been used already on making the grid function, reuse the locks.
                     interactionablesLocks[v].useObject();
                 }
-
-
-
             }
         }
 
-        /*InteractionClass[] interactables = GameObject.FindObjectsOfType<InteractionClass>();
-
-        int count = 0;
-
-        //Go through and save data of moveable objects.
-        for (int i = 0; i < interactables.Length; i++)
+        //Do all energy interaction objects.
+        for (int i = 0; i < _state.energy.Count; i++)
         {
-            if (interactables[i].GetComponent<HoldInteractionClass>() &&
-               (interactables[i].GetComponent<HoldInteractionClass>().isInteractionType(InteractionClass.interactionType.player)) &&
-                interactables[i].gameObject.name == _state.items[count].name)
+            for (int v = 0; v < interactionablesEnergy.Count; v++)
             {
-
-                interactables[i].transform.position = _state.items[count].position;
-                interactables[i].transform.rotation = _state.items[count].rotation;
-
-
-                GameObject connObj = GameObject.Find(_state.items[count].connectedObjectId);
-
-                count++;
-
-                if (connObj)
+                //If the same object, set the initial lock.
+                if (interactionablesEnergy[v].getObjectID() == _state.energy[i].id)
                 {
-                    connObj.GetComponent<PositionInteractionClass>().Interact(interactables[i].gameObject);
+                    //Prep the object to be opposite what it needs to turn to.
+                    interactionablesEnergy[v].setIsOn(!_state.energy[i].isOn);
+
+                    //No make the interaction.
+                    interactionablesEnergy[v].Interact();
                 }
             }
-        }*/
+        }
     }
 
     public void generateInitialState()
@@ -373,6 +372,7 @@ public class worldState
     //public cameraData cam;
     public List<itemData> items;
     public List<lockData> locks;
+    public List<energyInteractionData> energy;
     //public List<positionData> positions;
     //public List<energyData> energy;
 
@@ -412,37 +412,18 @@ public class worldState
         locks.Add(il);
     }
 
-    //Set the camera of this state.
-    /*public void setCurrentCam(int i)
+    //Set the energy interaction data for this state.
+    public void setEnergyInteractions(string i, float ident, bool init)
     {
-        cam = new cameraData();
-
-        cam.currentCam = i;
-    }*/
-
-    /*public void setEnergy(int i, bool a)
-    {
-        energyData e = new energyData(i, a);
+        energyInteractionData il = new energyInteractionData(i, ident, init);
 
         if(energy == null)
         {
-            energy = new List<energyData>();
+            energy = new List<energyInteractionData>();
         }
 
-        energy.Add(e);
-    }*/
-
-    //Ser position data.
-    /*public void setPosition(int i)
-    {
-        positionData pd = new positionData(i);
-
-        if (positions == null)
-        {
-            positions = new List<positionData>();
-        }
-        positions.Add(pd);
-    }*/
+        energy.Add(il);
+    }
 }
 
 //For all entities in the game.
@@ -494,6 +475,21 @@ public class lockData
         name = i;
         initialLock = init;
         id = ident;
+    }
+}
+
+[System.Serializable]
+public class energyInteractionData
+{
+    public string name;
+    public float id;
+    public bool isOn;
+
+    public energyInteractionData(string i, float ident, bool init)
+    {
+        name = i;
+        id = ident;
+        isOn = init;
     }
 }
 

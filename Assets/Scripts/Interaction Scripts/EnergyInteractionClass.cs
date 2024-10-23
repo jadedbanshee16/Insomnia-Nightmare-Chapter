@@ -32,6 +32,12 @@ public class EnergyInteractionClass : InteractionClass
     {
         isOn = !isOn;
 
+        if (!controller)
+        {
+            setController();
+
+        }
+
         //This is to function either with a switch, button or indication.
         //Set the animation of the controller.
         controller.setAnimation("Pressed");
@@ -62,5 +68,15 @@ public class EnergyInteractionClass : InteractionClass
         controller.setAnimation("isOn", isOn);
 
         controller.setIndicator(isOn);
+    }
+
+    public bool getIsOn()
+    {
+        return isOn;
+    }
+
+    public void setIsOn(bool b)
+    {
+        isOn = b;
     }
 }

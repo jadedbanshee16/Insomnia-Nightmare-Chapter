@@ -249,6 +249,8 @@ GameObject:
   - component: {fileID: 5014504101983871373}
   - component: {fileID: 8334671293594876389}
   - component: {fileID: 3212563446854807390}
+  - component: {fileID: 6228121268777517092}
+  - component: {fileID: 1326683200491444570}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -288,7 +290,8 @@ MonoBehaviour:
   isDay: 0
   systemManagers:
   - {fileID: 0}
-  - {fileID: 0}
+  loadingTime: 0
+  loadTime: 1
 --- !u!114 &8334671293594876389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,6 +330,83 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b25225c72201cd740b16b95b86d57940, type: 3}
   - {fileID: 8300000, guid: 5e8e6e435e65fe146b588b8a9d2df461, type: 3}
   - {fileID: 8300000, guid: 9a47b64b8d432b94eb7317d268127b1d, type: 3}
+--- !u!114 &6228121268777517092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5014504101983871375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f1d9b2e788a3fa4d97b471fb9bf5394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entities:
+  - {fileID: 0}
+  currentCam: 0
+  interactionablesItems:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  interactionablesLocks:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  interactionablesEnergy:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &1326683200491444570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5014504101983871375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad66e8c6fa7347e4ca87eaeb752f8f15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultControls: 430100006700000074000000660000007700000073000000610000006400000030010000320100001b000000
 --- !u!1 &5014504103167409717
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +423,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5014504103167409723
 Transform:
   m_ObjectHideFlags: 0

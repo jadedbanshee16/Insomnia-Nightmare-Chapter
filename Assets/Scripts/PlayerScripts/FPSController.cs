@@ -34,6 +34,8 @@ public class FPSController : MonoBehaviour
     private MenuManager menu_;
     private CapsuleCollider m_collider;
     private CharacterController m_controller;
+    [SerializeField]
+    private Transform camPos;
     private playerStatus currentStatus;
 
     [SerializeField]
@@ -48,6 +50,9 @@ public class FPSController : MonoBehaviour
     private AudioSource playerSource;
     int walkingClipLength;
     int runningClipLength;
+
+    //GameManager variables.
+    private OptionsManager options;
 
 
     private float footstepTime = 1;
@@ -70,6 +75,7 @@ public class FPSController : MonoBehaviour
         //m_rig = GetComponent<Rigidbody>();
         m_controller = GetComponent<CharacterController>();
         m_collider = GetComponent<CapsuleCollider>();
+        options = GameObject.FindGameObjectWithTag("GameManager").GetComponent<OptionsManager>();
         colliderSize = colliderSizes.y;
 
         menu_ = GetComponent<MenuManager>();
@@ -122,7 +128,7 @@ public class FPSController : MonoBehaviour
             holdingItem.GetComponent<InteractionClass>().Interact(playerHand.GetChild(0).position, playerHand.GetChild(0).rotation, playerHand);
         }
 
-        if (Input.GetKeyUp(KeyCode.Mouse0) && handLocked && holdingItem)
+        if (Input.GetKeyUp(options.getControl(OptionsManager.theControls.interaction)) && handLocked && holdingItem)
         {
             holdingItem.Interact(frontPosition(), Quaternion.identity, null);
             holdingItem.removeHeld();
@@ -131,7 +137,7 @@ public class FPSController : MonoBehaviour
         }
 
         //Work with the exit input to get out of locking positions without touching the interaction.
-        if (Input.GetKey(KeyCode.Escape) || (mouseLocked && Input.GetKey(KeyCode.Mouse0)))
+        if (Input.GetKey(options.getControl(OptionsManager.theControls.exit)) || (mouseLocked && Input.GetKey(options.getControl(OptionsManager.theControls.interaction))))
         {
             //If a locking object is found then complete path to locking object,
             if (lockingObject && lockingObject.GetComponent<PlayerControlInteractionClass>())
@@ -145,7 +151,7 @@ public class FPSController : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.Escape) && !lockingObject)
+        if (Input.GetKey(options.getControl(OptionsManager.theControls.exit)) && !lockingObject)
         {
             if (interactionTimer == 0)
             {
@@ -174,20 +180,20 @@ public class FPSController : MonoBehaviour
         Vector3 moveDirection = Vector3.zero;
 
         //Get an input from keyboard. If so, make a move. For forward and back
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(options.getControl(OptionsManager.theControls.forward)))
         {
             moveDirection += transform.forward;
         }
-        else if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKey(options.getControl(OptionsManager.theControls.backward)))
         {
             moveDirection -= transform.forward;
         }
         //Get input from keyboard. Id so, make a move. For left and right.
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(options.getControl(OptionsManager.theControls.left)))
         {
             moveDirection -= transform.right;
         }
-        else if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(options.getControl(OptionsManager.theControls.right)))
         {
             moveDirection += transform.right;
         }
@@ -209,14 +215,14 @@ public class FPSController : MonoBehaviour
         currentStatus = playerStatus.walk;
 
         //Create the crouch buttons.
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(options.getControl(OptionsManager.theControls.crouch)))
         {
             moveSpeed = speedVariations.x;
             currentStatus = playerStatus.crouch;
 
             //didMove = true;
         }
-        else if (Input.GetKeyUp(KeyCode.LeftControl))
+        else if (Input.GetKeyUp(options.getControl(OptionsManager.theControls.crouch)))
         {
             currentStatus = playerStatus.walk;
 
@@ -224,14 +230,14 @@ public class FPSController : MonoBehaviour
         }
 
         //Set up the running.
-        if (Input.GetKey(KeyCode.LeftShift) && currentStatus != playerStatus.crouch)
+        if (Input.GetKey(options.getControl(OptionsManager.theControls.run)) && currentStatus != playerStatus.crouch)
         {
             moveSpeed = speedVariations.z;
             currentStatus = playerStatus.run;
 
             //didMove = true;
         }
-        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        else if (Input.GetKeyUp(options.getControl(OptionsManager.theControls.run)))
         {
             moveSpeed = speedVariations.y;
             currentStatus = playerStatus.walk;
@@ -242,13 +248,15 @@ public class FPSController : MonoBehaviour
             colliderSize -= Time.fixedDeltaTime;
             m_collider.height = colliderSize;
             m_controller.height = colliderSize;
+            playerHead.localPosition = new Vector3(0, -0.12f, 0);
         }
 
-        if (currentStatus != playerStatus.crouch && colliderSize < colliderSizes.y)
+        if (currentStatus != playerStatus.crouch && colliderSize < colliderSizes.y && isNothingAbove())
         {
             colliderSize += Time.fixedDeltaTime;
             m_collider.height = colliderSize;
             m_controller.height = colliderSize;
+            playerHead.localPosition = new Vector3(0, 0.02f, 0);
         }
 
         if (didMove)
@@ -279,7 +287,7 @@ public class FPSController : MonoBehaviour
         {
 
             //Make the controls for the mouse button.
-            if (Input.GetKey(KeyCode.Mouse0))
+            if (Input.GetKey(options.getControl(OptionsManager.theControls.interaction)))
             {
                 isInInteraction();
 
@@ -292,7 +300,7 @@ public class FPSController : MonoBehaviour
             }
 
             //Controls for dropping items in held hand.
-            if (Input.GetKey(KeyCode.G) && holdingItem)
+            if (Input.GetKey(options.getControl(OptionsManager.theControls.drop)) && holdingItem)
             {
                 holdingItem.Interact(frontPosition(), Quaternion.identity, null);
                 holdingItem.removeHeld();
@@ -521,6 +529,20 @@ public class FPSController : MonoBehaviour
         return trans;
     }
 
+    //A function to find if any objects can be found above the player head.
+    //This is used to ensure a player cannot get up if they crouched under something.
+    private bool isNothingAbove()
+    {
+        //Send a new ray up.
+        if (Physics.Raycast(playerHead.position, Vector3.up, 0.15f))
+        {
+            //Something is above. if so, return false.
+            return false;
+        }
+
+        return true;
+    }
+
     private void makeRandomFootstep()
     {
         int randNum = 0;
@@ -576,8 +598,7 @@ public class FPSController : MonoBehaviour
 
             //Set the menu to true.
             //Menu is index 1, stylus is index 0.
-            menu_.updateMenuGroup(1, true);
-            menu_.updateMenuGroup(0, false);
+            menu_.setToMenuGroup("Menu");
             m_camera.lockHead(true);
         }
         else
@@ -586,8 +607,7 @@ public class FPSController : MonoBehaviour
             Cursor.visible = false;
             //Set the menu to true.
             //Menu is index 1, stylus is index 0.
-            menu_.updateMenuGroup(0, true);
-            menu_.updateMenuGroup(1, false);
+            menu_.setToMenuGroup("Stylus");
             m_camera.lockHead(false);
         }
     }

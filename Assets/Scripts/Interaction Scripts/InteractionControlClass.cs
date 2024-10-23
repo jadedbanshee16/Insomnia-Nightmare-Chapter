@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,9 @@ public class InteractionControlClass : MonoBehaviour
 
     [SerializeField]
     GameObject[] activeObjects;
+
+    int nulledParameter1 = Animator.StringToHash("Pressed");
+    List<int> validPams = new List<int>();
 
     //Set the position of this current object to a given other position.
     public void setPosition(Vector3 pos, Quaternion rot)
@@ -114,7 +118,12 @@ public class InteractionControlClass : MonoBehaviour
     //Make an naimation run as a trigger.
     public void setAnimation(string animationPrompt)
     {
-        if (anim_)
+        if (!anim_)
+        {
+            updateThisInteraction();
+        }
+
+        if (validPams.Contains(nulledParameter1) && anim_)
         {
             anim_.SetTrigger(animationPrompt);
         }
@@ -203,6 +212,14 @@ public class InteractionControlClass : MonoBehaviour
         }
 
         aud_ = GetComponent<AudioSource>();
+
+        if (anim_)
+        {
+            for (int i = 0; i < anim_.parameters.Length; i++)
+            {
+                validPams.Add(anim_.parameters[i].nameHash);
+            }
+        }
     }
 
     //A function to get the current transform of this object.
