@@ -11,15 +11,11 @@ public class WorldStateManager : MonoBehaviour
     int currentCam;
     CameraManager camController;
     [SerializeField]
-    HoldInteractionClass[] interactionablesItems;
+    List<HoldInteractionClass> interactionablesItems;
     [SerializeField]
-    PositionInteractionClass[] interactablePositions;
+    List<LockObjectClass> interactionablesLocks;
     [SerializeField]
-    EnergyInteractionClass[] energyInteractions;
-    [SerializeField]
-    GeneratorInteractionClass[] generatorInteractions;
-    [SerializeField]
-    GridInteractionClass[] gridInteractions;
+    List<EnergyInteractionClass> interactionablesEnergy;
 
     private worldState _state;
 
@@ -35,6 +31,7 @@ public class WorldStateManager : MonoBehaviour
         if (!System.IO.File.Exists(p))
         {
             createNewManager(p);
+            generateInitialState();
 
             //Because this is the first boot in this level, then use the first boot file.
 
@@ -101,7 +98,7 @@ public class WorldStateManager : MonoBehaviour
     public void createNewManager(string path)
     {
         //Now save the new current file name to the list of names in manager.
-        System.IO.StreamWriter wr = new System.IO.StreamWriter(path, true);
+        System.IO.StreamWriter wr = new System.IO.StreamWriter(path, false);
 
         string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 
@@ -113,9 +110,13 @@ public class WorldStateManager : MonoBehaviour
     //A function to save the current world state.
     public void saveWorldState()
     {
-        InteractionClass[] interactables = GameObject.FindObjectsOfType<InteractionClass>();
+        InteractionClass[] interactables = GameObject.FindObjectsByType<InteractionClass>(FindObjectsSortMode.None);
+        LockObjectClass[] lockables = GameObject.FindObjectsByType<LockObjectClass>(FindObjectsSortMode.None);
 
         _state = new worldState();
+        interactionablesItems = new List<HoldInteractionClass>();
+        interactionablesLocks = new List<LockObjectClass>();
+        interactionablesEnergy = new List<EnergyInteractionClass>();
 
         for (int i = 0; i < entities.Length; i++)
         {
@@ -127,17 +128,36 @@ public class WorldStateManager : MonoBehaviour
         for (int i = 0; i < interactables.Length; i++)
         {
             if (interactables[i].GetComponent<HoldInteractionClass>() &&
-               (interactables[i].GetComponent<HoldInteractionClass>().isInteractionType(InteractionClass.interactionType.player)))
+               (interactables[i].GetComponent<HoldInteractionClass>().isInteractionType(InteractionClass.interactionType.player) ||
+                interactables[i].GetComponent<HoldInteractionClass>().isInteractionType(InteractionClass.interactionType.playerHold)))
             {
                 if (interactables[i].GetComponent<HoldInteractionClass>().getCurrentHolder())
                 {
-                    _state.setItem(interactables[i].name, interactables[i].transform.position, interactables[i].transform.rotation, interactables[i].GetComponent<HoldInteractionClass>().getCurrentHolder().gameObject.name);
+                    _state.setItem(interactables[i].name, interactables[i].getObjectID(), interactables[i].transform.position, interactables[i].transform.rotation, interactables[i].GetComponent<HoldInteractionClass>().getCurrentHolder().GetComponent<InteractionClass>().getObjectID());
                 }
                 else
                 {
-                    _state.setItem(interactables[i].name, interactables[i].transform.position, interactables[i].transform.rotation, null);
+                    _state.setItem(interactables[i].name, interactables[i].getObjectID(), interactables[i].transform.position, interactables[i].transform.rotation, -1);
                 }
 
+                interactionablesItems.Add(interactables[i].GetComponent<HoldInteractionClass>());
+            }
+        }
+
+        //Go through and save data of lockable objects.
+        for(int i = 0; i < lockables.Length; i++)
+        {
+            _state.setLocks(lockables[i].gameObject.name, lockables[i].getObjectID(), lockables[i].getInitialLock());
+            interactionablesLocks.Add(lockables[i]);
+        }
+
+        //Go through energyInteraction classes.
+        for(int i = 0; i < interactables.Length; i++)
+        {
+            if (interactables[i].GetComponent<EnergyInteractionClass>())
+            {
+                _state.setEnergyInteractions(interactables[i].gameObject.name, interactables[i].getObjectID(), interactables[i].GetComponent<EnergyInteractionClass>().getIsOn());
+                interactionablesEnergy.Add(interactables[i].GetComponent<EnergyInteractionClass>());
             }
         }
     }
@@ -145,42 +165,101 @@ public class WorldStateManager : MonoBehaviour
     //A function to load the world based on the current state in the manager.
     private void loadWorldState()
     {
+        //Get eveyr interactable object in one go.
+        InteractionClass[] objs = GameObject.FindObjectsByType<InteractionClass>(FindObjectsSortMode.None);
 
         //Change all entities to the current world state.
         for (int i = 0; i < _state.entities.Count; i++)
         {
-            GameObject obj = GameObject.Find(_state.entities[i].instanceId);
-
-            if (obj)
+            for(int v = 0; v < entities.Length; v++)
             {
-                obj.transform.position = _state.entities[i].position;
-                obj.transform.rotation = _state.entities[i].rotation;
+                if(entities[v].name == _state.entities[i].instanceId)
+                {
+                    entities[v].transform.position = _state.entities[i].position;
+                    entities[v].transform.rotation = _state.entities[i].rotation;
+                }
             }
         }
 
-        InteractionClass[] interactables = GameObject.FindObjectsOfType<InteractionClass>();
-
-        int count = 0;
-
-        //Go through and save data of moveable objects.
-        for (int i = 0; i < interactables.Length; i++)
+        //Go through each state item and match it to a given interactive reference.
+        for (int i = 0; i < _state.items.Count; i++)
         {
-            if (interactables[i].GetComponent<HoldInteractionClass>() &&
-               (interactables[i].GetComponent<HoldInteractionClass>().isInteractionType(InteractionClass.interactionType.player)) &&
-                interactables[i].gameObject.name == _state.items[count].name)
+            //Go through interaction items to find if correct position.
+            for(int v = 0; v < interactionablesItems.Count; v++)
             {
-
-                interactables[i].transform.position = _state.items[count].position;
-                interactables[i].transform.rotation = _state.items[count].rotation;
-
-
-                GameObject connObj = GameObject.Find(_state.items[count].connectedObjectId);
-
-                count++;
-
-                if (connObj)
+                if(interactionablesItems[v].getObjectID() == _state.items[i].id)
                 {
-                    connObj.GetComponent<PositionInteractionClass>().Interact(interactables[i].gameObject);
+                    interactionablesItems[v].transform.position = _state.items[i].position;
+                    interactionablesItems[v].transform.rotation = _state.items[i].rotation;
+
+                    GameObject connObj = null;
+
+                    //Find the matching object if connected object is there.
+                    if (_state.items[i].connectedObjectId >= 0)
+                    {
+                        int count = 0;
+                        //Go through every object in list and find the matching id.
+                        while (count < objs.Length && !connObj)
+                        {
+                            if (objs[count].getObjectID() == _state.items[i].connectedObjectId)
+                            {
+                                connObj = objs[count].gameObject;
+                            }
+
+                            count++;
+                        }
+                    }
+
+                    if (connObj && connObj.GetComponent<PositionInteractionClass>())
+                    {
+                        connObj.GetComponent<PositionInteractionClass>().Interact(interactionablesItems[v].gameObject);
+                    }
+                    else if (connObj && connObj.GetComponentInParent<FPSController>())
+                    {
+                        connObj.GetComponentInParent<FPSController>().setHeldItem(interactionablesItems[v]);
+                    }
+                }
+            }
+
+        }
+
+        //Do all locked objects.
+        for(int i = 0; i < _state.locks.Count; i++)
+        {
+            for(int v = 0; v < interactionablesLocks.Count; v++)
+            {
+                //If the same object, set the initial lock.
+                if(interactionablesLocks[v].getObjectID() == _state.locks[i].id)
+                {
+                    interactionablesLocks[v].setInitialLock(_state.locks[i].initialLock);
+
+                    //Now set the forceIsOn to true.
+                    if (interactionablesLocks[v].getInitialLock())
+                    {
+                        //Set the isOn.
+                        interactionablesLocks[v].setIsOn(interactionablesLocks[v].getInitialLock());
+                        interactionablesLocks[v].forceIsOn(true);
+                    }
+
+                    //Because all objects have been used already on making the grid function, reuse the locks.
+                    interactionablesLocks[v].useObject();
+                }
+            }
+        }
+
+        //Do all energy interaction objects.
+        for (int i = 0; i < _state.energy.Count; i++)
+        {
+            for (int v = 0; v < interactionablesEnergy.Count; v++)
+            {
+                //If the same object, set the initial lock.
+                if (interactionablesEnergy[v].getObjectID() == _state.energy[i].id)
+                {
+                    //Prep the object to be opposite what it needs to turn to.
+                    interactionablesEnergy[v].setIsOn(!_state.energy[i].isOn);
+
+                    //No make the interaction.
+                    interactionablesEnergy[v].Interact();
                 }
             }
         }
@@ -206,6 +285,38 @@ public class WorldStateManager : MonoBehaviour
 
         System.IO.File.WriteAllText(Application.persistentDataPath + "/saveFiles/" + sceneName + "InitialState.json", text);
 
+
+    }
+
+    public void saveNewState()
+    {
+        saveWorldState();
+
+        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+
+        //Get path for the file manager.
+        string p = string.Concat(Application.persistentDataPath, "/saveFiles/fileManager" + sceneName + ".txt");
+
+        //If the manager file doesn't exist, create one.
+        if (!System.IO.File.Exists(p))
+        {
+            createNewManager(p);
+        }
+
+        //Get a json text of all datas.
+        string text = JsonUtility.ToJson(_state, true);
+
+        //Find the current world index.
+        int count = getSaveAmount(p);
+
+        System.IO.File.WriteAllText(Application.persistentDataPath + "/saveFiles/" + sceneName + "SaveState" + count + ".json", text);
+
+        //Write the file path to the manager.
+        System.IO.StreamWriter wr = new System.IO.StreamWriter(p, true);
+
+        wr.WriteLine(Application.persistentDataPath + "/saveFiles/" + sceneName + "SaveState" + count + ".json");
+
+        wr.Close();
 
     }
 
@@ -238,9 +349,9 @@ public class WorldStateManager : MonoBehaviour
         }
     }*/
 
-    /*public int getSaveAmount()
+    public int getSaveAmount(string path)
     {
-        System.IO.StreamReader re = new System.IO.StreamReader(Application.persistentDataPath + "/saveFiles/fileManager" + ".txt");
+        System.IO.StreamReader re = new System.IO.StreamReader(path);
 
         int count = 0;
         while(re.ReadLine() != null)
@@ -251,7 +362,7 @@ public class WorldStateManager : MonoBehaviour
         re.Close();
 
         return count;
-    }*/
+    }
 }
 
 [System.Serializable]
@@ -260,6 +371,8 @@ public class worldState
     public List<entityData> entities;
     //public cameraData cam;
     public List<itemData> items;
+    public List<lockData> locks;
+    public List<energyInteractionData> energy;
     //public List<positionData> positions;
     //public List<energyData> energy;
 
@@ -275,18 +388,10 @@ public class worldState
         entities.Add(d);
     }
 
-    //Set the camera of this state.
-    /*public void setCurrentCam(int i)
-    {
-        cam = new cameraData();
-
-        cam.currentCam = i;
-    }*/
-
     //Set the item data of this state.
-    public void setItem(string i, Vector3 pos, Quaternion rot, string ci)
+    public void setItem(string i, float ident, Vector3 pos, Quaternion rot, float ci)
     {
-        itemData ib = new itemData(i, pos, rot, ci);
+        itemData ib = new itemData(i, ident, pos, rot, ci);
 
         if (items == null)
         {
@@ -295,29 +400,30 @@ public class worldState
         items.Add(ib);
     }
 
-    /*public void setEnergy(int i, bool a)
+    //Set lock data of this state.
+    public void setLocks(string i, float ident, bool init)
     {
-        energyData e = new energyData(i, a);
+        lockData il = new lockData(i, ident, init);
+
+        if(locks == null)
+        {
+            locks = new List<lockData>();
+        }
+        locks.Add(il);
+    }
+
+    //Set the energy interaction data for this state.
+    public void setEnergyInteractions(string i, float ident, bool init)
+    {
+        energyInteractionData il = new energyInteractionData(i, ident, init);
 
         if(energy == null)
         {
-            energy = new List<energyData>();
+            energy = new List<energyInteractionData>();
         }
 
-        energy.Add(e);
-    }*/
-
-    //Ser position data.
-    /*public void setPosition(int i)
-    {
-        positionData pd = new positionData(i);
-
-        if (positions == null)
-        {
-            positions = new List<positionData>();
-        }
-        positions.Add(pd);
-    }*/
+        energy.Add(il);
+    }
 }
 
 //For all entities in the game.
@@ -336,30 +442,63 @@ public class entityData
     }
 }
 
-//For the camera data that needs to be saved.
-[System.Serializable]
-public class cameraData
-{
-    public int currentCam;
-}
-
 //For items that can be held or moved.
 [System.Serializable]
 public class itemData
 {
     public string name;
+    public float id;
     public Vector3 position;
     public Quaternion rotation;
-    public string connectedObjectId;
+    public float connectedObjectId;
 
-    public itemData(string i, Vector3 pos, Quaternion rot, string ci)
+    public itemData(string i, float ident, Vector3 pos, Quaternion rot, float ci)
     {
         name = i;
+        id = ident;
         position = pos;
         rotation = rot;
         connectedObjectId = ci;
     }
 }
+
+//For locked energy objects.
+[System.Serializable]
+public class lockData
+{
+    public string name;
+    public float id;
+    public bool initialLock;
+
+    public lockData(string i, float ident, bool init)
+    {
+        name = i;
+        initialLock = init;
+        id = ident;
+    }
+}
+
+[System.Serializable]
+public class energyInteractionData
+{
+    public string name;
+    public float id;
+    public bool isOn;
+
+    public energyInteractionData(string i, float ident, bool init)
+    {
+        name = i;
+        id = ident;
+        isOn = init;
+    }
+}
+
+//For the camera data that needs to be saved.
+/*[System.Serializable]
+public class cameraData
+{
+    public int currentCam;
+}*/
 
 //For positions that can hold an item.
 /*public class positionData
@@ -372,7 +511,7 @@ public class itemData
     }
 }*/
 
-[System.Serializable]
+/*[System.Serializable]
 //For energy items that can be turned on or off.
 public class energyData
 {
@@ -384,6 +523,6 @@ public class energyData
         id = i;
         isOn = b;
     }
-}
+}*/
 
 //For gridManagers.

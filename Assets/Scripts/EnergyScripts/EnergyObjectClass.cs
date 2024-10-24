@@ -11,6 +11,9 @@ This is for all objects which require energy to function. This includes electric
 public class EnergyObjectClass : MonoBehaviour
 {
     [SerializeField]
+    private float objectId;
+    
+    [SerializeField]
     protected int energyUsage;
 
     [SerializeField]
@@ -78,6 +81,21 @@ public class EnergyObjectClass : MonoBehaviour
     public bool getIsOn()
     {
         return isOn;
+    }
+
+    public int getAmount()
+    {
+        return amountOn;
+    }
+
+    public void setObjectID(float id)
+    {
+        objectId = id;
+    }
+
+    public float getObjectID()
+    {
+        return objectId;
     }
 
     public GridManager getEnergyManager()

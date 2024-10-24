@@ -10,6 +10,7 @@ public class FPSCamera : MonoBehaviour
     float camVertRot = 0f;
 
     bool cursorLocked = true;
+    bool headLocked = false;
 
     private CinemachineVirtualCamera _cam;
 
@@ -39,19 +40,22 @@ public class FPSCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Get the axis of the mouse.
-        float inputX = Input.GetAxis("Mouse X") * m_mouseSensitivity;
-        float inputY = Input.GetAxis("Mouse Y") * m_mouseSensitivity;
+        if (!headLocked)
+        {
+            //Get the axis of the mouse.
+            float inputX = Input.GetAxis("Mouse X") * m_mouseSensitivity;
+            float inputY = Input.GetAxis("Mouse Y") * m_mouseSensitivity;
 
-        //Change the vertical angle of mouse. Minus to invert.
-        camVertRot -= inputY;
-        //Clam so you don't 360 all the time.
-        camVertRot = Mathf.Clamp(camVertRot, -90, 70);
-        //change transform using eulker angles. (Vector3 doesn't change except x axis, so .right)
-        transform.localEulerAngles = Vector3.right * camVertRot;
+            //Change the vertical angle of mouse. Minus to invert.
+            camVertRot -= inputY;
+            //Clam so you don't 360 all the time.
+            camVertRot = Mathf.Clamp(camVertRot, -90, 70);
+            //change transform using eulker angles. (Vector3 doesn't change except x axis, so .right)
+            transform.localEulerAngles = Vector3.right * camVertRot;
 
-        //Now, rotate the player with the inputX.
-        m_player.Rotate(Vector3.up * inputX);
+            //Now, rotate the player with the inputX.
+            m_player.Rotate(Vector3.up * inputX);
+        }
     }
 
     public void changeHeadBob(int i)
@@ -71,5 +75,10 @@ public class FPSCamera : MonoBehaviour
             _cam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = walkBob.x;
             _cam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = walkBob.y;
         }
+    }
+
+    public void lockHead(bool b)
+    {
+        headLocked = b;
     }
 }

@@ -21,6 +21,8 @@ public class InteractionClass : MonoBehaviour
         bookPosition,
     }
 
+    [SerializeField]
+    private float objectID;
 
     [SerializeField]
     protected interactionType[] permittedInteractions;
@@ -157,5 +159,15 @@ public class InteractionClass : MonoBehaviour
 
             permittedInteractions = newPermissionList;
         }
+    }
+
+    public float getObjectID()
+    {
+        return objectID;
+    }
+
+    public void setObjectID(float ind)
+    {
+        objectID = ind;
     }
 }
