@@ -185,7 +185,7 @@ public class WorldStateManager : MonoBehaviour
             }
         }
 
-        Debug.Log(_state.items.Count);
+        //Debug.Log(_state.items.Count);
 
         //Go through each state item and match it to a given interactive reference.
         for (int i = 0; i < _state.items.Count; i++)
