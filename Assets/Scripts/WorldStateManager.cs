@@ -69,7 +69,7 @@ public class WorldStateManager : MonoBehaviour
             string jsonString = System.IO.File.ReadAllText(lastPath);
             //Now use this path and turn to state.
             _state = JsonUtility.FromJson<worldState>(jsonString);
-
+            //Debug.Log("Exists");
             loadWorldState();
         }
     }
@@ -165,6 +165,10 @@ public class WorldStateManager : MonoBehaviour
     //A function to load the world based on the current state in the manager.
     private void loadWorldState()
     {
+        //Before loading world, ensure all worl objects are in the given lists.
+        getObjectLists();
+
+
         //Get eveyr interactable object in one go.
         InteractionClass[] objs = GameObject.FindObjectsByType<InteractionClass>(FindObjectsSortMode.None);
 
@@ -180,6 +184,8 @@ public class WorldStateManager : MonoBehaviour
                 }
             }
         }
+
+        Debug.Log(_state.items.Count);
 
         //Go through each state item and match it to a given interactive reference.
         for (int i = 0; i < _state.items.Count; i++)
@@ -261,6 +267,41 @@ public class WorldStateManager : MonoBehaviour
                     //No make the interaction.
                     interactionablesEnergy[v].Interact();
                 }
+            }
+        }
+    }
+
+    public void getObjectLists()
+    {
+        InteractionClass[] interactables = GameObject.FindObjectsByType<InteractionClass>(FindObjectsSortMode.None);
+        LockObjectClass[] lockables = GameObject.FindObjectsByType<LockObjectClass>(FindObjectsSortMode.None);
+        interactionablesItems = new List<HoldInteractionClass>();
+        interactionablesLocks = new List<LockObjectClass>();
+        interactionablesEnergy = new List<EnergyInteractionClass>();
+
+        //Go through and save data of moveable objects.
+        for (int i = 0; i < interactables.Length; i++)
+        {
+            if (interactables[i].GetComponent<HoldInteractionClass>() &&
+               (interactables[i].GetComponent<HoldInteractionClass>().isInteractionType(InteractionClass.interactionType.player) ||
+                interactables[i].GetComponent<HoldInteractionClass>().isInteractionType(InteractionClass.interactionType.playerHold)))
+            {
+                interactionablesItems.Add(interactables[i].GetComponent<HoldInteractionClass>());
+            }
+        }
+
+        //Go through and save data of lockable objects.
+        for (int i = 0; i < lockables.Length; i++)
+        {
+            interactionablesLocks.Add(lockables[i]);
+        }
+
+        //Go through energyInteraction classes.
+        for (int i = 0; i < interactables.Length; i++)
+        {
+            if (interactables[i].GetComponent<EnergyInteractionClass>())
+            {
+                interactionablesEnergy.Add(interactables[i].GetComponent<EnergyInteractionClass>());
             }
         }
     }
