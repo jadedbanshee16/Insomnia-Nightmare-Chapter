@@ -99,6 +99,63 @@ public class InteractionControlClass : MonoBehaviour
         }
     }
 
+    public void setAngle(Vector3 dir, Transform offset, bool inverted)
+    {
+        //dir = offset.InverseTransformPoint(dir);
+
+        //dir = dir - offset.position;
+
+        /*float dot = Vector3.Dot(offset.forward, dir - offset.position);
+
+        float angle = Mathf.Acos(dot) / Mathf.PI;
+
+        angle = angle * Mathf.Rad2Deg;
+
+        //dir = offset.InverseTransformPoint(dir);
+
+        float rad1 = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
+
+        rad1 = rad1 - 90;*/
+
+        dir.y = offset.position.y;
+
+        float ang = Vector3.Angle(dir - offset.position, offset.right);
+
+        if (inverted)
+        {
+            ang = Vector3.Angle(offset.position - dir, offset.right);
+
+            if (Vector3.Dot(-offset.forward, dir - offset.position) > 0)
+            {
+                ang = -ang;
+            }
+        } else
+        {
+            if (Vector3.Dot(offset.forward, dir - offset.position) > 0)
+            {
+                ang = -ang;
+            }
+        }
+
+
+
+        //Debug.DrawRay(offset.position, dir - offset.position, Color.white, 3f);
+        //Debug.DrawRay(offset.position, offset.forward, Color.blue, 3f);
+
+        //Debug.Log(ang);
+
+        //float deg1 = Vector3.Angle(-dir, Vector3.forward);
+
+        JointSpring spring = new JointSpring();
+        spring.targetPosition = ang;
+        spring.spring = 100;
+
+        if (GetComponent<HingeJoint>())
+        {
+            GetComponent<HingeJoint>().spring = spring;
+        }
+    }
+
     //If set, then any target angle is removed from hinge joint if hinge joint is part of it.
     public void unsetAngle()
     {

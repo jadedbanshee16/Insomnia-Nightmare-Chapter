@@ -26,15 +26,9 @@ public class PlayerControlInteractionClass : InteractionClass
 
     private void Start()
     {
-        foreach(Transform child in this.transform)
-        {
-            child.gameObject.SetActive(true);
-        }
+        //currentCam = GetComponentInChildren<CinemachineVirtualCamera>();
 
-
-        currentCam = GetComponentInChildren<CinemachineVirtualCamera>();
-
-        currentCam.gameObject.SetActive(false);
+        //currentCam.gameObject.SetActive(false);
 
         setController();
 
@@ -108,7 +102,15 @@ public class PlayerControlInteractionClass : InteractionClass
         {
             player_.setLock(isOn, null, false);
         }
-        
+
+        //If current cam hasn't been set, then set it here.
+        if (!currentCam)
+        {
+            currentCam = GetComponentInChildren<CinemachineVirtualCamera>();
+
+            currentCam.gameObject.SetActive(false);
+        }
+
 
         //Find out if camera switches when working.
         if (isOn)

@@ -248,7 +248,7 @@ public class FPSController : MonoBehaviour
             colliderSize -= Time.fixedDeltaTime;
             m_collider.height = colliderSize;
             m_controller.height = colliderSize;
-            playerHead.localPosition = new Vector3(0, -0.12f, 0);
+            playerHead.localPosition = new Vector3(0, -0.08f, 0);
         }
 
         if (currentStatus != playerStatus.crouch && colliderSize < colliderSizes.y && isNothingAbove())

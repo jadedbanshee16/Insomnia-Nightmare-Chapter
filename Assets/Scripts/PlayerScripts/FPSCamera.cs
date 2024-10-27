@@ -50,11 +50,27 @@ public class FPSCamera : MonoBehaviour
             camVertRot -= inputY;
             //Clam so you don't 360 all the time.
             camVertRot = Mathf.Clamp(camVertRot, -90, 70);
-            //change transform using eulker angles. (Vector3 doesn't change except x axis, so .right)
-            transform.localEulerAngles = Vector3.right * camVertRot;
 
             //Now, rotate the player with the inputX.
-            m_player.Rotate(Vector3.up * inputX);
+            //If no player is selected, then rotate self based on local use.
+            if (m_player)
+            {
+                m_player.Rotate(Vector3.up * inputX);
+                //change transform using eulker angles. (Vector3 doesn't change except x axis, so .right)
+                transform.localEulerAngles = Vector3.right * camVertRot;
+            } else
+            {
+                //Change the vertical angle of mouse. Minus to invert.
+                float camHozLoc = inputX;
+                float camVertLoc = inputY;
+
+
+                //Clam so you don't 360 all the time.
+                //camHozRot = Mathf.Clamp(camVertRot, -90, 70);
+                //change transform using eulker angles. (Vector3 doesn't change except x axis, so .right)
+                Vector3 angles = new Vector3(-camVertLoc, camHozLoc, 0);
+                transform.eulerAngles = transform.eulerAngles + angles;
+            }
         }
     }
 

@@ -34,6 +34,9 @@ public class HoldInteractionClass : InteractionClass
     [SerializeField]
     float stretchThreshold;
 
+    [SerializeField]
+    bool invertHoldAngle;
+
     private bool playOnce;
 
     private void Start()
@@ -51,7 +54,7 @@ public class HoldInteractionClass : InteractionClass
         if(currentHolder && !currentHolder.GetComponentInParent<FPSController>() 
             && getType() != interactionType.senserInteraction)
         {
-            if(Vector3.Distance(currentHolder.position, this.transform.position) > 0.01f)
+            if(Vector3.Distance(currentHolder.position, this.transform.position) > 0.02f)
             {
                 //Ensure that if an object that is supposed to move even when locked, it can move physically.
                 if(getType() == interactionType.autoPosition)
@@ -152,8 +155,7 @@ public class HoldInteractionClass : InteractionClass
             {
                 //Vector3 dir = pos - anchorObject.position;
                 //dir = Quaternion.Inverse(this.transform.rotation) * dir;
-
-                controller.setAngle(pos, anchorObject);
+                controller.setAngle(pos, anchorObject, invertHoldAngle);
             }
         } else
         {
