@@ -106,6 +106,7 @@ public class EnergyObjectClass : MonoBehaviour
     //Set the current on state of the object.
     public virtual void setIsOn(bool b)
     {
+        //Debug.Log("Worked!: " + this.gameObject.name);
         if (b)
         {
             amountOn++;

@@ -212,6 +212,10 @@ public class InteractionControlClass : MonoBehaviour
     //A function to play a given audio clip.
     public void playInteractionAudio(int ind)
     {
+        if(!aud_){
+            updateThisInteraction();
+        }
+
         if(aud_ && clips.Length > 0)
         {
             if(clips.Length > ind)

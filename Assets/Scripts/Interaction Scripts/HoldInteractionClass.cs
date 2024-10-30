@@ -250,4 +250,9 @@ public class HoldInteractionClass : InteractionClass
 
         return null;
     }
+
+    public Transform getAnchor()
+    {
+        return anchorObject;
+    }
 }

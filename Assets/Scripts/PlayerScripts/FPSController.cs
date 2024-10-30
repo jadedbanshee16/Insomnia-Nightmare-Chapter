@@ -14,6 +14,9 @@ public class FPSController : MonoBehaviour
         die
     }
 
+    [SerializeField]
+    private float playerID;
+
     [HeaderAttribute("Character Attributes")]
     [SerializeField]
     private Vector3 speedVariations;
@@ -114,6 +117,15 @@ public class FPSController : MonoBehaviour
         if (!interactionLocked)
         {
             makeInteraction();
+        } else
+        {
+            //If interaction made, then run cooldown until the timer is 0.
+            interactionTimer -= Time.deltaTime;
+
+            if (interactionTimer < 0)
+            {
+                interactionTimer = 0;
+            }
         }
 
         //If menulocked, then go through and complete interactions with menu.
@@ -587,7 +599,7 @@ public class FPSController : MonoBehaviour
 
         menuLocked = b;
 
-        //interactionLocked = b;
+        interactionLocked = b;
 
         mouseLocked = !usingMouse;
 
@@ -615,5 +627,16 @@ public class FPSController : MonoBehaviour
     public bool getLock()
     {
         return movementLocked;
+    }
+
+    //Player ID functions.
+    public float getPlayerID()
+    {
+        return playerID;
+    }
+
+    public void setPlayerID(float ind)
+    {
+        playerID = ind;
     }
 }

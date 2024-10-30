@@ -21,7 +21,7 @@ MonoBehaviour:
     value: 0
   color:
     overrideState: 1
-    value: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 1}
+    value: {r: 0, g: 0, b: 0, a: 1}
   center:
     overrideState: 0
     value: {x: 0.5, y: 0.5}
@@ -138,10 +138,10 @@ MonoBehaviour:
     value: 0
   intensity:
     overrideState: 1
-    value: 1
+    value: 2.22
   color:
     overrideState: 1
-    value: {r: 0, g: 0, b: 0, a: 1}
+    value: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 1}
   ambientOnly:
     overrideState: 1
     value: 1
@@ -165,7 +165,7 @@ MonoBehaviour:
     value: 0
   radius:
     overrideState: 1
-    value: 0.61
+    value: 0.26
   quality:
     overrideState: 1
     value: 4
@@ -218,6 +218,7 @@ MonoBehaviour:
   - {fileID: 7798160280364292214}
   - {fileID: -4829794814457236149}
   - {fileID: -8474578325073684969}
+  - {fileID: 5133057549177393845}
 --- !u!114 &1204589480476930581
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -246,7 +247,7 @@ MonoBehaviour:
     value: 2
   toneCurveToeStrength:
     overrideState: 0
-    value: 0
+    value: 0.212
   toneCurveToeLength:
     overrideState: 0
     value: 0.5
@@ -282,7 +283,7 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   saturation:
-    overrideState: 0
+    overrideState: 1
     value: 0
   brightness:
     overrideState: 0
@@ -1529,6 +1530,43 @@ MonoBehaviour:
       - 0.5
       - 0.5
       - 0.5
+--- !u!114 &5133057549177393845
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3f6f3f7c722b4544b97e3c75840aa33, type: 3}
+  m_Name: AutoExposure
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  filtering:
+    overrideState: 1
+    value: {x: 1, y: 99}
+  minLuminance:
+    overrideState: 1
+    value: -1
+  maxLuminance:
+    overrideState: 1
+    value: 1
+  keyValue:
+    overrideState: 0
+    value: 1
+  eyeAdaptation:
+    overrideState: 1
+    value: 0
+  speedUp:
+    overrideState: 1
+    value: 2
+  speedDown:
+    overrideState: 1
+    value: 1
 --- !u!114 &7798160280364292214
 MonoBehaviour:
   m_ObjectHideFlags: 3

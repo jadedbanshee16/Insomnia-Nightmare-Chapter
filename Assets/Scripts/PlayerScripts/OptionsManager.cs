@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,12 +22,12 @@ public class OptionsManager : MonoBehaviour
 
     private int controlSize = 11;
 
-    KeyCode[] controls;
+    public KeyCode[] controls;
 
     [SerializeField]
     KeyCode[] defaultControls;
 
-    private float masterVolume;
+    public float masterVolume;
 
     //A function to update all controls in the control list.
     //WARNING input an array that is the same size as controls.
@@ -40,10 +41,25 @@ public class OptionsManager : MonoBehaviour
         }
     }
 
+    public void updateControl(int ind, KeyCode newKey)
+    {
+        controls[ind] = newKey;
+    }
+
     //Get the control belonging to that particular control.
     public KeyCode getControl(theControls c)
     {
         return controls[(int)c];
+    }
+
+    public float getVolume(string s)
+    {
+        if(string.Equals(s, "Master Volume"))
+        {
+            return masterVolume;
+        }
+
+        return 0;
     }
 
     //Go and set all of controls from player preferences.
@@ -58,7 +74,7 @@ public class OptionsManager : MonoBehaviour
             newControls[i] = (KeyCode)PlayerPrefs.GetInt(((theControls)i).ToString());
         }
 
-        if(PlayerPrefs.GetFloat("Master Volume") > 0)
+        if(PlayerPrefs.GetFloat("Master Volume") >= 0)
         {
             masterVolume = PlayerPrefs.GetFloat("Master Volume");
         } else
@@ -80,6 +96,9 @@ public class OptionsManager : MonoBehaviour
                 //Debug.Log(((theControls)i).ToString() + ": " + defaultControls[i]);
 
                 PlayerPrefs.SetInt(((theControls)i).ToString(), (int)defaultControls[i]);
+
+                //Set up the volume settings (Just 1 for now).
+                PlayerPrefs.SetFloat("Master Volume", 0.5f);
             }
         } else
         {
@@ -87,10 +106,10 @@ public class OptionsManager : MonoBehaviour
             {
                 PlayerPrefs.SetInt(((theControls)i).ToString(), (int)controls[i]);
             }
-        }
 
-        //Set up the volume settings (Just 1 for now).
-        PlayerPrefs.SetFloat("Master Volume", masterVolume);
+            //Set up the volume settings (Just 1 for now).
+            PlayerPrefs.SetFloat("Master Volume", masterVolume);
+        }
 
         //Set up controls using this new saved system.
         setUpControls();
@@ -106,5 +125,14 @@ public class OptionsManager : MonoBehaviour
     public float getMasterVol()
     {
         return masterVolume;
+    }
+
+    //A function to set the master volume.
+    public void setVolume(string s, float f)
+    {
+        if(string.Equals(s, "Master Volume"))
+        {
+            masterVolume = f;
+        }
     }
 }

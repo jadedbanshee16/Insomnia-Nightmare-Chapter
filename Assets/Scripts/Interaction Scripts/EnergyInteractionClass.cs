@@ -54,8 +54,14 @@ public class EnergyInteractionClass : InteractionClass
     //Update power manager with the new system.
     public void setObject()
     {
+        if (!powerManager)
+        {
+            powerManager = GetComponentInParent<GridManager>();
+        }
+
         if (powerManager && obj)
         {
+            //Debug.Log("React2: " + this.gameObject.name);
             powerManager.updateObject(obj, isOn);
         }
     }

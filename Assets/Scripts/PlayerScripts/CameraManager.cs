@@ -17,7 +17,7 @@ public class CameraManager : MonoBehaviour
     {
         CinemachineVirtualCamera[] allcams = GameObject.FindObjectsByType<CinemachineVirtualCamera>(FindObjectsSortMode.None);
 
-        Debug.Log(allcams.Length);
+        //Debug.Log(allcams.Length);
 
         cams_ = new CinemachineVirtualCamera[allcams.Length];
 
