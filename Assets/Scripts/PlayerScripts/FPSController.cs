@@ -47,6 +47,8 @@ public class FPSController : MonoBehaviour
     private Transform playerHead;
     private HoldInteractionClass holdingItem;
     private GameObject lockingObject;
+    [SerializeField]
+    private GameObject torchlight;
 
     //Audio based fields.
     private AudioManager audioManager_;
@@ -102,11 +104,14 @@ public class FPSController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
+        //Debug.Log("After change2: " + GameObject.FindGameObjectWithTag("Player").transform.position);
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log("Constant change: " + GameObject.FindGameObjectWithTag("Player").transform.position);
         //Ensure movement is only moved when not locked.
         if (!movementLocked)
         {
@@ -181,6 +186,24 @@ public class FPSController : MonoBehaviour
             }
         }
 
+        //Turn on and off the torch.
+        if(Input.GetKey(options.getControl(OptionsManager.theControls.torchControl)) && !lockingObject)
+        {
+            if(interactionTimer == 0)
+            {
+                interactionTimer = interactionCooldown;
+
+                if (torchlight.activeSelf)
+                {
+                    torchlight.SetActive(false);
+                }
+                else
+                {
+                    torchlight.SetActive(true);
+                }
+            }
+        }
+
 
     }
 
@@ -218,9 +241,6 @@ public class FPSController : MonoBehaviour
             //m_rig.AddForce((moveDirection.normalized * moveSpeed * 10));
             m_controller.SimpleMove(moveDirection.normalized * moveSpeed);
             didMove = true;
-        } else
-        {
-            m_controller.SimpleMove(moveDirection * moveSpeed);
         }
 
         moveSpeed = speedVariations.y;

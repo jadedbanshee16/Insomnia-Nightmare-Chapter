@@ -5,7 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public class LightManager : MonoBehaviour
 {
-    private DayNightManager man_;
     [SerializeField]
     private GameObject activeLight;
 
@@ -17,25 +16,31 @@ public class LightManager : MonoBehaviour
 
     Transform player;
 
+    [SerializeField]
     private float currentLevel;
 
     // Start is called before the first frame update
     void Start()
     {
-        man_ = GameObject.FindGameObjectWithTag("GameManager").GetComponent<DayNightManager>();
 
         player = null;
 
         currentLevel = 1;
     }
 
-    private void OnTriggerStay(Collider other)
+    private void Update()
+    {
+        if(player != null)
+        {
+            currentLevel = findSaturationLevel();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
             player = other.transform;
-
-            currentLevel = findSaturationLevel();
         }
     }
 
@@ -55,6 +60,7 @@ public class LightManager : MonoBehaviour
         {
             float per = Mathf.Clamp((Vector3.Distance(player.position, this.transform.position) - minDist) / (maxDist - minDist), 0, 1);
 
+            //Debug.Log("Percentage: " + per);
             //Ensure light object is set properly.
             if (activeLight && activeLight.activeSelf)
             {

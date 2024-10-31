@@ -22,12 +22,15 @@ public class GridManager : MonoBehaviour
     //Update an object to be on or off in the system.
     public void updateObject(EnergyObjectClass obj, bool b)
     {
-        for(int i = 0; i < objs.Length; i++)
+        if (obj)
         {
-            if(obj.gameObject == objs[i].gameObject)
+            for (int i = 0; i < objs.Length; i++)
             {
-                objs[i].setIsOn(b);
-                objs[i].useObject();
+                if (obj.gameObject == objs[i].gameObject)
+                {
+                    objs[i].setIsOn(b);
+                    objs[i].useObject();
+                }
             }
         }
 

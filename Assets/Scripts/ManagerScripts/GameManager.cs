@@ -96,11 +96,13 @@ public class GameManager : MonoBehaviour
             {
                 Debug.LogWarning("Game Manager does not have any systems to manage.");
             }
+            eventMan_ = GetComponent<EventManager>();
 
             //Initiate the first state of the world.
             GetComponent<WorldStateManager>().loadWorld();
 
-            eventMan_ = GetComponent<EventManager>();
+            //Check if this is the initial boot.
+            isInitialBoot();
 
             //Set up the groups of this system.
             dayMan_.setIntensity(2);
@@ -143,7 +145,7 @@ public class GameManager : MonoBehaviour
 
             for(int v = 0; v < interactables.Length; v++)
             {
-                if(interactables[v].getObjectID() == value)
+                if(interactables[v].getObjectID() == value && interactables[v] != interactables[i])
                 {
                     count++;
                 }
@@ -248,6 +250,20 @@ public class GameManager : MonoBehaviour
             {
                 eventMan_.setEventMultiplier(0.8f);
             }
+        }
+    }
+
+    //If this function is run, set events to initial boot.
+    public void isInitialBoot()
+    {
+        //Debug.Log(GetComponent<WorldStateManager>().getSaveCount());
+
+        if(GetComponent<WorldStateManager>().getSaveCount() == 1)
+        {
+            eventMan_.setStart(true);
+        } else
+        {
+            eventMan_.setStart(false);
         }
     }
 }

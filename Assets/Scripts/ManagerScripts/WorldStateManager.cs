@@ -16,8 +16,12 @@ public class WorldStateManager : MonoBehaviour
     List<LockObjectClass> interactionablesLocks;
     [SerializeField]
     List<EnergyInteractionClass> interactionablesEnergy;
+    [SerializeField]
+    List<ScreenObjectClass> energiesScreens;
 
     private worldState _state;
+
+    private int saveCount = 0;
 
     public void loadWorld()
     {        
@@ -60,6 +64,7 @@ public class WorldStateManager : MonoBehaviour
         {
             //This just reads all the lines.
             lastPath = currentLine;
+            saveCount++;
         }
 
         re.Close();
@@ -113,11 +118,13 @@ public class WorldStateManager : MonoBehaviour
         InteractionClass[] interactables = GameObject.FindObjectsByType<InteractionClass>(FindObjectsSortMode.None);
         LockObjectClass[] lockables = GameObject.FindObjectsByType<LockObjectClass>(FindObjectsSortMode.None);
         FPSController[] playerEntities = GameObject.FindObjectsByType<FPSController>(FindObjectsSortMode.None);
+        EnergyObjectClass[] energyObjects = GameObject.FindObjectsByType<EnergyObjectClass>(FindObjectsSortMode.None);
 
         _state = new worldState();
         interactionablesItems = new List<HoldInteractionClass>();
         interactionablesLocks = new List<LockObjectClass>();
         interactionablesEnergy = new List<EnergyInteractionClass>();
+
         entities = new List<GameObject>();
 
         for (int i = 0; i < playerEntities.Length; i++)
@@ -180,14 +187,13 @@ public class WorldStateManager : MonoBehaviour
         InteractionClass[] objs = GameObject.FindObjectsByType<InteractionClass>(FindObjectsSortMode.None);
 
         //Debug.Log(_state.items.Count);
-
         //Go through each state item and match it to a given interactive reference.
         for (int i = 0; i < _state.items.Count; i++)
         {
             //Go through interaction items to find if correct position.
-            for(int v = 0; v < interactionablesItems.Count; v++)
+            for (int v = 0; v < interactionablesItems.Count; v++)
             {
-                if(interactionablesItems[v].getObjectID() == _state.items[i].id)
+                if (interactionablesItems[v].getObjectID() == _state.items[i].id)
                 {
                     interactionablesItems[v].transform.position = _state.items[i].position;
                     interactionablesItems[v].transform.rotation = _state.items[i].rotation;
@@ -220,11 +226,10 @@ public class WorldStateManager : MonoBehaviour
                     }
                 }
             }
-
         }
 
         //Do all locked objects.
-        for(int i = 0; i < _state.locks.Count; i++)
+        for (int i = 0; i < _state.locks.Count; i++)
         {
             for(int v = 0; v < interactionablesLocks.Count; v++)
             {
@@ -236,9 +241,18 @@ public class WorldStateManager : MonoBehaviour
                     //Now set the forceIsOn to true.
                     if (interactionablesLocks[v].getInitialLock())
                     {
-                        //Set the isOn.
-                        interactionablesLocks[v].setIsOn(interactionablesLocks[v].getInitialLock());
-                        interactionablesLocks[v].forceIsOn(true);
+                        //Debug.Log("Lock: " + interactionablesLocks[v].name);
+                        //Ensure only works if not using inverted lock.
+                        if (!interactionablesLocks[v].GetComponent<InvertedLockObjectClass>())
+                        {
+                            interactionablesLocks[v].setIsOn(interactionablesLocks[v].getInitialLock());
+                            interactionablesLocks[v].forceIsOn(true);
+                        } else
+                        {
+                            //Du a use object flip.
+                            interactionablesLocks[v].setIsOn(true);
+                            interactionablesLocks[v].setIsOn(false);
+                        }
                     }
 
                     //Because all objects have been used already on making the grid function, reuse the locks.
@@ -268,6 +282,8 @@ public class WorldStateManager : MonoBehaviour
             }
         }
 
+        //Debug.Log("Before change: " + GameObject.FindGameObjectWithTag("Player").transform.position);
+
         //Change all entities to the current world state.
         for (int i = 0; i < _state.entities.Count; i++)
         {
@@ -284,6 +300,8 @@ public class WorldStateManager : MonoBehaviour
                 }
             }
         }
+
+        //Debug.Log("After change: " + GameObject.FindGameObjectWithTag("Player").transform.position);
 
         GetComponent<DayNightManager>().getSun().transform.position = _state.day.pos;
         GetComponent<DayNightManager>().getSun().transform.rotation = _state.day.rot;
@@ -387,6 +405,11 @@ public class WorldStateManager : MonoBehaviour
 
     }
 
+    public int getSaveCount()
+    {
+        return saveCount;
+    }
+
     public int getObjectAmount()
     {
         return interactionablesItems.Count;
@@ -431,6 +454,7 @@ public class worldState
     public List<itemData> items;
     public List<lockData> locks;
     public List<energyInteractionData> energy;
+    public List<screenData> screens;
 
     public dayData day;
     //public List<positionData> positions;
@@ -483,6 +507,18 @@ public class worldState
         }
 
         energy.Add(il);
+    }
+
+    public void setScreenData(string i, float ident, string s)
+    {
+        screenData il = new screenData(i, ident, s);
+
+        if (screens == null)
+        {
+            screens = new List<screenData>();
+        }
+
+        screens.Add(il);
     }
 
     public void setDayData(Vector3 p, Quaternion r)
@@ -557,6 +593,20 @@ public class energyInteractionData
         name = i;
         id = ident;
         isOn = init;
+    }
+}
+
+public class screenData
+{
+    public string name;
+    public float id;
+    public string currentData;
+
+    public screenData(string i, float ident, string s)
+    {
+        name = i;
+        id = ident;
+        currentData = s;
     }
 }
 

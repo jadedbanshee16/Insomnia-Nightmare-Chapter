@@ -70,8 +70,17 @@ public class OptionsManager : MonoBehaviour
         for(int i = 0; i < newControls.Length; i++)
         {
             //Debug.Log((KeyCode)PlayerPrefs.GetInt(((theControls)i).ToString()));
-
+            //Test if the player pref has the key. If not, then set to default.
+            if (!PlayerPrefs.HasKey(((theControls)i).ToString()))
+            {
+                PlayerPrefs.SetInt(((theControls)i).ToString(), (int)defaultControls[i]);
+            }
             newControls[i] = (KeyCode)PlayerPrefs.GetInt(((theControls)i).ToString());
+        }
+
+        if(!PlayerPrefs.HasKey("Master Volume"))
+        {
+            PlayerPrefs.SetFloat("Master Volume", 0.5f);
         }
 
         if(PlayerPrefs.GetFloat("Master Volume") >= 0)

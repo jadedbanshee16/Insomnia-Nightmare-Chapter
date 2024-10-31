@@ -36,9 +36,14 @@ public class PositionInteractionClass : InteractionClass
         {
             currentHeldItem.Interact(targetPos.position, targetPos.rotation, this.transform);
         }
-
-        //When run, then input connected item into the holdInteraction class.
-        currentHeldItem.setSystem(connectedObject);
+        if (!currentHeldItem)
+        {
+            Debug.Log("Check current held item");
+        } else
+        {
+            //When run, then input connected item into the holdInteraction class.
+            currentHeldItem.setSystem(connectedObject);
+        }
 
         controller.playInteractionAudio(0);
     }
@@ -46,6 +51,14 @@ public class PositionInteractionClass : InteractionClass
     public virtual void setCurrentHeldItem(HoldInteractionClass c)
     {
         currentHeldItem = c;
+
+        //Have an extra test based on some interactions.
+        if (!currentHeldItem && connectedObject && connectedObject.GetComponent<InvertedLockObjectClass>())
+        {
+            //This means that connected object needs to be told thatthat current held item is false.
+            connectedObject.GetComponent<InvertedLockObjectClass>().setIsOn(false);
+            connectedObject.GetComponent<InvertedLockObjectClass>().useObject();
+        }
 
         //Complete any connected object interactions if item is removed.
         if (connectedObject && connectedObject.GetComponent<EnergyObjectClass>() && !connectedObject.GetComponent<LockObjectClass>() && currentHeldItem == null)

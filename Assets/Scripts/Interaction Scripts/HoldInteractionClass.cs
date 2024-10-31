@@ -218,10 +218,21 @@ public class HoldInteractionClass : InteractionClass
             }
         }
         //Other possible systems including:
+        //The inverted lock class
         //The lock class.
         //MultiInteraction class
         //Energy class
-        if (newObject && newObject.GetComponent<LockObjectClass>())
+        if(newObject && newObject.GetComponent<InvertedLockObjectClass>())
+        {
+            if (!newObject.GetComponent<LockObjectClass>().checkLock())
+            {
+                //Force close.
+                newObject.GetComponent<LockObjectClass>().forceClose();
+            }
+
+            newObject.GetComponent<LockObjectClass>().setIsOn(true);
+            newObject.GetComponent<LockObjectClass>().useObject();
+        } else if (newObject && newObject.GetComponent<LockObjectClass>())
         {
             if (newObject.GetComponent<LockObjectClass>().checkLock())
             {

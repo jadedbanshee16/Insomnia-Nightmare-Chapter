@@ -9,11 +9,15 @@ public class EventManager : MonoBehaviour
 
     [SerializeField]
     float eventTime;
-    [SerializeField]
     float eventTimer;
-    [SerializeField]
     float eventPauseTimer;
     bool inHideEvent;
+
+    [SerializeField]
+    float startTime;
+    public float startTimer;
+    float readTime;
+    public float readTimer;
 
     [SerializeField]
     float eventSpeed;
@@ -34,31 +38,82 @@ public class EventManager : MonoBehaviour
 
         objectStateManager = GetComponent<WorldStateManager>();
         promptManager = GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>();
+
+        if (isStarting)
+        {
+            startTimer = startTime;
+            readTime = startTime / 5;
+            readTimer = 0;
+        } else
+        {
+            startTimer = 0;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(eventPauseTimer <= 0)
+        //See if this is the first run. If so, then run the first prompts.
+        if (startTimer > 0)
         {
-            if (eventTimer > 0)
+            //Should be roughly seconds.
+            startTimer -= Time.deltaTime;
+
+            if(readTimer > 0)
             {
-                eventTimer -= Time.deltaTime;
+                readTimer -= Time.deltaTime;
+            } else
+            {
+                readTimer = readTime;
+                //Run the first event.
+                if (startTimer > startTime * 0.8)
+                {
+                    promptManager.updateText("MessagePrompt", prompts[2]);
+                }
+                else if (startTimer > startTime * 0.6)
+                {
+                    promptManager.updateText("MessagePrompt", prompts[3]);
+                } 
+                else if(startTimer > startTime * 0.4)
+                {
+                    promptManager.updateText("MessagePrompt", prompts[4]);
+                }
+                else if (startTimer > startTime * 0.2)
+                {
+                    promptManager.updateText("MessagePrompt", prompts[5]);
+                }
+            }
+
+            //Final message.
+            if(startTimer <= 0)
+            {
+                promptManager.updateText("MessagePrompt", prompts[6]);
+            }
+
+        } else
+        {
+            if (eventPauseTimer <= 0)
+            {
+                if (eventTimer > 0)
+                {
+                    eventTimer -= Time.deltaTime;
+                }
+                else
+                {
+                    eventTimer = eventTime;
+                    generateEvent();
+                }
             }
             else
             {
-                eventTimer = eventTime;
-                generateEvent();
-            }
-        } else
-        {
-            eventPauseTimer -= Time.deltaTime / eventSpeed;
+                eventPauseTimer -= Time.deltaTime / eventSpeed;
 
-            if(inHideEvent && eventPauseTimer <= 0)
-            {
-                eventPauseTimer = 1;
-                inHideEvent = false;
-                endHideEvent();
+                if (inHideEvent && eventPauseTimer <= 0)
+                {
+                    eventPauseTimer = 1;
+                    inHideEvent = false;
+                    endHideEvent();
+                }
             }
         }
     }
@@ -178,5 +233,10 @@ public class EventManager : MonoBehaviour
     private void endHideEvent()
     {
         promptManager.updateText("MessagePrompt", prompts[1]);
+    }
+
+    public void setStart(bool b)
+    {
+        isStarting = b;
     }
 }

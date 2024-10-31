@@ -126,7 +126,7 @@ public class EnergyObjectClass : MonoBehaviour
 
     //A function to force isOn and off.
     //WARNING. When turning on, this would probably make 'amount on' incorrect.
-    public void forceIsOn(bool b)
+    public virtual void forceIsOn(bool b)
     {
         if (b)
         {

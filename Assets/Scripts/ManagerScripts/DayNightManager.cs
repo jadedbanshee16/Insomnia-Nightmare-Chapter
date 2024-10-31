@@ -15,6 +15,8 @@ public class DayNightManager : MonoBehaviour
     private float cycleSpeed;
     [SerializeField]
     private float intensity;
+    [SerializeField]
+    private float saturation;
     public float minIntensity;
     public float maxIntensity;
 
@@ -34,9 +36,28 @@ public class DayNightManager : MonoBehaviour
 
         isDay = true;
 
-        manager.setDay(true);
+        //Find position of sun in cycleManager to change day thing. All scripts using is day will get from this script.
+        if (sun.transform.position.y > 0 && !isDay)
+        {
+            isDay = true;
+            //Set to day.
+            manager.setDay(true);
+            sun.transform.GetChild(0).gameObject.SetActive(true);
+            //saturation = 1;
+            intensity = 1;
+            //Debug.Log("day");
+        }
+        else if (sun.transform.position.y < 0 && isDay)
+        {
+            isDay = false;
+            manager.setDay(false);
+            sun.transform.GetChild(0).gameObject.SetActive(false);
+            intensity = 0;
+            //saturation = 1;
+            //Debug.Log("night");
+        }
 
-        intensity = maxIntensity;
+        //intensity = maxIntensity;
     }
 
     // Update is called once per frame
@@ -50,7 +71,8 @@ public class DayNightManager : MonoBehaviour
 
         //Change exposure depending on the position of the sun.
         colGrad.postExposure.value = Mathf.Lerp(minIntensity, maxIntensity, intensity);
-        colGrad.saturation.value = Mathf.Lerp(-40, 20, intensity) * getSaturationLevel();
+        saturation = Mathf.Lerp(-40, 20, intensity) * getSaturationLevel();
+        colGrad.saturation.value = saturation;
     }
 
     void updateDay()
@@ -61,6 +83,7 @@ public class DayNightManager : MonoBehaviour
             isDay = true;
             //Set to day.
             manager.setDay(true);
+            sun.transform.GetChild(0).gameObject.SetActive(true);
             //saturation = 1;
             //Debug.Log("day");
         }
@@ -68,6 +91,7 @@ public class DayNightManager : MonoBehaviour
         {
             isDay = false;
             manager.setDay(false);
+            sun.transform.GetChild(0).gameObject.SetActive(false);
             //saturation = 1;
             //Debug.Log("night");
         }

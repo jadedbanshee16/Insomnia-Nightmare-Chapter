@@ -36,7 +36,7 @@ public class ScreenObjectClass : EnergyObjectClass
     private void Start()
     {
         currentCode = "";
-        displayText(currentCode);
+        displayText(messages[0]);
     }
 
     //A function that will power the current object.
@@ -45,7 +45,10 @@ public class ScreenObjectClass : EnergyObjectClass
         isPowered = b;
 
         //Maybe will break. Will find out.
-        displayText(currentCode);
+        if (String.Equals(currentCode, ""))
+        {
+            displayText(messages[0]);
+        }
     }
 
     //Combine the added string to the current string.
@@ -86,7 +89,7 @@ public class ScreenObjectClass : EnergyObjectClass
     {
         if (isPowered)
         {
-            currentCode = "";
+            currentCode = messages[0];
 
             displayText(currentCode);
         }
@@ -97,7 +100,7 @@ public class ScreenObjectClass : EnergyObjectClass
     {
         if(String.Equals(currentCode, commandCode))
         {
-            displayText("Accessed");
+            displayText(messages[1]);
             return true;
         }
 
@@ -106,7 +109,7 @@ public class ScreenObjectClass : EnergyObjectClass
     }
 
     //Change the text to what is written in currentCode.
-    private void displayText(string s)
+    public void displayText(string s)
     {
         if (isPowered)
         {

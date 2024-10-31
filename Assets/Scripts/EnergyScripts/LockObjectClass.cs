@@ -5,19 +5,19 @@ using UnityEngine;
 public class LockObjectClass : EnergyObjectClass
 {
     [SerializeField]
-    InteractionClass connectedLockedObject;
+    protected InteractionClass connectedLockedObject;
 
     [SerializeField]
-    PositionInteractionClass connectedLockPosition;
+    protected PositionInteractionClass connectedLockPosition;
 
     [SerializeField]
     LockObjectClass pairedLock;
 
     [SerializeField]
-    bool initialLockPosition;
+    protected bool initialLockPosition;
 
     [SerializeField]
-    InteractionClass.interactionType lockAgainst;
+    protected InteractionClass.interactionType lockAgainst;
 
     //A function to set the energy manager of this object.
     public override void setEnergyManager(GridManager man)
@@ -87,5 +87,13 @@ public class LockObjectClass : EnergyObjectClass
     public void setInitialLock(bool b)
     {
         initialLockPosition = b;
+    }
+
+    public void forceClose()
+    {
+        if(connectedLockedObject && connectedLockPosition)
+        {
+            connectedLockPosition.Interact(connectedLockedObject.gameObject);
+        }
     }
 }
