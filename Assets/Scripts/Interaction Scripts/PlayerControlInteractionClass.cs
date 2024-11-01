@@ -58,6 +58,7 @@ public class PlayerControlInteractionClass : InteractionClass
             {
                 Vector3 newPos = currentCam.transform.position - adjustedObject.position;
                 newPos.x += 90;
+                newPos.y += 90;
                 controller.setPosition(adjustedObject.position, Quaternion.Slerp(initialPosition, Quaternion.Euler(newPos.x, newPos.y, newPos.z), timer), adjustedObject);
             } else
             {

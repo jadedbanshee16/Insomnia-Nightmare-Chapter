@@ -13,12 +13,15 @@ public class DayNightManager : MonoBehaviour
     
     [SerializeField]
     private float cycleSpeed;
-    [SerializeField]
     private float intensity;
-    [SerializeField]
     private float saturation;
     public float minIntensity;
     public float maxIntensity;
+
+    [SerializeField]
+    private float[] sunIntensity;
+
+    private Light[] sunLights;
 
     public float fullDay;
     public float fullNight;
@@ -30,6 +33,13 @@ public class DayNightManager : MonoBehaviour
     {
         sun = GameObject.FindGameObjectWithTag("Sun");
         manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        sunLights = new Light[sun.transform.GetChild(0).childCount];
+
+        for(int i = 0; i < sunLights.Length; i++)
+        {
+            sunLights[i] = sun.transform.GetChild(0).GetChild(i).GetComponent<Light>();
+        }
+
         pocVol = manager.gameObject.GetComponentInChildren<PostProcessVolume>();
         pocVol.profile.TryGetSettings(out colGrad);
         lights = GameObject.FindObjectsByType<LightManager>(FindObjectsSortMode.None);
@@ -73,12 +83,28 @@ public class DayNightManager : MonoBehaviour
         colGrad.postExposure.value = Mathf.Lerp(minIntensity, maxIntensity, intensity);
         saturation = Mathf.Lerp(-40, 20, intensity) * getSaturationLevel();
         colGrad.saturation.value = saturation;
+
+        if(intensity < 0.5)
+        {
+            //Change intensity of lights in sun.
+            for (int i = 0; i < sunLights.Length; i++)
+            {
+                if (i == 0)
+                {
+                    sunLights[i].intensity = sunIntensity[0] * (intensity * 2) + 1;
+                }
+                else
+                {
+                    sunLights[i].intensity = sunIntensity[1] * (intensity * 2);
+                }
+            }
+        }
     }
 
     void updateDay()
     {
         //Find position of sun in cycleManager to change day thing. All scripts using is day will get from this script.
-        if (sun.transform.position.y > 0 && !isDay)
+        if (sun.transform.position.y > -20 && !isDay)
         {
             isDay = true;
             //Set to day.
@@ -87,7 +113,7 @@ public class DayNightManager : MonoBehaviour
             //saturation = 1;
             //Debug.Log("day");
         }
-        else if (sun.transform.position.y < 0 && isDay)
+        else if (sun.transform.position.y < -20 && isDay)
         {
             isDay = false;
             manager.setDay(false);

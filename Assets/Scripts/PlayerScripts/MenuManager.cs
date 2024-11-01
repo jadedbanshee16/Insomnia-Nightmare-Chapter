@@ -10,6 +10,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     GameObject[] groups;
 
+    [SerializeField]
+    GameObject[] externalMessage;
+
     private GameObject man_;
 
     ButtonScript[] dynamicButtons = new ButtonScript[0];
@@ -265,15 +268,15 @@ public class MenuManager : MonoBehaviour
     public void updateText(string ind, string s)
     {
         //first, add the given menu group.
-        addMenuGroup(ind);
+        externalMessage[0].SetActive(true);
 
         //Change prompt of text.
-        getMenuGroup(ind).GetComponentInChildren<TextMeshProUGUI>().text = s;
-        Color col = getMenuGroup(ind).GetComponentInChildren<Image>().color;
+        externalMessage[0].GetComponentInChildren<TextMeshProUGUI>().text = s;
+        Color col = externalMessage[0].GetComponentInChildren<Image>().color;
 
         isDisplayingMessage = true;
         promptTimer = promptTime;
-        StartCoroutine(promptCoRoutine(getMenuGroup(ind).GetComponentInChildren<Image>(), ind));
+        StartCoroutine(promptCoRoutine(externalMessage[0].GetComponentInChildren<Image>(), ind));
     }
 
     IEnumerator promptCoRoutine(Image img, string name)
@@ -298,7 +301,7 @@ public class MenuManager : MonoBehaviour
                 isDisplayingMessage = false;
                 col.a = 1;
                 img.color = col;
-                removeMenuGroup(name);
+                externalMessage[0].SetActive(false);
                 StopCoroutine(promptCoRoutine(img, name));
             }
 

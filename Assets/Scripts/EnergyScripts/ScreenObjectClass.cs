@@ -15,7 +15,7 @@ public class ScreenObjectClass : EnergyObjectClass
     [SerializeField]
     string commandCode;
 
-    private string currentCode;
+    private string currentCode = "";
 
     [SerializeField]
     private EnergyObjectClass affectedObj;
@@ -35,8 +35,15 @@ public class ScreenObjectClass : EnergyObjectClass
 
     private void Start()
     {
-        currentCode = "";
-        displayText(messages[0]);
+        //currentCode = "";
+
+        if(String.Equals(currentCode, ""))
+        {
+            displayText(messages[0]);
+        } else
+        {
+            displayText(currentCode);
+        }
     }
 
     //A function that will power the current object.
@@ -101,6 +108,7 @@ public class ScreenObjectClass : EnergyObjectClass
         if(String.Equals(currentCode, commandCode))
         {
             displayText(messages[1]);
+            currentCode = messages[1];
             return true;
         }
 
@@ -109,7 +117,7 @@ public class ScreenObjectClass : EnergyObjectClass
     }
 
     //Change the text to what is written in currentCode.
-    public void displayText(string s)
+    private void displayText(string s)
     {
         if (isPowered)
         {
@@ -135,6 +143,14 @@ public class ScreenObjectClass : EnergyObjectClass
 
     }
 
+    //An override to set the current code.
+    public void setCurrentCode(string s)
+    {
+        currentCode = s;
+
+        displayText(currentCode);
+    }
+
     //A function to set the energy manager of this object.
     public override void setEnergyManager(GridManager man)
     {
@@ -149,5 +165,10 @@ public class ScreenObjectClass : EnergyObjectClass
     {
         //This item cannot be turned off.
         isOn = true;
+    }
+
+    public string getCurrentCode()
+    {
+        return currentCode;
     }
 }

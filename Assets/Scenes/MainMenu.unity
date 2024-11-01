@@ -5615,7 +5615,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -8120,6 +8120,7 @@ MonoBehaviour:
   camPos: {fileID: 0}
   playerHand: {fileID: 0}
   playerHead: {fileID: 0}
+  torchlight: {fileID: 0}
   interactionCooldown: 0.5
   interactionTimer: 0
   movementLocked: 0
@@ -8622,6 +8623,7 @@ MonoBehaviour:
   sun: {fileID: 0}
   cycleSpeed: 0
   intensity: -0.78
+  saturation: 0
   minIntensity: -0.78
   maxIntensity: 1
   fullDay: 100
@@ -8880,6 +8882,7 @@ MonoBehaviour:
   - {fileID: 1490177952}
   - {fileID: 18301856}
   - {fileID: 1972499483}
+  externalMessage: []
 --- !u!114 &8003687410754192616
 MonoBehaviour:
   m_ObjectHideFlags: 0

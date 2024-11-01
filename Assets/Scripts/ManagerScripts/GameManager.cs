@@ -54,6 +54,10 @@ public class GameManager : MonoBehaviour
             //Forces speed to 0.
             dayMan_.setSpeed(0);
 
+            //Ensure the cursor is visible and not locked.
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+
         } else
         {
             loadingTime = loadTime;

@@ -38,7 +38,7 @@ public class PositionInteractionClass : InteractionClass
         }
         if (!currentHeldItem)
         {
-            Debug.Log("Check current held item");
+            //Debug.Log("Check current held item");
         } else
         {
             //When run, then input connected item into the holdInteraction class.

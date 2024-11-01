@@ -25,6 +25,10 @@ public class EventManager : MonoBehaviour
     private float randomMultiplier;
 
     bool isStarting;
+    bool isEnding = false;
+
+    float endTime = 5;
+    float endTimer = 0;
 
     WorldStateManager objectStateManager;
     MenuManager promptManager;
@@ -114,6 +118,43 @@ public class EventManager : MonoBehaviour
                     inHideEvent = false;
                     endHideEvent();
                 }
+            }
+        }
+
+
+        //Check if player is far enough away from gameManager.
+        if(Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, this.transform.position) > 10)
+        {
+            //Start affecting the load screen.
+            promptManager.setToMenuGroup("LoadingBlack");
+            //Set the loading black image to an alph depending on distance to end of distance.
+            float alpha = Mathf.InverseLerp(10, 15, Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, this.transform.position));
+                
+            GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>().adjustLoadValue(alpha);
+
+            if(Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, this.transform.position) > 14 && !isEnding)
+            {
+                isEnding = true;
+                endTimer = endTime;
+                promptManager.updateText("MessagePrompt", prompts[7]);
+            }
+        }
+
+        if (isEnding)
+        {
+            if(endTimer > 0)
+            {
+                endTimer -= Time.deltaTime;
+            } else
+            {
+                //Load the menu.
+                //Delete the old saves.
+                WorldStateManager stateMan_ = GetComponent<WorldStateManager>();
+
+                //Delete the saves.
+                stateMan_.removeAllSaves();
+
+                UnityEngine.SceneManagement.SceneManager.LoadScene(0);
             }
         }
     }

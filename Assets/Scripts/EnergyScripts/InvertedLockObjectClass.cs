@@ -53,7 +53,7 @@ public class InvertedLockObjectClass : LockObjectClass
 
     public override void setIsOn(bool b)
     {
-        Debug.Log("Worked!: " + this.gameObject.name);
+        //Debug.Log("Worked!: " + this.gameObject.name);
         if (b)
         {
             amountOn++;

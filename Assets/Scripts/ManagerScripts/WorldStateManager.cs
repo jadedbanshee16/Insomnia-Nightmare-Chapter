@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
+using System.IO;
+//using UnityEditor;
 using UnityEngine;
 
 public class WorldStateManager : MonoBehaviour
@@ -18,6 +19,8 @@ public class WorldStateManager : MonoBehaviour
     List<EnergyInteractionClass> interactionablesEnergy;
     [SerializeField]
     List<ScreenObjectClass> energiesScreens;
+    [SerializeField]
+    List<CombinationManagerClass> energiesCombinations;
 
     private worldState _state;
 
@@ -80,7 +83,7 @@ public class WorldStateManager : MonoBehaviour
     }
 
     //Find and save the current data of connected objects to this work state.
-    public void saveIntoJson(int fileIndex, string currentPath, string fileName)
+    /*public void saveIntoJson(int fileIndex, string currentPath, string fileName)
     {
         //saveWorldState();
 
@@ -98,7 +101,7 @@ public class WorldStateManager : MonoBehaviour
         {
             System.IO.File.WriteAllText(currentPath + fileName + fileIndex + ".json", text);
         }
-    }
+    }*/
 
     public void createNewManager(string path)
     {
@@ -108,6 +111,94 @@ public class WorldStateManager : MonoBehaviour
         string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 
         wr.WriteLine(Application.persistentDataPath + "/saveFiles/" + sceneName + "InitialState.json");
+
+        wr.Close();
+    }
+
+    public void removeSave(int ind)
+    {
+        //Go through the given manager, remove the save file, then remove the index.
+        string p = string.Concat(Application.persistentDataPath, "/saveFiles/fileManager" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name + ".txt");
+
+        System.IO.StreamReader re = new System.IO.StreamReader(p);
+
+        List<string> saveList = new List<string>();
+
+        string currentLine;
+
+        int count = 0;
+
+        while ((currentLine = re.ReadLine()) != null)
+        {
+            //This just reads all the lines.
+            if(count != ind)
+            {
+                //Debug.Log("Save: " + currentLine);
+                saveList.Add(currentLine);
+            } else
+            {
+                //Debug.Log("Delete: " + currentLine);
+                //Delete the file.
+                File.Delete(currentLine);
+            }
+
+            count++;
+        }
+
+        re.Close();
+
+        //Remove the file from the list.
+        System.IO.StreamWriter wr = new System.IO.StreamWriter(p, false);
+
+        for(int i = 0; i < saveList.Count; i++)
+        {
+            wr.WriteLine(saveList[i]);
+        }
+
+        wr.Close();
+    }
+
+    public void removeAllSaves()
+    {
+        //Go through the given manager, remove the save file, then remove the index.
+        string p = string.Concat(Application.persistentDataPath, "/saveFiles/fileManager" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name + ".txt");
+
+        System.IO.StreamReader re = new System.IO.StreamReader(p);
+
+        List<string> saveList = new List<string>();
+
+        string currentLine;
+
+        int count = 0;
+        int ind = 0;
+
+        while ((currentLine = re.ReadLine()) != null)
+        {
+            //This just reads all the lines.
+            if (count != ind)
+            {
+                //Debug.Log("Delete: " + currentLine);
+                //Delete the file.
+                File.Delete(currentLine);
+            }
+            else
+            {
+                //Debug.Log("Save: " + currentLine);
+                saveList.Add(currentLine);
+            }
+
+            count++;
+        }
+
+        re.Close();
+
+        //Remove the file from the list.
+        System.IO.StreamWriter wr = new System.IO.StreamWriter(p, false);
+
+        for (int i = 0; i < saveList.Count; i++)
+        {
+            wr.WriteLine(saveList[i]);
+        }
 
         wr.Close();
     }
@@ -124,7 +215,7 @@ public class WorldStateManager : MonoBehaviour
         interactionablesItems = new List<HoldInteractionClass>();
         interactionablesLocks = new List<LockObjectClass>();
         interactionablesEnergy = new List<EnergyInteractionClass>();
-
+        energiesScreens = new List<ScreenObjectClass>();
         entities = new List<GameObject>();
 
         for (int i = 0; i < playerEntities.Length; i++)
@@ -169,6 +260,26 @@ public class WorldStateManager : MonoBehaviour
             {
                 _state.setEnergyInteractions(interactables[i].gameObject.name, interactables[i].getObjectID(), interactables[i].GetComponent<EnergyInteractionClass>().getIsOn());
                 interactionablesEnergy.Add(interactables[i].GetComponent<EnergyInteractionClass>());
+            }
+        }
+
+        //Go through and find screen classes.
+        for(int i = 0; i < energyObjects.Length; i++)
+        {
+            if (energyObjects[i].GetComponent<ScreenObjectClass>())
+            {
+                _state.setScreenData(energyObjects[i].gameObject.name, energyObjects[i].getObjectID(), energyObjects[i].GetComponent<ScreenObjectClass>().getCurrentCode());
+                energiesScreens.Add(energyObjects[i].GetComponent<ScreenObjectClass>());
+            }
+        }
+
+        //This goes through interactables to fill up the lists with the combination class.
+        for (int i = 0; i < interactables.Length; i++)
+        {
+            if (interactables[i].GetComponent<CombinationManagerClass>())
+            {
+                _state.setCombinationData(interactables[i].gameObject.name, interactables[i].getObjectID(), interactables[i].GetComponent<CombinationManagerClass>().getCurrentNumber());
+                energiesCombinations.Add(interactables[i].GetComponent<CombinationManagerClass>());
             }
         }
 
@@ -247,14 +358,16 @@ public class WorldStateManager : MonoBehaviour
                         {
                             interactionablesLocks[v].setIsOn(interactionablesLocks[v].getInitialLock());
                             interactionablesLocks[v].forceIsOn(true);
-                        } else
-                        {
-                            //Du a use object flip.
-                            interactionablesLocks[v].setIsOn(true);
-                            interactionablesLocks[v].setIsOn(false);
                         }
                     }
 
+                    if (interactionablesLocks[v].GetComponent<InvertedLockObjectClass>())
+                    {
+                        //Du a use object flip.
+                        //Debug.Log("Flippy flop?");
+                        interactionablesLocks[v].setIsOn(true);
+                        interactionablesLocks[v].setIsOn(false);
+                    }
                     //Because all objects have been used already on making the grid function, reuse the locks.
                     interactionablesLocks[v].useObject();
                 }
@@ -278,6 +391,41 @@ public class WorldStateManager : MonoBehaviour
                         //No make the interaction.
                         interactionablesEnergy[v].Interact();
                     }
+                }
+            }
+        }
+
+        //Do all energy interaction objects.
+        for (int i = 0; i < _state.screens.Count; i++)
+        {
+            for (int v = 0; v < energiesScreens.Count; v++)
+            {
+                //If the same object, set the initial lock.
+                if (energiesScreens[v].getObjectID() == _state.screens[i].id)
+                {
+                    //Prep the object to be opposite what it needs to turn to.
+                    //interactionablesEnergy[v].setIsOn(!_state.energy[i].isOn);
+
+                    if (energiesScreens[v].getIsOn())
+                    {
+                        //Debug.Log("React?");
+                        //No make the interaction.
+                        energiesScreens[v].setCurrentCode(_state.screens[i].currentData);
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < _state.combinations.Count; i++)
+        {
+            for (int v = 0; v < energiesCombinations.Count; v++)
+            {
+                //If the same object, set the initial lock.
+                if (energiesCombinations[v].getObjectID() == _state.combinations[i].id)
+                {
+                    //Prep the object to be opposite what it needs to turn to.
+                    //interactionablesEnergy[v].setIsOn(!_state.energy[i].isOn);
+                    energiesCombinations[v].setCurrentNumber((int)_state.combinations[i].currentNum);
                 }
             }
         }
@@ -312,9 +460,13 @@ public class WorldStateManager : MonoBehaviour
         InteractionClass[] interactables = GameObject.FindObjectsByType<InteractionClass>(FindObjectsSortMode.None);
         LockObjectClass[] lockables = GameObject.FindObjectsByType<LockObjectClass>(FindObjectsSortMode.None);
         FPSController[] playerEntities = GameObject.FindObjectsByType<FPSController>(FindObjectsSortMode.None);
+        EnergyObjectClass[] energyObjects = GameObject.FindObjectsByType<EnergyObjectClass>(FindObjectsSortMode.None);
         interactionablesItems = new List<HoldInteractionClass>();
         interactionablesLocks = new List<LockObjectClass>();
         interactionablesEnergy = new List<EnergyInteractionClass>();
+        energiesScreens = new List<ScreenObjectClass>();
+        energiesCombinations = new List<CombinationManagerClass>();
+
         entities = new List<GameObject>();
 
         //Save the player objects into the entities list.
@@ -346,6 +498,22 @@ public class WorldStateManager : MonoBehaviour
             if (interactables[i].GetComponent<EnergyInteractionClass>())
             {
                 interactionablesEnergy.Add(interactables[i].GetComponent<EnergyInteractionClass>());
+            }
+        }
+
+        for(int i = 0; i < energyObjects.Length; i++)
+        {
+            if (energyObjects[i].GetComponent<ScreenObjectClass>()) 
+            {
+                energiesScreens.Add(energyObjects[i].GetComponent<ScreenObjectClass>());
+            }
+        }
+
+        for(int i = 0; i < interactables.Length; i++)
+        {
+            if (interactables[i].GetComponent<CombinationManagerClass>())
+            {
+                energiesCombinations.Add(interactables[i].GetComponent<CombinationManagerClass>());
             }
         }
     }
@@ -455,6 +623,7 @@ public class worldState
     public List<lockData> locks;
     public List<energyInteractionData> energy;
     public List<screenData> screens;
+    public List<combinationData> combinations;
 
     public dayData day;
     //public List<positionData> positions;
@@ -509,6 +678,7 @@ public class worldState
         energy.Add(il);
     }
 
+    //Set a screen object data. This does not include if it is on or not.
     public void setScreenData(string i, float ident, string s)
     {
         screenData il = new screenData(i, ident, s);
@@ -519,6 +689,19 @@ public class worldState
         }
 
         screens.Add(il);
+    }
+
+    //Set the current data of a given combination lock.
+    public void setCombinationData(string i, float ident, float data)
+    {
+        combinationData il = new combinationData(i, ident, data);
+
+        if(combinations == null)
+        {
+            combinations = new List<combinationData>();
+        }
+
+        combinations.Add(il);
     }
 
     public void setDayData(Vector3 p, Quaternion r)
@@ -596,6 +779,7 @@ public class energyInteractionData
     }
 }
 
+[System.Serializable]
 public class screenData
 {
     public string name;
@@ -607,6 +791,21 @@ public class screenData
         name = i;
         id = ident;
         currentData = s;
+    }
+}
+
+[System.Serializable]
+public class combinationData
+{
+    public string name;
+    public float id;
+    public float currentNum;
+
+    public combinationData(string i, float ident, float data)
+    {
+        name = i;
+        id = ident;
+        currentNum = data;
     }
 }
 

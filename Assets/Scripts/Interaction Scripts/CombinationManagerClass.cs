@@ -160,4 +160,14 @@ public class CombinationManagerClass : InteractionClass
 
         controller.playInteractionAudio(0);
     }
+
+    public void setCurrentNumber(int num)
+    {
+        currentNumber = num;
+    }
+
+    public int getCurrentNumber()
+    {
+        return currentNumber;
+    }
 }
