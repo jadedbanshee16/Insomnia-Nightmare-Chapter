@@ -159,7 +159,7 @@ public class PositionInteractionClass : InteractionClass
 
         if(isOther && currentHeldItem.GetComponent<HoldInteractionClass>() && currentHeldItem.GetComponent<HoldInteractionClass>().getType() == interactionType.senserInteraction)
         {
-            if (connectedObject.GetComponent<LockObjectClass>())
+            if (connectedObject.GetComponent<LockObjectClass>() && !connectedObject.GetComponent<InvertedLockObjectClass>())
             {
                 connectedObject.GetComponent<EnergyObjectClass>().setIsOn(false);
                 connectedObject.GetComponent<EnergyObjectClass>().useObject();
