@@ -105,6 +105,8 @@ public class WorldStateManager : MonoBehaviour
 
     public void createNewManager(string path)
     {
+        //Create new directory to save files.
+        System.IO.Directory.CreateDirectory(Application.persistentDataPath + "/saveFiles");
         //Now save the new current file name to the list of names in manager.
         System.IO.StreamWriter wr = new System.IO.StreamWriter(path, false);
 
