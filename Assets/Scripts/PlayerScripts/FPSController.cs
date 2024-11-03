@@ -549,7 +549,7 @@ public class FPSController : MonoBehaviour
         layerM = ~layerM;
 
         //If the ray hits something within reach, see if it hits an object.
-        if (Physics.Raycast(hitRay, out hitPoint, reach / 2, layerM, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(hitRay, out hitPoint, reach / 2, layerM))
         {
             trans = hitRay.GetPoint(hitPoint.distance);
         } else

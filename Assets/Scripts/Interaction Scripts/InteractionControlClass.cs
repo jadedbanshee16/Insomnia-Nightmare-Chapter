@@ -229,7 +229,12 @@ public class InteractionControlClass : MonoBehaviour
     //A function which would play the inbuilt audio clip using a delay.
     public void playInbuiltAudio(float delay, bool isOn)
     {
-        if(aud_ && aud_.clip != null)
+        if (!aud_)
+        {
+            updateThisInteraction();
+        }
+
+        if (aud_ && aud_.clip != null)
         {
             if (isOn)
             {

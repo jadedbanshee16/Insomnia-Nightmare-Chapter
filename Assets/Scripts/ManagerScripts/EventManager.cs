@@ -30,8 +30,14 @@ public class EventManager : MonoBehaviour
     float endTime = 5;
     float endTimer = 0;
 
+    float spawnTime = 3;
+    float spawnTimer = 0;
+
     WorldStateManager objectStateManager;
     MenuManager promptManager;
+
+    [SerializeField]
+    GameObject haunter;
 
 
     // Start is called before the first frame update
@@ -39,6 +45,8 @@ public class EventManager : MonoBehaviour
     {
         eventTimer = eventTime;
         randomMultiplier = 1f;
+
+        haunter.SetActive(false);
 
         objectStateManager = GetComponent<WorldStateManager>();
         promptManager = GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>();
@@ -111,6 +119,18 @@ public class EventManager : MonoBehaviour
             else
             {
                 eventPauseTimer -= Time.deltaTime / eventSpeed;
+                //stepSounds();
+
+                if(spawnTimer < spawnTime)
+                {
+                    spawnTimer += Time.deltaTime;
+                } else
+                {
+                    if (inHideEvent)
+                    {
+                        haunter.SetActive(true);
+                    }
+                }
 
                 if (inHideEvent && eventPauseTimer <= 0)
                 {
@@ -157,6 +177,14 @@ public class EventManager : MonoBehaviour
                 UnityEngine.SceneManagement.SceneManager.LoadScene(0);
             }
         }
+    }
+
+    public void endByKill()
+    {
+        promptManager.updateText("MessagePrompt", prompts[8]);
+        isEnding = true;
+        endTimer = endTime;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>().adjustLoadValue(1);
     }
 
     private void generateEvent()
@@ -250,7 +278,10 @@ public class EventManager : MonoBehaviour
 
         for (int i = 0; i < objectStateManager.getEnergyAmount(); i++)
         {
-            arr.Add(objectStateManager.getInteractionEnergy(i));
+            if(!string.Equals(objectStateManager.getInteractionEnergy(i).gameObject.name, "DrawerDrsser1.001"))
+            {
+                arr.Add(objectStateManager.getInteractionEnergy(i));
+            }
         }
 
         //Now go and try to turn off or on any of these points.
@@ -268,13 +299,34 @@ public class EventManager : MonoBehaviour
 
         eventPauseTimer = Random.Range(3, 15);
 
+        //this.GetComponent<InteractionControlClass>().playInbuiltAudio(0, true);
+
         inHideEvent = true;
     }
 
     private void endHideEvent()
     {
         promptManager.updateText("MessagePrompt", prompts[1]);
+
+        haunter.SetActive(false);
+        spawnTimer = spawnTime;
+        //this.GetComponent<InteractionControlClass>().playInbuiltAudio(0, false);
     }
+
+    /*private void stepSounds()
+    {
+        float rand = Random.Range(0, 1);
+
+        if(stepTimer > 0)
+        {
+            stepTimer -= Time.deltaTime;
+        } else
+        {
+            stepTime = Random.Range(1, 2);
+            stepTimer = stepTime;
+            this.GetComponent<InteractionControlClass>().playInteractionAudio(Random.Range(0, this.GetComponent<InteractionControlClass>().getAudioLength() - 1));
+        }
+    }*/
 
     public void setStart(bool b)
     {
