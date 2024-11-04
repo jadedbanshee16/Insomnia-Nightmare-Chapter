@@ -44,23 +44,18 @@ public class DayNightManager : MonoBehaviour
         pocVol.profile.TryGetSettings(out colGrad);
         lights = GameObject.FindObjectsByType<LightManager>(FindObjectsSortMode.None);
 
-        isDay = true;
+        isDay = manager.getDay();
 
         //Find position of sun in cycleManager to change day thing. All scripts using is day will get from this script.
-        if (sun.transform.position.y > 0 && !isDay)
+        if (isDay)
         {
-            isDay = true;
-            //Set to day.
-            manager.setDay(true);
             sun.transform.GetChild(0).gameObject.SetActive(true);
             //saturation = 1;
             intensity = 1;
             //Debug.Log("day");
         }
-        else if (sun.transform.position.y < 0 && isDay)
+        else
         {
-            isDay = false;
-            manager.setDay(false);
             sun.transform.GetChild(0).gameObject.SetActive(false);
             intensity = 0;
             //saturation = 1;

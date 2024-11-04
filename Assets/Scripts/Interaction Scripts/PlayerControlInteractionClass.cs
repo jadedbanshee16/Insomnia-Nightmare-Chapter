@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerControlInteractionClass : InteractionClass
 {
     FPSController player_;
-
     CameraManager camManager_;
 
     [SerializeField]
@@ -73,6 +72,8 @@ public class PlayerControlInteractionClass : InteractionClass
         controller.setAnimation("Pressed");
 
         controller.playInteractionAudio(0);
+
+        controller.triggerEvent();
 
 
         //Set the player.

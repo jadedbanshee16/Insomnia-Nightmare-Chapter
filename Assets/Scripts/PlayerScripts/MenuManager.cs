@@ -13,6 +13,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     GameObject[] externalMessage;
 
+    [SerializeField]
+    GameObject systemManager;
+
     private GameObject man_;
 
     ButtonScript[] dynamicButtons = new ButtonScript[0];
@@ -233,6 +236,7 @@ public class MenuManager : MonoBehaviour
     public void findButton(int ind)
     {
         isSearchingForIntButton = true;
+        systemManager.SetActive(false);
         StartCoroutine(findNewButton(ind));
     }
 
@@ -260,6 +264,7 @@ public class MenuManager : MonoBehaviour
             yield return null;
         }
 
+        systemManager.SetActive(true);
         //End this current coroutine. You don't need it to run anymore.
         StopCoroutine(findNewButton(index));
     }

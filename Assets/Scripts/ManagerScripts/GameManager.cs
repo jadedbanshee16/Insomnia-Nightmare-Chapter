@@ -124,6 +124,7 @@ public class GameManager : MonoBehaviour
         InteractionClass[] interactables = GameObject.FindObjectsByType<InteractionClass>(FindObjectsSortMode.None);
         EnergyObjectClass[] energies = GameObject.FindObjectsByType<EnergyObjectClass>(FindObjectsSortMode.None);
         FPSController[] playerEntity = GameObject.FindObjectsByType<FPSController>(FindObjectsSortMode.None);
+        EventScript[] eventObjects = GameObject.FindObjectsByType<EventScript>(FindObjectsSortMode.None);
 
         //Assign ids to player entities.
         for(int i = 0; i < playerEntity.Length; i++)
@@ -187,6 +188,35 @@ public class GameManager : MonoBehaviour
             if (count > 1)
             {
                 Debug.LogWarning("Repeat ID detected - Energy: " + energies[i].gameObject.name + " | " + energies[i].getObjectID());
+            }
+        }
+
+        //Assign id based on start up before any moves have been made. This should be solid throughout.
+        for (int i = 0; i < eventObjects.Length; i++)
+        {
+            float id = eventObjects[i].transform.position.sqrMagnitude + (eventObjects[i].transform.rotation.eulerAngles.sqrMagnitude);
+            eventObjects[i].setEventID(id);
+
+            //Debug.Log(interactables[i] + ": " + interactables[i].getObjectID());
+        }
+
+        //Find duplicates.
+        for (int i = 0; i < eventObjects.Length; i++)
+        {
+            float value = eventObjects[i].getEventID();
+            int count = 0;
+
+            for (int v = 0; v < eventObjects.Length; v++)
+            {
+                if (eventObjects[v].getEventID() == value)
+                {
+                    count++;
+                }
+            }
+
+            if (count > 1)
+            {
+                Debug.LogWarning("Repeat ID detected - Event: " + eventObjects[i].gameObject.name + " | " + eventObjects[i].getEventID());
             }
         }
 

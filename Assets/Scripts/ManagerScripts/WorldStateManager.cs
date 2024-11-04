@@ -21,6 +21,8 @@ public class WorldStateManager : MonoBehaviour
     List<ScreenObjectClass> energiesScreens;
     [SerializeField]
     List<CombinationManagerClass> energiesCombinations;
+    [SerializeField]
+    List<EventScript> eventsScripts;
 
     private worldState _state;
 
@@ -212,6 +214,7 @@ public class WorldStateManager : MonoBehaviour
         LockObjectClass[] lockables = GameObject.FindObjectsByType<LockObjectClass>(FindObjectsSortMode.None);
         FPSController[] playerEntities = GameObject.FindObjectsByType<FPSController>(FindObjectsSortMode.None);
         EnergyObjectClass[] energyObjects = GameObject.FindObjectsByType<EnergyObjectClass>(FindObjectsSortMode.None);
+        EventScript[] eventObjects = GameObject.FindObjectsByType<EventScript>(FindObjectsSortMode.None);
 
         _state = new worldState();
         interactionablesItems = new List<HoldInteractionClass>();
@@ -219,6 +222,7 @@ public class WorldStateManager : MonoBehaviour
         interactionablesEnergy = new List<EnergyInteractionClass>();
         energiesScreens = new List<ScreenObjectClass>();
         entities = new List<GameObject>();
+        eventsScripts = new List<EventScript>();
 
         for (int i = 0; i < playerEntities.Length; i++)
         {
@@ -285,8 +289,17 @@ public class WorldStateManager : MonoBehaviour
             }
         }
 
+        //Event scripts
+        for (int i = 0; i < eventObjects.Length; i++)
+        {
+            //Return the entity.
+            _state.setEventData(eventObjects[i].gameObject.name, eventObjects[i].getEventID(), eventObjects[i].getIsPlayed());
+
+            eventsScripts.Add(eventObjects[i]);
+        }
+
         //Now set the day data.
-        _state.setDayData(GetComponent<DayNightManager>().getSun().transform.position, GetComponent<DayNightManager>().getSun().transform.rotation);
+        _state.setWorldData(GetComponent<DayNightManager>().getSun().transform.position, GetComponent<DayNightManager>().getSun().transform.rotation, GetComponent<GameManager>().getDay(), GetComponent<EventManager>().getEventToken());
     }
 
     //A function to load the world based on the current state in the manager.
@@ -451,10 +464,26 @@ public class WorldStateManager : MonoBehaviour
             }
         }
 
+        //Change all event scripts to the current world state.
+        for (int i = 0; i < _state.events.Count; i++)
+        {
+            for (int v = 0; v < eventsScripts.Count; v++)
+            {
+                //See if entity is an fps controller.
+                if (eventsScripts[v].getEventID() == _state.events[i].id)
+                {
+                    //Debug.Log("Run?" + _state.events[i].isUsed);
+                    eventsScripts[v].setIsPlayed(_state.events[i].isUsed);
+                }
+            }
+        }
+
         //Debug.Log("After change: " + GameObject.FindGameObjectWithTag("Player").transform.position);
 
-        GetComponent<DayNightManager>().getSun().transform.position = _state.day.pos;
-        GetComponent<DayNightManager>().getSun().transform.rotation = _state.day.rot;
+        GetComponent<DayNightManager>().getSun().transform.position = _state.world.sunPos;
+        GetComponent<DayNightManager>().getSun().transform.rotation = _state.world.sunRot;
+        GetComponent<GameManager>().setDay(_state.world.isDay);
+        GetComponent<EventManager>().setEventToken(_state.world.storyPoint);
     }
 
     private void getObjectLists()
@@ -463,11 +492,13 @@ public class WorldStateManager : MonoBehaviour
         LockObjectClass[] lockables = GameObject.FindObjectsByType<LockObjectClass>(FindObjectsSortMode.None);
         FPSController[] playerEntities = GameObject.FindObjectsByType<FPSController>(FindObjectsSortMode.None);
         EnergyObjectClass[] energyObjects = GameObject.FindObjectsByType<EnergyObjectClass>(FindObjectsSortMode.None);
+        EventScript[] eventObjects = GameObject.FindObjectsByType<EventScript>(FindObjectsSortMode.None);
         interactionablesItems = new List<HoldInteractionClass>();
         interactionablesLocks = new List<LockObjectClass>();
         interactionablesEnergy = new List<EnergyInteractionClass>();
         energiesScreens = new List<ScreenObjectClass>();
         energiesCombinations = new List<CombinationManagerClass>();
+        eventsScripts = new List<EventScript>();
 
         entities = new List<GameObject>();
 
@@ -517,6 +548,11 @@ public class WorldStateManager : MonoBehaviour
             {
                 energiesCombinations.Add(interactables[i].GetComponent<CombinationManagerClass>());
             }
+        }
+
+        for(int i = 0; i < eventObjects.Length; i++)
+        {
+            eventsScripts.Add(eventObjects[i]);
         }
     }
 
@@ -626,8 +662,9 @@ public class worldState
     public List<energyInteractionData> energy;
     public List<screenData> screens;
     public List<combinationData> combinations;
+    public List<EventData> events;
 
-    public dayData day;
+    public WorldData world;
     //public List<positionData> positions;
     //public List<energyData> energy;
 
@@ -706,9 +743,21 @@ public class worldState
         combinations.Add(il);
     }
 
-    public void setDayData(Vector3 p, Quaternion r)
+    public void setEventData(string n, float i, bool b)
     {
-        day = new dayData(p, r);
+        EventData il = new EventData(n, i, b);
+
+        if(events == null)
+        {
+            events = new List<EventData>();
+        }
+
+        events.Add(il);
+    }
+
+    public void setWorldData(Vector3 p, Quaternion r, bool b, int i)
+    {
+        world = new WorldData(p, r, b, i);
     }
 }
 
@@ -812,15 +861,34 @@ public class combinationData
 }
 
 [System.Serializable]
-public class dayData
+public class WorldData
 {
-    public Vector3 pos;
-    public Quaternion rot;
+    public Vector3 sunPos;
+    public Quaternion sunRot;
+    public bool isDay;
+    public int storyPoint;
 
-    public dayData(Vector3 p, Quaternion r)
+    public WorldData(Vector3 p, Quaternion r, bool b, int st)
     {
-        pos = p;
-        rot = r;
+        sunPos = p;
+        sunRot = r;
+        isDay = b;
+        storyPoint = st;
+    }
+}
+
+[System.Serializable]
+public class EventData
+{
+    public string name;
+    public float id;
+    public bool isUsed;
+
+    public EventData(string n, float i, bool b)
+    {
+        name = n;
+        id = i;
+        isUsed = b;
     }
 }
 

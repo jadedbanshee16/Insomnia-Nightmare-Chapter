@@ -11,6 +11,8 @@ public class InteractionControlClass : MonoBehaviour
 
     AudioSource aud_;
 
+    EventScript events;
+
     [SerializeField]
     AudioClip[] clips;
 
@@ -259,6 +261,20 @@ public class InteractionControlClass : MonoBehaviour
         }
     }
 
+    //Run an event when this occurs.
+    public void triggerEvent()
+    {
+        if (!events)
+        {
+            updateThisInteraction();
+        }
+
+        if (events)
+        {
+            events.TriggerEvent();
+        }
+    }
+
     //Return the amount of clips in the clips section.
     public int getAudioLength()
     {
@@ -271,6 +287,8 @@ public class InteractionControlClass : MonoBehaviour
         anim_ = GetComponentInChildren<Animator>();
 
         indicator = GetComponentInChildren<InteractionIndicatorScript>();
+
+        events = GetComponent<EventScript>();
 
         if (indicator)
         {
