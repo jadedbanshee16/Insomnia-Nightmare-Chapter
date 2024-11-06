@@ -80,7 +80,7 @@ public class OptionsManager : MonoBehaviour
 
         if(!PlayerPrefs.HasKey("Master Volume"))
         {
-            PlayerPrefs.SetFloat("Master Volume", 0.5f);
+            PlayerPrefs.SetFloat("Master Volume", 1f);
         }
 
         if(PlayerPrefs.GetFloat("Master Volume") >= 0)

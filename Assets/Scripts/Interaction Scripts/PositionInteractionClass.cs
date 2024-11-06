@@ -12,7 +12,7 @@ public class PositionInteractionClass : InteractionClass
     protected HoldInteractionClass currentHeldItem;
 
     [SerializeField]
-    string uniqueObjectOverride;
+    protected string uniqueObjectOverride;
 
     [SerializeField]
     protected GameObject connectedObject;
@@ -111,7 +111,7 @@ public class PositionInteractionClass : InteractionClass
     }
 
     //A function which tests to see if this object has permission to hold a certain interaction type.
-    private bool hasPermission(interactionType t)
+    protected bool hasPermission(interactionType t)
     {
         bool hasPerm = false;
 
@@ -135,7 +135,12 @@ public class PositionInteractionClass : InteractionClass
         {
             //If met, the interact with object.
             Interact(other.gameObject);
-        } else if(hasPermission(interactionType.senserInteraction) && other.GetComponent<HoldInteractionClass>() && canHoldItem(other.GetComponent<HoldInteractionClass>(), true))
+
+        //If no achievement script, run a sensor interaction as normal.
+        //Keep for now but OBSOLETE.
+        //NOTE: The lock object is no longer used in this way, but keep for old problems.
+        } else if(hasPermission(interactionType.senserInteraction) && other.GetComponent<HoldInteractionClass>() && canHoldItem(other.GetComponent<HoldInteractionClass>(), true) &&
+                  !GetComponentInChildren<AchievementScript>())
         {
             //If true, then doesn't need to set any objects. Just set the connected object.
             if (connectedObject.GetComponent<LockObjectClass>())

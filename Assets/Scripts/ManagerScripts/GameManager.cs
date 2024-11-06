@@ -115,7 +115,11 @@ public class GameManager : MonoBehaviour
             StartCoroutine(loadingSceneUI());
         }
 
-
+        //Run the achievements code.
+        if (GetComponent<AchievementManager>())
+        {
+            GetComponent<AchievementManager>().setAchievements();
+        }
     }
 
     //Set interactables and energy objects with a unique ID based on their position in the world.

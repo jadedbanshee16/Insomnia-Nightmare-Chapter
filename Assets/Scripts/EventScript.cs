@@ -62,4 +62,14 @@ public class EventScript : MonoBehaviour
     {
         eventID = i;
     }
+
+    public int getEventNum()
+    {
+        return eventNum;
+    }
+
+    public eventType getType()
+    {
+        return type;
+    }
 }

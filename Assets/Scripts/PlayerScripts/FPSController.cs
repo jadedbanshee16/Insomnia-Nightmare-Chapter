@@ -371,8 +371,10 @@ public class FPSController : MonoBehaviour
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        //Select an int mask for mask (3).
+        //Select an int mask for mask (3) and (12).
         int layerM = 1 << 3;
+        layerM += 1 << 12;
+
         layerM = ~layerM;
 
         ///Debug.DrawRay(ray.origin, ray.direction, Color.black, 5f);
@@ -466,6 +468,7 @@ public class FPSController : MonoBehaviour
                 //Make the interact happen.
                 if (holdingItem && hitPoint.collider.GetComponent<PositionInteractionClass>().canHoldItem(holdingItem, false))
                 {
+                    //Make sure you cannot interact with sensor objects.
                     hitPoint.collider.GetComponent<InteractionClass>().Interact(holdingItem.gameObject);
                     removeHeldItem();
 

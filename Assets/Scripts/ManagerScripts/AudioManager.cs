@@ -66,7 +66,7 @@ public class AudioManager : MonoBehaviour
 
     public void setAudioVolume(int ind, float percent)
     {
-        audSources[ind].aud.volume = audSources[ind].maxVol * percent;
+        audSources[ind].aud.volume = audSources[ind].maxVol * (percent * 2);
     }
 
     public int getAudioSourceLength()

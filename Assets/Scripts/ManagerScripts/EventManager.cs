@@ -15,6 +15,8 @@ public class EventManager : MonoBehaviour
 
     List<eventClass> storyEvents;
 
+    AchievementScript[] endAchievements;
+
 
     [Header("Timers")]
     //The timers that deal with when an event can occur.
@@ -38,6 +40,7 @@ public class EventManager : MonoBehaviour
 
     bool isStarting;
     bool isEnding = false;
+    bool isEventPlayed = false;
     bool inHideEvent;
 
     //A number to say at what point in the story you are at.
@@ -63,6 +66,8 @@ public class EventManager : MonoBehaviour
         promptManager = GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>();
 
         eventChange = true;
+
+        endAchievements = GetComponentsInChildren<AchievementScript>();
 
         //Set up starting time [Obsolete]
         /*if (isStarting)
@@ -241,6 +246,26 @@ public class EventManager : MonoBehaviour
                 endHideEvent();
             }
         }
+
+        //Run an achievement if ending.
+        if (isEnding)
+        {
+            //Find all possible ending achievements.
+            if (!isEventPlayed)
+            {
+
+                //First achievement is end achievement.
+                endAchievements[0].triggerAchievement();
+
+                if(!findEventPlayed(0, EventScript.eventType.optionalEvent))
+                {
+                    //Debug.Log("Played");
+                    endAchievements[1].triggerAchievement();
+                }
+
+                isEventPlayed = true;
+            }
+        }
     }
 
     //A function that creates an ending based on getting killed by a haunt.
@@ -253,6 +278,9 @@ public class EventManager : MonoBehaviour
         eventChange = true;
         //eventChange = true;
         GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>().adjustLoadValue(1);
+
+        //Set the end achievement for the 3rd achievement object.
+        endAchievements[2].triggerAchievement();
     }
 
     public void runNextEvent(int eventInd, EventScript.eventType t, Vector2 dep, int over)
@@ -329,6 +357,8 @@ public class EventManager : MonoBehaviour
                     //Chance based on night time.
                     hideEvent();
                 }
+
+                //hideEvent();
             }
             else
             {
@@ -343,6 +373,22 @@ public class EventManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    //Search and return an event script.
+    public bool findEventPlayed(int num, EventScript.eventType t)
+    {
+        EventScript[] events = GameObject.FindObjectsByType<EventScript>(FindObjectsSortMode.None);
+
+        for(int i = 0; i < events.Length; i++)
+        {
+            if(events[i].getEventNum() == num && events[i].getType() == t)
+            {
+                return events[i].getIsPlayed();
+            }
+        }
+
+        return false;
     }
 
     public void setEventMultiplier(float ran)
