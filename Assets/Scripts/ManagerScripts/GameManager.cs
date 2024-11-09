@@ -279,6 +279,11 @@ public class GameManager : MonoBehaviour
     public void setDay(bool b)
     {
         isDay = b;
+        if (!eventMan_)
+        {
+            eventMan_ = GetComponent<EventManager>();
+        }
+
         if (eventMan_)
         {
             if (isDay)

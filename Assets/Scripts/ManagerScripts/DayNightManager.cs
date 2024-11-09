@@ -21,6 +21,7 @@ public class DayNightManager : MonoBehaviour
     [SerializeField]
     private float[] sunIntensity;
 
+    [SerializeField]
     private Light[] sunLights;
 
     public float fullDay;
@@ -33,12 +34,13 @@ public class DayNightManager : MonoBehaviour
     {
         sun = GameObject.FindGameObjectWithTag("Sun");
         manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-        sunLights = new Light[sun.transform.GetChild(0).childCount];
+
+        /*sunLights = new Light[sun.transform.GetChild(0).childCount];
 
         for(int i = 0; i < sunLights.Length; i++)
         {
             sunLights[i] = sun.transform.GetChild(0).GetChild(i).GetComponent<Light>();
-        }
+        }*/
 
         pocVol = manager.gameObject.GetComponentInChildren<PostProcessVolume>();
         pocVol.profile.TryGetSettings(out colGrad);

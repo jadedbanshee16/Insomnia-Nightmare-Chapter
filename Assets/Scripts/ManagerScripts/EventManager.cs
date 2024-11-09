@@ -35,7 +35,7 @@ public class EventManager : MonoBehaviour
     float storyTimer;
 
 
-
+    [SerializeField]
     private float randomMultiplier;
 
     bool isStarting;
@@ -60,7 +60,7 @@ public class EventManager : MonoBehaviour
     {
         //Setup the world to starting time.
         eventTimer = eventTime;
-        randomMultiplier = 1f;
+        //randomMultiplier = 1f;
         haunter.SetActive(false);
         objectStateManager = GetComponent<WorldStateManager>();
         promptManager = GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>();
@@ -349,7 +349,7 @@ public class EventManager : MonoBehaviour
                 {
                     EnergyEvent();
                 }
-                else if( random < 60)
+                else if( random < 50)
                 {
                     throwEvent();
                 } else
