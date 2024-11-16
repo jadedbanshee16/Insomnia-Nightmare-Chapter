@@ -111,6 +111,8 @@ public class FPSController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Run a given framerate
+        Application.targetFrameRate = 60;
         //Debug.Log("Constant change: " + GameObject.FindGameObjectWithTag("Player").transform.position);
         //Ensure movement is only moved when not locked.
         if (!movementLocked)
