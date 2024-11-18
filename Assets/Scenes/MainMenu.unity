@@ -2786,7 +2786,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 0.6792453, g: 0.51769453, b: 0.26593092, a: 1}
   m_Intensity: 7.3
-  m_Range: 6.2
+  m_Range: 9.83
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -6881,7 +6881,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 0.6792453, g: 0.51769453, b: 0.26593092, a: 1}
   m_Intensity: 3
-  m_Range: 6.2
+  m_Range: 9.83
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -8349,6 +8349,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 93.6
       objectReference: {fileID: 0}
+    - target: {fileID: 6256598849986283953, guid: 019f2b703dbe23a4f8186c5333e03a3a,
+        type: 3}
+      propertyPath: m_text
+      value: Game
+      objectReference: {fileID: 0}
     - target: {fileID: 6317567160011530822, guid: 019f2b703dbe23a4f8186c5333e03a3a,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -9239,6 +9244,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: OptionsMain
       objectReference: {fileID: 0}
+    - target: {fileID: 5960750742557895926, guid: de0e7c6157814da47ab54f9c62f2b754,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8126327313627033266, guid: de0e7c6157814da47ab54f9c62f2b754,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -9359,10 +9369,25 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 8003687410754192615}
+    - target: {fileID: 1746611138354727095, guid: aa782db63bf5f9c4181d0b4f3bb80272,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1746611138354727095, guid: aa782db63bf5f9c4181d0b4f3bb80272,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2762644695657976433, guid: aa782db63bf5f9c4181d0b4f3bb80272,
         type: 3}
       propertyPath: m_Name
       value: OptionsAudio
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762644695657976433, guid: aa782db63bf5f9c4181d0b4f3bb80272,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3121742093936798600, guid: aa782db63bf5f9c4181d0b4f3bb80272,
         type: 3}
@@ -9504,6 +9529,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 8003687410754192615}
+    - target: {fileID: 6045324584983047538, guid: aa782db63bf5f9c4181d0b4f3bb80272,
+        type: 3}
+      propertyPath: m_text
+      value: Game
+      objectReference: {fileID: 0}
     - target: {fileID: 6170947077103429096, guid: aa782db63bf5f9c4181d0b4f3bb80272,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -10318,7 +10348,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5014504102224939445}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b831def973ae42f4987cceba87834abe, type: 3}
   m_Name: 
@@ -10328,6 +10358,7 @@ MonoBehaviour:
   minIntensity: -0.78
   maxIntensity: 1
   sunIntensity: []
+  sunLights: []
   fullDay: 100
   fullNight: 0
 --- !u!114 &5014504102224939449

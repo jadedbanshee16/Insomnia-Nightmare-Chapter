@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.006
@@ -357,7 +357,7 @@ PrefabInstance:
     - target: {fileID: 26049765616513370, guid: a348f63665015a84ea9315af8d36ca4f,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2163176110660989641, guid: a348f63665015a84ea9315af8d36ca4f,
         type: 3}
@@ -418,6 +418,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -40.949997
+      objectReference: {fileID: 0}
+    - target: {fileID: 2711342292536629106, guid: a348f63665015a84ea9315af8d36ca4f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2784296346523892841, guid: a348f63665015a84ea9315af8d36ca4f,
         type: 3}
@@ -793,6 +798,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Drag
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7270725615864537827, guid: a348f63665015a84ea9315af8d36ca4f,
+        type: 3}
+      propertyPath: gravity.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7270725615864537837, guid: a348f63665015a84ea9315af8d36ca4f,
+        type: 3}
+      propertyPath: m_Height
+      value: 0.64061314
+      objectReference: {fileID: 0}
+    - target: {fileID: 7270725615864537837, guid: a348f63665015a84ea9315af8d36ca4f,
+        type: 3}
+      propertyPath: m_Center.y
+      value: -0.17455122
       objectReference: {fileID: 0}
     - target: {fileID: 7270725615864537838, guid: a348f63665015a84ea9315af8d36ca4f,
         type: 3}
@@ -2193,7 +2213,7 @@ Terrain:
   m_ShadowCastingMode: 2
   m_DrawHeightmap: 1
   m_DrawInstanced: 0
-  m_DrawTreesAndFoliage: 0
+  m_DrawTreesAndFoliage: 1
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 1
@@ -2550,6 +2570,236 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: dirtRunning.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: dirtWalking.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: woodRunning.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: woodWalking.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: grassRunning.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: grassWalking.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stairRunning.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stairWalking.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stoneRunning.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stoneWalking.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: dirtRunning.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 7c518e8469a403b4c981664ecb28a79a, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: dirtRunning.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0cfeb72dea261a54cb7672590d2d1656, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: dirtRunning.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 1deb201b8bf8f89479323a74e421150b, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: dirtWalking.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: feb62160ad1f8334ab037017b843d162, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: dirtWalking.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: f42914d98b070f741b2feee96a2988ee, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: dirtWalking.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 3d132da7af60f1145a3deb6a8bc42a08, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: woodRunning.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: b30822d7e7d412d459397d0749be742a, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: woodRunning.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2c37f11b2d56b374ebf354853c6ad643, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: woodRunning.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 7ffe843b3b9c8d14792d912d39646105, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: woodWalking.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: a45bdfd5056ed1d4d8f667cc2498ca12, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: woodWalking.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 3af6e561e364a274aa306461461c386b, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: woodWalking.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: c41fb169b2991c247a5466e00faa6639, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: grassRunning.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: d3ea0567dbe95714eb0ca07f43a37a96, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: grassRunning.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: b04914b5801123b4dafba88cbcb5bc74, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: grassRunning.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 31be579b280d0bc459635877e8c45aee, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: grassWalking.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 55a810a67df804d4487e8f990523255b, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: grassWalking.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: dd26e9057c37e2943993f701a764fc3e, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: grassWalking.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 56ea356e65429294f9098ef523fdb70b, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stairRunning.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: b41ddc959c9c25e43b0ae828e4f107f5, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stairRunning.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: dab18e1c3de8b6d479c41b793f851416, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stairRunning.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 89f5f1df3f3b52641b3f7eb03c39966d, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stairRunning.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: cee4ef3ef0fd155409f7b5a5162cece8, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stairRunning.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2802b1a72217c464ea0171ad67e835f7, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stairRunning.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: 505a015d5525e0442ae4a62d5bac304d, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stairWalking.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: b41ddc959c9c25e43b0ae828e4f107f5, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stairWalking.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: dab18e1c3de8b6d479c41b793f851416, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stairWalking.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 89f5f1df3f3b52641b3f7eb03c39966d, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stairWalking.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: a45bdfd5056ed1d4d8f667cc2498ca12, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stairWalking.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 76c66b3ae15685a45a334b0628d1edd1, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stairWalking.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: 76c66b3ae15685a45a334b0628d1edd1, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stoneRunning.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: fba95cafa5bba8649a7d269656e7317b, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stoneRunning.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 82354d1fee336984994fbdcc8154c89c, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stoneRunning.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: ecd647025e0a3c04fbd5829fff509e09, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stoneWalking.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: e3cfcb32689b274419ac73380ea96888, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stoneWalking.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 53e2adf2ac488ef46bb2b4074de9e363, type: 3}
+    - target: {fileID: 3212563446854807390, guid: dbb16365c91842146bcbca354dd7c250,
+        type: 3}
+      propertyPath: stoneWalking.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0bc66974c41ff8c4fa15f46d21ad3548, type: 3}
     - target: {fileID: 5014504101983871372, guid: dbb16365c91842146bcbca354dd7c250,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2978,6 +3228,7 @@ GameObject:
   - component: {fileID: 2128233086}
   - component: {fileID: 2128233085}
   - component: {fileID: 2128233088}
+  - component: {fileID: 2128233089}
   m_Layer: 13
   m_Name: Terrain_(0.00, 0.00, 512.00)
   m_TagString: Untagged
@@ -3073,6 +3324,20 @@ WindZone:
   m_WindTurbulence: 0.2
   m_WindPulseMagnitude: 1
   m_WindPulseFrequency: 0.5
+--- !u!114 &2128233089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128233084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dbaedf58340aa64d9b39afdc19289d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  surfaceType: 1
+  isDynamic: 1
 --- !u!108 &2135613241 stripped
 Light:
   m_CorrespondingSourceObject: {fileID: 2004479552558843765, guid: dbb16365c91842146bcbca354dd7c250,

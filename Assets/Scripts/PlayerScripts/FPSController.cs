@@ -21,6 +21,8 @@ public class FPSController : MonoBehaviour
     [SerializeField]
     private Vector3 speedVariations;
     private float moveSpeed;
+    [SerializeField]
+    private Vector3 gravity;
 
     [SerializeField]
     private float reach = 0.3f;
@@ -241,7 +243,8 @@ public class FPSController : MonoBehaviour
             //m_rig.position += moveDirection.normalized * Time.deltaTime * (1f);
 
             //m_rig.AddForce((moveDirection.normalized * moveSpeed * 10));
-            m_controller.SimpleMove(moveDirection.normalized * moveSpeed);
+            //Ensure to add gravity to the controller;
+            m_controller.SimpleMove((moveDirection.normalized * moveSpeed) + gravity);
             didMove = true;
         }
 

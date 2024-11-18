@@ -17,23 +17,48 @@ public struct audSource{
 
 public class AudioManager : MonoBehaviour
 {
-    enum walkingStatus
+    public enum walkingStatus
     {
-        metal
+        metal,
+        dirt,
+        wood,
+        grass,
+        stairsWood,
+        stone
     }
 
     [HeaderAttribute("Walking audio")]
     [SerializeField]
     AudioClip[] metalWalking;
+    [SerializeField]
+    AudioClip[] dirtWalking;
+    [SerializeField]
+    AudioClip[] woodWalking;
+    [SerializeField]
+    AudioClip[] grassWalking;
+    [SerializeField]
+    AudioClip[] stairWalking;
+    [SerializeField]
+    AudioClip[] stoneWalking;
 
     [HeaderAttribute("Running audio")]
     [SerializeField]
     AudioClip[] metalRunning;
+    [SerializeField]
+    AudioClip[] dirtRunning;
+    [SerializeField]
+    AudioClip[] woodRunning;
+    [SerializeField]
+    AudioClip[] grassRunning;
+    [SerializeField]
+    AudioClip[] stairRunning;
+    [SerializeField]
+    AudioClip[] stoneRunning;
 
     AudioClip[][] allRunning;
     AudioClip[][] allWalking;
 
-    walkingStatus status = walkingStatus.metal;
+    public walkingStatus status = walkingStatus.metal;
 
     audSource[] audSources;
 
@@ -41,11 +66,21 @@ public class AudioManager : MonoBehaviour
 
     public void setUpManager()
     {
-        allRunning = new AudioClip[1][];
+        allRunning = new AudioClip[6][];
         allRunning[0] = metalRunning;
+        allRunning[1] = dirtRunning;
+        allRunning[2] = woodRunning;
+        allRunning[3] = grassRunning;
+        allRunning[4] = stairRunning;
+        allRunning[5] = stoneRunning;
 
-        allWalking = new AudioClip[1][];
+        allWalking = new AudioClip[6][];
         allWalking[0] = metalWalking;
+        allWalking[1] = dirtWalking;
+        allWalking[2] = woodWalking;
+        allWalking[3] = grassWalking;
+        allWalking[4] = stairWalking;
+        allWalking[5] = stoneWalking;
 
         setUpAudios();
     }
@@ -103,5 +138,10 @@ public class AudioManager : MonoBehaviour
         }
 
         listeners = GameObject.FindObjectsByType<AudioListener>(FindObjectsSortMode.None);
+    }
+
+    public void setStatus(walkingStatus s)
+    {
+        status = s;
     }
 }

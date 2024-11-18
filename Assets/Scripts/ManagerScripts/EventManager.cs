@@ -345,13 +345,13 @@ public class EventManager : MonoBehaviour
             if (randomMultiplier > 0.6f)
             {
                 //Chance based on night time.
-                if (random < 25)
-                {
-                    EnergyEvent();
-                }
-                else if( random < 50)
+                if (random < 10)
                 {
                     throwEvent();
+                }
+                else if( random < 30)
+                {
+                    EnergyEvent();
                 } else
                 {
                     //Chance based on night time.
@@ -363,7 +363,7 @@ public class EventManager : MonoBehaviour
             else
             {
                 //Chance based on day time.
-                if (random < 50)
+                if (random < 40)
                 {
                     EnergyEvent();
                 }
