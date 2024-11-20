@@ -58,7 +58,7 @@ public class AudioManager : MonoBehaviour
     AudioClip[][] allRunning;
     AudioClip[][] allWalking;
 
-    public walkingStatus status = walkingStatus.metal;
+    public walkingStatus[] status = { walkingStatus.metal, walkingStatus.metal };
 
     audSource[] audSources;
 
@@ -86,14 +86,14 @@ public class AudioManager : MonoBehaviour
     }
 
     //Return a clip length based on the current type and time.
-    public int getCurrentClipLength(int audioInt)
+    public int getCurrentClipLength(int obj, int audioInt)
     {
         if(audioInt == 0)
         {
-            return allWalking[(int)status].Length;
+            return allWalking[(int)status[obj]].Length;
         } else if (audioInt == 1)
         {
-            return allRunning[(int)status].Length;
+            return allRunning[(int)status[obj]].Length;
         }
 
         return 0;
@@ -110,15 +110,15 @@ public class AudioManager : MonoBehaviour
     }
 
     //Return a single audio clip from the running sounds.
-    public AudioClip getAudio(int audioInd, int ind)
+    public AudioClip getAudio(int obj, int audioInd, int ind)
     {
         if (audioInd == 0)
         {
-            return allWalking[(int)status][ind];
+            return allWalking[(int)status[obj]][ind];
         }
         else if (audioInd == 1)
         {
-            return allRunning[(int)status][ind];
+            return allRunning[(int)status[obj]][ind];
         }
 
         return null;
@@ -140,8 +140,8 @@ public class AudioManager : MonoBehaviour
         listeners = GameObject.FindObjectsByType<AudioListener>(FindObjectsSortMode.None);
     }
 
-    public void setStatus(walkingStatus s)
+    public void setStatus(int obj, walkingStatus s)
     {
-        status = s;
+        status[obj] = s;
     }
 }

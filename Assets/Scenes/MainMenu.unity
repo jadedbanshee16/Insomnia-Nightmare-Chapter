@@ -4232,6 +4232,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1539204366522263119, guid: c038f12513af4ce42a6470f1977b2d90,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1978742366955787824, guid: c038f12513af4ce42a6470f1977b2d90,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2590676210279986163, guid: c038f12513af4ce42a6470f1977b2d90,
         type: 3}
       propertyPath: m_IsActive
@@ -4252,12 +4262,37 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3617500225444675663, guid: c038f12513af4ce42a6470f1977b2d90,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4808640619984519343, guid: c038f12513af4ce42a6470f1977b2d90,
         type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5060272342722677088, guid: c038f12513af4ce42a6470f1977b2d90,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5250628189725528773, guid: c038f12513af4ce42a6470f1977b2d90,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7261452173591119581, guid: c038f12513af4ce42a6470f1977b2d90,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7542858795622040867, guid: c038f12513af4ce42a6470f1977b2d90,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8048585625629275333, guid: c038f12513af4ce42a6470f1977b2d90,
         type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -9323,10 +9358,21 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5e265270fb85126479eef52d8fce3b08, type: 3}
   - {fileID: 8300000, guid: 3701a5fdf99882f40bc00eb9053eec92, type: 3}
   - {fileID: 8300000, guid: 2f949b40b7283404099a802630fb2077, type: 3}
+  dirtWalking: []
+  woodWalking: []
+  grassWalking: []
+  stairWalking: []
+  stoneWalking: []
   metalRunning:
   - {fileID: 8300000, guid: b25225c72201cd740b16b95b86d57940, type: 3}
   - {fileID: 8300000, guid: 5e8e6e435e65fe146b588b8a9d2df461, type: 3}
   - {fileID: 8300000, guid: 9a47b64b8d432b94eb7317d268127b1d, type: 3}
+  dirtRunning: []
+  woodRunning: []
+  grassRunning: []
+  stairRunning: []
+  stoneRunning: []
+  status: 0
 --- !u!1 &3238807410742996876
 GameObject:
   m_ObjectHideFlags: 0
@@ -9684,6 +9730,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerID: 0
   speedVariations: {x: 0.5, y: 0.75, z: 1.25}
+  gravity: {x: 0, y: 0, z: 0}
   reach: 1
   colliderSizes: {x: 0.3, y: 0.6}
   m_camera: {fileID: 3338467311282515136}

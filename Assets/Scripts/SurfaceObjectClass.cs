@@ -36,12 +36,26 @@ public class SurfaceObjectClass : MonoBehaviour
             //Check if not dynamic. If not, then use surface type.
             if (!isDynamic)
             {
-                manager_.setStatus(surfaceType);
+                manager_.setStatus(0, surfaceType);
             } else
             {
                 if (!terrain)
                 {
-                    manager_.setStatus(surfaceType);
+                    manager_.setStatus(0, surfaceType);
+                }
+            }
+        } else if (collision.gameObject.CompareTag("Stranger"))
+        {
+            //Check if not dynamic. If not, then use surface type.
+            if (!isDynamic)
+            {
+                manager_.setStatus(1, surfaceType);
+            }
+            else
+            {
+                if (!terrain)
+                {
+                    manager_.setStatus(1, surfaceType);
                 }
             }
         }
@@ -51,7 +65,10 @@ public class SurfaceObjectClass : MonoBehaviour
     {
         if (isDynamic && collision.gameObject.CompareTag("Player"))
         {
-            manager_.setStatus(getTerrainCoordinateTex(collision.GetContact(0).point));
+            manager_.setStatus(0, getTerrainCoordinateTex(collision.GetContact(0).point));
+        } else if (isDynamic && collision.gameObject.CompareTag("Stranger"))
+        {
+            manager_.setStatus(1, getTerrainCoordinateTex(collision.GetContact(0).point));
         }
     }
 
@@ -79,11 +96,11 @@ public class SurfaceObjectClass : MonoBehaviour
         switch (returnVal)
         {
             case 0:
-                return AudioManager.walkingStatus.metal;
+                return AudioManager.walkingStatus.stone;
             case 1:
-                return AudioManager.walkingStatus.metal;
+                return AudioManager.walkingStatus.stone;
             case 2:
-                return AudioManager.walkingStatus.metal;
+                return AudioManager.walkingStatus.stone;
             case 3:
                 return AudioManager.walkingStatus.dirt;
             case 4:

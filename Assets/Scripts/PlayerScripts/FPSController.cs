@@ -99,8 +99,8 @@ public class FPSController : MonoBehaviour
         audioManager_ = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AudioManager>();
         playerSource = GetComponent<AudioSource>();
 
-        walkingClipLength = audioManager_.getCurrentClipLength(0);
-        runningClipLength = audioManager_.getCurrentClipLength(1);
+        walkingClipLength = audioManager_.getCurrentClipLength(0, 0);
+        runningClipLength = audioManager_.getCurrentClipLength(0, 1);
 
         //Set cursor to middle of screen.
         Cursor.lockState = CursorLockMode.Locked;
@@ -591,11 +591,11 @@ public class FPSController : MonoBehaviour
         {
             randNum = (int)UnityEngine.Random.Range(0f, (float)runningClipLength);
 
-            playerSource.PlayOneShot(audioManager_.getAudio(1, randNum));
+            playerSource.PlayOneShot(audioManager_.getAudio(0, 1, randNum));
         } else
         {
             randNum = (int)UnityEngine.Random.Range(0f, (float)walkingClipLength);
-            playerSource.PlayOneShot(audioManager_.getAudio(0, randNum));
+            playerSource.PlayOneShot(audioManager_.getAudio(0, 0, randNum));
         }
             
     }

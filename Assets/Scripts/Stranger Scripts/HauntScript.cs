@@ -21,11 +21,16 @@ public class HauntScript : MonoBehaviour
 
     private InteractionControlClass controller;
 
+    private AudioManager audMan;
+    private AudioSource audSource;
+
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         controller = GetComponent<InteractionControlClass>();
+        audMan = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AudioManager>();
+        audSource = GetComponent<AudioSource>();
 
         //Get a random position on navmesh.
         targetPos = getRandomPosition();
@@ -101,7 +106,7 @@ public class HauntScript : MonoBehaviour
         } else
         {
             stepTimer = 1;
-            controller.playInteractionAudio(Random.Range(0, controller.getAudioLength() - 1));
+            audSource.PlayOneShot(audMan.getAudio(1, 0, Random.Range(0, audMan.getCurrentClipLength(1, 0))));
         }
     }
 
