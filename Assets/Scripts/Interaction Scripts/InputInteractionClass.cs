@@ -9,9 +9,12 @@ public class InputInteractionClass : InteractionClass
     private string input;
 
     [SerializeField]
-    ScreenObjectClass screen;
+    ComputerObjectClass computer;
 
     private GridManager powerManager;
+
+    [SerializeField]
+    private bool keyboardInput;
 
     void Start()
     {
@@ -27,7 +30,7 @@ public class InputInteractionClass : InteractionClass
 
 
 
-        if (String.Equals(input, "%DELETE"))
+        /*if (String.Equals(input, "%DELETE"))
         {
             screen.clearString();
             controller.playInteractionAudio(1);
@@ -50,16 +53,20 @@ public class InputInteractionClass : InteractionClass
             screen.addString(input);
 
             controller.playInteractionAudio((int)UnityEngine.Random.Range(2,  controller.getAudioLength() - 1));
-        }
+        }*/
+
+        computer.validateInput(input);
+
+
     }
 
     //Update power manager with the new system.
-    public void setObject(EnergyObjectClass c)
+    public void setObject(EnergyObjectClass c, bool b)
     {
-        powerManager.updateObject(c, screen.isCurrentCode());
+        powerManager.updateObject(c, b);
     }
 
-    public void setInput(String s)
+    public void setInput(string s)
     {
         input = s;
 
@@ -72,5 +79,10 @@ public class InputInteractionClass : InteractionClass
         {
             input = "%ENTER";
         }
+    }
+
+    public bool getKeyboardInput()
+    {
+        return keyboardInput;
     }
 }

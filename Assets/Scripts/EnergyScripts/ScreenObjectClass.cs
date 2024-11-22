@@ -117,7 +117,7 @@ public class ScreenObjectClass : EnergyObjectClass
     }
 
     //Change the text to what is written in currentCode.
-    private void displayText(string s)
+    public void displayText(string s)
     {
         if (isPowered)
         {

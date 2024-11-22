@@ -129,6 +129,13 @@ public class GameManager : MonoBehaviour
         EnergyObjectClass[] energies = GameObject.FindObjectsByType<EnergyObjectClass>(FindObjectsSortMode.None);
         FPSController[] playerEntity = GameObject.FindObjectsByType<FPSController>(FindObjectsSortMode.None);
         EventScript[] eventObjects = GameObject.FindObjectsByType<EventScript>(FindObjectsSortMode.None);
+        MenuManager[] menus = GameObject.FindObjectsByType<MenuManager>(FindObjectsSortMode.None);
+
+        for(int i = 0; i < menus.Length; i++)
+        {
+            float id = menus[i].transform.position.sqrMagnitude + (menus[i].transform.rotation.eulerAngles.sqrMagnitude);
+            menus[i].setMenuID(id);
+        }
 
         //Assign ids to player entities.
         for(int i = 0; i < playerEntity.Length; i++)

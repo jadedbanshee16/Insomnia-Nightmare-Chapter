@@ -49,6 +49,7 @@ public class FPSController : MonoBehaviour
     private Transform playerHead;
     private HoldInteractionClass holdingItem;
     private GameObject lockingObject;
+    private InputInteractionClass inputLockObject;
     [SerializeField]
     private GameObject torchlight;
 
@@ -169,6 +170,15 @@ public class FPSController : MonoBehaviour
                     lockingObject.GetComponent<InteractionClass>().Interact(this.gameObject);
                 }
             //If no locking object, then assume menu is opened.
+            }
+
+            if (inputLockObject)
+            {
+                if(interactionTimer == 0)
+                {
+                    interactionTimer = interactionCooldown;
+                    inputLockObject = null;
+                }
             }
         }
 
@@ -326,6 +336,8 @@ public class FPSController : MonoBehaviour
             //Make the controls for the mouse button.
             if (Input.GetKey(options.getControl(OptionsManager.theControls.interaction)))
             {
+                //Reset the locked input.
+                inputLockObject = null;
                 isInInteraction();
 
                 //This is to ensure that if camera and player is locked, and player cannot interact with the lockingobject again,
@@ -356,15 +368,15 @@ public class FPSController : MonoBehaviour
         }
 
         //If currently locked onto an object, attempt to find an input. If an input is found, then put string input character into that input class.
-        if (lockingObject && lockingObject.GetComponent<InputInteractionClass>())
+        if (inputLockObject)
         {
             //Get input from user.
             string input = Input.inputString;
 
             if (!String.Equals(input, ""))
             {
-                lockingObject.GetComponent<InputInteractionClass>().setInput(input);
-                lockingObject.GetComponent<InputInteractionClass>().Interact();
+                inputLockObject.setInput(input);
+                inputLockObject.Interact();
             }
         }
     }
@@ -430,7 +442,7 @@ public class FPSController : MonoBehaviour
             //This is for interactions with holdable items.
             if (hitPoint.collider.GetComponent<HoldInteractionClass>())
             {
-                
+
 
                 if (!holdingItem)
                 {
@@ -443,7 +455,7 @@ public class FPSController : MonoBehaviour
                         hitPoint.collider.GetComponent<InteractionClass>().Interact(playerHand.GetChild(0).position, playerHand.GetChild(0).rotation, playerHand);
                         setHeldItem(hitPoint.collider.GetComponent<HoldInteractionClass>());
 
-                    
+
                     }
                     //If for holding then change the position of the right hand to the position of the interaction.
                     else if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.playerHold))
@@ -461,7 +473,7 @@ public class FPSController : MonoBehaviour
                         interactionTimer = interactionCooldown;
 
                         hitPoint.collider.GetComponent<InteractionClass>().secondaryInteract();
-                    } 
+                    }
                 }
 
                 //This is interactions with position items that can hold holdable items.
@@ -477,7 +489,7 @@ public class FPSController : MonoBehaviour
                     hitPoint.collider.GetComponent<InteractionClass>().Interact(holdingItem.gameObject);
                     removeHeldItem();
 
-                //Potential to still be interacted with in some way, even if this item cannot be held.
+                    //Potential to still be interacted with in some way, even if this item cannot be held.
                 }
                 else
                 {
@@ -508,6 +520,24 @@ public class FPSController : MonoBehaviour
                     hitPoint.collider.GetComponent<InteractionClass>().Interact(this.gameObject);
                 }
 
+                //For interaction to an input. If it doesn't have any input, then lock the input.
+            } else if (hitPoint.collider.GetComponent<InputInteractionClass>())
+            {
+                interactionTimer = interactionCooldown;
+
+                //Ensure item can be touched by the player.
+                if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.player))
+                {
+
+                    if (hitPoint.collider.GetComponent<InputInteractionClass>().getKeyboardInput())
+                    {
+                        inputLockObject = hitPoint.collider.GetComponent<InputInteractionClass>();
+                    } else
+                    {
+                        //Make the interact happen.
+                        hitPoint.collider.GetComponent<InteractionClass>().Interact();
+                    }
+                }
                 //This is for interactions with everything else that doesn't deal with the hold or position systems.
             } else if (hitPoint.collider.GetComponent<InteractionClass>())
             {

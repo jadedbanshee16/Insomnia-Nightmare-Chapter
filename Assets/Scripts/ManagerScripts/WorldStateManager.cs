@@ -18,11 +18,13 @@ public class WorldStateManager : MonoBehaviour
     [SerializeField]
     List<EnergyInteractionClass> interactionablesEnergy;
     [SerializeField]
-    List<ScreenObjectClass> energiesScreens;
+    List<ComputerObjectClass> energiesComputers;
     [SerializeField]
     List<CombinationManagerClass> energiesCombinations;
     [SerializeField]
     List<EventScript> eventsScripts;
+    [SerializeField]
+    List<MenuManager> menuScripts;
 
     private worldState _state;
 
@@ -215,14 +217,16 @@ public class WorldStateManager : MonoBehaviour
         FPSController[] playerEntities = GameObject.FindObjectsByType<FPSController>(FindObjectsSortMode.None);
         EnergyObjectClass[] energyObjects = GameObject.FindObjectsByType<EnergyObjectClass>(FindObjectsSortMode.None);
         EventScript[] eventObjects = GameObject.FindObjectsByType<EventScript>(FindObjectsSortMode.None);
+        MenuManager[] menuManagers = GameObject.FindObjectsByType<MenuManager>(FindObjectsSortMode.None);
 
         _state = new worldState();
         interactionablesItems = new List<HoldInteractionClass>();
         interactionablesLocks = new List<LockObjectClass>();
         interactionablesEnergy = new List<EnergyInteractionClass>();
-        energiesScreens = new List<ScreenObjectClass>();
+        energiesComputers = new List<ComputerObjectClass>();
         entities = new List<GameObject>();
         eventsScripts = new List<EventScript>();
+        menuScripts = new List<MenuManager>();
 
         for (int i = 0; i < playerEntities.Length; i++)
         {
@@ -272,10 +276,10 @@ public class WorldStateManager : MonoBehaviour
         //Go through and find screen classes.
         for(int i = 0; i < energyObjects.Length; i++)
         {
-            if (energyObjects[i].GetComponent<ScreenObjectClass>())
+            if (energyObjects[i].GetComponent<ComputerObjectClass>())
             {
-                _state.setScreenData(energyObjects[i].gameObject.name, energyObjects[i].getObjectID(), energyObjects[i].GetComponent<ScreenObjectClass>().getCurrentCode());
-                energiesScreens.Add(energyObjects[i].GetComponent<ScreenObjectClass>());
+                _state.setScreenData(energyObjects[i].gameObject.name, energyObjects[i].getObjectID(), energyObjects[i].GetComponent<ComputerObjectClass>().getCurrentCode());
+                energiesComputers.Add(energyObjects[i].GetComponent<ComputerObjectClass>());
             }
         }
 
@@ -296,6 +300,15 @@ public class WorldStateManager : MonoBehaviour
             _state.setEventData(eventObjects[i].gameObject.name, eventObjects[i].getEventID(), eventObjects[i].getIsPlayed());
 
             eventsScripts.Add(eventObjects[i]);
+        }
+
+        for(int i = 0; i < menuManagers.Length; i++)
+        {
+            if (!menuManagers[i].gameObject.CompareTag("Player"))
+            {
+                _state.setMenuData(menuManagers[i].gameObject.name, menuManagers[i].getMenuID(), menuManagers[i].getActiveMenuItems());
+                menuScripts.Add(menuManagers[i]);
+            }
         }
 
         //Now set the day data.
@@ -413,20 +426,33 @@ public class WorldStateManager : MonoBehaviour
         //Do all energy interaction objects.
         for (int i = 0; i < _state.screens.Count; i++)
         {
-            for (int v = 0; v < energiesScreens.Count; v++)
+            for (int v = 0; v < energiesComputers.Count; v++)
             {
+                //Debug.Log("React2");
                 //If the same object, set the initial lock.
-                if (energiesScreens[v].getObjectID() == _state.screens[i].id)
+                if (energiesComputers[v].getObjectID() == _state.screens[i].id)
                 {
                     //Prep the object to be opposite what it needs to turn to.
                     //interactionablesEnergy[v].setIsOn(!_state.energy[i].isOn);
 
-                    if (energiesScreens[v].getIsOn())
+                    if (energiesComputers[v].getIsOn())
                     {
                         //Debug.Log("React?");
                         //No make the interaction.
-                        energiesScreens[v].setCurrentCode(_state.screens[i].currentData);
+                        energiesComputers[v].setCurrentCode(_state.screens[i].currentData);
                     }
+                }
+            }
+        }
+
+        for(int i = 0; i < _state.menus.Count; i++)
+        {
+            for(int v = 0; v < menuScripts.Count; v++)
+            {
+                if(menuScripts[v].getMenuID() == _state.menus[i].id)
+                {
+                    //Set the active menus of this manager.
+                    menuScripts[v].setActiveMenuItems(_state.menus[i].active);
                 }
             }
         }
@@ -493,12 +519,14 @@ public class WorldStateManager : MonoBehaviour
         FPSController[] playerEntities = GameObject.FindObjectsByType<FPSController>(FindObjectsSortMode.None);
         EnergyObjectClass[] energyObjects = GameObject.FindObjectsByType<EnergyObjectClass>(FindObjectsSortMode.None);
         EventScript[] eventObjects = GameObject.FindObjectsByType<EventScript>(FindObjectsSortMode.None);
+        MenuManager[] menus = GameObject.FindObjectsByType<MenuManager>(FindObjectsSortMode.None);
         interactionablesItems = new List<HoldInteractionClass>();
         interactionablesLocks = new List<LockObjectClass>();
         interactionablesEnergy = new List<EnergyInteractionClass>();
-        energiesScreens = new List<ScreenObjectClass>();
+        energiesComputers = new List<ComputerObjectClass>();
         energiesCombinations = new List<CombinationManagerClass>();
         eventsScripts = new List<EventScript>();
+        menuScripts = new List<MenuManager>();
 
         entities = new List<GameObject>();
 
@@ -536,9 +564,9 @@ public class WorldStateManager : MonoBehaviour
 
         for(int i = 0; i < energyObjects.Length; i++)
         {
-            if (energyObjects[i].GetComponent<ScreenObjectClass>()) 
+            if (energyObjects[i].GetComponent<ComputerObjectClass>()) 
             {
-                energiesScreens.Add(energyObjects[i].GetComponent<ScreenObjectClass>());
+                energiesComputers.Add(energyObjects[i].GetComponent<ComputerObjectClass>());
             }
         }
 
@@ -553,6 +581,14 @@ public class WorldStateManager : MonoBehaviour
         for(int i = 0; i < eventObjects.Length; i++)
         {
             eventsScripts.Add(eventObjects[i]);
+        }
+
+        for(int i = 0; i < menus.Length; i++)
+        {
+            if (!menus[i].gameObject.CompareTag("Player"))
+            {
+                menuScripts.Add(menus[i]);
+            }
         }
     }
 
@@ -663,6 +699,7 @@ public class worldState
     public List<screenData> screens;
     public List<combinationData> combinations;
     public List<EventData> events;
+    public List<MenuData> menus;
 
     public WorldData world;
     //public List<positionData> positions;
@@ -758,6 +795,18 @@ public class worldState
     public void setWorldData(Vector3 p, Quaternion r, bool b, int i)
     {
         world = new WorldData(p, r, b, i);
+    }
+
+    public void setMenuData(string s, float i, string a)
+    {
+        MenuData il = new MenuData(s, i, a);
+
+        if(menus == null)
+        {
+            menus = new List<MenuData>();
+        }
+
+        menus.Add(il);
     }
 }
 
@@ -889,6 +938,21 @@ public class EventData
         name = n;
         id = i;
         isUsed = b;
+    }
+}
+
+[System.Serializable]
+public class MenuData
+{
+    public string name;
+    public float id;
+    public string active;
+
+    public MenuData(string n, float i, string s)
+    {
+        name = n;
+        id = i;
+        active = s;
     }
 }
 

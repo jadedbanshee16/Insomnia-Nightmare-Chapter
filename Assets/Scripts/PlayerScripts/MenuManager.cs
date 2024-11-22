@@ -28,6 +28,8 @@ public class MenuManager : MonoBehaviour
     float promptTime = 1;
     float promptTimer = 0;
 
+    private float menuID;
+
     //A function to turn off and on any menu group selected.
     public void updateMenuGroup(int ind, bool isOn)
     {
@@ -49,14 +51,63 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    private void addMenuGroup(string name)
+    public void addMenuGroup(string name)
     {
+        //Debug.Log("added");
         //Find an activate a specific menu group on top of the other menu groups, instead of turning the others to false.
         for (int i = 0; i < groups.Length; i++)
         {
             if (string.Equals(groups[i].gameObject.name, name))
             {
                 updateMenuGroup(i, true);
+            }
+        }
+    }
+
+    public string getActiveMenuItems()
+    {
+        string active = "";
+
+        for(int i = 0; i < groups.Length; i++)
+        {
+            if(i < groups.Length - 1)
+            {
+                if (groups[i].activeSelf)
+                {
+                    active = String.Concat(active, 1 + ":");
+                }
+                else
+                {
+                    active = String.Concat(active, 0 + ":");
+                }
+            } else
+            {
+                if (groups[i].activeSelf)
+                {
+                    active = String.Concat(active, 1);
+                }
+                else
+                {
+                    active = String.Concat(active, 0);
+                }
+            }
+        }
+
+        return active;
+    }
+
+    public void setActiveMenuItems(string active)
+    {
+        string[] actives = active.Split(":");
+
+        for(int i = 0; i < actives.Length; i++)
+        {
+            if(int.Parse(actives[i]) == 1)
+            {
+                updateMenuGroup(i, true);
+            } else
+            {
+                updateMenuGroup(i, false);
             }
         }
     }
@@ -312,5 +363,15 @@ public class MenuManager : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public float getMenuID()
+    {
+        return menuID;
+    }
+
+    public void setMenuID(float i)
+    {
+        menuID = i;
     }
 }
