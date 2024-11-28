@@ -37,11 +37,18 @@ public class LightObjectClass : EnergyObjectClass
         energyManager = man;
 
         //When manager is set, set on depending on energyObject type. Default is off.
-        isOn = false;
+        //isOn = false;
 
         //Set any components that needed to be made.
         rend_ = GetComponentInChildren<MeshRenderer>();
 
         controller = GetComponent<InteractionControlClass>();
+
+        //For lights only, use object if light starts out as on.
+        if (isPowered && isOn)
+        {
+            controller.setIndicator(isOn);
+            controller.setActive(isOn);
+        }
     }
 }

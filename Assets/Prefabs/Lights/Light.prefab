@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 862710546800926925}
   - component: {fileID: 1271140514369938762}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 5566709089768109765}
   - component: {fileID: 6148186634434863392}
   - component: {fileID: 3180317634224996246}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -278,6 +278,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LightBulb
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c5450d9d3c8cce3418c94665e5c8cfbf,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

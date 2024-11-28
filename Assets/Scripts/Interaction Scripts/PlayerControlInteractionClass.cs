@@ -20,6 +20,9 @@ public class PlayerControlInteractionClass : InteractionClass
     [SerializeField]
     Transform adjustedObject;
 
+    [SerializeField]
+    Vector3 adjustedRotationOffset;
+
     Quaternion initialPosition;
     float timer = 0;
 
@@ -56,8 +59,8 @@ public class PlayerControlInteractionClass : InteractionClass
             if (isOn)
             {
                 Vector3 newPos = currentCam.transform.position - adjustedObject.position;
-                newPos.x += 90;
-                newPos.y += 90;
+                newPos.x += adjustedRotationOffset.x;
+                newPos.y += adjustedRotationOffset.y;
                 controller.setPosition(adjustedObject.position, Quaternion.Slerp(initialPosition, Quaternion.Euler(newPos.x, newPos.y, newPos.z), timer), adjustedObject);
             } else
             {

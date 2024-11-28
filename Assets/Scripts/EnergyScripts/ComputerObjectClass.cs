@@ -5,11 +5,19 @@ using UnityEngine;
 
 public class ComputerObjectClass : EnergyObjectClass
 {
-    [SerializeField]
-    ScreenClass screenObject;
+    private enum computerType
+    {
+        text,
+        password
+    }
 
     [SerializeField]
+    ScreenClass screenObject;
+    [SerializeField]
     InputInteractionClass inputObject;
+
+    [SerializeField]
+    private computerType computerInputType;
 
     [SerializeField]
     string[] messages;
@@ -25,7 +33,9 @@ public class ComputerObjectClass : EnergyObjectClass
     private GameObject[] affectedObj;
 
     [SerializeField]
-    private bool persistantUnlock;
+    private bool persistantScreenUnlock;
+
+
 
     private void Start()
     {
@@ -54,6 +64,8 @@ public class ComputerObjectClass : EnergyObjectClass
         {
             screenObject.displayText(messages[messages.Length - 1], isPowered);
         }
+
+
     }
 
     //Combine the added string to the current string.
@@ -130,7 +142,7 @@ public class ComputerObjectClass : EnergyObjectClass
         int comparedCode = isCurrentCode();
 
         //Turn off all affected objects if not persistant, so you can reset.
-        if (!persistantUnlock)
+        if (!persistantScreenUnlock)
         {
             for(int i = 0; i < affectedObj.Length; i++)
             {
@@ -148,6 +160,13 @@ public class ComputerObjectClass : EnergyObjectClass
             {
                 if(comparedCode < affectedObj.Length && affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<MenuManager>())
                 {
+                    //If switching to another screen, check type.
+                    if (computerInputType == computerType.password)
+                    {
+                        currentString = "";
+                        screenObject.displayText(messages[messages.Length - 1], isPowered);
+                    }
+
                     //Debug.Log(comparedCode + ": " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16) + " | " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16).Length);
                     //Attempt to move to menu group on the next given aspect of the string.
                     affectedObj[comparedCode].GetComponent<MenuManager>().setToMenuGroup(messages[comparedCode].Substring(16, messages[comparedCode].Length - 16));
@@ -192,7 +211,7 @@ public class ComputerObjectClass : EnergyObjectClass
         int comparedCode = isCurrentCode(code);
 
         //Turn off all affected objects if not persistant, so you can reset.
-        if (!persistantUnlock)
+        if (!persistantScreenUnlock)
         {
             for (int i = 0; i < affectedObj.Length; i++)
             {
@@ -210,6 +229,12 @@ public class ComputerObjectClass : EnergyObjectClass
             {
                 if (comparedCode < affectedObj.Length && affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<MenuManager>())
                 {
+                    //If switching to another screen, check type.
+                    if(computerInputType == computerType.password)
+                    {
+                        currentString = "";
+                        screenObject.displayText("", isPowered);
+                    }
                     //Debug.Log(comparedCode + ": " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16) + " | " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16).Length);
                     //Attempt to move to menu group on the next given aspect of the string.
                     affectedObj[comparedCode].GetComponent<MenuManager>().setToMenuGroup(messages[comparedCode].Substring(16, messages[comparedCode].Length - 16));
@@ -254,7 +279,7 @@ public class ComputerObjectClass : EnergyObjectClass
     //When an input comes in,
     //Make sure it is an added string or one of the possible commands including
     //DELETE, ENTER, BACKSPACE
-    public void validateInput(string s)
+    public void validateInput(string s, bool playSound)
     {
         if (!controller)
         {
@@ -263,39 +288,50 @@ public class ComputerObjectClass : EnergyObjectClass
         //If delete command, clear the string.
         if (String.Equals(s, "%DELETE"))
         {
+            if (playSound)
+            {
+                controller.playInteractionAudio(1);
+            }
             clearString();
-            controller.playInteractionAudio(1);
         }
         //If the enter command, validate code.
         else if (String.Equals(s, "%ENTER"))
         {
             //Now set object based on affected object in the screen.
-            /*if (screen.isObjectPowered())
+            if (playSound)
             {
-                setObject(screen.getAffectedObject());
-            }*/
-            controller.playInteractionAudio(1);
+                controller.playInteractionAudio(1);
+            }
+
             validateCode();
 
         }
         //If the backspace command, then remove 1 element from the string.
         else if (String.Equals(s, "%BACKSPACE"))
         {
+            if (playSound)
+            {
+                controller.playInteractionAudio(1);
+            }
             removeString();
-            controller.playInteractionAudio(1);
         }
         else if (s.Contains("%BUTTON:"))
         {
             //This is a button, which means the current string is switched straight over to this item.
-            controller.playInteractionAudio(1);
+            if (playSound)
+            {
+                controller.playInteractionAudio(1);
+            }
             validateCode(s);
         }
         //If no commands, then add the string element.
         else
         {
+            if (playSound)
+            {
+                controller.playInteractionAudio((int)UnityEngine.Random.Range(2, controller.getAudioLength() - 1));
+            }
             addString(s);
-
-            controller.playInteractionAudio((int)UnityEngine.Random.Range(2, controller.getAudioLength() - 1));
         }
     }
 
@@ -304,7 +340,20 @@ public class ComputerObjectClass : EnergyObjectClass
     {
         currentString = s;
 
-        screenObject.displayText(currentString, isPowered);
+        if (screenObject)
+        {
+            screenObject.displayText(currentString, isPowered);
+        }
+        //If inactive, activate screen object for a second to change it, then deactivate.
+        /*if(!screenObject.gameObject.activeSelf)
+        {
+            screenObject.gameObject.SetActive(true);
+            screenObject.displayText(currentString, isPowered);
+            screenObject.gameObject.SetActive(false);
+        } else
+        {
+            
+        }*/
     }
 
     //A function to set the energy manager of this object.

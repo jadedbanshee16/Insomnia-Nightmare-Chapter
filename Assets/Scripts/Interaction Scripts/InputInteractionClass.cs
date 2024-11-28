@@ -55,7 +55,16 @@ public class InputInteractionClass : InteractionClass
             controller.playInteractionAudio((int)UnityEngine.Random.Range(2,  controller.getAudioLength() - 1));
         }*/
 
-        computer.validateInput(input);
+        //If this object comes with its own sounds, use that.
+        if(controller.getAudioLength() > 0)
+        {
+            //Play the given item.
+            controller.playInteractionAudio(0);
+            computer.validateInput(input, false);
+        } else
+        {
+            computer.validateInput(input, true);
+        }
 
 
     }

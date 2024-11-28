@@ -38,7 +38,10 @@ public class EventScript : MonoBehaviour
     {
         if (!isPlayed)
         {
-            manager_.runNextEvent(eventNum, type, new Vector2(eventDependency, overrideDialogue), overrideEvent);
+            if (manager_ && manager_.isActiveAndEnabled)
+            {
+                manager_.runNextEvent(eventNum, type, new Vector2(eventDependency, overrideDialogue), overrideEvent);
+            }
             isPlayed = true;
         }
     }

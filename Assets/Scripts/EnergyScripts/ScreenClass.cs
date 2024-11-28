@@ -19,12 +19,30 @@ public class ScreenClass : MonoBehaviour
     [SerializeField]
     private Material screenMatOff;
 
+    [SerializeField]
+    private string thisScreen;
+
+    private Canvas canv;
+
+    private void Start()
+    {
+        canv = GetComponentInParent<Canvas>();
+    }
+
 
 
     public void displayText(string s, bool isPowered)
     {
+        if (!canv)
+        {
+            canv = GetComponentInParent<Canvas>();
+        }
+
         if (isPowered)
         {
+            //Set canvas to on. do this every time.
+            canv.enabled = true;
+
             tex_.text = s;
 
             if (thescreen)
@@ -33,6 +51,8 @@ public class ScreenClass : MonoBehaviour
                 mats[1] = screenMatOn;
                 thescreen.materials = mats;
             }
+
+
         }
         else
         {
@@ -44,6 +64,9 @@ public class ScreenClass : MonoBehaviour
             }
 
             tex_.text = offText;
+
+            //Set the canvas to false to turn off the screen.
+            canv.enabled = false;
         }
 
     }

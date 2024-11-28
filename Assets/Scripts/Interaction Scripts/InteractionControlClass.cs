@@ -290,12 +290,18 @@ public class InteractionControlClass : MonoBehaviour
 
         events = GetComponent<EventScript>();
 
-        if (indicator)
+        /*if (indicator)
         {
             indicator.switchToOff();
-        }
+        }*/
 
         aud_ = GetComponent<AudioSource>();
+
+        //Try to find an audio in the parent.
+        if (!aud_)
+        {
+            aud_ = GetComponentInParent<AudioSource>();
+        }
 
         if (anim_)
         {

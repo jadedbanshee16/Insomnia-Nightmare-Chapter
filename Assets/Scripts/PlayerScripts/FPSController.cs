@@ -439,6 +439,10 @@ public class FPSController : MonoBehaviour
             //If nothing else, see if item can be interacted to.
             } else*/
 
+            //Send a ray.
+            //Debug.DrawRay(Camera.main.transform.position, ray.direction.normalized * reach, Color.cyan, Mathf.Infinity);
+            //Debug.Log(hitPoint.collider.name);
+
             //This is for interactions with holdable items.
             if (hitPoint.collider.GetComponent<HoldInteractionClass>())
             {
