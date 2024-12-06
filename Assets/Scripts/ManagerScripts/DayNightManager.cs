@@ -35,6 +35,8 @@ public class DayNightManager : MonoBehaviour
         sun = GameObject.FindGameObjectWithTag("Sun");
         manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
+
+
         /*sunLights = new Light[sun.transform.GetChild(0).childCount];
 
         for(int i = 0; i < sunLights.Length; i++)
@@ -44,7 +46,7 @@ public class DayNightManager : MonoBehaviour
 
         pocVol = manager.gameObject.GetComponentInChildren<PostProcessVolume>();
         pocVol.profile.TryGetSettings(out colGrad);
-        lights = GameObject.FindObjectsByType<LightManager>(FindObjectsSortMode.None);
+        lights = GameObject.FindObjectsByType<LightManager>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
         isDay = manager.getDay();
 
@@ -65,6 +67,12 @@ public class DayNightManager : MonoBehaviour
         }
 
         //intensity = maxIntensity;
+
+        //Adjust lights to be brighter at night.
+        for (int i = 0; i < lights.Length; i++)
+        {
+            lights[i].setIntensity(intensity * 2);
+        }
     }
 
     // Update is called once per frame
@@ -94,6 +102,12 @@ public class DayNightManager : MonoBehaviour
                 {
                     sunLights[i].intensity = sunIntensity[1] * (intensity * 2);
                 }
+            }
+
+            //Adjust lights to be brighter at night.
+            for (int i = 0; i < lights.Length; i++)
+            {
+                lights[i].setIntensity(intensity * 2);
             }
         }
     }

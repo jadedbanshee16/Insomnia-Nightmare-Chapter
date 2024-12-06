@@ -54,7 +54,7 @@ public class HoldInteractionClass : InteractionClass
         if(currentHolder && !currentHolder.GetComponentInParent<FPSController>() 
             && getType() != interactionType.senserInteraction)
         {
-            if(Vector3.Distance(currentHolder.position, this.transform.position) > 0.02f)
+            if(!currentHolder.GetComponent<FPSController>() && Vector3.Distance(currentHolder.position, this.transform.position) > 0.02f)
             {
                 //Ensure that if an object that is supposed to move even when locked, it can move physically.
                 if(getType() == interactionType.autoPosition)

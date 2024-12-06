@@ -80,7 +80,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -125,6 +125,7 @@ MonoBehaviour:
   anchorObject: {fileID: 0}
   anchorThreshold: 0
   stretchThreshold: 0
+  invertHoldAngle: 0
 --- !u!82 &7891615138945065590
 AudioSource:
   m_ObjectHideFlags: 0

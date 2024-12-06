@@ -11,6 +11,7 @@ public class SurfaceObjectClass : MonoBehaviour
     bool isDynamic;
 
     TerrainData terrain;
+    Bounds dataBoundingBox;
     private float[,,] splashData;
     private int numTex;
 
@@ -20,9 +21,10 @@ public class SurfaceObjectClass : MonoBehaviour
     {
         manager_ = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AudioManager>();
 
-        if (GetComponent<Terrain>())
+        if (this.GetComponent<Terrain>())
         {
             terrain = GetComponent<Terrain>().terrainData;
+            dataBoundingBox = terrain.bounds;
             splashData = terrain.GetAlphamaps(0, 0, terrain.alphamapWidth, terrain.alphamapHeight);
             numTex = splashData.Length / (terrain.alphamapWidth * terrain.alphamapHeight);
         }
@@ -82,13 +84,19 @@ public class SurfaceObjectClass : MonoBehaviour
         int returnVal = 0;
         float comp = -Mathf.Infinity;
 
-        //Go through and attempted to find the current dominant index of the terrain.
-        for(int i = 0; i < numTex; i++)
+        //Debug.Log(terrain.bounds.center + transform.position + terrain.bounds.size / 2 + " | " + pos);
+
+        if(pos.x >= terrain.bounds.center.x + transform.position.x - terrain.bounds.size.x / 2 && pos.x <= terrain.bounds.center.x + transform.position.x + terrain.bounds.size.x / 2 &&
+           pos.z >= terrain.bounds.center.z + transform.position.z - terrain.bounds.size.z / 2 && pos.z <= terrain.bounds.center.z + transform.position.z + terrain.bounds.size.z / 2)
         {
-            if(comp < splashData[(int)vecRet.z, (int)vecRet.x, i])
+            //Go through and attempted to find the current dominant index of the terrain.
+            for (int i = 0; i < numTex; i++)
             {
-                comp = splashData[(int)vecRet.z, (int)vecRet.x, i];
-                returnVal = i;
+                if (comp < splashData[(int)vecRet.z, (int)vecRet.x, i])
+                {
+                    comp = splashData[(int)vecRet.z, (int)vecRet.x, i];
+                    returnVal = i;
+                }
             }
         }
 

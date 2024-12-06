@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 398716901473302262}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 4.6566123e-10, z: -0, w: 1}
-  m_LocalPosition: {x: -0.9071483, y: 0.454, z: 1.256}
+  m_LocalPosition: {x: -0.9071483, y: 9, z: 1.256}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -51,7 +51,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -78,7 +78,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -114,6 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e2a9dd10da71ae4da5eaf0f613328a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 00000000
   isHeld: 0
   connectedObj: {fileID: 0}
@@ -122,6 +123,7 @@ MonoBehaviour:
   anchorObject: {fileID: 0}
   anchorThreshold: 0
   stretchThreshold: 0
+  invertHoldAngle: 0
 --- !u!114 &1038032328628641820
 MonoBehaviour:
   m_ObjectHideFlags: 0

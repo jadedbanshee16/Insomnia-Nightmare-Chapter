@@ -24,6 +24,18 @@ public class AchievementManager : MonoBehaviour
     GameObject listItem;
     [SerializeField]
     GameObject contentManager;
+    [SerializeField]
+    MindChapterWorldShiftScript shiftManager;
+
+    public void Start()
+    {
+
+        //Set the world based on a given events.
+        if (shiftManager)
+        {
+            shiftManager.setLevels((int)achievements[5].progression);
+        }
+    }
 
     // Start is called before the first frame update
     public void setAchievements()
@@ -143,6 +155,7 @@ public class AchievementManager : MonoBehaviour
         wr.WriteLine("3:Good listener:Follow the rules:0:0:false");
         wr.WriteLine("4:A taste for death:Die 5 times:0:5:false");
         wr.WriteLine("5:Cleaner:Clean up after yourself:0:10:false");
+        wr.WriteLine("6:(NonAchievement)MindLevel:An event to change the mind level:0:5:False");
 
         wr.Close();
     }
@@ -195,5 +208,20 @@ public class AchievementManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public bool returnAchievement(int index)
+    {
+        return achievements[index].isGotten;
+    }
+
+    public bool returnAchievement(int index, int prog)
+    {
+        return achievements[index].progression <= prog;
+    }
+
+    public float returnAchievementProgress(int index)
+    {
+        return achievements[index].progression;
     }
 }

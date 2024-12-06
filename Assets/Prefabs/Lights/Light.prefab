@@ -44,7 +44,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.8113208, g: 0.68587685, b: 0.49368104, a: 1}
-  m_Intensity: 2
+  m_Intensity: 0.5
   m_Range: 9.51
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -164,10 +164,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 591621c1ab72a014a8a3a73b64d8afbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeLight: {fileID: 905059449598658582}
+  activeLight: {fileID: 1271140514369938762}
   maxDist: 5
   minDist: 2
   currentLevel: 0
+  intensityScale: {x: 0.5, y: 2.5}
+  lightIntensity: 1
 --- !u!114 &6148186634434863392
 MonoBehaviour:
   m_ObjectHideFlags: 0

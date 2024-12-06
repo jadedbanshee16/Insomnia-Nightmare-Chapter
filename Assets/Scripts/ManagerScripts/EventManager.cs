@@ -18,6 +18,8 @@ public class EventManager : MonoBehaviour
     AchievementScript[] endAchievements;
 
 
+
+
     [Header("Timers")]
     //The timers that deal with when an event can occur.
     [SerializeField]
@@ -42,6 +44,8 @@ public class EventManager : MonoBehaviour
     bool isEnding = false;
     bool isEventPlayed = false;
     bool inHideEvent;
+
+    public bool first;
 
     //A number to say at what point in the story you are at.
     [SerializeField]
@@ -82,6 +86,17 @@ public class EventManager : MonoBehaviour
 
         //Populate the event list.
         //Debug.Log(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        //See if this is the first run.
+        if (GameObject.FindGameObjectWithTag("GameManager") && GameObject.FindGameObjectWithTag("GameManager").GetComponent<AchievementManager>() &&
+           GameObject.FindGameObjectWithTag("GameManager").GetComponent<AchievementManager>().returnAchievement(5, 0))
+        {
+            first = true;
+        }
+        else
+        {
+            first = false;
+        }
+
         TextAsset ass = Resources.Load<TextAsset>("Dialogue_" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
         string eventResources = ass.text;
         string[] sections = eventResources.Split('\n');
@@ -135,6 +150,7 @@ public class EventManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         //Run a given event if event changes.
         if(eventToken < storyEvents.Count)
         {
@@ -144,14 +160,35 @@ public class EventManager : MonoBehaviour
                 eventChange = false;
 
                 //Run a prompt if there is a prompt to this event.
-                if (!string.Equals(storyEvents[eventToken].getMessage(), ""))
+                if (first)
                 {
-                    promptManager.updateText("MessagePrompt", storyEvents[eventToken].getMessage());
-                }
+                    if (!string.Equals(storyEvents[eventToken].getMessage(), ""))
+                    {
+                        promptManager.updateText("MessagePrompt", storyEvents[eventToken].getMessage());
+                    }
 
-                //See if this uses exitTime. If it does, then run the story timer.
-                storyTime = storyEvents[eventToken].getEventTime();
-                storyTimer = 0;
+                    //See if this uses exitTime. If it does, then run the story timer.
+                    storyTime = storyEvents[eventToken].getEventTime();
+                    storyTimer = 0;
+                } else
+                {
+                    if (eventToken == 0 || eventToken == 7 || eventToken == 8)
+                    {
+                        //Set up the ending message based on 
+                        if(eventToken == 8)
+                        {
+                            storyEvents[eventToken].setMessageOverride((int)GameObject.FindGameObjectWithTag("GameManager").GetComponent<AchievementManager>().returnAchievementProgress(5));
+                        }
+                        if (!string.Equals(storyEvents[eventToken].getMessage(), ""))
+                        {
+                            promptManager.updateText("MessagePrompt", storyEvents[eventToken].getMessage());
+                        }
+
+                        //See if this uses exitTime. If it does, then run the story timer.
+                        storyTime = storyEvents[eventToken].getEventTime();
+                        storyTimer = 0;
+                    }
+                }
             }
 
 
@@ -262,6 +299,9 @@ public class EventManager : MonoBehaviour
                     //Debug.Log("Played");
                     endAchievements[1].triggerAchievement();
                 }
+
+                //Trigger the ending change. The more you finish, the more you see in the world.
+                endAchievements[3].triggerAchievement();
 
                 isEventPlayed = true;
             }

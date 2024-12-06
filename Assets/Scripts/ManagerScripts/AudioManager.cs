@@ -127,7 +127,7 @@ public class AudioManager : MonoBehaviour
     //Set up audio sources with these audio things.
     public void setUpAudios()
     {
-        AudioSource[] audio = GameObject.FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
+        AudioSource[] audio = GameObject.FindObjectsByType<AudioSource>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
         audSources = new audSource[audio.Length];
 

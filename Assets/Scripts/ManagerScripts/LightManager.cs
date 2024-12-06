@@ -6,7 +6,7 @@ using UnityEngine;
 public class LightManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject activeLight;
+    private Light activeLight;
 
     [SerializeField]
     float maxDist;
@@ -18,6 +18,13 @@ public class LightManager : MonoBehaviour
 
     [SerializeField]
     private float currentLevel;
+
+    [SerializeField]
+    private Vector2 intensityScale;
+
+    [SerializeField]
+    private float lightIntensity;
+
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +40,11 @@ public class LightManager : MonoBehaviour
         if(player != null)
         {
             currentLevel = findSaturationLevel();
+        }
+
+        if(activeLight && activeLight.gameObject.activeSelf && activeLight.intensity != lightIntensity)
+        {
+            activeLight.intensity = lightIntensity;
         }
     }
 
@@ -62,7 +74,7 @@ public class LightManager : MonoBehaviour
 
             //Debug.Log("Percentage: " + per);
             //Ensure light object is set properly.
-            if (activeLight && activeLight.activeSelf)
+            if (activeLight && activeLight.gameObject.activeSelf)
             {
                 return per;
             } else
@@ -77,5 +89,10 @@ public class LightManager : MonoBehaviour
     public float getCurrentLevel()
     {
         return currentLevel;
+    }
+
+    public void setIntensity(float per)
+    {
+        lightIntensity = Mathf.Lerp(intensityScale.x, intensityScale.y, 1 - per);
     }
 }

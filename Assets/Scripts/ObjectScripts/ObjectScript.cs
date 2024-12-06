@@ -21,6 +21,15 @@ public class ObjectScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!rig_)
+        {
+            rig_ = GetComponent<Rigidbody>();
+        }
+
+        if (!controller)
+        {
+            controller = GetComponent<InteractionControlClass>();
+        }
         //If on collision, and not kimetic, make a sound.
         if (!rig_.isKinematic && collision.gameObject.layer != LayerMask.NameToLayer("PlayerLayer") && collision.gameObject.layer != LayerMask.NameToLayer("MovementLayer"))
         {

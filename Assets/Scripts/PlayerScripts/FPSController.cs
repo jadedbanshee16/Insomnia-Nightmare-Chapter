@@ -349,7 +349,7 @@ public class FPSController : MonoBehaviour
             }
 
             //Controls for dropping items in held hand.
-            if (Input.GetKey(options.getControl(OptionsManager.theControls.drop)) && holdingItem)
+            if (Input.GetKey(options.getControl(OptionsManager.theControls.drop)) && holdingItem && !inputLockObject && !movementLocked)
             {
                 holdingItem.Interact(frontPosition(), Quaternion.identity, null);
                 holdingItem.removeHeld();
