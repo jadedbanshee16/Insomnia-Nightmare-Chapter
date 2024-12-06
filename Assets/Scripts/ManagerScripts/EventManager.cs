@@ -86,16 +86,6 @@ public class EventManager : MonoBehaviour
 
         //Populate the event list.
         //Debug.Log(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-        //See if this is the first run.
-        if (GameObject.FindGameObjectWithTag("GameManager") && GameObject.FindGameObjectWithTag("GameManager").GetComponent<AchievementManager>() &&
-           GameObject.FindGameObjectWithTag("GameManager").GetComponent<AchievementManager>().returnAchievement(5, 0))
-        {
-            first = true;
-        }
-        else
-        {
-            first = false;
-        }
 
         TextAsset ass = Resources.Load<TextAsset>("Dialogue_" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
         string eventResources = ass.text;
@@ -159,36 +149,14 @@ public class EventManager : MonoBehaviour
                 //Ensure only this event runs, and only runs once.
                 eventChange = false;
 
-                //Run a prompt if there is a prompt to this event.
-                if (first)
+                if (!string.Equals(storyEvents[eventToken].getMessage(), ""))
                 {
-                    if (!string.Equals(storyEvents[eventToken].getMessage(), ""))
-                    {
-                        promptManager.updateText("MessagePrompt", storyEvents[eventToken].getMessage());
-                    }
-
-                    //See if this uses exitTime. If it does, then run the story timer.
-                    storyTime = storyEvents[eventToken].getEventTime();
-                    storyTimer = 0;
-                } else
-                {
-                    if (eventToken == 0 || eventToken == 7 || eventToken == 8)
-                    {
-                        //Set up the ending message based on 
-                        if(eventToken == 8)
-                        {
-                            storyEvents[eventToken].setMessageOverride((int)GameObject.FindGameObjectWithTag("GameManager").GetComponent<AchievementManager>().returnAchievementProgress(5));
-                        }
-                        if (!string.Equals(storyEvents[eventToken].getMessage(), ""))
-                        {
-                            promptManager.updateText("MessagePrompt", storyEvents[eventToken].getMessage());
-                        }
-
-                        //See if this uses exitTime. If it does, then run the story timer.
-                        storyTime = storyEvents[eventToken].getEventTime();
-                        storyTimer = 0;
-                    }
+                    promptManager.updateText("MessagePrompt", storyEvents[eventToken].getMessage());
                 }
+
+                //See if this uses exitTime. If it does, then run the story timer.
+                storyTime = storyEvents[eventToken].getEventTime();
+                storyTimer = 0;
             }
 
 
