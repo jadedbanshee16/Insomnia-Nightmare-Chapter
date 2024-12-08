@@ -192,6 +192,11 @@ public class EventManager : MonoBehaviour
             {
                 isEnding = true;
 
+                //Adjust the level manager script.
+                LevelManager levelMan_ = GetComponent<LevelManager>();
+
+                levelMan_.updateLevelFile("Mind Chapter", 1);
+
                 //Go to the prospective eventToken. For the ending, this is last.
                 eventToken = storyEvents.Count - 1;
                 eventChange = true;
@@ -209,7 +214,7 @@ public class EventManager : MonoBehaviour
             //Delete the saves.
             stateMan_.removeAllSaves();
 
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         }
 
 
@@ -286,6 +291,11 @@ public class EventManager : MonoBehaviour
         eventChange = true;
         //eventChange = true;
         GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>().adjustLoadValue(1);
+
+        //Adjust the level manager script.
+        LevelManager levelMan_ = GetComponent<LevelManager>();
+
+        levelMan_.updateLevelFile("Mind Chapter", -1);
 
         //Set the end achievement for the 3rd achievement object.
         endAchievements[2].triggerAchievement();

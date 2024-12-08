@@ -6054,13 +6054,13 @@ MonoBehaviour:
       - m_Target: {fileID: 8003687410754192615}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: loadScene
-        m_Mode: 3
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Mind Chapter
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1683211111
@@ -9372,7 +9372,7 @@ MonoBehaviour:
   grassRunning: []
   stairRunning: []
   stoneRunning: []
-  status: 0
+  status: 
 --- !u!1 &3238807410742996876
 GameObject:
   m_ObjectHideFlags: 0
@@ -10348,6 +10348,7 @@ GameObject:
   - component: {fileID: 1326683200183005536}
   - component: {fileID: 5014504102224939448}
   - component: {fileID: 5014504102224939449}
+  - component: {fileID: 5014504102224939450}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -10423,6 +10424,18 @@ MonoBehaviour:
   listItem: {fileID: 6766156145534567313, guid: db0e138e3ce2716479962ddb1c3b1df4,
     type: 3}
   contentManager: {fileID: 1435916354313702968}
+--- !u!114 &5014504102224939450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5014504102224939445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6fbf49e43dc27e4ca642c67d7c5d0fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5213415114340518325
 GameObject:
   m_ObjectHideFlags: 0

@@ -159,8 +159,14 @@ public class MenuManager : MonoBehaviour
     }
 
     //A function to load a particular scene.
-    public void loadScene(int ind)
+    public void loadScene(string ind)
     {
+        //Find the LevelManager and use it to load the specific level
+        if (GameObject.FindGameObjectWithTag("GameManager").GetComponent<LevelManager>())
+        {
+            ind = GameObject.FindGameObjectWithTag("GameManager").GetComponent<LevelManager>().retrieveLevel(ind);
+        }
+
         UnityEngine.SceneManagement.SceneManager.LoadScene(ind);
     }
 

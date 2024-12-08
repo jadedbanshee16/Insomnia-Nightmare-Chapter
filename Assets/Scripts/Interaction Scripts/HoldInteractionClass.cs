@@ -39,6 +39,8 @@ public class HoldInteractionClass : InteractionClass
 
     private bool playOnce;
 
+    private bool isPlayerHeld = false;
+
     private void Start()
     {
         playOnce = false;
@@ -49,24 +51,33 @@ public class HoldInteractionClass : InteractionClass
 
 
     //Try to fix this if at all possible.
-    private void FixedUpdate()
+    private void Update()
     {
-        if(currentHolder && !currentHolder.GetComponentInParent<FPSController>() 
-            && getType() != interactionType.senserInteraction)
+        if(currentHolder && getType() != interactionType.senserInteraction)
         {
-            if(!currentHolder.GetComponent<FPSController>() && Vector3.Distance(currentHolder.position, this.transform.position) > 0.02f)
+            if(Vector3.Distance(currentHolder.GetChild(0).position, this.transform.position) > 0.0000002f)
             {
-                //Ensure that if an object that is supposed to move even when locked, it can move physically.
-                if(getType() == interactionType.autoPosition)
+                //Ensure that if an object that is supposed to move even when locked in place, it can move physically. Something like doors
+                //Dont know why this works without, but be watchful for door bugs.
+                /*if(getType() == interactionType.autoPosition && !isPlayerHeld)
                 {
                     rig_.isKinematic = false;
-                }
+                } else
+                {
+
+                }*/
+
                 setObject(currentHolder.GetChild(0).position, currentHolder.GetChild(0).rotation);
             } else
             {
                 //Ensure held object remains held when it hits a position cannot be pushed if locked in place.
                 rig_.isKinematic = true;
             }
+
+            /*if (string.Equals(this.gameObject.name, "Can3(Special)"))
+            {
+                Debug.Log("Used at update: " + currentHolder.gameObject.name);
+            }*/
         }
     }
 
@@ -107,8 +118,28 @@ public class HoldInteractionClass : InteractionClass
             rig_.isKinematic = false;
         }
 
+        /*if(string.Equals(this.gameObject.name, "Can3(Special)"))
+        {
+            if(obj != null)
+            {
+                Debug.Log("Used at interaction: " + obj.gameObject.name);
+            } else
+            {
+                Debug.Log("Used at interaction: " + "null");
+            }
+           
+        }*/
+
         //Set the animation of the controller.
         setObject(newPos, newRot);
+
+        if (currentHolder && currentHolder.GetComponentInParent<FPSController>())
+        {
+            isPlayerHeld = true;
+        } else
+        {
+            isPlayerHeld = false;
+        }
     }
 
     public override void secondaryInteract()
@@ -186,12 +217,20 @@ public class HoldInteractionClass : InteractionClass
         wasHeld = false;
         currentHolder = null;
 
+        if (!rig_)
+        {
+            rig_ = GetComponent<Rigidbody>();
+        }
+
         rig_.isKinematic = false;
+
+        setController();
 
         //To tell controller to remove angle targets.
         controller.unsetAngle();
 
         playOnce = false;
+        isPlayerHeld = false;
     }
 
     //Sets the system if the object is connected to a system.

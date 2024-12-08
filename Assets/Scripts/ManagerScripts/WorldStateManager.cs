@@ -355,13 +355,25 @@ public class WorldStateManager : MonoBehaviour
                         }
                     }
 
+                    //If there is no connected object, ensure the object will not be placed back into those controllers.
+                    if (!connObj)
+                    {
+                        //Debug.Log("Working? " + interactionablesItems[v].gameObject.name);
+                        interactionablesItems[v].GetComponent<HoldInteractionClass>().Interact(_state.items[i].position, _state.items[i].rotation, null);
+                        interactionablesItems[v].GetComponent<HoldInteractionClass>().removeHeld();
+                    }
+
                     if (connObj && connObj.GetComponent<PositionInteractionClass>())
                     {
+                        //Debug.Log("Working? " + interactionablesItems[v].gameObject.name);
                         connObj.GetComponent<PositionInteractionClass>().Interact(interactionablesItems[v].gameObject);
                     }
                     else if (connObj && connObj.GetComponentInParent<FPSController>())
                     {
+                        //Debug.Log("Working2? " + interactionablesItems[v].gameObject.name);
                         connObj.GetComponentInParent<FPSController>().setHeldItem(interactionablesItems[v]);
+                        interactionablesItems[v].GetComponent<InteractionClass>().Interact(connObj.transform.GetChild(0).position, connObj.transform.GetChild(0).rotation, connObj.transform);
+
                     }
                 }
             }

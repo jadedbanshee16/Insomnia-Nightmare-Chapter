@@ -24,23 +24,11 @@ public class AchievementManager : MonoBehaviour
     GameObject listItem;
     [SerializeField]
     GameObject contentManager;
-    [SerializeField]
-    MindChapterWorldShiftScript shiftManager;
-
-    public void Start()
-    {
-
-        //Set the world based on a given events.
-        if (shiftManager)
-        {
-            shiftManager.setLevels((int)achievements[5].progression);
-        }
-    }
 
     // Start is called before the first frame update
     public void setAchievements()
     {
-        path = Application.persistentDataPath + "PlayerAchievements.txt";
+        path = Application.persistentDataPath + " PlayerAchievements.txt";
 
         achievements = new List<achievement>();
 

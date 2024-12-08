@@ -834,13 +834,13 @@ MonoBehaviour:
       - m_Target: {fileID: 5916539739434736460}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: loadScene
-        m_Mode: 3
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: MainMenu
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 5531650640066344497}
@@ -2663,7 +2663,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 1
-  m_AngularDrag: 0
+  m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -2862,7 +2862,7 @@ CharacterController:
   serializedVersion: 3
   m_Height: 0.6
   m_Radius: 0.09
-  m_SlopeLimit: 45
+  m_SlopeLimit: 35
   m_StepOffset: 0.1
   m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001

@@ -39,6 +39,7 @@ public class FPSController : MonoBehaviour
     private MenuManager menu_;
     private CapsuleCollider m_collider;
     private CharacterController m_controller;
+    private Rigidbody m_rig;
     [SerializeField]
     private Transform camPos;
     private playerStatus currentStatus;
@@ -82,6 +83,7 @@ public class FPSController : MonoBehaviour
     {
         //m_rig = GetComponent<Rigidbody>();
         m_controller = GetComponent<CharacterController>();
+        m_rig = GetComponent<Rigidbody>();
         m_collider = GetComponent<CapsuleCollider>();
         options = GameObject.FindGameObjectWithTag("GameManager").GetComponent<OptionsManager>();
         colliderSize = colliderSizes.y;
@@ -145,10 +147,10 @@ public class FPSController : MonoBehaviour
         }
 
         //If holding the item, set the item to current playerHand position.
-        if (holdingItem && holdingItem.GetComponent<InteractionClass>())
+        /*if (holdingItem && holdingItem.GetComponent<InteractionClass>())
         {
             holdingItem.GetComponent<InteractionClass>().Interact(playerHand.GetChild(0).position, playerHand.GetChild(0).rotation, playerHand);
-        }
+        }*/
 
         if (Input.GetKeyUp(options.getControl(OptionsManager.theControls.interaction)) && handLocked && holdingItem)
         {
