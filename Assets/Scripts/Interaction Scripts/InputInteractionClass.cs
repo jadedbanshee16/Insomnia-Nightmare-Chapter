@@ -72,6 +72,11 @@ public class InputInteractionClass : InteractionClass
     //Update power manager with the new system.
     public void setObject(EnergyObjectClass c, bool b)
     {
+        if (!powerManager)
+        {
+            powerManager = GetComponentInParent<GridManager>();
+        }
+
         powerManager.updateObject(c, b);
     }
 

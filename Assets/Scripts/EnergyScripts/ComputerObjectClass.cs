@@ -174,6 +174,7 @@ public class ComputerObjectClass : EnergyObjectClass
                 } else if (affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<EnergyObjectClass>())
                 {
                     inputObject.setObject(affectedObj[comparedCode].GetComponent<EnergyObjectClass>(), true);
+                    screenObject.displayText(messages[comparedCode], isPowered);
                 }
             } else if (messages[comparedCode].Contains("additn granted:"))
             {
@@ -187,6 +188,28 @@ public class ComputerObjectClass : EnergyObjectClass
                 else if (affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<EnergyObjectClass>())
                 {
                     inputObject.setObject(affectedObj[comparedCode].GetComponent<EnergyObjectClass>(), true);
+                    screenObject.displayText(messages[comparedCode], isPowered);
+                }
+            } else if (messages[comparedCode].Contains("unlock granted:"))
+            {
+                if (comparedCode < affectedObj.Length && affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<MenuManager>())
+                {
+                    //If switching to another screen, check type.
+                    if (computerInputType == computerType.password)
+                    {
+                        currentString = "";
+                        screenObject.displayText(messages[messages.Length - 1], isPowered);
+                    }
+
+                    //Debug.Log(comparedCode + ": " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16) + " | " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16).Length);
+                    //Attempt to move to menu group on the next given aspect of the string.
+                    affectedObj[comparedCode].GetComponent<MenuManager>().setToMenuGroup(messages[comparedCode].Substring(16, messages[comparedCode].Length - 16));
+                    return;
+                }
+                else if (affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<EnergyObjectClass>())
+                {
+                    inputObject.setObject(affectedObj[comparedCode].GetComponent<EnergyObjectClass>(), false);
+                    screenObject.displayText(messages[comparedCode], isPowered);
                 }
             }
 

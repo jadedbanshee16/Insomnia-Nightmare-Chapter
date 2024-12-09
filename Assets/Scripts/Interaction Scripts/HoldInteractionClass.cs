@@ -39,7 +39,7 @@ public class HoldInteractionClass : InteractionClass
 
     private bool playOnce;
 
-    private bool isPlayerHeld = false;
+    public bool isPlayerHeld = false;
 
     private void Start()
     {
@@ -55,22 +55,23 @@ public class HoldInteractionClass : InteractionClass
     {
         if(currentHolder && getType() != interactionType.senserInteraction)
         {
-            if(Vector3.Distance(currentHolder.GetChild(0).position, this.transform.position) > 0.0000002f)
+            if(Vector3.Distance(currentHolder.GetChild(0).position, this.transform.position) > 0.000002f)
             {
                 //Ensure that if an object that is supposed to move even when locked in place, it can move physically. Something like doors
                 //Dont know why this works without, but be watchful for door bugs.
-                /*if(getType() == interactionType.autoPosition && !isPlayerHeld)
+                if(getType() == interactionType.autoPosition && isInteractionType(interactionType.playerHold))
                 {
                     rig_.isKinematic = false;
-                } else
-                {
-
-                }*/
-
+                }
                 setObject(currentHolder.GetChild(0).position, currentHolder.GetChild(0).rotation);
             } else
             {
                 //Ensure held object remains held when it hits a position cannot be pushed if locked in place.
+                rig_.isKinematic = true;
+            }
+
+            if (getType() == interactionType.autoPosition && !isPlayerHeld)
+            {
                 rig_.isKinematic = true;
             }
 
