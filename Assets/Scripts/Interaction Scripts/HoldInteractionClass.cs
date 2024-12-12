@@ -12,6 +12,9 @@ public class HoldInteractionClass : InteractionClass
     [SerializeField]
     GameObject connectedObj;
 
+    [SerializeField]
+    Vector3 dropDirection;
+
 
     public Transform currentHolder;
 
@@ -191,6 +194,12 @@ public class HoldInteractionClass : InteractionClass
             }
         } else
         {
+            //If drop direction is not zero, use it instead of the provided rotation.
+            if(dropDirection != Vector3.zero && currentHolder == null && wasHeld)
+            {
+                rot = Quaternion.Euler(dropDirection);
+            }
+
             controller.setPosition(newPos, rot);
         }
 

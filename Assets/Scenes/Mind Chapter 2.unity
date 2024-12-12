@@ -5079,12 +5079,17 @@ PrefabInstance:
     - target: {fileID: 7270725615864537826, guid: a348f63665015a84ea9315af8d36ca4f,
         type: 3}
       propertyPath: m_Drag
-      value: 100
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7270725615864537826, guid: a348f63665015a84ea9315af8d36ca4f,
         type: 3}
       propertyPath: m_AngularDrag
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7270725615864537826, guid: a348f63665015a84ea9315af8d36ca4f,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7270725615864537827, guid: a348f63665015a84ea9315af8d36ca4f,
         type: 3}
@@ -9976,6 +9981,11 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: -0.004439681
       objectReference: {fileID: 0}
+    - target: {fileID: 2906723205785810797, guid: c7240a7f45bbd1e499a69b175b018461,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6c2a28ad93a7f8e49a28a2ea6bcacdf3, type: 2}
     - target: {fileID: 4603760100791355873, guid: c7240a7f45bbd1e499a69b175b018461,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -27242,7 +27252,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3500783587524441840}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 02c0184775298c648b92f5629aa16dbd, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
