@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour
         //Assign id based on start up before any moves have been made. This should be solid throughout.
         for(int i = 0; i < interactables.Length; i++)
         {
-            float id = interactables[i].transform.position.sqrMagnitude + (interactables[i].transform.rotation.eulerAngles.sqrMagnitude);
+            float id = interactables[i].transform.position.sqrMagnitude + (interactables[i].transform.rotation.eulerAngles.sqrMagnitude) + (interactables[i].transform.localScale.sqrMagnitude);
             interactables[i].setObjectID(id);
 
             //Debug.Log(interactables[i] + ": " + interactables[i].getObjectID());
@@ -158,18 +158,20 @@ public class GameManager : MonoBehaviour
         {
             float value = interactables[i].getObjectID();
             int count = 0;
+            string name = "";
 
             for(int v = 0; v < interactables.Length; v++)
             {
                 if(interactables[v].getObjectID() == value && interactables[v] != interactables[i])
                 {
                     count++;
+                    name = interactables[v].name;
                 }
             }
 
             if(count > 1)
             {
-                Debug.LogWarning("Repeat ID detected - Item: " + interactables[i].gameObject.name + " | " + interactables[i].getObjectID());
+                Debug.LogWarning("Repeat ID detected - Item: " + interactables[i].gameObject.name + " | " + interactables[i].getObjectID() + " | " + name);
             } 
         }
 

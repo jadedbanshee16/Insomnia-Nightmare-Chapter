@@ -67,7 +67,7 @@ public class PositionInteractionClass : InteractionClass
         } else if (connectedObject && connectedObject.GetComponent<EnergySlotObject>() && currentHeldItem == null)
         {
             //First, compelte normal.
-            connectedObject.GetComponent<EnergyObjectClass>().getEnergyManager().updateObject(connectedObject.GetComponent<EnergyObjectClass>(), false);
+            //connectedObject.GetComponent<EnergyObjectClass>().getEnergyManager().updateObject(connectedObject.GetComponent<EnergyObjectClass>(), false);
             //Then remove the energy slot to remove the object.
             connectedObject.GetComponent<EnergySlotObject>().setConnectedObject(null);
         }

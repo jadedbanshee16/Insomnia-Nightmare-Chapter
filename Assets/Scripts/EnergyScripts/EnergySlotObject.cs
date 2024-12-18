@@ -16,11 +16,18 @@ public class EnergySlotObject : EnergyObjectClass
 
     public void setConnectedObject(EnergyObjectClass c)
     {
+        //If removing, ensure to remove power first.
+        if(c == null)
+        {
+            connectedObject.powerObject(false);
+        }
+
         connectedObject = c;
+
         if (connectedObject)
         {
             connectedObject.setEnergyManager(energyManager);
-            connectedObject.powerObject(isPowered);
+            connectedObject.powerObject(isOn);
 
             for (int i = 0; i < switchConnector.Length; i++)
             {
@@ -116,7 +123,7 @@ public class EnergySlotObject : EnergyObjectClass
     {
         //Force off.
         base.forceIsOn(false);
-        forceIsOn(false);
+        //powerObject(false);
 
         //Set the on position of this energy slot.
         //This goes through and checks every switch it is connected to to see if it is on for it's personal 'on'.
@@ -130,7 +137,7 @@ public class EnergySlotObject : EnergyObjectClass
 
         if (connectedObject)
         {
-            connectedObject.setIsOn(b);
+            connectedObject.powerObject(base.getIsOn());
         }
     }
 
