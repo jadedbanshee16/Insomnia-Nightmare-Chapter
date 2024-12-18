@@ -45,11 +45,11 @@ public class ComputerObjectClass : EnergyObjectClass
         {
             if (String.Equals(currentString, ""))
             {
-                screenObject.displayText(messages[messages.Length - 1], isPowered);
+                screenObject.displayText(messages[messages.Length - 1], isPowered, isOn);
             }
             else
             {
-                screenObject.displayText(currentString, isPowered);
+                screenObject.displayText(currentString, isPowered, isOn);
             }
         }
     }
@@ -62,7 +62,7 @@ public class ComputerObjectClass : EnergyObjectClass
         //Maybe will break. Will find out.
         if (String.Equals(currentString, ""))
         {
-            screenObject.displayText(messages[messages.Length - 1], isPowered);
+            screenObject.displayText(messages[messages.Length - 1], isPowered, isOn);
         }
 
 
@@ -75,7 +75,7 @@ public class ComputerObjectClass : EnergyObjectClass
         {
             currentString = currentString + s;
 
-            screenObject.displayText(currentString, isPowered);
+            screenObject.displayText(currentString, isPowered, isOn);
         }
     }
 
@@ -91,10 +91,10 @@ public class ComputerObjectClass : EnergyObjectClass
 
             if(currentString.Length > 0)
             {
-                screenObject.displayText(currentString, isPowered);
+                screenObject.displayText(currentString, isPowered, isOn);
             } else
             {
-                screenObject.displayText(messages[messages.Length - 1], isPowered);
+                screenObject.displayText(messages[messages.Length - 1], isPowered, isOn);
             }
         }
 
@@ -107,7 +107,7 @@ public class ComputerObjectClass : EnergyObjectClass
         {
             currentString = "";
 
-            screenObject.displayText(messages[messages.Length - 1], isPowered);
+            screenObject.displayText(messages[messages.Length - 1], isPowered, isOn);
         }
     }
 
@@ -164,7 +164,7 @@ public class ComputerObjectClass : EnergyObjectClass
                     if (computerInputType == computerType.password)
                     {
                         currentString = "";
-                        screenObject.displayText(messages[messages.Length - 1], isPowered);
+                        screenObject.displayText(messages[messages.Length - 1], isPowered, isOn);
                     }
 
                     //Debug.Log(comparedCode + ": " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16) + " | " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16).Length);
@@ -174,7 +174,7 @@ public class ComputerObjectClass : EnergyObjectClass
                 } else if (affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<EnergyObjectClass>())
                 {
                     inputObject.setObject(affectedObj[comparedCode].GetComponent<EnergyObjectClass>(), true);
-                    screenObject.displayText(messages[comparedCode], isPowered);
+                    screenObject.displayText(messages[comparedCode], isPowered, isOn);
                 }
             } else if (messages[comparedCode].Contains("additn granted:"))
             {
@@ -188,7 +188,7 @@ public class ComputerObjectClass : EnergyObjectClass
                 else if (affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<EnergyObjectClass>())
                 {
                     inputObject.setObject(affectedObj[comparedCode].GetComponent<EnergyObjectClass>(), true);
-                    screenObject.displayText(messages[comparedCode], isPowered);
+                    screenObject.displayText(messages[comparedCode], isPowered, isOn);
                 }
             } else if (messages[comparedCode].Contains("unlock granted:"))
             {
@@ -198,7 +198,7 @@ public class ComputerObjectClass : EnergyObjectClass
                     if (computerInputType == computerType.password)
                     {
                         currentString = "";
-                        screenObject.displayText(messages[messages.Length - 1], isPowered);
+                        screenObject.displayText(messages[messages.Length - 1], isPowered, isOn);
                     }
 
                     //Debug.Log(comparedCode + ": " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16) + " | " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16).Length);
@@ -209,21 +209,21 @@ public class ComputerObjectClass : EnergyObjectClass
                 else if (affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<EnergyObjectClass>())
                 {
                     inputObject.setObject(affectedObj[comparedCode].GetComponent<EnergyObjectClass>(), false);
-                    screenObject.displayText(messages[comparedCode], isPowered);
+                    screenObject.displayText(messages[comparedCode], isPowered, isOn);
                 }
             }
 
             //Display the text.
             if (screenObject)
             {
-                screenObject.displayText(messages[comparedCode], isPowered);
+                screenObject.displayText(messages[comparedCode], isPowered, isOn);
             }
         } else
         {
             //Display the final message, which is default fail text.
             if (screenObject)
             {
-                screenObject.displayText(messages[messages.Length - 2], isPowered);
+                screenObject.displayText(messages[messages.Length - 2], isPowered, isOn);
             }
         }
     }
@@ -256,7 +256,7 @@ public class ComputerObjectClass : EnergyObjectClass
                     if(computerInputType == computerType.password)
                     {
                         currentString = "";
-                        screenObject.displayText("", isPowered);
+                        screenObject.displayText("", isPowered, isOn);
                     }
                     //Debug.Log(comparedCode + ": " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16) + " | " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16).Length);
                     //Attempt to move to menu group on the next given aspect of the string.
@@ -286,7 +286,7 @@ public class ComputerObjectClass : EnergyObjectClass
             //Display the text.
             if (screenObject)
             {
-                screenObject.displayText(messages[comparedCode], isPowered);
+                screenObject.displayText(messages[comparedCode], isPowered, isOn);
             }
         }
         else
@@ -294,7 +294,7 @@ public class ComputerObjectClass : EnergyObjectClass
             //Display the final message, which is default fail text.
             if (screenObject)
             {
-                screenObject.displayText(messages[messages.Length - 2], isPowered);
+                screenObject.displayText(messages[messages.Length - 2], isPowered, isOn);
             }
         }
     }
@@ -365,7 +365,7 @@ public class ComputerObjectClass : EnergyObjectClass
 
         if (screenObject)
         {
-            screenObject.displayText(currentString, isPowered);
+            screenObject.displayText(currentString, isPowered, isOn);
         }
         //If inactive, activate screen object for a second to change it, then deactivate.
         /*if(!screenObject.gameObject.activeSelf)
@@ -385,7 +385,7 @@ public class ComputerObjectClass : EnergyObjectClass
         energyManager = man;
 
         //When manager is set, set on depending on energyObject type. Default is off.
-        isOn = true;
+        //isOn = true;
 
         //Set any components that needed to be made.
         controller = GetComponent<InteractionControlClass>();
@@ -395,7 +395,11 @@ public class ComputerObjectClass : EnergyObjectClass
     public override void setIsOn(bool b)
     {
         //This item cannot be turned off.
-        isOn = true;
+        
+        isOn = b;
+
+        //Make sure it turns on the screen whenever switched on and off.
+        screenObject.displayText(currentString, isPowered, isOn);
     }
 
     public string getCurrentCode()

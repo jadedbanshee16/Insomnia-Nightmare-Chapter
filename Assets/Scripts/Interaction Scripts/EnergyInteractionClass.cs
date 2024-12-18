@@ -61,7 +61,7 @@ public class EnergyInteractionClass : InteractionClass
 
         if (powerManager && obj)
         {
-            //Debug.Log("React2: " + this.gameObject.name);
+            //Debug.Log("React1: " + isOn + " | " + obj.name);
             powerManager.updateObject(obj, isOn);
         }
     }

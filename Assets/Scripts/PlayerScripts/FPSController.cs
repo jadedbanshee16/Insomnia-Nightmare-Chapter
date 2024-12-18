@@ -48,6 +48,7 @@ public class FPSController : MonoBehaviour
     private Transform playerHand;
     [SerializeField]
     private Transform playerHead;
+    [SerializeField]
     private HoldInteractionClass holdingItem;
     private GameObject lockingObject;
     private InputInteractionClass inputLockObject;

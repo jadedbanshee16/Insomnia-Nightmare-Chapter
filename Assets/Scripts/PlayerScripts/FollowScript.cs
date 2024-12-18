@@ -12,7 +12,7 @@ public class FollowScript : MonoBehaviour
 
     public float speed = 0;
 
-    bool away = false;
+    //bool away = false;
 
     // Update is called once per frame
     void Update()

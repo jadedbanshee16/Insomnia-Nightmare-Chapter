@@ -31,14 +31,14 @@ public class ScreenClass : MonoBehaviour
 
 
 
-    public void displayText(string s, bool isPowered)
+    public void displayText(string s, bool isPowered, bool isOn)
     {
         if (!canv)
         {
             canv = GetComponentInParent<Canvas>();
         }
 
-        if (isPowered)
+        if (isPowered && isOn)
         {
             //Set canvas to on. do this every time.
             canv.enabled = true;

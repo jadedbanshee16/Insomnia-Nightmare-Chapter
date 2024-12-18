@@ -61,9 +61,15 @@ public class PositionInteractionClass : InteractionClass
         }
 
         //Complete any connected object interactions if item is removed.
-        if (connectedObject && connectedObject.GetComponent<EnergyObjectClass>() && !connectedObject.GetComponent<LockObjectClass>() && currentHeldItem == null)
+        if (connectedObject && connectedObject.GetComponent<EnergyObjectClass>() && !connectedObject.GetComponent<LockObjectClass>() && !connectedObject.GetComponent<EnergySlotObject>() && currentHeldItem == null)
         {
             connectedObject.GetComponent<EnergyObjectClass>().getEnergyManager().updateObject(connectedObject.GetComponent<EnergyObjectClass>(), false);
+        } else if (connectedObject && connectedObject.GetComponent<EnergySlotObject>() && currentHeldItem == null)
+        {
+            //First, compelte normal.
+            connectedObject.GetComponent<EnergyObjectClass>().getEnergyManager().updateObject(connectedObject.GetComponent<EnergyObjectClass>(), false);
+            //Then remove the energy slot to remove the object.
+            connectedObject.GetComponent<EnergySlotObject>().setConnectedObject(null);
         }
     }
 
