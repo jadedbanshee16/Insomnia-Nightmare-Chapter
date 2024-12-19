@@ -380,4 +380,9 @@ public class MenuManager : MonoBehaviour
     {
         menuID = i;
     }
+
+    public int getMenuAmount()
+    {
+        return groups.Length;
+    }
 }

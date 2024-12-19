@@ -12,6 +12,9 @@ public class HoldInteractionClass : InteractionClass
     [SerializeField]
     GameObject connectedObj;
 
+    [SerializeField]
+    Vector3 dropDirection;
+
 
     public Transform currentHolder;
 
@@ -191,6 +194,12 @@ public class HoldInteractionClass : InteractionClass
             }
         } else
         {
+            //If drop direction is not zero, use it instead of the provided rotation.
+            if(dropDirection != Vector3.zero && currentHolder == null && wasHeld)
+            {
+                rot = Quaternion.Euler(dropDirection);
+            }
+
             controller.setPosition(newPos, rot);
         }
 
@@ -248,6 +257,11 @@ public class HoldInteractionClass : InteractionClass
                     connectedObj.GetComponent<GeneratorInteractionClass>().setManager(newObject.GetComponent<SystemManager>());
                 }
 
+                if (newObject.GetComponent<EnergySlotObject>() && connectedObj.GetComponent<EnergyObjectClass>())
+                {
+                    newObject.GetComponent<EnergySlotObject>().setConnectedObject(connectedObj.GetComponent<EnergyObjectClass>());
+                }
+
             }
             else
             {
@@ -279,7 +293,7 @@ public class HoldInteractionClass : InteractionClass
                 newObject.GetComponent<LockObjectClass>().setIsOn(!newObject.GetComponent<EnergyObjectClass>().getIsOn());
                 newObject.GetComponent<LockObjectClass>().useObject();
             }
-        } else if (newObject && newObject.GetComponent<EnergyObjectClass>() && !newObject.GetComponent<LockObjectClass>())
+        } else if (newObject && newObject.GetComponent<EnergyObjectClass>() && !newObject.GetComponent<LockObjectClass>() && !newObject.GetComponent<EnergySlotObject>())
         {
             newObject.GetComponent<EnergyObjectClass>().getEnergyManager().updateObject(newObject.GetComponent<EnergyObjectClass>(), true);
         }
@@ -306,4 +320,14 @@ public class HoldInteractionClass : InteractionClass
     {
         return anchorObject;
     }
+
+    /*public EnergyObjectClass getConnectedEnergyObject()
+    {
+        if(connectedObj && connectedObj.GetComponent<EnergyObjectClass>())
+        {
+            return connectedObj.GetComponent<EnergyObjectClass>();
+        }
+
+        return null;
+    }*/
 }

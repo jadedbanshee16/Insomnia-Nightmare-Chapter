@@ -15,6 +15,8 @@ public class ComputerObjectClass : EnergyObjectClass
     ScreenClass screenObject;
     [SerializeField]
     InputInteractionClass inputObject;
+    [SerializeField]
+    ComputerClass computerManager_;
 
     [SerializeField]
     private computerType computerInputType;
@@ -24,13 +26,13 @@ public class ComputerObjectClass : EnergyObjectClass
     [SerializeField]
     string[] codes;
 
+    [SerializeField]
     private string currentString = "";
 
     [SerializeField]
     int inputSize;
-
     [SerializeField]
-    private GameObject[] affectedObj;
+    int objectOffset;
 
     [SerializeField]
     private bool persistantScreenUnlock;
@@ -45,11 +47,11 @@ public class ComputerObjectClass : EnergyObjectClass
         {
             if (String.Equals(currentString, ""))
             {
-                screenObject.displayText(messages[messages.Length - 1], isPowered);
+                screenObject.displayText(messages[messages.Length - 1]);
             }
             else
             {
-                screenObject.displayText(currentString, isPowered);
+                screenObject.displayText(currentString);
             }
         }
     }
@@ -62,7 +64,7 @@ public class ComputerObjectClass : EnergyObjectClass
         //Maybe will break. Will find out.
         if (String.Equals(currentString, ""))
         {
-            screenObject.displayText(messages[messages.Length - 1], isPowered);
+            screenObject.displayText(messages[messages.Length - 1]);
         }
 
 
@@ -75,7 +77,7 @@ public class ComputerObjectClass : EnergyObjectClass
         {
             currentString = currentString + s;
 
-            screenObject.displayText(currentString, isPowered);
+            screenObject.displayText(currentString);
         }
     }
 
@@ -91,10 +93,10 @@ public class ComputerObjectClass : EnergyObjectClass
 
             if(currentString.Length > 0)
             {
-                screenObject.displayText(currentString, isPowered);
+                screenObject.displayText(currentString);
             } else
             {
-                screenObject.displayText(messages[messages.Length - 1], isPowered);
+                screenObject.displayText(messages[messages.Length - 1]);
             }
         }
 
@@ -107,7 +109,7 @@ public class ComputerObjectClass : EnergyObjectClass
         {
             currentString = "";
 
-            screenObject.displayText(messages[messages.Length - 1], isPowered);
+            screenObject.displayText(messages[messages.Length - 1]);
         }
     }
 
@@ -144,86 +146,47 @@ public class ComputerObjectClass : EnergyObjectClass
         //Turn off all affected objects if not persistant, so you can reset.
         if (!persistantScreenUnlock)
         {
-            for(int i = 0; i < affectedObj.Length; i++)
-            {
-                if (affectedObj[i] != null && affectedObj[i].GetComponent<EnergyObjectClass>())
-                {
-                    inputObject.setObject(affectedObj[i].GetComponent<EnergyObjectClass>(), false);
-                }
-            }
+            computerManager_.switchAllObjects(false);
         }
 
         if(comparedCode >= 0)
         {
             //if the given message has access granted, then see if an energy object or menu is needed.
-            if(messages[comparedCode].Contains("access granted:"))
+            if(messages[comparedCode].Contains("screen granted:"))
             {
-                if(comparedCode < affectedObj.Length && affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<MenuManager>())
+                //If switching to another screen, check type.
+                if (computerInputType == computerType.password)
                 {
-                    //If switching to another screen, check type.
-                    if (computerInputType == computerType.password)
-                    {
-                        currentString = "";
-                        screenObject.displayText(messages[messages.Length - 1], isPowered);
-                    }
+                    currentString = "";
+                    screenObject.displayText(messages[messages.Length - 1]);
+                }
 
-                    //Debug.Log(comparedCode + ": " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16) + " | " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16).Length);
-                    //Attempt to move to menu group on the next given aspect of the string.
-                    affectedObj[comparedCode].GetComponent<MenuManager>().setToMenuGroup(messages[comparedCode].Substring(16, messages[comparedCode].Length - 16));
-                    return;
-                } else if (affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<EnergyObjectClass>())
-                {
-                    inputObject.setObject(affectedObj[comparedCode].GetComponent<EnergyObjectClass>(), true);
-                    screenObject.displayText(messages[comparedCode], isPowered);
-                }
-            } else if (messages[comparedCode].Contains("additn granted:"))
+                computerManager_.changeScreens(messages[comparedCode].Substring(16, messages[comparedCode].Length - 16), false);
+
+                return;
+
+            } else if (messages[comparedCode].Contains("access granted:"))
             {
-                if (comparedCode < affectedObj.Length && affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<MenuManager>())
-                {
-                    //Debug.Log(comparedCode + ": " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16) + " | " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16).Length);
-                    //Attempt to move to menu group on the next given aspect of the string.
-                    affectedObj[comparedCode].GetComponent<MenuManager>().addMenuGroup(messages[comparedCode].Substring(16, messages[comparedCode].Length - 16));
-                    return;
-                }
-                else if (affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<EnergyObjectClass>())
-                {
-                    inputObject.setObject(affectedObj[comparedCode].GetComponent<EnergyObjectClass>(), true);
-                    screenObject.displayText(messages[comparedCode], isPowered);
-                }
+                screenObject.displayText(messages[comparedCode]);
+                computerManager_.switchAffectedObject(comparedCode, objectOffset, true);
+
             } else if (messages[comparedCode].Contains("unlock granted:"))
             {
-                if (comparedCode < affectedObj.Length && affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<MenuManager>())
-                {
-                    //If switching to another screen, check type.
-                    if (computerInputType == computerType.password)
-                    {
-                        currentString = "";
-                        screenObject.displayText(messages[messages.Length - 1], isPowered);
-                    }
-
-                    //Debug.Log(comparedCode + ": " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16) + " | " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16).Length);
-                    //Attempt to move to menu group on the next given aspect of the string.
-                    affectedObj[comparedCode].GetComponent<MenuManager>().setToMenuGroup(messages[comparedCode].Substring(16, messages[comparedCode].Length - 16));
-                    return;
-                }
-                else if (affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<EnergyObjectClass>())
-                {
-                    inputObject.setObject(affectedObj[comparedCode].GetComponent<EnergyObjectClass>(), false);
-                    screenObject.displayText(messages[comparedCode], isPowered);
-                }
+                screenObject.displayText(messages[comparedCode]);
+                computerManager_.switchAffectedObject(comparedCode, objectOffset, false);
             }
 
             //Display the text.
             if (screenObject)
             {
-                screenObject.displayText(messages[comparedCode], isPowered);
+                screenObject.displayText(messages[comparedCode]);
             }
         } else
         {
             //Display the final message, which is default fail text.
             if (screenObject)
             {
-                screenObject.displayText(messages[messages.Length - 2], isPowered);
+                screenObject.displayText(messages[messages.Length - 2]);
             }
         }
     }
@@ -236,57 +199,42 @@ public class ComputerObjectClass : EnergyObjectClass
         //Turn off all affected objects if not persistant, so you can reset.
         if (!persistantScreenUnlock)
         {
-            for (int i = 0; i < affectedObj.Length; i++)
-            {
-                if (affectedObj[i] != null && affectedObj[i].GetComponent<EnergyObjectClass>())
-                {
-                    inputObject.setObject(affectedObj[i].GetComponent<EnergyObjectClass>(), false);
-                }
-            }
+            computerManager_.switchAllObjects(false);
         }
 
         if (comparedCode >= 0)
         {
             //if the given message has access granted, then see if an energy object or menu is needed.
-            if (messages[comparedCode].Contains("access granted:"))
+            if (messages[comparedCode].Contains("screen granted:"))
             {
-                if (comparedCode < affectedObj.Length && affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<MenuManager>())
+                //If switching to another screen, check type.
+                if (computerInputType == computerType.password)
                 {
-                    //If switching to another screen, check type.
-                    if(computerInputType == computerType.password)
-                    {
-                        currentString = "";
-                        screenObject.displayText("", isPowered);
-                    }
-                    //Debug.Log(comparedCode + ": " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16) + " | " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16).Length);
-                    //Attempt to move to menu group on the next given aspect of the string.
-                    affectedObj[comparedCode].GetComponent<MenuManager>().setToMenuGroup(messages[comparedCode].Substring(16, messages[comparedCode].Length - 16));
-                    return;
+                    currentString = "";
+                    screenObject.displayText(messages[messages.Length - 1]);
                 }
-                else if (affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<EnergyObjectClass>())
-                {
-                    inputObject.setObject(affectedObj[comparedCode].GetComponent<EnergyObjectClass>(), true);
-                }
+
+                computerManager_.changeScreens(messages[comparedCode].Substring(16, messages[comparedCode].Length - 16), false);
+
+                return;
+
             }
-            else if (messages[comparedCode].Contains("additn granted:"))
+            else if (messages[comparedCode].Contains("access granted:"))
             {
-                if (comparedCode < affectedObj.Length && affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<MenuManager>())
-                {
-                    //Debug.Log(comparedCode + ": " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16) + " | " + messages[comparedCode].Substring(16, messages[comparedCode].Length - 16).Length);
-                    //Attempt to move to menu group on the next given aspect of the string.
-                    affectedObj[comparedCode].GetComponent<MenuManager>().addMenuGroup(messages[comparedCode].Substring(16, messages[comparedCode].Length - 16));
-                    return;
-                }
-                else if (affectedObj[comparedCode] != null && affectedObj[comparedCode].GetComponent<EnergyObjectClass>())
-                {
-                    inputObject.setObject(affectedObj[comparedCode].GetComponent<EnergyObjectClass>(), true);
-                }
+                screenObject.displayText(messages[comparedCode]);
+                computerManager_.switchAffectedObject(comparedCode, objectOffset, true);
+
+            }
+            else if (messages[comparedCode].Contains("unlock granted:"))
+            {
+                screenObject.displayText(messages[comparedCode]);
+                computerManager_.switchAffectedObject(comparedCode, objectOffset, false);
             }
 
             //Display the text.
             if (screenObject)
             {
-                screenObject.displayText(messages[comparedCode], isPowered);
+                screenObject.displayText(messages[comparedCode]);
             }
         }
         else
@@ -294,7 +242,7 @@ public class ComputerObjectClass : EnergyObjectClass
             //Display the final message, which is default fail text.
             if (screenObject)
             {
-                screenObject.displayText(messages[messages.Length - 2], isPowered);
+                screenObject.displayText(messages[messages.Length - 2]);
             }
         }
     }
@@ -362,10 +310,13 @@ public class ComputerObjectClass : EnergyObjectClass
     public void setCurrentCode(string s)
     {
         currentString = s;
-
+        /*if (string.Equals(this.name, "PasswordMenu"))
+        {
+            Debug.Log("Worked: " + this.gameObject.name + " | " + s);
+        }*/
         if (screenObject)
         {
-            screenObject.displayText(currentString, isPowered);
+            screenObject.displayText(currentString);
         }
         //If inactive, activate screen object for a second to change it, then deactivate.
         /*if(!screenObject.gameObject.activeSelf)
@@ -385,7 +336,7 @@ public class ComputerObjectClass : EnergyObjectClass
         energyManager = man;
 
         //When manager is set, set on depending on energyObject type. Default is off.
-        isOn = true;
+        //isOn = true;
 
         //Set any components that needed to be made.
         controller = GetComponent<InteractionControlClass>();
@@ -395,7 +346,11 @@ public class ComputerObjectClass : EnergyObjectClass
     public override void setIsOn(bool b)
     {
         //This item cannot be turned off.
-        isOn = true;
+        
+        isOn = b;
+
+        //Make sure it turns on the screen whenever switched on and off.
+        screenObject.displayText(currentString);
     }
 
     public string getCurrentCode()

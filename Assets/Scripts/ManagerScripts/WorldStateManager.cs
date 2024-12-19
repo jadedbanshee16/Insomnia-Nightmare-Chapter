@@ -435,6 +435,9 @@ public class WorldStateManager : MonoBehaviour
             }
         }
 
+        //Debug.Log(_state.screens.Count);
+        //Debug.Log(energiesComputers.Count);
+
         //Do all energy interaction objects.
         for (int i = 0; i < _state.screens.Count; i++)
         {
@@ -446,13 +449,11 @@ public class WorldStateManager : MonoBehaviour
                 {
                     //Prep the object to be opposite what it needs to turn to.
                     //interactionablesEnergy[v].setIsOn(!_state.energy[i].isOn);
-
-                    if (energiesComputers[v].getIsOn())
+                    /*if (string.Equals(energiesComputers[v].name, "PasswordMenu"))
                     {
-                        //Debug.Log("React?");
-                        //No make the interaction.
-                        energiesComputers[v].setCurrentCode(_state.screens[i].currentData);
-                    }
+                        Debug.Log(_state.screens[i].currentData);
+                    }*/
+                    energiesComputers[v].setCurrentCode(_state.screens[i].currentData);
                 }
             }
         }

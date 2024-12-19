@@ -49,7 +49,7 @@ public class LevelManager : MonoBehaviour
         StreamWriter wr = new StreamWriter(p, false);
 
         //Let's start with finishing the game.
-        wr.WriteLine("1:Mind Chapter:1:2");
+        wr.WriteLine("1:Mind Chapter:1:3");
 
         wr.Close();
     }
@@ -74,7 +74,7 @@ public class LevelManager : MonoBehaviour
             if(curLine.Length == 4 && string.Equals(curLine[1], name))
             {
                 int newProgress = (int.Parse(curLine[2]) + updateOffset);
-                if (newProgress > 2 || newProgress < 1)
+                if (newProgress > int.Parse(curLine[3]) || newProgress < 1)
                 {
                     newProgress = 1;
                 }

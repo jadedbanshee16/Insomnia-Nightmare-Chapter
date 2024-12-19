@@ -72,6 +72,11 @@ public class PlayerControlInteractionClass : InteractionClass
     //An overload for the interaction to take a specific object.
     public override void Interact(GameObject obj)
     {
+        if (!controller)
+        {
+            setController();
+        }
+        
         controller.setAnimation("Pressed");
 
         controller.playInteractionAudio(0);

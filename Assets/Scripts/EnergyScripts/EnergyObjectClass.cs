@@ -66,24 +66,24 @@ public class EnergyObjectClass : MonoBehaviour
     }
 
     //Return the amount of energy this object uses.
-    public int getEnergyAmount()
+    public virtual int getEnergyAmount()
     {
         return energyUsage;
     }
 
     //Return if object is powered.
-    public bool isObjectPowered()
+    public virtual bool isObjectPowered()
     {
         return isPowered;
     }
 
     //return if the object is on.
-    public bool getIsOn()
+    public virtual bool getIsOn()
     {
         return isOn;
     }
 
-    public int getAmount()
+    public virtual int getAmount()
     {
         return amountOn;
     }
@@ -98,7 +98,7 @@ public class EnergyObjectClass : MonoBehaviour
         return objectId;
     }
 
-    public GridManager getEnergyManager()
+    public virtual GridManager getEnergyManager()
     {
         return energyManager;
     }
@@ -106,7 +106,7 @@ public class EnergyObjectClass : MonoBehaviour
     //Set the current on state of the object.
     public virtual void setIsOn(bool b)
     {
-        //Debug.Log("Worked!: " + this.gameObject.name);
+        //Debug.Log("React2: " + b + " | " + this.gameObject.name);
         if (b)
         {
             amountOn++;
