@@ -35,16 +35,21 @@ public class ComputerClass : EnergyObjectClass
         {
             currentScreen = ind;
         }
-        //Debug.Log("Worked: " + currentScreen);
-        screenManager.setToMenuGroup(ind);
+
+        if (screenManager)
+        {
+            //Debug.Log("Worked: " + currentScreen);
+            screenManager.setToMenuGroup(ind);
+        }
     }
 
     //Turn on a given affectedObject.
     public void switchAffectedObject(int index, int offset, bool b)
     {
-        if (index < affectedObj.Length && affectedObj[index] != null && affectedObj[index].GetComponent<EnergyObjectClass>())
+        if (index < affectedObj.Length && affectedObj[index + offset] != null && affectedObj[index + offset].GetComponent<EnergyObjectClass>())
         {
-            energyManager.updateObject(affectedObj[index].GetComponent<EnergyObjectClass>(), b);
+            //Debug.Log(index + offset);
+            energyManager.updateObject(affectedObj[index + offset].GetComponent<EnergyObjectClass>(), b);
             //screenObject.displayText(messages[comparedCode], isPowered, isOn);
         }
     }

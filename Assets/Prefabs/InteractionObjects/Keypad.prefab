@@ -154,8 +154,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 0d54653003bc3524ab6b64cac060bd52, type: 3}
+  - {fileID: 8300000, guid: 245965889d0a183438ef3478b27122c0, type: 3}
   - {fileID: 8300000, guid: 89dc6bbba2ae6c54a9e835dbe6fbf288, type: 3}
   activeObjects: []
 --- !u!114 &6366216089651091242
@@ -170,9 +170,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eeeafba79d132a4db323a56c0e3424b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 00000000
   input: 8
-  screen: {fileID: 6982632887244082613}
+  computer: {fileID: 7759206384119735002}
+  keyboardInput: 0
 --- !u!65 &8033035148728839854
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -441,8 +443,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 0d54653003bc3524ab6b64cac060bd52, type: 3}
+  - {fileID: 8300000, guid: 245965889d0a183438ef3478b27122c0, type: 3}
   - {fileID: 8300000, guid: 89dc6bbba2ae6c54a9e835dbe6fbf288, type: 3}
   activeObjects: []
 --- !u!114 &4528318734402979140
@@ -457,9 +459,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eeeafba79d132a4db323a56c0e3424b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 00000000
   input: 0
-  screen: {fileID: 6982632887244082613}
+  computer: {fileID: 7759206384119735002}
+  keyboardInput: 0
 --- !u!65 &3771288340298271437
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -626,8 +630,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 0d54653003bc3524ab6b64cac060bd52, type: 3}
+  - {fileID: 8300000, guid: 245965889d0a183438ef3478b27122c0, type: 3}
   - {fileID: 8300000, guid: 89dc6bbba2ae6c54a9e835dbe6fbf288, type: 3}
   activeObjects: []
 --- !u!114 &5364696366192383842
@@ -642,9 +646,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eeeafba79d132a4db323a56c0e3424b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 00000000
   input: 7
-  screen: {fileID: 6982632887244082613}
+  computer: {fileID: 7759206384119735002}
+  keyboardInput: 0
 --- !u!65 &409887533921553539
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -771,8 +777,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1368928925860943566}
-  - component: {fileID: 6982632887244082613}
   - component: {fileID: 17622594673492570}
+  - component: {fileID: 5448436552810403853}
   m_Layer: 0
   m_Name: Keypad
   m_TagString: Untagged
@@ -790,37 +796,13 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -1.464, y: -0.424, z: 3.882}
-  m_LocalScale: {x: 0.68545914, y: 0.68545914, z: 0.68545914}
+  m_LocalScale: {x: 0.685459, y: 0.68545914, z: 0.685459}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7121421442988797848}
   - {fileID: 2328631826411893171}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
---- !u!114 &6982632887244082613
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1368928925860943565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c75ab58e6df2c4d4595b791892c4313e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  energyUsage: 20
-  isOn: 0
-  isPowered: 0
-  tex_: {fileID: 3515694898645368771}
-  inputSize: 10
-  commandCode: 1001
-  affectedObj: {fileID: 0}
-  thescreen: {fileID: 0}
-  screenMatOn: {fileID: 0}
-  screenMatOff: {fileID: 0}
-  messages:
-  - 'Err: No Pwr'
 --- !u!114 &17622594673492570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -835,6 +817,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clips: []
   activeObjects: []
+--- !u!114 &5448436552810403853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1368928925860943565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d654be4152fd064aa1d4280212ac7c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectId: 8110.6826
+  energyUsage: 1
+  isOn: 1
+  amountInteractionsNeeded: 1
+  amountOn: 0
+  isPowered: 1
+  screenManager: {fileID: 0}
+  affectedObj:
+  - {fileID: 0}
+  currentScreen: 
+  tex_: {fileID: 3515694898645368771}
+  masterScreen: {fileID: 7909596647901809451}
+  offText: 'Err: No Pwr'
+  screenMatOn: {fileID: -3426312296660587803, guid: 85c1a80be6c7b2a44a73dfc6202aa618,
+    type: 3}
+  screenMatOff: {fileID: -3426312296660587803, guid: 85c1a80be6c7b2a44a73dfc6202aa618,
+    type: 3}
 --- !u!1 &1712343996540268796
 GameObject:
   m_ObjectHideFlags: 0
@@ -884,8 +895,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 0d54653003bc3524ab6b64cac060bd52, type: 3}
+  - {fileID: 8300000, guid: 245965889d0a183438ef3478b27122c0, type: 3}
   - {fileID: 8300000, guid: 89dc6bbba2ae6c54a9e835dbe6fbf288, type: 3}
   activeObjects: []
 --- !u!114 &3692171478128257920
@@ -900,9 +911,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eeeafba79d132a4db323a56c0e3424b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 00000000
   input: 3
-  screen: {fileID: 6982632887244082613}
+  computer: {fileID: 7759206384119735002}
+  keyboardInput: 0
 --- !u!65 &3819527658518302524
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1384,7 +1397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: 9b05bf85194a6994e87a326b55b12087, type: 3}
+  - {fileID: 8300000, guid: 0d54653003bc3524ab6b64cac060bd52, type: 3}
   - {fileID: 8300000, guid: 9b05bf85194a6994e87a326b55b12087, type: 3}
   - {fileID: 8300000, guid: 89dc6bbba2ae6c54a9e835dbe6fbf288, type: 3}
   activeObjects: []
@@ -1400,9 +1413,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eeeafba79d132a4db323a56c0e3424b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 00000000
   input: 1
-  screen: {fileID: 6982632887244082613}
+  computer: {fileID: 7759206384119735002}
+  keyboardInput: 0
 --- !u!65 &4804935075673580623
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1674,7 +1689,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 0d54653003bc3524ab6b64cac060bd52, type: 3}
+  - {fileID: 8300000, guid: 0d54653003bc3524ab6b64cac060bd52, type: 3}
   - {fileID: 8300000, guid: 0d54653003bc3524ab6b64cac060bd52, type: 3}
   activeObjects: []
 --- !u!114 &4473020051478443634
@@ -1689,9 +1705,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eeeafba79d132a4db323a56c0e3424b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 00000000
   input: '%ENTER'
-  screen: {fileID: 6982632887244082613}
+  computer: {fileID: 7759206384119735002}
+  keyboardInput: 0
 --- !u!65 &7501304441525582496
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1820,6 +1838,7 @@ GameObject:
   - component: {fileID: 5204117079032577590}
   - component: {fileID: 7428018301618908508}
   - component: {fileID: 3515694898645368771}
+  - component: {fileID: 2602812498168002942}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1943,6 +1962,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2602812498168002942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3809861033617342813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f1930823aa983945acf9e456d291763, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tex_: {fileID: 3515694898645368771}
+  thisScreen: 
 --- !u!1 &4521741409401245167
 GameObject:
   m_ObjectHideFlags: 0
@@ -1992,8 +2025,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 0d54653003bc3524ab6b64cac060bd52, type: 3}
+  - {fileID: 8300000, guid: 245965889d0a183438ef3478b27122c0, type: 3}
   - {fileID: 8300000, guid: 89dc6bbba2ae6c54a9e835dbe6fbf288, type: 3}
   activeObjects: []
 --- !u!114 &2917577253352555143
@@ -2008,9 +2041,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eeeafba79d132a4db323a56c0e3424b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 00000000
   input: 9
-  screen: {fileID: 6982632887244082613}
+  computer: {fileID: 7759206384119735002}
+  keyboardInput: 0
 --- !u!65 &731853053259602151
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2177,8 +2212,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 0d54653003bc3524ab6b64cac060bd52, type: 3}
+  - {fileID: 8300000, guid: 245965889d0a183438ef3478b27122c0, type: 3}
   - {fileID: 8300000, guid: 89dc6bbba2ae6c54a9e835dbe6fbf288, type: 3}
   activeObjects: []
 --- !u!114 &7877713416343517378
@@ -2193,9 +2228,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eeeafba79d132a4db323a56c0e3424b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 00000000
   input: 5
-  screen: {fileID: 6982632887244082613}
+  computer: {fileID: 7759206384119735002}
+  keyboardInput: 0
 --- !u!65 &5820805719413511895
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2467,8 +2504,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 0d54653003bc3524ab6b64cac060bd52, type: 3}
+  - {fileID: 8300000, guid: 245965889d0a183438ef3478b27122c0, type: 3}
   - {fileID: 8300000, guid: 89dc6bbba2ae6c54a9e835dbe6fbf288, type: 3}
   activeObjects: []
 --- !u!114 &8420158459032574850
@@ -2483,9 +2520,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eeeafba79d132a4db323a56c0e3424b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 00000000
   input: 6
-  screen: {fileID: 6982632887244082613}
+  computer: {fileID: 7759206384119735002}
+  keyboardInput: 0
 --- !u!65 &6158000614366132681
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3010,6 +3049,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2328631826411893171}
+  - component: {fileID: 7787736196402913712}
+  - component: {fileID: 7759206384119735002}
   m_Layer: 0
   m_Name: KeyPad
   m_TagString: Untagged
@@ -3026,7 +3067,7 @@ Transform:
   m_GameObject: {fileID: 8070759113454499447}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.002, z: 0}
   m_LocalScale: {x: 0.14263, y: 0.14263, z: 0.14263}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3045,6 +3086,52 @@ Transform:
   - {fileID: 2540899711194831750}
   m_Father: {fileID: 1368928925860943566}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7787736196402913712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8070759113454499447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae737c7b56583254db7dcf7a20769655, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips: []
+  activeObjects: []
+--- !u!114 &7759206384119735002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8070759113454499447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f47e29ece717424dbed6de2d485a594, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectId: 8110.6777
+  energyUsage: 0
+  isOn: 1
+  amountInteractionsNeeded: 1
+  amountOn: 0
+  isPowered: 1
+  screenObject: {fileID: 2602812498168002942}
+  inputObject: {fileID: 0}
+  computerManager_: {fileID: 5448436552810403853}
+  computerInputType: 0
+  messages:
+  - 'unlock granted:'
+  - Access Denied
+  - 
+  codes:
+  - 1045
+  currentString: 
+  inputSize: 0
+  objectOffset: 0
+  persistantScreenUnlock: 1
 --- !u!1 &8464434906753574518
 GameObject:
   m_ObjectHideFlags: 0
@@ -3094,8 +3181,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 0d54653003bc3524ab6b64cac060bd52, type: 3}
+  - {fileID: 8300000, guid: 245965889d0a183438ef3478b27122c0, type: 3}
   - {fileID: 8300000, guid: 89dc6bbba2ae6c54a9e835dbe6fbf288, type: 3}
   activeObjects: []
 --- !u!114 &4597973284106906571
@@ -3110,9 +3197,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eeeafba79d132a4db323a56c0e3424b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 00000000
   input: 4
-  screen: {fileID: 6982632887244082613}
+  computer: {fileID: 7759206384119735002}
+  keyboardInput: 0
 --- !u!65 &2356208697043916186
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3279,7 +3368,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 0d54653003bc3524ab6b64cac060bd52, type: 3}
+  - {fileID: 8300000, guid: 0d54653003bc3524ab6b64cac060bd52, type: 3}
   - {fileID: 8300000, guid: 0d54653003bc3524ab6b64cac060bd52, type: 3}
   activeObjects: []
 --- !u!114 &83946192469146604
@@ -3294,9 +3384,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eeeafba79d132a4db323a56c0e3424b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 00000000
   input: '%DELETE'
-  screen: {fileID: 6982632887244082613}
+  computer: {fileID: 7759206384119735002}
+  keyboardInput: 0
 --- !u!65 &344142267688466266
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3778,7 +3870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: 9b05bf85194a6994e87a326b55b12087, type: 3}
+  - {fileID: 8300000, guid: 0d54653003bc3524ab6b64cac060bd52, type: 3}
   - {fileID: 8300000, guid: 9b05bf85194a6994e87a326b55b12087, type: 3}
   - {fileID: 8300000, guid: 89dc6bbba2ae6c54a9e835dbe6fbf288, type: 3}
   activeObjects: []
@@ -3794,9 +3886,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eeeafba79d132a4db323a56c0e3424b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 00000000
   input: 2
-  screen: {fileID: 6982632887244082613}
+  computer: {fileID: 7759206384119735002}
+  keyboardInput: 0
 --- !u!65 &5436102201318701035
 BoxCollider:
   m_ObjectHideFlags: 0

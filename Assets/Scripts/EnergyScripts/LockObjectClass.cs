@@ -48,11 +48,12 @@ public class LockObjectClass : EnergyObjectClass
     //A function that will make the object be used if it is powered on on.
     public override void useObject()
     {
+        initialLockPosition = isOn;
         //Ensure the paired lock has the same 'isOn' statement.
         if (pairedLock && pairedLock.getIsOn() != isOn)
         {
             pairedLock.setIsOn(isOn);
-            initialLockPosition = isOn;
+            //initialLockPosition = isOn;
             pairedLock.setInitialLock(isOn);
         }
         //If the object is powered and is on, then switch material to the on materials and turn on light.
