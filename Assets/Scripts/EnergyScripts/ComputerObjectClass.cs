@@ -59,15 +59,16 @@ public class ComputerObjectClass : EnergyObjectClass
     //A function that will power the current object.
     public override void powerObject(bool b)
     {
-        isPowered = b;
+        isPowered = true;
 
-        //Maybe will break. Will find out.
-        if (String.Equals(currentString, ""))
+        if (screenObject)
         {
-            screenObject.displayText(messages[messages.Length - 1]);
+            //Maybe will break. Will find out.
+            if (String.Equals(currentString, ""))
+            {
+                screenObject.displayText(messages[messages.Length - 1]);
+            }
         }
-
-
     }
 
     //Combine the added string to the current string.

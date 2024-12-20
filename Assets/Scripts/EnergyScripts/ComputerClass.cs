@@ -12,6 +12,7 @@ public class ComputerClass : EnergyObjectClass
     [SerializeField]
     private GameObject[] affectedObj;
 
+    [SerializeField]
     private string currentScreen;
 
 
@@ -34,6 +35,7 @@ public class ComputerClass : EnergyObjectClass
         {
             currentScreen = ind;
         }
+        //Debug.Log("Worked: " + currentScreen);
         screenManager.setToMenuGroup(ind);
     }
 
@@ -63,17 +65,36 @@ public class ComputerClass : EnergyObjectClass
     //This should work when object is powered or isOn.
     public override void useObject()
     {
+        //Debug.Log("Worked");
+
         if (isPowered && isOn)
         {
             tex_.text = "";
-            masterScreen.material = screenMatOn;
-            changeScreens("Off", true);
+            masterScreen.SetMaterials(new List<Material>() { masterScreen.material, screenMatOn });
+            changeScreens(currentScreen, false);
         } else
         {
+            //Debug.Log("Worked 2");
             tex_.text = offText;
-            masterScreen.material = screenMatOff;
-            changeScreens(currentScreen, false);
+            masterScreen.SetMaterials(new List<Material>() { masterScreen.material, screenMatOff});
+            changeScreens("Off", false);
         }
+    }
+
+    public override void powerObject(bool b)
+    {
+        if (energyUsage == 0)
+        {
+            isPowered = true;
+        }
+        else
+        {
+            isPowered = b;
+        }
+
+        //For this object only, update this object.
+        useObject();
+
     }
 
     public override void setIsOn(bool b)

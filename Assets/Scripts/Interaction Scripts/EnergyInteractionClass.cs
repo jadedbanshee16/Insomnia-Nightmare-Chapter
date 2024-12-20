@@ -66,6 +66,11 @@ public class EnergyInteractionClass : InteractionClass
         }
     }
 
+    public override void secondaryInteract()
+    {
+        controller.playInteractionAudio(2);
+    }
+
     //Turn off the object and set controller to the false position.
     public void turnOffObject()
     {

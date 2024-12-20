@@ -556,6 +556,13 @@ public class FPSController : MonoBehaviour
                     //Make the interact happen.
                     hitPoint.collider.GetComponent<InteractionClass>().Interact();
                 }
+                //If available for a secondary interaction, then interact.
+                else if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.secondaryInteraction))
+                {
+                    interactionTimer = interactionCooldown;
+
+                    hitPoint.collider.GetComponent<InteractionClass>().secondaryInteract();
+                }
             }
         }
     }

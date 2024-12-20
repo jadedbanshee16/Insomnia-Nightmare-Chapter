@@ -3891,7 +3891,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 792931118}
   m_LocalRotation: {x: -0, y: 0.000000015805067, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.000022943499}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.019000001, y: 0.018999998, z: 0.019000003}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3900,7 +3900,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -8.579948, y: 3.7399845}
+  m_AnchoredPosition: {x: -7.97, y: 3.74}
   m_SizeDelta: {x: -0.0000076293945, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &792931120
@@ -3915,7 +3915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eeeafba79d132a4db323a56c0e3424b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: 150428.08
+  objectID: 150428.12
   permittedInteractions: 00000000
   input: '%BUTTON: message1'
   computer: {fileID: 504390636422749871}
@@ -4066,7 +4066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803fad5ae9cd7a445bba465c18a120a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: 13.497963
+  objectID: 16.497963
   permittedInteractions: 000000000700000003000000
   targetPos: {fileID: 39443848}
   currentHeldItem: {fileID: 0}
@@ -5819,7 +5819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803fad5ae9cd7a445bba465c18a120a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: 12.561569
+  objectID: 15.561569
   permittedInteractions: 000000000700000003000000
   targetPos: {fileID: 494593085}
   currentHeldItem: {fileID: 0}
@@ -6806,7 +6806,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1173005286}
   m_LocalRotation: {x: -0, y: 0.000000015805067, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.00016958239}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.012000002, y: 0.012, z: 0.012000002}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6815,7 +6815,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -8.779926, y: -3.2399583}
+  m_AnchoredPosition: {x: -5.99, y: -3.24}
   m_SizeDelta: {x: -0.0000076293945, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1173005288
@@ -6830,10 +6830,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eeeafba79d132a4db323a56c0e3424b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: 150427.84
+  objectID: 150428.03
   permittedInteractions: 00000000
   input: '%BUTTON: back'
-  computer: {fileID: 504390636422749871}
+  computer: {fileID: 1379700142361704637}
   keyboardInput: 0
 --- !u!114 &1173005289
 MonoBehaviour:
@@ -12006,6 +12006,7 @@ MonoBehaviour:
   codes:
   - '%BUTTON: message1'
   - '%BUTTON: back'
+  currentString: 
   inputSize: 5
   objectOffset: 0
   persistantScreenUnlock: 0
@@ -12970,7 +12971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803fad5ae9cd7a445bba465c18a120a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: 32402.617
+  objectID: 32405.617
   permittedInteractions: 0000000008000000
   targetPos: {fileID: 8742720408706791017}
   currentHeldItem: {fileID: 0}
@@ -14136,6 +14137,7 @@ MonoBehaviour:
   - Y0u can 3scape. Just 1rust me.
   codes:
   - '%BUTTON: back'
+  currentString: 
   inputSize: 5
   objectOffset: 0
   persistantScreenUnlock: 0
@@ -16217,7 +16219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a72fbc1d350a7e4883458ee8f8376ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: 18798.115
+  objectID: 18801.115
   permittedInteractions: 00000000
   currentCam: {fileID: 8163387500620491419}
   useMouse: 1
@@ -20710,6 +20712,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventTime: 30
   eventSpeed: 3
+  endingDist: 14
+  endingToken: 7
   randomMultiplier: 0
   first: 0
   eventToken: 0
@@ -22109,7 +22113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34207ece19f9215488798aca5d157086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: 81013.97
+  objectID: 82754.28
   permittedInteractions: 0100000005000000
   targetPos: {fileID: 0}
   currentHeldItem: {fileID: 0}
@@ -22147,7 +22151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803fad5ae9cd7a445bba465c18a120a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: 32402.684
+  objectID: 32405.684
   permittedInteractions: 0000000008000000
   targetPos: {fileID: 2157460569893807306}
   currentHeldItem: {fileID: 0}
@@ -22353,84 +22357,84 @@ MonoBehaviour:
   entities:
   - {fileID: 867735060}
   interactionablesItems:
-  - {fileID: 917115011588471809}
-  - {fileID: 5220924356963965738}
-  - {fileID: 1781174260}
-  - {fileID: 1751525482}
-  - {fileID: 2023941208}
-  - {fileID: 7392245057404542726}
-  - {fileID: 1491392854}
-  - {fileID: 7805391395392970347}
-  - {fileID: 8873052926557877548}
-  - {fileID: 5432272384350519676}
-  - {fileID: 1320430765}
-  - {fileID: 3429428265589285319}
-  - {fileID: 914998552}
-  - {fileID: 5801468792059008100}
-  - {fileID: 920938758795332360}
-  - {fileID: 4028629080200143125}
-  - {fileID: 8081912291107877938}
+  - {fileID: 2396670233676220415}
   - {fileID: 515716030}
-  - {fileID: 8056386566722086632}
   - {fileID: 207637724}
   - {fileID: 706033731}
-  - {fileID: 8272443874356708562}
+  - {fileID: 666996977967177536}
   - {fileID: 5730106973805136100}
-  - {fileID: 7881536057088890956}
-  - {fileID: 2396670233676220415}
-  - {fileID: 3161955505890243239}
-  - {fileID: 864338181}
-  - {fileID: 680294185052630560}
+  - {fileID: 2666900551695951447}
+  - {fileID: 7805391395392970347}
+  - {fileID: 1489004791}
+  - {fileID: 2023941208}
+  - {fileID: 1309257527}
   - {fileID: 282520753}
   - {fileID: 1571194306}
-  - {fileID: 2666900551695951447}
-  - {fileID: 917115011588471808}
-  - {fileID: 8891953928992502051}
-  - {fileID: 474289887}
-  - {fileID: 4058560311384364117}
-  - {fileID: 1590640502}
-  - {fileID: 678091322676207936}
-  - {fileID: 1993776846}
-  - {fileID: 1844335285}
-  - {fileID: 666996977967177536}
-  - {fileID: 1309257527}
-  - {fileID: 1655846223}
-  - {fileID: 662822317560893646}
-  - {fileID: 5532763073707383104}
+  - {fileID: 5801468792059008100}
   - {fileID: 3193441248312168318}
-  - {fileID: 1489004791}
+  - {fileID: 1844335285}
+  - {fileID: 3429428265589285319}
+  - {fileID: 680294185052630560}
+  - {fileID: 8272443874356708562}
+  - {fileID: 1751525482}
+  - {fileID: 662822317560893646}
+  - {fileID: 7881536057088890956}
+  - {fileID: 7392245057404542726}
+  - {fileID: 864338181}
+  - {fileID: 8891953928992502051}
+  - {fileID: 1590640502}
+  - {fileID: 5432272384350519676}
+  - {fileID: 1993776846}
+  - {fileID: 8873052926557877548}
+  - {fileID: 5532763073707383104}
+  - {fileID: 914998552}
+  - {fileID: 1491392854}
+  - {fileID: 8056386566722086632}
+  - {fileID: 1781174260}
+  - {fileID: 4028629080200143125}
+  - {fileID: 5220924356963965738}
+  - {fileID: 917115011588471809}
+  - {fileID: 1320430765}
+  - {fileID: 920938758795332360}
+  - {fileID: 3161955505890243239}
+  - {fileID: 474289887}
+  - {fileID: 678091322676207936}
+  - {fileID: 1655846223}
+  - {fileID: 8081912291107877938}
+  - {fileID: 4058560311384364117}
   - {fileID: 4846689372366655652}
+  - {fileID: 917115011588471808}
   interactionablesLocks:
-  - {fileID: 8426009677988323582}
   - {fileID: 1412348398}
-  - {fileID: 441541818}
-  - {fileID: 1051651742}
   - {fileID: 1580743547}
-  - {fileID: 1670495874}
   - {fileID: 776902182}
+  - {fileID: 1670495874}
   - {fileID: 6744134600691185150}
+  - {fileID: 1051651742}
+  - {fileID: 8426009677988323582}
+  - {fileID: 441541818}
   interactionablesEnergy:
-  - {fileID: 510431154128672834}
-  - {fileID: 764681089218699433}
-  - {fileID: 764681089218699432}
-  - {fileID: 7934787488722397044}
-  - {fileID: 764681089218699434}
-  - {fileID: 864709861}
-  - {fileID: 1493077887682210215}
-  - {fileID: 457904796}
-  - {fileID: 1080535257}
   - {fileID: 1214045155}
-  - {fileID: 8607374098576828544}
+  - {fileID: 7934787488722397044}
+  - {fileID: 1414172606}
+  - {fileID: 510431154128672834}
+  - {fileID: 764681089218699432}
+  - {fileID: 864709861}
+  - {fileID: 457904796}
   - {fileID: 252615878}
   - {fileID: 367727764}
-  - {fileID: 6226712573333032180}
-  - {fileID: 1991142340}
   - {fileID: 150638033}
-  - {fileID: 1414172606}
+  - {fileID: 764681089218699433}
+  - {fileID: 8607374098576828544}
+  - {fileID: 1493077887682210215}
+  - {fileID: 1080535257}
+  - {fileID: 1991142340}
+  - {fileID: 6226712573333032180}
+  - {fileID: 764681089218699434}
   energiesComputers:
-  - {fileID: 504390636422749871}
   - {fileID: 8723390216528674221}
   - {fileID: 1379700142361704637}
+  - {fileID: 504390636422749871}
   energiesCombinations:
   - {fileID: 8426009677988323583}
   - {fileID: 8426009677988323584}
@@ -22447,6 +22451,9 @@ MonoBehaviour:
   - {fileID: 8426009677988323583}
   - {fileID: 8426009677988323584}
   - {fileID: 8426009677988323585}
+  - {fileID: 8426009677988323584}
+  - {fileID: 8426009677988323585}
+  - {fileID: 8426009677988323583}
   eventsScripts:
   - {fileID: 9132877283369827131}
   menuScripts:
@@ -23416,7 +23423,7 @@ Transform:
   m_GameObject: {fileID: 5238116397957025636}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.0077, y: 0.00338, z: 0}
+  m_LocalPosition: {x: 0.0077, y: 0.00309, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -24309,7 +24316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d654be4152fd064aa1d4280212ac7c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectId: 0
+  objectId: 178088.53
   energyUsage: 1
   isOn: 1
   amountInteractionsNeeded: 1
@@ -24317,6 +24324,7 @@ MonoBehaviour:
   isPowered: 1
   screenManager: {fileID: 7212676898497697003}
   affectedObj: []
+  currentScreen: PasswordMenu
   tex_: {fileID: 1094194634}
   masterScreen: {fileID: 1145800386529895194}
   offText: 
@@ -27046,6 +27054,7 @@ MonoBehaviour:
   - Password...
   codes:
   - escape
+  currentString: 
   inputSize: 6
   objectOffset: 0
   persistantScreenUnlock: 0
@@ -27359,7 +27368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803fad5ae9cd7a445bba465c18a120a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: 145810.88
+  objectID: 145813.88
   permittedInteractions: 0000000007000000
   targetPos: {fileID: 6755989283809742875}
   currentHeldItem: {fileID: 0}
@@ -27377,7 +27386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34207ece19f9215488798aca5d157086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: 81027.86
+  objectID: 81030.86
   permittedInteractions: 0100000005000000
   targetPos: {fileID: 0}
   currentHeldItem: {fileID: 0}

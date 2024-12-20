@@ -51,7 +51,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -120,12 +120,14 @@ MonoBehaviour:
   permittedInteractions: 00000000
   isHeld: 0
   connectedObj: {fileID: 0}
+  dropDirection: {x: 0, y: 0, z: 0}
   currentHolder: {fileID: 0}
   type: 1
   anchorObject: {fileID: 0}
   anchorThreshold: 0
   stretchThreshold: 0
   invertHoldAngle: 0
+  isPlayerHeld: 0
 --- !u!82 &7891615138945065590
 AudioSource:
   m_ObjectHideFlags: 0

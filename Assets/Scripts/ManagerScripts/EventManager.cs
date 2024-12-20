@@ -36,6 +36,11 @@ public class EventManager : MonoBehaviour
     float storyTime;
     float storyTimer;
 
+    [SerializeField]
+    float endingDist = 14;
+    [SerializeField]
+    int endingToken;
+
 
     [SerializeField]
     private float randomMultiplier;
@@ -188,7 +193,7 @@ public class EventManager : MonoBehaviour
 
             GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>().adjustLoadValue(alpha);
 
-            if (Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, this.transform.position) > 14 && !isEnding)
+            if (Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, this.transform.position) > endingDist && !isEnding)
             {
                 isEnding = true;
 
@@ -198,7 +203,7 @@ public class EventManager : MonoBehaviour
                 levelMan_.updateLevelFile("Mind Chapter", 1);
 
                 //Go to the prospective eventToken. For the ending, this is last.
-                eventToken = storyEvents.Count - 1;
+                eventToken = endingToken;
                 eventChange = true;
                 //promptManager.updateText("MessagePrompt", storyPrompts[7]);
             }
@@ -285,9 +290,9 @@ public class EventManager : MonoBehaviour
     public void endByKill()
     {
         //promptManager.updateText("MessagePrompt", eventMessages[0].getMessage());
-        eventToken = storyEvents.Count - 1;
+        eventToken = endingToken;
         //Change story override.
-        storyEvents[storyEvents.Count - 1].setMessageOverride(1);
+        storyEvents[endingToken].setMessageOverride(1);
         eventChange = true;
         //eventChange = true;
         GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>().adjustLoadValue(1);
@@ -295,7 +300,7 @@ public class EventManager : MonoBehaviour
         //Adjust the level manager script.
         LevelManager levelMan_ = GetComponent<LevelManager>();
 
-        levelMan_.updateLevelFile("Mind Chapter", -1);
+        //levelMan_.updateLevelFile("Mind Chapter", -1);
 
         //Set the end achievement for the 3rd achievement object.
         endAchievements[2].triggerAchievement();
