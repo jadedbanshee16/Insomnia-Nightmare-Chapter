@@ -13,6 +13,9 @@ public class SystemManager : MonoBehaviour
     bool generatorPowered;
 
     [SerializeField]
+    private float systemID;
+
+    [SerializeField]
     float generatorPower;
     [SerializeField]
     float currentPower;
@@ -85,6 +88,16 @@ public class SystemManager : MonoBehaviour
     public void setGenerator(bool b)
     {
         generatorPowered = b;
+    }
+
+    public float getSystemId()
+    {
+        return systemID;
+    }
+
+    public void setSystemId(float i)
+    {
+        systemID = i;
     }
 
     /*public void setGenerator(GeneratorClass g)

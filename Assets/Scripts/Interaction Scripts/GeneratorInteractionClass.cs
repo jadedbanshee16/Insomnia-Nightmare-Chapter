@@ -28,6 +28,33 @@ public class GeneratorInteractionClass : InteractionClass
     {
         isOn = !isOn;
 
+        if (!controller)
+        {
+            setController();
+        }
+
+        //This is to function either with a switch, button or indication.
+        //Set the animation of the controller.
+        controller.setAnimation("Pressed");
+
+        controller.setAnimation("isOn", isOn);
+
+        controller.setIndicator(isOn);
+
+        controller.playInteractionAudio(0);
+
+        setObject();
+    }
+
+    public override void Interact(bool b)
+    {
+        isOn = b;
+
+        if (!controller)
+        {
+            setController();
+        }
+
         //This is to function either with a switch, button or indication.
         //Set the animation of the controller.
         controller.setAnimation("Pressed");
@@ -101,5 +128,15 @@ public class GeneratorInteractionClass : InteractionClass
         }
 
         setObject();
+    }
+
+    public bool getIsOn()
+    {
+        return isOn;
+    }
+
+    public SystemManager getSystemManager()
+    {
+        return powerManager;
     }
 }

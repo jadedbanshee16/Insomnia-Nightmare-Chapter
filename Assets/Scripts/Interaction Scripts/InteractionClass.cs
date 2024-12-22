@@ -61,6 +61,11 @@ public class InteractionClass : MonoBehaviour
         controller.setAnimation("Pressed");
     }
 
+    public virtual void Interact(bool b)
+    {
+        controller.setAnimation("Pressed");
+    }
+
     //A function that completes a secondary or minor interaction.
     public virtual void secondaryInteract()
     {

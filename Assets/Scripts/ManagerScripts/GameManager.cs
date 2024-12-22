@@ -130,6 +130,7 @@ public class GameManager : MonoBehaviour
         FPSController[] playerEntity = GameObject.FindObjectsByType<FPSController>(FindObjectsSortMode.None);
         EventScript[] eventObjects = GameObject.FindObjectsByType<EventScript>(FindObjectsSortMode.None);
         MenuManager[] menus = GameObject.FindObjectsByType<MenuManager>(FindObjectsSortMode.None);
+        SystemManager[] systemMans = GameObject.FindObjectsByType<SystemManager>(FindObjectsSortMode.None);
 
         for(int i = 0; i < menus.Length; i++)
         {
@@ -151,6 +152,12 @@ public class GameManager : MonoBehaviour
             interactables[i].setObjectID(id);
 
             //Debug.Log(interactables[i] + ": " + interactables[i].getObjectID());
+        }
+
+        for(int i = 0; i < systemManagers.Length; i++)
+        {
+            float id = systemMans[i].transform.position.sqrMagnitude + (systemMans[i].transform.rotation.eulerAngles.sqrMagnitude) + (systemMans[i].transform.localScale.sqrMagnitude);
+            systemMans[i].setSystemId(id);
         }
 
         //Find duplicates.
@@ -230,6 +237,26 @@ public class GameManager : MonoBehaviour
             if (count > 1)
             {
                 Debug.LogWarning("Repeat ID detected - Event: " + eventObjects[i].gameObject.name + " | " + eventObjects[i].getEventID());
+            }
+        }
+
+        //Find duplicates.
+        for (int i = 0; i < systemMans.Length; i++)
+        {
+            float value = systemMans[i].getSystemId();
+            int count = 0;
+
+            for (int v = 0; v < systemMans.Length; v++)
+            {
+                if (systemMans[v].getSystemId() == value)
+                {
+                    count++;
+                }
+            }
+
+            if (count > 1)
+            {
+                Debug.LogWarning("Repeat ID detected - Event: " + systemMans[i].gameObject.name + " | " + systemMans[i].getSystemId());
             }
         }
 

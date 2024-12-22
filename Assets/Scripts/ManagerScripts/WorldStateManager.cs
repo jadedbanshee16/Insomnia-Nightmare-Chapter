@@ -18,6 +18,8 @@ public class WorldStateManager : MonoBehaviour
     [SerializeField]
     List<EnergyInteractionClass> interactionablesEnergy;
     [SerializeField]
+    List<GeneratorInteractionClass> interactionablesGenerator;
+    [SerializeField]
     List<ComputerObjectClass> energiesComputers;
     [SerializeField]
     List<CombinationManagerClass> energiesCombinations;
@@ -223,6 +225,7 @@ public class WorldStateManager : MonoBehaviour
         interactionablesItems = new List<HoldInteractionClass>();
         interactionablesLocks = new List<LockObjectClass>();
         interactionablesEnergy = new List<EnergyInteractionClass>();
+        interactionablesGenerator = new List<GeneratorInteractionClass>();
         energiesComputers = new List<ComputerObjectClass>();
         entities = new List<GameObject>();
         eventsScripts = new List<EventScript>();
@@ -270,6 +273,22 @@ public class WorldStateManager : MonoBehaviour
             {
                 _state.setEnergyInteractions(interactables[i].gameObject.name, interactables[i].getObjectID(), interactables[i].GetComponent<EnergyInteractionClass>().getIsOn());
                 interactionablesEnergy.Add(interactables[i].GetComponent<EnergyInteractionClass>());
+            }
+        }
+
+        //This is for the generator class.
+        for(int i = 0; i < interactables.Length; i++)
+        {
+            if (interactables[i].GetComponent<GeneratorInteractionClass>())
+            {
+                if (interactables[i].GetComponent<GeneratorInteractionClass>().getSystemManager())
+                {
+                    _state.setGeneratorData(interactables[i].gameObject.name, interactables[i].getObjectID(), interactables[i].GetComponent<GeneratorInteractionClass>().getIsOn(), interactables[i].GetComponent<GeneratorInteractionClass>().getSystemManager().getSystemId());
+                } else
+                {
+                    _state.setGeneratorData(interactables[i].gameObject.name, interactables[i].getObjectID(), interactables[i].GetComponent<GeneratorInteractionClass>().getIsOn(), -1);
+                }
+                interactionablesGenerator.Add(interactables[i].GetComponent<GeneratorInteractionClass>());
             }
         }
 
@@ -324,6 +343,9 @@ public class WorldStateManager : MonoBehaviour
 
         //Get eveyr interactable object in one go.
         InteractionClass[] objs = GameObject.FindObjectsByType<InteractionClass>(FindObjectsSortMode.None);
+
+        //Get the system managers that are active in the scene.
+        SystemManager[] managers = GameObject.FindObjectsByType<SystemManager>(FindObjectsSortMode.None);
 
         //Debug.Log(_state.items.Count);
         //Go through each state item and match it to a given interactive reference.
@@ -517,6 +539,43 @@ public class WorldStateManager : MonoBehaviour
             }
         }
 
+        for(int i = 0; i < _state.generators.Count; i++)
+        {
+            for(int v = 0; v < interactionablesGenerator.Count; v++)
+            {
+                //See if the same id.
+                if(interactionablesGenerator[v].getObjectID() == _state.generators[i].id)
+                {
+                    //Set the is on.
+                    interactionablesGenerator[v].Interact(_state.generators[i].isOn);
+
+                    SystemManager connObj = null;
+
+                    //Now set the manager.
+                    if (_state.generators[i].systemId >= 0)
+                    {
+                        int count = 0;
+                        //Go through every object in list and find the matching id.
+                        while (count < managers.Length && !connObj)
+                        {
+                            if (managers[count].getSystemId() == _state.generators[i].systemId)
+                            {
+                                connObj = managers[count].GetComponent<SystemManager>();
+                            }
+
+                            count++;
+                        }
+
+                        //If has a connected object at end, then set it to the generator.
+                        interactionablesGenerator[v].setManager(connObj);
+                    } else
+                    {
+                        interactionablesGenerator[v].setManager(null);
+                    }
+                }
+            }
+        }
+
         //Debug.Log("After change: " + GameObject.FindGameObjectWithTag("Player").transform.position);
 
         GetComponent<DayNightManager>().getSun().transform.position = _state.world.sunPos;
@@ -536,6 +595,7 @@ public class WorldStateManager : MonoBehaviour
         interactionablesItems = new List<HoldInteractionClass>();
         interactionablesLocks = new List<LockObjectClass>();
         interactionablesEnergy = new List<EnergyInteractionClass>();
+        interactionablesGenerator = new List<GeneratorInteractionClass>();
         energiesComputers = new List<ComputerObjectClass>();
         energiesCombinations = new List<CombinationManagerClass>();
         eventsScripts = new List<EventScript>();
@@ -601,6 +661,14 @@ public class WorldStateManager : MonoBehaviour
             if (!menus[i].gameObject.CompareTag("Player"))
             {
                 menuScripts.Add(menus[i]);
+            }
+        }
+
+        for(int i = 0; i < interactables.Length; i++)
+        {
+            if (interactables[i].GetComponent<GeneratorInteractionClass>())
+            {
+                interactionablesGenerator.Add(interactables[i].GetComponent<GeneratorInteractionClass>());
             }
         }
     }
@@ -713,6 +781,7 @@ public class worldState
     public List<combinationData> combinations;
     public List<EventData> events;
     public List<MenuData> menus;
+    public List<generatorData> generators;
 
     public WorldData world;
     //public List<positionData> positions;
@@ -821,6 +890,18 @@ public class worldState
 
         menus.Add(il);
     }
+
+    public void setGeneratorData(string s, float i, bool b, float a)
+    {
+        generatorData il = new generatorData(s, i, b, a);
+
+        if(generators == null)
+        {
+            generators = new List<generatorData>();
+        }
+
+        generators.Add(il);
+    }
 }
 
 //For all entities in the game.
@@ -889,6 +970,23 @@ public class energyInteractionData
         name = i;
         id = ident;
         isOn = init;
+    }
+}
+
+[System.Serializable]
+public class generatorData
+{
+    public string name;
+    public float id;
+    public bool isOn;
+    public float systemId;
+
+    public generatorData(string i, float ident, bool b, float other)
+    {
+        name = i;
+        id = ident;
+        isOn = b;
+        systemId = other;
     }
 }
 

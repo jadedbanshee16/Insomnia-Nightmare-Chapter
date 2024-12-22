@@ -17,6 +17,9 @@ public class LockObjectClass : EnergyObjectClass
     protected bool initialLockPosition;
 
     [SerializeField]
+    private bool requiresPower;
+
+    [SerializeField]
     protected InteractionClass.interactionType lockAgainst;
 
     //A function to set the energy manager of this object.
@@ -42,7 +45,10 @@ public class LockObjectClass : EnergyObjectClass
         isPowered = b;
 
         //Maybe will break. Will find out.
-        useObject();
+        if (requiresPower)
+        {
+            useObject();
+        }
     }
 
     //A function that will make the object be used if it is powered on on.
@@ -58,15 +64,33 @@ public class LockObjectClass : EnergyObjectClass
         }
         //If the object is powered and is on, then switch material to the on materials and turn on light.
         //If not, turn them off.
-        if (isPowered && !isOn)
+        if(isPowered && requiresPower)
         {
-            connectedLockedObject.GetComponent<InteractionClass>().addPermission(lockAgainst);
-            controller.playInteractionAudio(0);
-        }
-        else
+            if (!isOn)
+            {
+                connectedLockedObject.GetComponent<InteractionClass>().addPermission(lockAgainst);
+                controller.playInteractionAudio(0);
+            } else
+            {
+                //Make absolutely sure that the door is closed first.
+                connectedLockedObject.GetComponent<InteractionClass>().removePermission(lockAgainst);
+            }
+        } else if(!isPowered && requiresPower)
         {
             //Make absolutely sure that the door is closed first.
             connectedLockedObject.GetComponent<InteractionClass>().removePermission(lockAgainst);
+        } else if (!requiresPower)
+        {
+            if (!isOn)
+            {
+                connectedLockedObject.GetComponent<InteractionClass>().addPermission(lockAgainst);
+                controller.playInteractionAudio(0);
+            }
+            else
+            {
+                //Make absolutely sure that the door is closed first.
+                connectedLockedObject.GetComponent<InteractionClass>().removePermission(lockAgainst);
+            }
         }
     }
 

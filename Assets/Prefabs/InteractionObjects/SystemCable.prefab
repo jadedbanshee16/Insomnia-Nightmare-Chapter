@@ -104,7 +104,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -269,14 +269,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e2a9dd10da71ae4da5eaf0f613328a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 0000000002000000
   isHeld: 0
   connectedObj: {fileID: 0}
+  dropDirection: {x: 0, y: 0, z: 0}
   currentHolder: {fileID: 0}
   type: 2
   anchorObject: {fileID: 7149220614866168087}
   anchorThreshold: 1.5
   stretchThreshold: 0.4
+  invertHoldAngle: 0
+  isPlayerHeld: 0
 --- !u!82 &3015072971012848573
 AudioSource:
   m_ObjectHideFlags: 0

@@ -108,7 +108,15 @@ public class GridManager : MonoBehaviour
         }
 
         //Find and turn off this grid interactions as well.
-        GetComponentInChildren<GridInteractionClass>().setToOff();
+        if (GetComponentInChildren<GridInteractionClass>())
+        {
+            GetComponentInChildren<GridInteractionClass>().setToOff();
+        //If no grid switch, then simply complete yourself.
+        } else
+        {
+            setGrid(false);
+            updateGrids();
+        }
 
 
     }
