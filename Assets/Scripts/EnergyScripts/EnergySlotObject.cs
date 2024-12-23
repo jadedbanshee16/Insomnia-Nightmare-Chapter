@@ -20,6 +20,17 @@ public class EnergySlotObject : EnergyObjectClass
         if(c == null)
         {
             connectedObject.powerObject(false);
+            connectedObject.setEnergyManager(null);
+            connectedObject.powerObject(false);
+
+            //Find connected object interactions.
+            EnergyInteractionClass[] interactions = connectedObject.GetComponentsInChildren<EnergyInteractionClass>();
+
+            //Go through interactions and turn of the object as well as setting the Interaction classes.
+            for (int i = 0; i < interactions.Length; i++)
+            {
+                interactions[i].setPuppetManager(null, null);
+            }
         }
 
         connectedObject = c;
@@ -28,6 +39,15 @@ public class EnergySlotObject : EnergyObjectClass
         {
             connectedObject.setEnergyManager(energyManager);
             connectedObject.powerObject(isOn);
+
+            //Find connected object interactions.
+            EnergyInteractionClass[] interactions = connectedObject.GetComponentsInChildren<EnergyInteractionClass>();
+
+            //Go through interactions and turn of the object as well as setting the Interaction classes.
+            for (int i = 0; i < interactions.Length; i++)
+            {
+                interactions[i].setPuppetManager(energyManager, this.GetComponent<EnergyObjectClass>());
+            }
 
             for (int i = 0; i < switchConnector.Length; i++)
             {
@@ -137,7 +157,13 @@ public class EnergySlotObject : EnergyObjectClass
 
         if (connectedObject)
         {
-            connectedObject.powerObject(base.getIsOn());
+            if (isPowered)
+            {
+                connectedObject.powerObject(base.getIsOn());
+            } else
+            {
+                connectedObject.powerObject(false);
+            }
         }
     }
 
@@ -145,8 +171,22 @@ public class EnergySlotObject : EnergyObjectClass
     //WARNING. When turning on, this would probably make 'amount on' incorrect.
     public override void forceIsOn(bool b)
     {
+        base.forceIsOn(b);
+
         if (connectedObject)
         {
+            //Must make sure the connected switch will also be turned off.
+            if (!b)
+            {
+                //Find connected object interactions.
+                EnergyInteractionClass[] interactions = connectedObject.GetComponentsInChildren<EnergyInteractionClass>();
+
+                //Go through interactions and turn of the object as well as setting the Interaction classes.
+                for (int i = 0; i < interactions.Length; i++)
+                {
+                    interactions[i].turnOffObject();
+                }
+            }
             connectedObject.forceIsOn(b);
         }
     }

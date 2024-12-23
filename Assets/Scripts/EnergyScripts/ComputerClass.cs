@@ -108,6 +108,13 @@ public class ComputerClass : EnergyObjectClass
         isOn = true;
     }
 
+    public override void forceIsOn(bool b)
+    {
+        //Force to on always, as computers cannot be shut off at the moment, only denied power.
+        amountOn = amountInteractionsNeeded;
+        isOn = true;
+    }
+
     public override void setEnergyManager(GridManager man)
     {
         energyManager = man;

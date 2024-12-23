@@ -20,6 +20,9 @@ public class SystemManager : MonoBehaviour
     [SerializeField]
     float currentPower;
 
+    [SerializeField]
+    bool hasEssential;
+
     //Update this grid system.
     public void setManager()
     {
@@ -39,6 +42,7 @@ public class SystemManager : MonoBehaviour
     //A function that would turn off all 
     public void dePowerGrid(int ind)
     {
+
         managers[ind].tripGrid();
         managers[ind].setGrid(false);
     }
@@ -50,14 +54,48 @@ public class SystemManager : MonoBehaviour
         if(generatorPower > 0 && generatorPowered)
         {
             currentPower = 0;
-            for (int i = 0; i < managers.Length; i++)
-            {
-                currentPower += managers[i].getPowerUsed();
+            bool tripped = false;
 
-                if (currentPower > generatorPower)
+            //To ensure some grids that need to stay on will stay on.
+            if (hasEssential)
+            {
+                for (int i = 0; i < managers.Length; i++)
                 {
-                    dePowerGrid(i);
+                    currentPower += managers[i].getPowerUsed();
+
+                    if (currentPower > generatorPower)
+                    {
+                        tripped = true;
+
+                        dePowerGrid(i);
+                    }
                 }
+            } else
+            {
+                for (int i = 0; i < managers.Length; i++)
+                {
+                    currentPower += managers[i].getPowerUsed();
+
+                    if (currentPower > generatorPower)
+                    {
+                        tripped = true;
+                    }
+                }
+
+                if (tripped)
+                {
+                    for(int i = 0; i < managers.Length; i++)
+                    {
+                        dePowerGrid(i);
+                    }
+
+                    turnOffGenerator();
+                }
+            }
+
+            if(tripped)
+            {
+                runGeneratorSound(4);
             }
         //If power is 0, then assume generator is turned off or unplugged, which means turn off grids without tripping system.
         } else
@@ -98,6 +136,36 @@ public class SystemManager : MonoBehaviour
     public void setSystemId(float i)
     {
         systemID = i;
+    }
+
+    private void runGeneratorSound(int v)
+    {
+        //Find all generators. Find which one is connected to this object, if any.
+        GeneratorInteractionClass[] gens = FindObjectsByType<GeneratorInteractionClass>(FindObjectsSortMode.None);
+
+        for(int i = 0; i < gens.Length; i++)
+        {
+            if(gens[i].getSystemManager() && gens[i].getSystemManager().getSystemId() == getSystemId())
+            {
+                //Play the given sound.
+                gens[i].GetComponent<InteractionControlClass>().playInteractionAudio(v);
+            }
+        }
+    }
+
+    private void turnOffGenerator()
+    {
+        //Find all generators. Find which one is connected to this object, if any.
+        GeneratorInteractionClass[] gens = FindObjectsByType<GeneratorInteractionClass>(FindObjectsSortMode.None);
+
+        for (int i = 0; i < gens.Length; i++)
+        {
+            if (gens[i].getSystemManager() && gens[i].getSystemManager().getSystemId() == getSystemId())
+            {
+                //Play the given sound.
+                gens[i].Interact(false);
+            }
+        }
     }
 
     /*public void setGenerator(GeneratorClass g)

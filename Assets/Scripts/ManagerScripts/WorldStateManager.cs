@@ -20,6 +20,8 @@ public class WorldStateManager : MonoBehaviour
     [SerializeField]
     List<GeneratorInteractionClass> interactionablesGenerator;
     [SerializeField]
+    List<GridInteractionClass> interactionablesGrid;
+    [SerializeField]
     List<ComputerObjectClass> energiesComputers;
     [SerializeField]
     List<CombinationManagerClass> energiesCombinations;
@@ -226,6 +228,7 @@ public class WorldStateManager : MonoBehaviour
         interactionablesLocks = new List<LockObjectClass>();
         interactionablesEnergy = new List<EnergyInteractionClass>();
         interactionablesGenerator = new List<GeneratorInteractionClass>();
+        interactionablesGrid = new List<GridInteractionClass>();
         energiesComputers = new List<ComputerObjectClass>();
         entities = new List<GameObject>();
         eventsScripts = new List<EventScript>();
@@ -289,6 +292,16 @@ public class WorldStateManager : MonoBehaviour
                     _state.setGeneratorData(interactables[i].gameObject.name, interactables[i].getObjectID(), interactables[i].GetComponent<GeneratorInteractionClass>().getIsOn(), -1);
                 }
                 interactionablesGenerator.Add(interactables[i].GetComponent<GeneratorInteractionClass>());
+            }
+        }
+
+        //For the grid switch classes.
+        for(int i = 0; i < interactables.Length; i++)
+        {
+            if (interactables[i].GetComponent<GridInteractionClass>())
+            {
+                _state.setGridData(interactables[i].gameObject.name, interactables[i].getObjectID(), interactables[i].GetComponent<GridInteractionClass>().getIsOn());
+                interactionablesGrid.Add(interactables[i].GetComponent<GridInteractionClass>());
             }
         }
 
@@ -539,6 +552,7 @@ public class WorldStateManager : MonoBehaviour
             }
         }
 
+        //Do all generators.
         for(int i = 0; i < _state.generators.Count; i++)
         {
             for(int v = 0; v < interactionablesGenerator.Count; v++)
@@ -576,6 +590,18 @@ public class WorldStateManager : MonoBehaviour
             }
         }
 
+        //Do all grid switches.
+        for(int i = 0; i < _state.gridsSwitches.Count; i++)
+        {
+            for(int v = 0; v < interactionablesGrid.Count; v++)
+            {
+                if(interactionablesGrid[v].getObjectID() == _state.gridsSwitches[i].id)
+                {
+                    interactionablesGrid[v].Interact(_state.gridsSwitches[i].isOn);
+                }
+            }
+        }
+
         //Debug.Log("After change: " + GameObject.FindGameObjectWithTag("Player").transform.position);
 
         GetComponent<DayNightManager>().getSun().transform.position = _state.world.sunPos;
@@ -596,6 +622,7 @@ public class WorldStateManager : MonoBehaviour
         interactionablesLocks = new List<LockObjectClass>();
         interactionablesEnergy = new List<EnergyInteractionClass>();
         interactionablesGenerator = new List<GeneratorInteractionClass>();
+        interactionablesGrid = new List<GridInteractionClass>();
         energiesComputers = new List<ComputerObjectClass>();
         energiesCombinations = new List<CombinationManagerClass>();
         eventsScripts = new List<EventScript>();
@@ -669,6 +696,14 @@ public class WorldStateManager : MonoBehaviour
             if (interactables[i].GetComponent<GeneratorInteractionClass>())
             {
                 interactionablesGenerator.Add(interactables[i].GetComponent<GeneratorInteractionClass>());
+            }
+        }
+
+        for(int i = 0; i < interactables.Length; i++)
+        {
+            if (interactables[i].GetComponent<GridInteractionClass>())
+            {
+                interactionablesGrid.Add(interactables[i].GetComponent<GridInteractionClass>());
             }
         }
     }
@@ -782,6 +817,7 @@ public class worldState
     public List<EventData> events;
     public List<MenuData> menus;
     public List<generatorData> generators;
+    public List<gridData> gridsSwitches;
 
     public WorldData world;
     //public List<positionData> positions;
@@ -902,6 +938,18 @@ public class worldState
 
         generators.Add(il);
     }
+
+    public void setGridData(string s, float i, bool b)
+    {
+        gridData il = new gridData(s, i, b);
+
+        if (gridsSwitches == null)
+        {
+            gridsSwitches = new List<gridData>();
+        }
+
+        gridsSwitches.Add(il);
+    }
 }
 
 //For all entities in the game.
@@ -987,6 +1035,21 @@ public class generatorData
         id = ident;
         isOn = b;
         systemId = other;
+    }
+}
+
+[System.Serializable]
+public class gridData
+{
+    public string name;
+    public float id;
+    public bool isOn;
+
+    public gridData(string i, float ident, bool b)
+    {
+        name = i;
+        id = ident;
+        isOn = b;
     }
 }
 

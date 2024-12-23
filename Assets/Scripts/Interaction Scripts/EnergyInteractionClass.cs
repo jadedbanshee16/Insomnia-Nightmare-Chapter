@@ -12,6 +12,11 @@ public class EnergyInteractionClass : InteractionClass
     private GridManager powerManager;
 
     [SerializeField]
+    private GridManager seperateGrid;
+    [SerializeField]
+    private EnergyObjectClass seperateSlot;
+
+    [SerializeField]
     bool isOn = false;
 
     [SerializeField]
@@ -64,6 +69,12 @@ public class EnergyInteractionClass : InteractionClass
             //Debug.Log("React1: " + isOn + " | " + obj.name);
             powerManager.updateObject(obj, isOn);
         }
+
+        //See if this switch is currently working with a seperate object, due to power points.
+        if (seperateGrid && seperateSlot)
+        {
+            seperateGrid.updateObject(seperateSlot, isOn);
+        }
     }
 
     public override void secondaryInteract()
@@ -89,5 +100,11 @@ public class EnergyInteractionClass : InteractionClass
     public void setIsOn(bool b)
     {
         isOn = b;
+    }
+
+    public void setPuppetManager(GridManager man, EnergyObjectClass c)
+    {
+        seperateGrid = man;
+        seperateSlot = c;
     }
 }

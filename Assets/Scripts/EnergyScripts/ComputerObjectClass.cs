@@ -45,13 +45,17 @@ public class ComputerObjectClass : EnergyObjectClass
 
         if (screenObject)
         {
-            if (String.Equals(currentString, ""))
+            //Do not override if not powered.
+            if (isPowered)
             {
-                screenObject.displayText(messages[messages.Length - 1]);
-            }
-            else
-            {
-                screenObject.displayText(currentString);
+                if (String.Equals(currentString, ""))
+                {
+                    screenObject.displayText(messages[messages.Length - 1]);
+                }
+                else
+                {
+                    screenObject.displayText(currentString);
+                }
             }
         }
     }
@@ -59,14 +63,17 @@ public class ComputerObjectClass : EnergyObjectClass
     //A function that will power the current object.
     public override void powerObject(bool b)
     {
-        isPowered = true;
+        isPowered = b;
 
-        if (screenObject)
+        if (screenObject && isPowered)
         {
             //Maybe will break. Will find out.
             if (String.Equals(currentString, ""))
             {
                 screenObject.displayText(messages[messages.Length - 1]);
+            } else
+            {
+                screenObject.displayText(currentString);
             }
         }
     }
@@ -238,14 +245,6 @@ public class ComputerObjectClass : EnergyObjectClass
                 screenObject.displayText(messages[comparedCode]);
             }
         }
-        else
-        {
-            //Display the final message, which is default fail text.
-            if (screenObject)
-            {
-                screenObject.displayText(messages[messages.Length - 2]);
-            }
-        }
     }
 
     //When an input comes in,
@@ -257,53 +256,57 @@ public class ComputerObjectClass : EnergyObjectClass
         {
             controller = GetComponent<InteractionControlClass>();
         }
-        //If delete command, clear the string.
-        if (String.Equals(s, "%DELETE"))
-        {
-            if (playSound)
-            {
-                controller.playInteractionAudio(1);
-            }
-            clearString();
-        }
-        //If the enter command, validate code.
-        else if (String.Equals(s, "%ENTER"))
-        {
-            //Now set object based on affected object in the screen.
-            if (playSound)
-            {
-                controller.playInteractionAudio(1);
-            }
 
-            validateCode();
+        if (isPowered)
+        {
+            //If delete command, clear the string.
+            if (String.Equals(s, "%DELETE"))
+            {
+                if (playSound)
+                {
+                    controller.playInteractionAudio(1);
+                }
+                clearString();
+            }
+            //If the enter command, validate code.
+            else if (String.Equals(s, "%ENTER"))
+            {
+                //Now set object based on affected object in the screen.
+                if (playSound)
+                {
+                    controller.playInteractionAudio(1);
+                }
 
-        }
-        //If the backspace command, then remove 1 element from the string.
-        else if (String.Equals(s, "%BACKSPACE"))
-        {
-            if (playSound)
-            {
-                controller.playInteractionAudio(1);
+                validateCode();
+
             }
-            removeString();
-        }
-        else if (s.Contains("%BUTTON:"))
-        {
-            //This is a button, which means the current string is switched straight over to this item.
-            if (playSound)
+            //If the backspace command, then remove 1 element from the string.
+            else if (String.Equals(s, "%BACKSPACE"))
             {
-                controller.playInteractionAudio(1);
+                if (playSound)
+                {
+                    controller.playInteractionAudio(1);
+                }
+                removeString();
             }
-            validateCode(s);
-        }
-        //If no commands, then add the string element.
-        else
-        {
-            if (playSound)
+            else if (s.Contains("%BUTTON:"))
             {
-                controller.playInteractionAudio((int)UnityEngine.Random.Range(2, controller.getAudioLength() - 1));
+                //This is a button, which means the current string is switched straight over to this item.
+                if (playSound)
+                {
+                    controller.playInteractionAudio(1);
+                }
+                validateCode(s);
             }
-            addString(s);
+            //If no commands, then add the string element.
+            else
+            {
+                if (playSound)
+                {
+                    controller.playInteractionAudio((int)UnityEngine.Random.Range(2, controller.getAudioLength() - 1));
+                }
+                addString(s);
+            }
         }
     }
 

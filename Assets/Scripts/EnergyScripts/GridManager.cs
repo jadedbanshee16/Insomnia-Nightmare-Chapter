@@ -110,7 +110,7 @@ public class GridManager : MonoBehaviour
         //Find and turn off this grid interactions as well.
         if (GetComponentInChildren<GridInteractionClass>())
         {
-            GetComponentInChildren<GridInteractionClass>().setToOff();
+            GetComponentInChildren<GridInteractionClass>().Interact(false);
         //If no grid switch, then simply complete yourself.
         } else
         {

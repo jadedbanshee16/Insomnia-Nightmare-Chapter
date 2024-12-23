@@ -6,6 +6,7 @@ public class GridInteractionClass : InteractionClass
 {
     GridManager manager_;
 
+    [SerializeField]
     bool isOn;
 
     public override void Interact()
@@ -26,11 +27,26 @@ public class GridInteractionClass : InteractionClass
 
     }
 
-    public void setToOff()
+    public override void Interact(bool b)
     {
-        //First, set the object to on so that when the interaction occurs, it will turn off.
-        isOn = true;
-        Interact();
+        isOn = b;
+
+        if (!controller)
+        {
+            setController();
+        }
+
+        //This is to function either with a switch, button or indication.
+        //Set the animation of the controller.
+        controller.setAnimation("Pressed");
+
+        controller.setAnimation("isOn", isOn);
+
+        controller.setIndicator(isOn);
+
+        controller.playInteractionAudio(0);
+
+        setObject();
     }
 
     //Update power manager with the new system.
@@ -46,10 +62,15 @@ public class GridInteractionClass : InteractionClass
     {
         setController();
         manager_ = GetComponentInParent<GridManager>();
-        isOn = manager_.getIsOn();
+        manager_.setGrid(isOn);
 
         controller.setAnimation("isOn", isOn);
 
         controller.setIndicator(isOn);
+    }
+
+    public bool getIsOn()
+    {
+        return isOn;
     }
 }
