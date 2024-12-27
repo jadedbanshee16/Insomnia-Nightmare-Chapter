@@ -15,7 +15,10 @@ public class ObjectTriggerScript : MonoBehaviour
     {
         if (other.GetComponent<HoldInteractionClass>())
         {
-            other.GetComponent<Rigidbody>().velocity = throwDirection * throwStrength;
+            if(other.GetComponent<Rigidbody>() && !other.GetComponent<Rigidbody>().isKinematic)
+            {
+                other.GetComponent<Rigidbody>().velocity = throwDirection * throwStrength;
+            }
         }
     }
 }

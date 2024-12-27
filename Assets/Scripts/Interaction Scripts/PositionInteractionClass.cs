@@ -156,6 +156,13 @@ public class PositionInteractionClass : InteractionClass
             }
 
             setCurrentHeldItem(other.GetComponent<HoldInteractionClass>());
+
+        //This tests if this object works to activate an object is something is put into it.
+        } else if (hasPermission(interactionType.activeObjects) && other.GetComponent<HoldInteractionClass>() && canHoldItem(other.GetComponent<HoldInteractionClass>(), true))
+        {
+            Interact(other.gameObject);
+
+            controller.setActive(true);
         }
     }
 
