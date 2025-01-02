@@ -87,7 +87,7 @@ public class PositionInteractionClass : InteractionClass
         if (hasPermission(interactionType.unique) && !string.Equals(uniqueObjectOverride, ""))
         {
             //If unique, then check name.
-            if (string.Equals(uniqueObjectOverride, obj.gameObject.name))
+            if (obj.gameObject.name.Contains(uniqueObjectOverride))
             {
                 canHold = true;
             }

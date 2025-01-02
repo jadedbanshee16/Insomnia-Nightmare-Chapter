@@ -12,11 +12,25 @@ public class ObjectScript : MonoBehaviour
     Rigidbody rig_;
 
     InteractionControlClass controller;
+
+    Vector3 lastTransform;
+
     // Start is called before the first frame update
     void Start()
     {
         rig_ = GetComponent<Rigidbody>();
         controller = GetComponent<InteractionControlClass>();
+        lastTransform = this.transform.position;
+    }
+
+    private void Update()
+    {
+        if(Vector3.Distance(lastTransform, this.transform.position) > 0.01)
+        {
+            controller.setAnimation("Shake");
+        }
+
+        lastTransform = this.transform.position;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -30,6 +44,7 @@ public class ObjectScript : MonoBehaviour
         {
             controller = GetComponent<InteractionControlClass>();
         }
+
         //If on collision, and not kimetic, make a sound.
         if (!rig_.isKinematic && collision.gameObject.layer != LayerMask.NameToLayer("PlayerLayer") && collision.gameObject.layer != LayerMask.NameToLayer("MovementLayer"))
         {

@@ -20,6 +20,7 @@ public class InteractionControlClass : MonoBehaviour
     GameObject[] activeObjects;
 
     int nulledParameter1 = Animator.StringToHash("Pressed");
+    int nulledParameter2 = Animator.StringToHash("Shake");
     List<int> validPams = new List<int>();
 
     //Set the position of this current object to a given other position.
@@ -182,9 +183,22 @@ public class InteractionControlClass : MonoBehaviour
             updateThisInteraction();
         }
 
-        if (validPams.Contains(nulledParameter1) && anim_)
+        if ((validPams.Contains(nulledParameter1) || validPams.Contains(nulledParameter2)) && anim_)
         {
             anim_.SetTrigger(animationPrompt);
+        }
+    }
+
+    public void resetAnimation(string animationPrompt)
+    {
+        if (!anim_)
+        {
+            updateThisInteraction();
+        }
+
+        if ((validPams.Contains(nulledParameter1) || validPams.Contains(nulledParameter2)) && anim_)
+        {
+            anim_.ResetTrigger(animationPrompt);
         }
     }
 
@@ -285,6 +299,12 @@ public class InteractionControlClass : MonoBehaviour
     public void updateThisInteraction()
     {        
         anim_ = GetComponentInChildren<Animator>();
+
+        //Try this object as well.
+        if (!anim_)
+        {
+            anim_ = GetComponent<Animator>();
+        }
 
         indicator = GetComponentInChildren<InteractionIndicatorScript>();
 

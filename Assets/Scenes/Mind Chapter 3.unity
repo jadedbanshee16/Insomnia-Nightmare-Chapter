@@ -13094,8 +13094,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   managers:
   - {fileID: 8954190967758081136}
+  systemID: 0
   generatorPower: 500
   currentPower: 500
+  hasEssential: 0
 --- !u!1001 &2823091105039280513
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17194,7 +17196,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.016666668
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 00b747f1e271cb644903c5684c2cdd75, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 6a63c6e21f033634f87d63a69eca3435, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1001 &5532763073707383103
 PrefabInstance:
@@ -18453,6 +18455,8 @@ MonoBehaviour:
   - {fileID: 864709861}
   - {fileID: 150638033}
   - {fileID: 1214045155}
+  interactionablesGenerator: []
+  interactionablesGrid: []
   energiesComputers:
   - {fileID: 8723390216528674221}
   - {fileID: 504390636422749871}
@@ -23336,8 +23340,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   managers:
   - {fileID: 907219977926581407}
+  systemID: 0
   generatorPower: 500
   currentPower: 500
+  hasEssential: 0
 --- !u!1001 &9216057988862990676
 PrefabInstance:
   m_ObjectHideFlags: 0
