@@ -1279,8 +1279,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   managers:
   - {fileID: 1019403053}
+  systemID: 0
   generatorPower: 500
   currentPower: 500
+  hasEssential: 0
 --- !u!1 &185153450
 GameObject:
   m_ObjectHideFlags: 3
@@ -2115,6 +2117,7 @@ MonoBehaviour:
   targetPos: {fileID: 1638807970}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: ChainGateRight
+  uniqueKeyOverride: 
   connectedObject: {fileID: 0}
 --- !u!114 &384741357
 MonoBehaviour:
@@ -4219,6 +4222,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2527593229463909462, guid: 59d5bd3db330fcf4a9549ce7433461f8,
         type: 3}
+      propertyPath: notInitiallyLocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2527593229463909462, guid: 59d5bd3db330fcf4a9549ce7433461f8,
+        type: 3}
       propertyPath: connectedLockPosition
       value: 
       objectReference: {fileID: 384741356}
@@ -5109,6 +5117,7 @@ MonoBehaviour:
   targetPos: {fileID: 39443848}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: Book9(Special)
+  uniqueKeyOverride: 
   connectedObject: {fileID: 423450604}
 --- !u!114 &814301830
 MonoBehaviour:
@@ -6702,6 +6711,8 @@ MonoBehaviour:
   connectedLockPosition: {fileID: 0}
   pairedLock: {fileID: 0}
   initialLockPosition: 1
+  requiresPower: 0
+  notInitiallyLocked: 0
   lockAgainst: 0
 --- !u!114 &895142312
 MonoBehaviour:
@@ -7081,6 +7092,7 @@ MonoBehaviour:
   targetPos: {fileID: 494593085}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: BloodNote(Special)
+  uniqueKeyOverride: 
   connectedObject: {fileID: 423450604}
 --- !u!114 &985011192
 MonoBehaviour:
@@ -9065,6 +9077,7 @@ MonoBehaviour:
   targetPos: {fileID: 2011371963}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: Book25(Pamphlet) (1)
+  uniqueKeyOverride: 
   connectedObject: {fileID: 0}
 --- !u!114 &1290988097
 MonoBehaviour:
@@ -9430,6 +9443,7 @@ MonoBehaviour:
   targetPos: {fileID: 941204972}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: Coaster
+  uniqueKeyOverride: 
   connectedObject: {fileID: 895142309}
 --- !u!114 &1324480150
 MonoBehaviour:
@@ -16250,6 +16264,7 @@ MonoBehaviour:
   targetPos: {fileID: 8742720408706791017}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: 
+  uniqueKeyOverride: 
   connectedObject: {fileID: 0}
 --- !u!114 &903385611067579520
 MonoBehaviour:
@@ -18865,8 +18880,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   managers:
   - {fileID: 8954190967758081136}
+  systemID: 0
   generatorPower: 500
   currentPower: 500
+  hasEssential: 0
 --- !u!1001 &2823091105039280513
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24196,6 +24213,7 @@ MonoBehaviour:
   targetPos: {fileID: 0}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: 
+  uniqueKeyOverride: 
   connectedObject: {fileID: 0}
 --- !u!114 &6192457495784180145
 MonoBehaviour:
@@ -24214,6 +24232,7 @@ MonoBehaviour:
   targetPos: {fileID: 2157460569893807306}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: 
+  uniqueKeyOverride: 
   connectedObject: {fileID: 0}
 --- !u!1001 &6226712573333032179
 PrefabInstance:
@@ -24499,6 +24518,8 @@ MonoBehaviour:
   - {fileID: 150638033}
   - {fileID: 864709861}
   - {fileID: 8607374098576828544}
+  interactionablesGenerator: []
+  interactionablesGrid: []
   energiesComputers:
   - {fileID: 867789288}
   - {fileID: 817622091}
@@ -29155,6 +29176,7 @@ MonoBehaviour:
   targetPos: {fileID: 6755989283809742875}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: BlueKey
+  uniqueKeyOverride: 
   connectedObject: {fileID: 0}
 --- !u!114 &8858925915928873406
 MonoBehaviour:
@@ -29173,6 +29195,7 @@ MonoBehaviour:
   targetPos: {fileID: 0}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: 
+  uniqueKeyOverride: 
   connectedObject: {fileID: 0}
 --- !u!1001 &8873052926557877547
 PrefabInstance:
@@ -29675,8 +29698,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   managers:
   - {fileID: 907219977926581407}
+  systemID: 0
   generatorPower: 500
   currentPower: 500
+  hasEssential: 0
 --- !u!1001 &9216057988862990676
 PrefabInstance:
   m_ObjectHideFlags: 0

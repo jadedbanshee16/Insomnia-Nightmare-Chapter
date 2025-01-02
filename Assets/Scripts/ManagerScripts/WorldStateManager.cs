@@ -216,7 +216,7 @@ public class WorldStateManager : MonoBehaviour
     //A function to save the current world state.
     public void saveWorldState()
     {
-        InteractionClass[] interactables = GameObject.FindObjectsByType<InteractionClass>(FindObjectsSortMode.None);
+        InteractionClass[] interactables = GameObject.FindObjectsByType<InteractionClass>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         LockObjectClass[] lockables = GameObject.FindObjectsByType<LockObjectClass>(FindObjectsSortMode.None);
         FPSController[] playerEntities = GameObject.FindObjectsByType<FPSController>(FindObjectsSortMode.None);
         EnergyObjectClass[] energyObjects = GameObject.FindObjectsByType<EnergyObjectClass>(FindObjectsInactive.Include, FindObjectsSortMode.None);
@@ -355,7 +355,7 @@ public class WorldStateManager : MonoBehaviour
 
 
         //Get eveyr interactable object in one go.
-        InteractionClass[] objs = GameObject.FindObjectsByType<InteractionClass>(FindObjectsSortMode.None);
+        InteractionClass[] objs = GameObject.FindObjectsByType<InteractionClass>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
         //Get the system managers that are active in the scene.
         SystemManager[] managers = GameObject.FindObjectsByType<SystemManager>(FindObjectsSortMode.None);
@@ -401,7 +401,17 @@ public class WorldStateManager : MonoBehaviour
                     if (connObj && connObj.GetComponent<PositionInteractionClass>())
                     {
                         //Debug.Log("Working? " + interactionablesItems[v].gameObject.name);
-                        connObj.GetComponent<PositionInteractionClass>().Interact(interactionablesItems[v].gameObject);
+                        //Due to some 'can hold' needed for interaction, run that first even though it is already obviously able to hold.
+                        connObj.GetComponent<PositionInteractionClass>().canHoldItem(interactionablesItems[v].GetComponent<HoldInteractionClass>(), false);
+
+                        //Check if using active objects.
+                        if (connObj.GetComponent<PositionInteractionClass>().hasPermission(InteractionClass.interactionType.activeObjects))
+                        {
+                            connObj.GetComponent<PositionInteractionClass>().interactionWithActives(interactionablesItems[v].gameObject);
+                        } else
+                        {
+                            connObj.GetComponent<PositionInteractionClass>().Interact(interactionablesItems[v].gameObject);
+                        }
                     }
                     else if (connObj && connObj.GetComponentInParent<FPSController>())
                     {
@@ -612,7 +622,7 @@ public class WorldStateManager : MonoBehaviour
 
     private void getObjectLists()
     {
-        InteractionClass[] interactables = GameObject.FindObjectsByType<InteractionClass>(FindObjectsSortMode.None);
+        InteractionClass[] interactables = GameObject.FindObjectsByType<InteractionClass>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         LockObjectClass[] lockables = GameObject.FindObjectsByType<LockObjectClass>(FindObjectsSortMode.None);
         FPSController[] playerEntities = GameObject.FindObjectsByType<FPSController>(FindObjectsSortMode.None);
         EnergyObjectClass[] energyObjects = GameObject.FindObjectsByType<EnergyObjectClass>(FindObjectsInactive.Include, FindObjectsSortMode.None);

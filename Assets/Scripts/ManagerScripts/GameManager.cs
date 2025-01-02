@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
     //Set interactables and energy objects with a unique ID based on their position in the world.
     public void setInteractables()
     {
-        InteractionClass[] interactables = GameObject.FindObjectsByType<InteractionClass>(FindObjectsSortMode.None);
+        InteractionClass[] interactables = GameObject.FindObjectsByType<InteractionClass>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         EnergyObjectClass[] energies = GameObject.FindObjectsByType<EnergyObjectClass>(FindObjectsSortMode.None);
         FPSController[] playerEntity = GameObject.FindObjectsByType<FPSController>(FindObjectsSortMode.None);
         EventScript[] eventObjects = GameObject.FindObjectsByType<EventScript>(FindObjectsSortMode.None);

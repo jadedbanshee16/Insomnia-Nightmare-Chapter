@@ -18,6 +18,8 @@ public class LockObjectClass : EnergyObjectClass
 
     [SerializeField]
     private bool requiresPower;
+    [SerializeField]
+    private bool notInitiallyLocked;
 
     [SerializeField]
     protected InteractionClass.interactionType lockAgainst;
@@ -62,6 +64,8 @@ public class LockObjectClass : EnergyObjectClass
             //initialLockPosition = isOn;
             pairedLock.setInitialLock(isOn);
         }
+
+
         //If the object is powered and is on, then switch material to the on materials and turn on light.
         //If not, turn them off.
         if(isPowered && requiresPower)
@@ -106,7 +110,13 @@ public class LockObjectClass : EnergyObjectClass
 
     public bool getInitialLock()
     {
-        return initialLockPosition;
+        if (notInitiallyLocked)
+        {
+            return false;
+        } else
+        {
+            return initialLockPosition;
+        }
     }
 
     public void setInitialLock(bool b)

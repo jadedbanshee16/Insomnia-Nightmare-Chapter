@@ -13,13 +13,23 @@ public class PositionInteractionClass : InteractionClass
 
     [SerializeField]
     protected string uniqueObjectOverride;
+    [SerializeField]
+    string uniqueKeyOverride;
 
     [SerializeField]
     protected GameObject connectedObject;
 
+    //This is used in conjunction with the uniqueKeyOverride.
+    //This will only cause an interacting with a connected object if it is the specific item in need.
+    bool isKey = false;
+
     //This will keep the interaction with this object. It takes an obj input and sees if it is a permitted object.
     public override void Interact(GameObject obj)
     {
+        if (!isKey)
+        {
+            testKey(obj.gameObject.name);
+        }
         setCurrentHeldItem(obj.GetComponent<HoldInteractionClass>());
         setObject();
     }
@@ -36,11 +46,11 @@ public class PositionInteractionClass : InteractionClass
         {
             currentHeldItem.Interact(targetPos.position, targetPos.rotation, this.transform);
         }
-        if (!currentHeldItem)
+
+
+        if (currentHeldItem && isKey)
         {
             //Debug.Log("Check current held item");
-        } else
-        {
             //When run, then input connected item into the holdInteraction class.
             currentHeldItem.setSystem(connectedObject);
         }
@@ -48,29 +58,34 @@ public class PositionInteractionClass : InteractionClass
         controller.playInteractionAudio(0);
     }
 
-    public virtual void setCurrentHeldItem(HoldInteractionClass c)
+    public void setCurrentHeldItem(HoldInteractionClass c)
     {
         currentHeldItem = c;
 
-        //Have an extra test based on some interactions.
-        if (!currentHeldItem && connectedObject && connectedObject.GetComponent<InvertedLockObjectClass>())
+        if (isKey)
         {
-            //This means that connected object needs to be told thatthat current held item is false.
-            connectedObject.GetComponent<InvertedLockObjectClass>().setIsOn(false);
-            connectedObject.GetComponent<InvertedLockObjectClass>().useObject();
+            //Have an extra test based on some interactions.
+            if (!currentHeldItem && connectedObject && connectedObject.GetComponent<InvertedLockObjectClass>())
+            {
+                //This means that connected object needs to be told thatthat current held item is false.
+                connectedObject.GetComponent<InvertedLockObjectClass>().setIsOn(false);
+                connectedObject.GetComponent<InvertedLockObjectClass>().useObject();
+            }
+
+            //Complete any connected object interactions if item is removed.
+            if (connectedObject && connectedObject.GetComponent<EnergyObjectClass>() && !connectedObject.GetComponent<LockObjectClass>() && !connectedObject.GetComponent<EnergySlotObject>() && currentHeldItem == null)
+            {
+                connectedObject.GetComponent<EnergyObjectClass>().getEnergyManager().updateObject(connectedObject.GetComponent<EnergyObjectClass>(), false);
+            }
+            else if (connectedObject && connectedObject.GetComponent<EnergySlotObject>() && currentHeldItem == null)
+            {
+                //First, compelte normal.
+                //connectedObject.GetComponent<EnergyObjectClass>().getEnergyManager().updateObject(connectedObject.GetComponent<EnergyObjectClass>(), false);
+                //Then remove the energy slot to remove the object.
+                connectedObject.GetComponent<EnergySlotObject>().setConnectedObject(null);
+            }
         }
 
-        //Complete any connected object interactions if item is removed.
-        if (connectedObject && connectedObject.GetComponent<EnergyObjectClass>() && !connectedObject.GetComponent<LockObjectClass>() && !connectedObject.GetComponent<EnergySlotObject>() && currentHeldItem == null)
-        {
-            connectedObject.GetComponent<EnergyObjectClass>().getEnergyManager().updateObject(connectedObject.GetComponent<EnergyObjectClass>(), false);
-        } else if (connectedObject && connectedObject.GetComponent<EnergySlotObject>() && currentHeldItem == null)
-        {
-            //First, compelte normal.
-            //connectedObject.GetComponent<EnergyObjectClass>().getEnergyManager().updateObject(connectedObject.GetComponent<EnergyObjectClass>(), false);
-            //Then remove the energy slot to remove the object.
-            connectedObject.GetComponent<EnergySlotObject>().setConnectedObject(null);
-        }
     }
 
     public HoldInteractionClass getCurrentHeldItem()
@@ -82,6 +97,8 @@ public class PositionInteractionClass : InteractionClass
     public bool canHoldItem(HoldInteractionClass obj, bool auto)
     {
         bool canHold = false;
+
+        testKey(obj.gameObject.name);
 
         //Test for unique first, if unique and string is not empty, then check if name is correct.
         if (hasPermission(interactionType.unique) && !string.Equals(uniqueObjectOverride, ""))
@@ -117,7 +134,7 @@ public class PositionInteractionClass : InteractionClass
     }
 
     //A function which tests to see if this object has permission to hold a certain interaction type.
-    protected bool hasPermission(interactionType t)
+    public bool hasPermission(interactionType t)
     {
         bool hasPerm = false;
 
@@ -130,6 +147,22 @@ public class PositionInteractionClass : InteractionClass
         }
 
         return hasPerm;
+    }
+
+    private void testKey(string theName)
+    {
+        isKey = false;
+
+        if (string.Equals(uniqueKeyOverride, ""))
+        {
+            isKey = true;
+        }
+
+        //test if objects could be the key. This is irrespective of whether it can hold it.
+        if (string.Equals(uniqueKeyOverride, theName))
+        {
+            isKey = true;
+        }
     }
 
     //A trigger enter for colliding with an interaction.
@@ -166,6 +199,13 @@ public class PositionInteractionClass : InteractionClass
         }
     }
 
+    public void interactionWithActives(GameObject other)
+    {
+        Interact(other);
+
+        controller.setActive(true);
+    }
+
     //Play when leaving a given function.
     private void OnTriggerExit(Collider other)
     {
@@ -177,10 +217,13 @@ public class PositionInteractionClass : InteractionClass
 
         if(isOther && currentHeldItem.GetComponent<HoldInteractionClass>() && currentHeldItem.GetComponent<HoldInteractionClass>().getType() == interactionType.senserInteraction)
         {
-            if (connectedObject.GetComponent<LockObjectClass>() && !connectedObject.GetComponent<InvertedLockObjectClass>())
+            if (isKey)
             {
-                connectedObject.GetComponent<EnergyObjectClass>().setIsOn(false);
-                connectedObject.GetComponent<EnergyObjectClass>().useObject();
+                if (connectedObject.GetComponent<LockObjectClass>() && !connectedObject.GetComponent<InvertedLockObjectClass>())
+                {
+                    connectedObject.GetComponent<EnergyObjectClass>().setIsOn(false);
+                    connectedObject.GetComponent<EnergyObjectClass>().useObject();
+                }
             }
 
             currentHeldItem.removeHeld();

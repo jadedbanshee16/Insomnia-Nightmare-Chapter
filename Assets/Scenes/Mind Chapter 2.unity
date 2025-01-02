@@ -4071,6 +4071,7 @@ MonoBehaviour:
   targetPos: {fileID: 39443848}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: Book7
+  uniqueKeyOverride: 
   connectedObject: {fileID: 423450604}
 --- !u!114 &814301830
 MonoBehaviour:
@@ -5824,6 +5825,7 @@ MonoBehaviour:
   targetPos: {fileID: 494593085}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: DirtNote(Special)
+  uniqueKeyOverride: 
   connectedObject: {fileID: 423450604}
 --- !u!114 &985011192
 MonoBehaviour:
@@ -12976,6 +12978,7 @@ MonoBehaviour:
   targetPos: {fileID: 8742720408706791017}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: 
+  uniqueKeyOverride: 
   connectedObject: {fileID: 0}
 --- !u!82 &901951445752686139
 AudioSource:
@@ -15673,6 +15676,11 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: -0.0000115009825
       objectReference: {fileID: 0}
+    - target: {fileID: 5844980959444056624, guid: 2d6a8cb8a2f232f4abdfeb4ce1b8023f,
+        type: 3}
+      propertyPath: requiresInitialLock
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5962529146513681696, guid: 2d6a8cb8a2f232f4abdfeb4ce1b8023f,
         type: 3}
       propertyPath: m_Constraints
@@ -15712,6 +15720,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8479432578929759305, guid: 2d6a8cb8a2f232f4abdfeb4ce1b8023f,
+        type: 3}
+      propertyPath: requiresInitialLock
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8731497440682272489, guid: 2d6a8cb8a2f232f4abdfeb4ce1b8023f,
         type: 3}
@@ -16239,8 +16252,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   managers:
   - {fileID: 8954190967758081136}
+  systemID: 0
   generatorPower: 500
   currentPower: 500
+  hasEssential: 0
 --- !u!65 &2796913740071734339
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21984,7 +21999,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 625973830628810809}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.049025018, y: 0.050586313, z: -0.0024861833, w: 0.99751264}
+  m_LocalRotation: {x: 0.04902503, y: 0.050586373, z: -0.0024861805, w: 0.99751264}
   m_LocalPosition: {x: -0.014000788, y: 0.263, z: -0.24000046}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -22118,6 +22133,7 @@ MonoBehaviour:
   targetPos: {fileID: 0}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: 
+  uniqueKeyOverride: 
   connectedObject: {fileID: 0}
 --- !u!224 &6175433939150071040
 RectTransform:
@@ -22156,6 +22172,7 @@ MonoBehaviour:
   targetPos: {fileID: 2157460569893807306}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: 
+  uniqueKeyOverride: 
   connectedObject: {fileID: 0}
 --- !u!1001 &6226712573333032179
 PrefabInstance:
@@ -22431,6 +22448,8 @@ MonoBehaviour:
   - {fileID: 1991142340}
   - {fileID: 6226712573333032180}
   - {fileID: 764681089218699434}
+  interactionablesGenerator: []
+  interactionablesGrid: []
   energiesComputers:
   - {fileID: 8723390216528674221}
   - {fileID: 1379700142361704637}
@@ -23320,6 +23339,11 @@ PrefabInstance:
       propertyPath: lockAgainst
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5844980959444056624, guid: 2d6a8cb8a2f232f4abdfeb4ce1b8023f,
+        type: 3}
+      propertyPath: requiresInitialLock
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6377566283977349798, guid: 2d6a8cb8a2f232f4abdfeb4ce1b8023f,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
@@ -23344,6 +23368,11 @@ PrefabInstance:
         type: 3}
       propertyPath: lockAgainst
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8479432578929759305, guid: 2d6a8cb8a2f232f4abdfeb4ce1b8023f,
+        type: 3}
+      propertyPath: requiresInitialLock
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8731497440682272489, guid: 2d6a8cb8a2f232f4abdfeb4ce1b8023f,
         type: 3}
@@ -23392,6 +23421,8 @@ MonoBehaviour:
   connectedLockPosition: {fileID: 1665587026}
   pairedLock: {fileID: 0}
   initialLockPosition: 1
+  requiresPower: 0
+  notInitiallyLocked: 0
   lockAgainst: 6
 --- !u!65 &6755216507997236658
 BoxCollider:
@@ -26216,6 +26247,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2527593229463909462, guid: 59d5bd3db330fcf4a9549ce7433461f8,
         type: 3}
+      propertyPath: notInitiallyLocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2527593229463909462, guid: 59d5bd3db330fcf4a9549ce7433461f8,
+        type: 3}
       propertyPath: initialLockPosition
       value: 0
       objectReference: {fileID: 0}
@@ -27373,6 +27409,7 @@ MonoBehaviour:
   targetPos: {fileID: 6755989283809742875}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: BlueKey
+  uniqueKeyOverride: 
   connectedObject: {fileID: 0}
 --- !u!114 &8858925915928873406
 MonoBehaviour:
@@ -27391,6 +27428,7 @@ MonoBehaviour:
   targetPos: {fileID: 0}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: 
+  uniqueKeyOverride: 
   connectedObject: {fileID: 0}
 --- !u!1001 &8873052926557877547
 PrefabInstance:
@@ -28005,8 +28043,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   managers:
   - {fileID: 907219977926581407}
+  systemID: 0
   generatorPower: 500
   currentPower: 500
+  hasEssential: 0
 --- !u!1001 &9216057988862990676
 PrefabInstance:
   m_ObjectHideFlags: 0
