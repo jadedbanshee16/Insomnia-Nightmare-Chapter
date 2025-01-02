@@ -19,8 +19,6 @@ public class InteractionClass : MonoBehaviour
         playerHold,
         unique,
         bookPosition,
-        activeObjects,
-        toiletRolls
     }
 
     [SerializeField]
