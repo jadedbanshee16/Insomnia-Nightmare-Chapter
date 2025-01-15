@@ -41,7 +41,6 @@ public class EnergyObjectClass : MonoBehaviour
         {
             isPowered = b;
         }
-
     }
 
     //A function that will make the object be used if it is powered on on.

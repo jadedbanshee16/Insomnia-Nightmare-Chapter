@@ -81,7 +81,7 @@ public class ComputerObjectClass : EnergyObjectClass
     //Combine the added string to the current string.
     public void addString(string s)
     {
-        if (isPowered)
+        if (isPowered && isOn)
         {
             currentString = currentString + s;
 
@@ -92,7 +92,7 @@ public class ComputerObjectClass : EnergyObjectClass
     //Remove the last element of the string.
     public void removeString()
     {
-        if (isPowered)
+        if (isPowered && isOn)
         {
             if (currentString.Length > 0)
             {
@@ -113,7 +113,7 @@ public class ComputerObjectClass : EnergyObjectClass
     //Make string empty.
     public void clearString()
     {
-        if (isPowered)
+        if (isPowered && isOn)
         {
             currentString = "";
 
@@ -257,7 +257,7 @@ public class ComputerObjectClass : EnergyObjectClass
             controller = GetComponent<InteractionControlClass>();
         }
 
-        if (isPowered)
+        if (isPowered && isOn)
         {
             //If delete command, clear the string.
             if (String.Equals(s, "%DELETE"))
@@ -353,8 +353,11 @@ public class ComputerObjectClass : EnergyObjectClass
         
         isOn = b;
 
-        //Make sure it turns on the screen whenever switched on and off.
-        screenObject.displayText(currentString);
+        if (screenObject)
+        {
+            //Make sure it turns on the screen whenever switched on and off.
+            screenObject.displayText(currentString);
+        }
     }
 
     public string getCurrentCode()

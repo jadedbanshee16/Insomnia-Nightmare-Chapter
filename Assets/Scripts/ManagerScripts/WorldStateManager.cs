@@ -286,10 +286,10 @@ public class WorldStateManager : MonoBehaviour
             {
                 if (interactables[i].GetComponent<GeneratorInteractionClass>().getSystemManager())
                 {
-                    _state.setGeneratorData(interactables[i].gameObject.name, interactables[i].getObjectID(), interactables[i].GetComponent<GeneratorInteractionClass>().getIsOn(), interactables[i].GetComponent<GeneratorInteractionClass>().getSystemManager().getSystemId());
+                    _state.setGeneratorData(interactables[i].gameObject.name, interactables[i].getObjectID(), interactables[i].GetComponent<GeneratorInteractionClass>().getIsOn(), interactables[i].GetComponent<GeneratorInteractionClass>().getIsFixed(), interactables[i].GetComponent<GeneratorInteractionClass>().getSystemManager().getSystemId());
                 } else
                 {
-                    _state.setGeneratorData(interactables[i].gameObject.name, interactables[i].getObjectID(), interactables[i].GetComponent<GeneratorInteractionClass>().getIsOn(), -1);
+                    _state.setGeneratorData(interactables[i].gameObject.name, interactables[i].getObjectID(), interactables[i].GetComponent<GeneratorInteractionClass>().getIsOn(), interactables[i].GetComponent<GeneratorInteractionClass>().getIsFixed(), -1);
                 }
                 interactionablesGenerator.Add(interactables[i].GetComponent<GeneratorInteractionClass>());
             }
@@ -310,7 +310,7 @@ public class WorldStateManager : MonoBehaviour
         {
             if (energyObjects[i].GetComponent<ComputerObjectClass>())
             {
-                _state.setScreenData(energyObjects[i].gameObject.name, energyObjects[i].getObjectID(), energyObjects[i].GetComponent<ComputerObjectClass>().getCurrentCode());
+                _state.setScreenData(energyObjects[i].gameObject.name, energyObjects[i].getObjectID(), energyObjects[i].GetComponent<ComputerObjectClass>().getCurrentCode(), energyObjects[i].GetComponent<ComputerObjectClass>().getIsOn());
                 energiesComputers.Add(energyObjects[i].GetComponent<ComputerObjectClass>());
             }
         }
@@ -499,6 +499,9 @@ public class WorldStateManager : MonoBehaviour
                         Debug.Log(_state.screens[i].currentData);
                     }*/
                     energiesComputers[v].setCurrentCode(_state.screens[i].currentData);
+
+                    //Set the isOn because the computer object should be able to be turned on or off by the save file.
+                    energiesComputers[v].setIsOn(_state.screens[i].on);
                 }
             }
         }
@@ -571,6 +574,7 @@ public class WorldStateManager : MonoBehaviour
                 if(interactionablesGenerator[v].getObjectID() == _state.generators[i].id)
                 {
                     //Set the is on.
+                    interactionablesGenerator[v].setIsFixed(_state.generators[i].isFixed);
                     interactionablesGenerator[v].Interact(_state.generators[i].isOn);
 
                     SystemManager connObj = null;
@@ -883,9 +887,9 @@ public class worldState
     }
 
     //Set a screen object data. This does not include if it is on or not.
-    public void setScreenData(string i, float ident, string s)
+    public void setScreenData(string i, float ident, string s, bool b)
     {
-        screenData il = new screenData(i, ident, s);
+        screenData il = new screenData(i, ident, s, b);
 
         if (screens == null)
         {
@@ -937,9 +941,9 @@ public class worldState
         menus.Add(il);
     }
 
-    public void setGeneratorData(string s, float i, bool b, float a)
+    public void setGeneratorData(string s, float i, bool b, bool bi, float a)
     {
-        generatorData il = new generatorData(s, i, b, a);
+        generatorData il = new generatorData(s, i, b, bi, a);
 
         if(generators == null)
         {
@@ -1037,13 +1041,15 @@ public class generatorData
     public string name;
     public float id;
     public bool isOn;
+    public bool isFixed;
     public float systemId;
 
-    public generatorData(string i, float ident, bool b, float other)
+    public generatorData(string i, float ident, bool b, bool bi, float other)
     {
         name = i;
         id = ident;
         isOn = b;
+        isFixed = bi;
         systemId = other;
     }
 }
@@ -1069,12 +1075,14 @@ public class screenData
     public string name;
     public float id;
     public string currentData;
+    public bool on;
 
-    public screenData(string i, float ident, string s)
+    public screenData(string i, float ident, string s, bool b)
     {
         name = i;
         id = ident;
         currentData = s;
+        on = b;
     }
 }
 

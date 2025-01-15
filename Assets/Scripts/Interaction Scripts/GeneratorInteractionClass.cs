@@ -9,6 +9,8 @@ public class GeneratorInteractionClass : InteractionClass
 
     [SerializeField]
     bool isOn = false;
+    [SerializeField]
+    bool isFixed;
 
     [SerializeField]
     float maxPower;
@@ -73,7 +75,7 @@ public class GeneratorInteractionClass : InteractionClass
     {
         if (powerManager)
         {
-            if (isOn)
+            if (isOn && isFixed)
             {
                 powerManager.setGenerator(true);
                 powerManager.setGeneratorPower(maxPower);
@@ -85,7 +87,7 @@ public class GeneratorInteractionClass : InteractionClass
         }
 
         //Make sounds work despite whether powerManager is in or not.
-        if (isOn)
+        if (isOn && isFixed)
         {
             if (!wasOn)
             {
@@ -133,6 +135,16 @@ public class GeneratorInteractionClass : InteractionClass
     public bool getIsOn()
     {
         return isOn;
+    }
+
+    public bool getIsFixed()
+    {
+        return isFixed;
+    }
+
+    public void setIsFixed(bool b)
+    {
+        isFixed = b;
     }
 
     public SystemManager getSystemManager()

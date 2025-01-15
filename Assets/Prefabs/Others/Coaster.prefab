@@ -82,12 +82,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.07628417, y: 0.07669145, z: 0.086259365}
-  m_Center: {x: 0.0012036562, y: 0.03338763, z: -0.001973629}
+  m_Size: {x: 0.07628417, y: 0.022127867, z: 0.086259365}
+  m_Center: {x: 0.0012036562, y: 0.00610584, z: -0.001973629}
 --- !u!114 &4220104331055770146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,10 +115,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectID: 0
-  permittedInteractions: 0000000007000000
+  permittedInteractions: 000000000700000003000000
   targetPos: {fileID: 0}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: Can3(Special)
+  uniqueKeyOverride: 
   connectedObject: {fileID: 0}
 --- !u!1001 &7811563587479555103
 PrefabInstance:
