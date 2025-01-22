@@ -321,6 +321,11 @@ public class HoldInteractionClass : InteractionClass
         return anchorObject;
     }
 
+    public bool getIsHeld()
+    {
+        return isHeld;
+    }
+
     /*public EnergyObjectClass getConnectedEnergyObject()
     {
         if(connectedObj && connectedObj.GetComponent<EnergyObjectClass>())

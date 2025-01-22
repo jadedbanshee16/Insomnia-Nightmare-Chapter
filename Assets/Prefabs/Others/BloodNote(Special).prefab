@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 1530695145945314615}
   - component: {fileID: 575084803689501835}
   - component: {fileID: 1909969624005658794}
+  - component: {fileID: 2491767844449402784}
   m_Layer: 0
   m_Name: BloodNote(Special)
   m_TagString: Untagged
@@ -190,7 +191,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!114 &1530695145945314615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,12 +224,14 @@ MonoBehaviour:
   permittedInteractions: 00000000
   isHeld: 0
   connectedObj: {fileID: 0}
+  dropDirection: {x: 0, y: 0, z: 0}
   currentHolder: {fileID: 0}
   type: 3
   anchorObject: {fileID: 0}
   anchorThreshold: 0
   stretchThreshold: 0
   invertHoldAngle: 0
+  isPlayerHeld: 0
 --- !u!114 &1909969624005658794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,3 +251,16 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &2491767844449402784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7756980218897139126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9ab8566c92e3e40984fd2f9e5d4746, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchorPointPos: {x: 0, y: 0, z: 0}

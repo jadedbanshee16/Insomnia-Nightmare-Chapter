@@ -46,6 +46,8 @@ public class InteractionClass : MonoBehaviour
 
         //controller.setIndicator(true);
 
+        controller.triggerEvent();
+
         controller.playInteractionAudio(0);
 
     }

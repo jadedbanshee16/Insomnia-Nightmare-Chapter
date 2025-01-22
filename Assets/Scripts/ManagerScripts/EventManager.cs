@@ -219,7 +219,19 @@ public class EventManager : MonoBehaviour
             //Delete the saves.
             stateMan_.removeAllSaves();
 
-            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+            string ind = "Mind Chapter";
+
+            //Find the LevelManager and use it to load the specific level
+            if (GameObject.FindGameObjectWithTag("GameManager").GetComponent<LevelManager>())
+            {
+                ind = GameObject.FindGameObjectWithTag("GameManager").GetComponent<LevelManager>().retrieveLevel(ind);
+            }
+
+            if (ind.Contains("1"))
+            {
+                ind = "MainMenu";
+            }
+            UnityEngine.SceneManagement.SceneManager.LoadScene(ind);
         }
 
 
@@ -272,7 +284,7 @@ public class EventManager : MonoBehaviour
                 //First achievement is end achievement.
                 endAchievements[0].triggerAchievement();
 
-                if(!findEventPlayed(0, EventScript.eventType.optionalEvent))
+                if(!findEventPlayed(0, EventScript.eventType.optionalEvent) && UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Mind Chapter 1")
                 {
                     //Debug.Log("Played");
                     endAchievements[1].triggerAchievement();
@@ -310,6 +322,27 @@ public class EventManager : MonoBehaviour
     {
         if(t == EventScript.eventType.storyEvent)
         {
+            if (eventInd == endingToken)
+            {
+                isEnding = true;
+
+                //Adjust the level manager script.
+                LevelManager levelMan_ = GetComponent<LevelManager>();
+
+                levelMan_.updateLevelFile("Mind Chapter", 1);
+
+                GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>().adjustLoadValue(1);
+
+                AudioManager audMan_ = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AudioManager>();
+
+                for (int i = 0; i < audMan_.getAudioSourceLength(); i++)
+                {
+                    audMan_.setAudioVolume(i, 0);
+                }
+
+                eventTimer = 100;
+            }
+
             //For different dialogues based on when event was done.
             //If below the needed event, then say this event.
             //If above this event, then say the next event coming.

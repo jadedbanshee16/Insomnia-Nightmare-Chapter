@@ -49,7 +49,7 @@ public class LevelManager : MonoBehaviour
         StreamWriter wr = new StreamWriter(p, false);
 
         //Let's start with finishing the game.
-        wr.WriteLine("1:Mind Chapter:1:4");
+        wr.WriteLine("1:Mind Chapter:1:5");
 
         wr.Close();
     }

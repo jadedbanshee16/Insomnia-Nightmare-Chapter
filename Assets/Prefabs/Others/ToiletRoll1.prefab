@@ -87,7 +87,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!114 &4940304345377714626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,12 +120,14 @@ MonoBehaviour:
   permittedInteractions: 00000000
   isHeld: 0
   connectedObj: {fileID: 0}
+  dropDirection: {x: 0, y: 0, z: 0}
   currentHolder: {fileID: 0}
   type: 1
   anchorObject: {fileID: 0}
   anchorThreshold: 0
   stretchThreshold: 0
   invertHoldAngle: 0
+  isPlayerHeld: 0
 --- !u!82 &1457726904560472321
 AudioSource:
   m_ObjectHideFlags: 0
@@ -234,6 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac9ab8566c92e3e40984fd2f9e5d4746, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anchorPointPos: {x: 0, y: 0, z: 0}
 --- !u!1 &4625530651960749504
 GameObject:
   m_ObjectHideFlags: 0

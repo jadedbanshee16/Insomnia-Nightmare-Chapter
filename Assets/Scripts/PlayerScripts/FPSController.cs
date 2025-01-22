@@ -51,6 +51,7 @@ public class FPSController : MonoBehaviour
     [SerializeField]
     private HoldInteractionClass holdingItem;
     private GameObject lockingObject;
+    [SerializeField]
     private InputInteractionClass inputLockObject;
     [SerializeField]
     private GameObject torchlight;
@@ -177,11 +178,9 @@ public class FPSController : MonoBehaviour
 
             if (inputLockObject)
             {
-                if(interactionTimer == 0)
-                {
-                    interactionTimer = interactionCooldown;
-                    inputLockObject = null;
-                }
+                //This is to stop player from using an inputlockingObject once exit is pressed.
+                //This is outside of interaction timer because it led to issues of input was still be placed until the next click.
+                inputLockObject = null;
             }
         }
 

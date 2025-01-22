@@ -148,7 +148,12 @@ public class GameManager : MonoBehaviour
         //Assign id based on start up before any moves have been made. This should be solid throughout.
         for(int i = 0; i < interactables.Length; i++)
         {
-            float id = interactables[i].transform.position.sqrMagnitude + (interactables[i].transform.rotation.eulerAngles.sqrMagnitude) + (interactables[i].transform.localScale.sqrMagnitude);
+            int nameNum = 0;
+            for(int v = 0; v < interactables[i].name.Length; v++)
+            {
+                nameNum += (int)interactables[i].name[v];
+            }
+            float id = interactables[i].transform.position.sqrMagnitude + (interactables[i].transform.rotation.eulerAngles.sqrMagnitude) + (interactables[i].transform.localScale.sqrMagnitude) + nameNum;
             interactables[i].setObjectID(id);
 
             //Debug.Log(interactables[i] + ": " + interactables[i].getObjectID());
@@ -156,7 +161,13 @@ public class GameManager : MonoBehaviour
 
         for(int i = 0; i < systemManagers.Length; i++)
         {
-            float id = systemMans[i].transform.position.sqrMagnitude + (systemMans[i].transform.rotation.eulerAngles.sqrMagnitude) + (systemMans[i].transform.localScale.sqrMagnitude);
+            int nameNum = 0;
+            for (int v = 0; v < systemManagers[i].name.Length; v++)
+            {
+                nameNum += (int)(systemManagers[i].name[v] * 3.24f);
+            }
+
+            float id = (systemMans[i].transform.position.sqrMagnitude) + (systemMans[i].transform.rotation.eulerAngles.sqrMagnitude) + (systemMans[i].transform.localScale.sqrMagnitude) + nameNum;
             systemMans[i].setSystemId(id);
         }
 
