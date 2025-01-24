@@ -63,6 +63,9 @@ public class EventManager : MonoBehaviour
     [SerializeField]
     GameObject haunter;
 
+    [SerializeField]
+    GameObject[] excludedHauntitems;
+
 
     // Start is called before the first frame update
     void Start()
@@ -466,7 +469,20 @@ public class EventManager : MonoBehaviour
                (objectStateManager.getInteractionObjects(i).isInteractionType(InteractionClass.interactionType.playerHold))) &&
                !objectStateManager.getInteractionObjects(i).isHeld)
             {
-                arr.Add(objectStateManager.getInteractionObjects(i));
+                bool isExcluded = false;
+                //Check to see if item is not in excluded list so it doesn't throw important items out of the world.
+                for(int v = 0; v < excludedHauntitems.Length; v++)
+                {
+                    if(string.Equals(objectStateManager.getInteractionObjects(i).gameObject.name, excludedHauntitems[v].name))
+                    {
+                        isExcluded = true;
+                    }
+                }
+
+                if (!isExcluded)
+                {
+                    arr.Add(objectStateManager.getInteractionObjects(i));
+                }
             }
         }
 
@@ -558,6 +574,16 @@ public class EventManager : MonoBehaviour
     public void setEventToken(int b)
     {
         eventToken = b;
+    }
+
+    public int getExcludedCount()
+    {
+        return excludedHauntitems.Length;
+    }
+
+    public GameObject getExcludedItem(int i)
+    {
+        return excludedHauntitems[i];
     }
 }
 

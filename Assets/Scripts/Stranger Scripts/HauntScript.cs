@@ -23,6 +23,7 @@ public class HauntScript : MonoBehaviour
 
     private AudioManager audMan;
     private AudioSource audSource;
+    private EventManager eventMan;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +31,7 @@ public class HauntScript : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         controller = GetComponent<InteractionControlClass>();
         audMan = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AudioManager>();
+        eventMan = GameObject.FindGameObjectWithTag("GameManager").GetComponent<EventManager>();
         audSource = GetComponent<AudioSource>();
 
         //Get a random position on navmesh.
@@ -41,6 +43,11 @@ public class HauntScript : MonoBehaviour
         interactions = new List<HoldInteractionClass>();
 
         controller.playInbuiltAudio(0, true);
+
+        if (!audMan)
+        {
+            Debug.LogWarning("This haunter could not find an eventManager. It will not complete a throw event.");
+        }
     }
 
     // Update is called once per frame
@@ -132,9 +139,25 @@ public class HauntScript : MonoBehaviour
     //Make triggers to add hild interactions to this list.
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<HoldInteractionClass>() && !other.GetComponent<HoldInteractionClass>().getCurrentHolder())
+        if (eventMan)
         {
-            interactions.Add(other.GetComponent<HoldInteractionClass>());
+            if (other.GetComponent<HoldInteractionClass>() && !other.GetComponent<HoldInteractionClass>().getCurrentHolder())
+            {
+                bool isExcluded = false;
+                //Check to see if item is not in excluded list so it doesn't throw important items out of the world.
+                for (int v = 0; v < eventMan.getExcludedCount(); v++)
+                {
+                    if (string.Equals(other.gameObject.name, eventMan.getExcludedItem(v)))
+                    {
+                        isExcluded = true;
+                    }
+                }
+
+                if (!isExcluded)
+                {
+                    interactions.Add(other.GetComponent<HoldInteractionClass>());
+                }
+            }
         }
     }
 
