@@ -25,6 +25,15 @@ public class HauntScript : MonoBehaviour
     private AudioSource audSource;
     private EventManager eventMan;
 
+    [SerializeField]
+    private AudioSource extraAud;
+    [SerializeField]
+    private AudioClip[] audios;
+
+    private float audioTimer;
+
+    private bool playerOnce = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -115,6 +124,18 @@ public class HauntScript : MonoBehaviour
             stepTimer = 1;
             audSource.PlayOneShot(audMan.getAudio(1, 0, Random.Range(0, audMan.getCurrentClipLength(1, 0))));
         }
+
+        if(audioTimer > 0)
+        {
+            audioTimer -= Time.deltaTime;
+        } else
+        {
+            audioTimer = Random.Range(5, 10);
+
+            int rand = Random.Range(0, audios.Length);
+
+            extraAud.PlayOneShot(audios[rand]);
+        }
     }
 
     Vector3 getRandomPosition()
@@ -133,6 +154,21 @@ public class HauntScript : MonoBehaviour
     {
         //Get event manager and set to kill.
         GameObject.FindGameObjectWithTag("GameManager").GetComponent<EventManager>().endByKill();
+    }
+
+    public void playSound(bool b)
+    {
+        if (playerOnce)
+        {
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<InteractionControlClass>().playInbuiltAudio(0, b);
+            playerOnce = false;
+        }
+
+        if (!b)
+        {
+            playerOnce = true;
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<InteractionControlClass>().playInbuiltAudio(0, b);
+        }
     }
 
 

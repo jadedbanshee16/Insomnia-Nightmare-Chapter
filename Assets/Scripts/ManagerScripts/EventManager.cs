@@ -40,6 +40,8 @@ public class EventManager : MonoBehaviour
     float endingDist = 14;
     [SerializeField]
     int endingToken;
+    [SerializeField]
+    int deathToken;
 
 
     [SerializeField]
@@ -66,6 +68,9 @@ public class EventManager : MonoBehaviour
     [SerializeField]
     GameObject[] excludedHauntitems;
 
+    private float hauntAudioTimer = 1;
+    private bool isEndingHaunt;
+
 
     // Start is called before the first frame update
     void Start()
@@ -80,6 +85,8 @@ public class EventManager : MonoBehaviour
         eventChange = true;
 
         endAchievements = GetComponentsInChildren<AchievementScript>();
+
+        isEndingHaunt = false;
 
         //Set up starting time [Obsolete]
         /*if (isStarting)
@@ -187,12 +194,12 @@ public class EventManager : MonoBehaviour
         //This will created unique points for the dialogue.
 
         //Check if player is far enough away from gameManager (Ending time.)
-        if (Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, this.transform.position) > 10)
+        if (Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, this.transform.position) > endingDist - 5)
         {
             //Start affecting the load screen.
             promptManager.setToMenuGroup("LoadingBlack");
             //Set the loading black image to an alph depending on distance to end of distance.
-            float alpha = Mathf.InverseLerp(10, 15, Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, this.transform.position));
+            float alpha = Mathf.InverseLerp(endingDist - 5, endingDist, Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, this.transform.position));
 
             GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>().adjustLoadValue(alpha);
 
@@ -260,18 +267,21 @@ public class EventManager : MonoBehaviour
             if (spawnTimer < spawnTime)
             {
                 spawnTimer += Time.deltaTime;
+                //Debug.Log("Common?");
+                haunter.GetComponent<HauntScript>().playSound(true);
             }
             else
             {
                 if (inHideEvent)
                 {
                     haunter.SetActive(true);
+
                 }
             }
 
             if (inHideEvent && eventPauseTimer <= 0)
             {
-                eventPauseTimer = 1;
+                eventPauseTimer = 0;
                 inHideEvent = false;
                 endHideEvent();
             }
@@ -287,16 +297,41 @@ public class EventManager : MonoBehaviour
                 //First achievement is end achievement.
                 endAchievements[0].triggerAchievement();
 
-                if(!findEventPlayed(0, EventScript.eventType.optionalEvent) && UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Mind Chapter 1")
+                //Run if reading the note in the first level.
+                if(!findEventPlayed(0, EventScript.eventType.optionalEvent, true) && UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Mind Chapter 1")
                 {
                     //Debug.Log("Played");
                     endAchievements[1].triggerAchievement();
                 }
 
+                //Run if you haven't misplaced an item in the second level.
+                if (!findEventPlayed(4, EventScript.eventType.optionalEvent, true) && UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Mind Chapter 2")
+                {
+                    //Debug.Log("Played");
+                    endAchievements[3].triggerAchievement();
+                }
+
                 //Trigger the ending change. The more you finish, the more you see in the world.
-                endAchievements[3].triggerAchievement();
+                //This should be obsolete
+                //endAchievements[3].triggerAchievement();
 
                 isEventPlayed = true;
+            }
+        }
+
+        if (isEndingHaunt)
+        {
+            if (hauntAudioTimer > 0)
+            {
+                hauntAudioTimer -= Time.deltaTime;
+                GameObject.FindGameObjectWithTag("GameManager").GetComponent<InteractionControlClass>().adjustVolume(0.4f * (hauntAudioTimer / 1));
+            }
+            else
+            {
+                haunter.GetComponent<HauntScript>().playSound(false);
+                isEndingHaunt = false;
+                GameObject.FindGameObjectWithTag("GameManager").GetComponent<InteractionControlClass>().adjustVolume(0.4f);
+                hauntAudioTimer = 1;
             }
         }
     }
@@ -305,7 +340,7 @@ public class EventManager : MonoBehaviour
     public void endByKill()
     {
         //promptManager.updateText("MessagePrompt", eventMessages[0].getMessage());
-        eventToken = endingToken;
+        eventToken = deathToken;
         //Change story override.
         storyEvents[endingToken].setMessageOverride(1);
         eventChange = true;
@@ -374,6 +409,8 @@ public class EventManager : MonoBehaviour
                 promptManager.updateText("MessagePrompt", eventMessages[eventInd].getMessage());
             }
 
+            //Debug.Log("Ran message: " + eventInd);
+
             //Ensure all forced interaction based events (that is, first interactions or interactions that only work when not making an interaction.
             bool changed = false;
 
@@ -435,19 +472,36 @@ public class EventManager : MonoBehaviour
     }
 
     //Search and return an event script.
-    public bool findEventPlayed(int num, EventScript.eventType t)
+    //Variables:
+    // num - the number of the event, to find the event script.
+    // t - to ensure we're looking for the correct type of event, so it doesn't find story achievements when looking for a number in the optionals.
+    // truthState - if multiple eventScripts with the same number and time, determine if they all have to be played or if only one of them. True means only one of them needs to be played.
+    //              This is to allow mutiple events scripts to cater to the same event, for instance if you press one switch it should trigger the event.
+    public bool findEventPlayed(int num, EventScript.eventType t, bool truthState)
     {
         EventScript[] events = GameObject.FindObjectsByType<EventScript>(FindObjectsSortMode.None);
+
+        bool isPlayed = false;
 
         for(int i = 0; i < events.Length; i++)
         {
             if(events[i].getEventNum() == num && events[i].getType() == t)
             {
-                return events[i].getIsPlayed();
+                if (events[i].getIsPlayed())
+                {
+                    isPlayed = events[i].getIsPlayed();
+                } else
+                {
+                    //This is to make false if not all events ran. This should only occur if truthState is false, meaning you need all events to occur to count event as played.
+                    if (!truthState)
+                    {
+                        isPlayed = false;
+                    }
+                }
             }
         }
 
-        return false;
+        return isPlayed;
     }
 
     public void setEventMultiplier(float ran)
@@ -473,7 +527,7 @@ public class EventManager : MonoBehaviour
                 //Check to see if item is not in excluded list so it doesn't throw important items out of the world.
                 for(int v = 0; v < excludedHauntitems.Length; v++)
                 {
-                    if(string.Equals(objectStateManager.getInteractionObjects(i).gameObject.name, excludedHauntitems[v].name))
+                    if(excludedHauntitems[v].GetComponent<HoldInteractionClass>() && string.Equals(objectStateManager.getInteractionObjects(i).gameObject.name, excludedHauntitems[v].name))
                     {
                         isExcluded = true;
                     }
@@ -511,7 +565,22 @@ public class EventManager : MonoBehaviour
 
         for (int i = 0; i < objectStateManager.getEnergyAmount(); i++)
         {
-            if(!string.Equals(objectStateManager.getInteractionEnergy(i).gameObject.name, "DrawerDrsser1.001"))
+            /*if(!string.Equals(objectStateManager.getInteractionEnergy(i).gameObject.name, "DrawerDrsser1.001"))
+            {
+                arr.Add(objectStateManager.getInteractionEnergy(i));
+            }*/
+
+            bool isExcluded = false;
+            //Check to see if item is not in excluded list so it doesn't throw important items out of the world.
+            for (int v = 0; v < excludedHauntitems.Length; v++)
+            {
+                if (excludedHauntitems[v].GetComponent<EnergyInteractionClass>() && string.Equals(objectStateManager.getInteractionEnergy(i).gameObject.name, excludedHauntitems[v].name))
+                {
+                    isExcluded = true;
+                }
+            }
+
+            if (!isExcluded)
             {
                 arr.Add(objectStateManager.getInteractionEnergy(i));
             }
@@ -542,7 +611,9 @@ public class EventManager : MonoBehaviour
         promptManager.updateText("MessagePrompt", eventMessages[2].getMessage());
 
         haunter.SetActive(false);
-        spawnTimer = spawnTime;
+        //haunter.GetComponent<HauntScript>().playSound(false);
+        isEndingHaunt = true;
+        spawnTimer = 0;
         //this.GetComponent<InteractionControlClass>().playInbuiltAudio(0, false);
     }
 

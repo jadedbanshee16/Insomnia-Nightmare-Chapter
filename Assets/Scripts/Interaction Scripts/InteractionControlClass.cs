@@ -254,12 +254,26 @@ public class InteractionControlClass : MonoBehaviour
         {
             if (isOn)
             {
+                //Debug.Log("Double winn");
                 aud_.PlayDelayed(delay);
             } else
             {
                 aud_.Stop();
             }
             
+        }
+    }
+
+    public void adjustVolume(float newVol)
+    {
+        if (!aud_)
+        {
+            updateThisInteraction();
+        }
+
+        if (aud_)
+        {
+            aud_.volume = newVol;
         }
     }
 
@@ -286,6 +300,20 @@ public class InteractionControlClass : MonoBehaviour
         if (events)
         {
             events.TriggerEvent();
+        }
+    }
+
+    public void triggerEvent(bool b)
+    {
+        if (!events)
+        {
+            updateThisInteraction();
+        }
+
+        if (events)
+        {
+            //Debug.Log("Works 2: " + b);
+            events.TriggerEvent(b);
         }
     }
 

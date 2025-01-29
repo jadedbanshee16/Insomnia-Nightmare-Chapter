@@ -101,7 +101,7 @@ public class PositionInteractionClass : InteractionClass
         testKey(obj.gameObject.name);
 
         //Test for unique first, if unique and string is not empty, then check if name is correct.
-        if (hasPermission(interactionType.unique) && !string.Equals(uniqueObjectOverride, ""))
+        if ((hasPermission(interactionType.unique) || hasPermission(interactionType.activeObjects)) && !string.Equals(uniqueObjectOverride, ""))
         {
             //If unique, then check name.
             if (obj.gameObject.name.Contains(uniqueObjectOverride))
@@ -123,6 +123,13 @@ public class PositionInteractionClass : InteractionClass
         if(auto && obj.getCurrentHolder() != null)
         {
             canHold = false;
+        }
+
+        //This is so an event can be run where the item can be held or not.
+        if (controller)
+        {
+            //Debug.Log("Works: " + canHold);
+            controller.triggerEvent(canHold);
         }
 
         return canHold;
@@ -170,7 +177,8 @@ public class PositionInteractionClass : InteractionClass
     private void OnTriggerStay(Collider other)
     {
         //Only see if trigger if this object is an autoposition.
-        if (hasPermission(interactionType.autoPosition) && other.GetComponent<HoldInteractionClass>() && canHoldItem(other.GetComponent<HoldInteractionClass>(), true))
+        //Made sure to check if already holding an item so it can skip the 'canholditem' function on every trigger.
+        if (hasPermission(interactionType.autoPosition) && other.GetComponent<HoldInteractionClass>() && !currentHeldItem && canHoldItem(other.GetComponent<HoldInteractionClass>(), true))
         {
             //If met, the interact with object.
             Interact(other.gameObject);
@@ -182,6 +190,7 @@ public class PositionInteractionClass : InteractionClass
                   !GetComponentInChildren<AchievementScript>())
         {
             //If true, then doesn't need to set any objects. Just set the connected object.
+            //This is to make a lock open on an object.
             if (connectedObject.GetComponent<LockObjectClass>())
             {
                 connectedObject.GetComponent<EnergyObjectClass>().setIsOn(true);

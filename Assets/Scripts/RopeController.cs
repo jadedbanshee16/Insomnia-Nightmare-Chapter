@@ -27,6 +27,9 @@ public class RopeController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //So that plug will not go flying in the first place.
+        finalDestination.GetComponent<Rigidbody>().isKinematic = true;
+
         //Set the first point and list size.
         Rigidbody lastPoint = firstAnchor;
         segmentPositions = new Transform[segmentAmount + 2];
@@ -60,6 +63,9 @@ public class RopeController : MonoBehaviour
         //Now, generate a line between the first anchor to final destination.
         line = GetComponent<LineRenderer>();
         line.positionCount = segmentPositions.Length;
+
+        //Wait a certain amount of time before releasing the plug head so that the cable has time to settle.
+        StartCoroutine(WaitAndRelease(0.5f));
     }
 
     // Update is called once per frame
@@ -93,6 +99,19 @@ public class RopeController : MonoBehaviour
         }
 
         return false;
+    }
+
+    private IEnumerator WaitAndRelease(float waitTime)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(waitTime);
+            if(finalDestination.GetComponent<HoldInteractionClass>() && !finalDestination.GetComponent<HoldInteractionClass>().getCurrentHolder())
+            {
+                finalDestination.GetComponent<Rigidbody>().isKinematic = false;
+            }
+            StopCoroutine(WaitAndRelease(waitTime));
+        }
     }
 
     //Function to make all balls have no colliders while held.
