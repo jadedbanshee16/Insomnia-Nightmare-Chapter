@@ -10,6 +10,9 @@ public class ObjectTriggerScript : MonoBehaviour
     [SerializeField]
     float throwStrength;
 
+    [SerializeField]
+    Transform teleportPosition;
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -17,7 +20,13 @@ public class ObjectTriggerScript : MonoBehaviour
         {
             if(other.GetComponent<Rigidbody>() && !other.GetComponent<Rigidbody>().isKinematic)
             {
-                other.GetComponent<Rigidbody>().velocity = throwDirection * throwStrength;
+                if(throwStrength > 0)
+                {
+                    other.GetComponent<Rigidbody>().velocity = throwDirection * throwStrength;
+                } else
+                {
+                    other.gameObject.transform.position = teleportPosition.position;
+                }
             }
         }
     }

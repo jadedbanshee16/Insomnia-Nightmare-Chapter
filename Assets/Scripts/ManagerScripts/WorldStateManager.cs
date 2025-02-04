@@ -459,6 +459,58 @@ public class WorldStateManager : MonoBehaviour
             }
         }
 
+        //Do all generators.
+        for (int i = 0; i < _state.generators.Count; i++)
+        {
+            for (int v = 0; v < interactionablesGenerator.Count; v++)
+            {
+                //See if the same id.
+                if (interactionablesGenerator[v].getObjectID() == _state.generators[i].id)
+                {
+                    //Set the is on.
+                    interactionablesGenerator[v].setIsFixed(_state.generators[i].isFixed);
+                    interactionablesGenerator[v].Interact(_state.generators[i].isOn);
+
+                    SystemManager connObj = null;
+
+                    //Now set the manager.
+                    if (_state.generators[i].systemId >= 0)
+                    {
+                        int count = 0;
+                        //Go through every object in list and find the matching id.
+                        while (count < managers.Length && !connObj)
+                        {
+                            if (managers[count].getSystemId() == _state.generators[i].systemId)
+                            {
+                                connObj = managers[count].GetComponent<SystemManager>();
+                            }
+
+                            count++;
+                        }
+
+                        //If has a connected object at end, then set it to the generator.
+                        interactionablesGenerator[v].setManager(connObj);
+                    }
+                    else
+                    {
+                        interactionablesGenerator[v].setManager(null);
+                    }
+                }
+            }
+        }
+
+        //Do all grid switches.
+        for (int i = 0; i < _state.gridsSwitches.Count; i++)
+        {
+            for (int v = 0; v < interactionablesGrid.Count; v++)
+            {
+                if (interactionablesGrid[v].getObjectID() == _state.gridsSwitches[i].id)
+                {
+                    interactionablesGrid[v].Interact(_state.gridsSwitches[i].isOn);
+                }
+            }
+        }
+
         //Do all energy interaction objects.
         for (int i = 0; i < _state.energy.Count; i++)
         {
@@ -561,57 +613,6 @@ public class WorldStateManager : MonoBehaviour
                 {
                     //Debug.Log("Run?" + _state.events[i].isUsed);
                     eventsScripts[v].setIsPlayed(_state.events[i].isUsed);
-                }
-            }
-        }
-
-        //Do all generators.
-        for(int i = 0; i < _state.generators.Count; i++)
-        {
-            for(int v = 0; v < interactionablesGenerator.Count; v++)
-            {
-                //See if the same id.
-                if(interactionablesGenerator[v].getObjectID() == _state.generators[i].id)
-                {
-                    //Set the is on.
-                    interactionablesGenerator[v].setIsFixed(_state.generators[i].isFixed);
-                    interactionablesGenerator[v].Interact(_state.generators[i].isOn);
-
-                    SystemManager connObj = null;
-
-                    //Now set the manager.
-                    if (_state.generators[i].systemId >= 0)
-                    {
-                        int count = 0;
-                        //Go through every object in list and find the matching id.
-                        while (count < managers.Length && !connObj)
-                        {
-                            if (managers[count].getSystemId() == _state.generators[i].systemId)
-                            {
-                                connObj = managers[count].GetComponent<SystemManager>();
-                            }
-
-                            count++;
-                        }
-
-                        //If has a connected object at end, then set it to the generator.
-                        interactionablesGenerator[v].setManager(connObj);
-                    } else
-                    {
-                        interactionablesGenerator[v].setManager(null);
-                    }
-                }
-            }
-        }
-
-        //Do all grid switches.
-        for(int i = 0; i < _state.gridsSwitches.Count; i++)
-        {
-            for(int v = 0; v < interactionablesGrid.Count; v++)
-            {
-                if(interactionablesGrid[v].getObjectID() == _state.gridsSwitches[i].id)
-                {
-                    interactionablesGrid[v].Interact(_state.gridsSwitches[i].isOn);
                 }
             }
         }

@@ -159,12 +159,17 @@ public class GameManager : MonoBehaviour
             //Debug.Log(interactables[i] + ": " + interactables[i].getObjectID());
         }
 
-        for(int i = 0; i < systemManagers.Length; i++)
+        for(int i = 0; i < systemMans.Length; i++)
         {
             int nameNum = 0;
-            for (int v = 0; v < systemManagers[i].name.Length; v++)
+            for (int v = 0; v < systemMans[i].gameObject.name.Length; v++)
             {
-                nameNum += (int)(systemManagers[i].name[v] * 3.24f);
+                nameNum += (systemMans[i].gameObject.name[v]);
+
+                /*if(string.Equals(systemManagers[i].gameObject.name, "EnergySystem"))
+                {
+                    Debug.Log("nameNum: " + systemManagers[i].gameObject.name[v] + " = " + (int)systemManagers[i].gameObject.name[v] + " += " + nameNum);
+                }*/
             }
 
             float id = (systemMans[i].transform.position.sqrMagnitude) + (systemMans[i].transform.rotation.eulerAngles.sqrMagnitude) + (systemMans[i].transform.localScale.sqrMagnitude) + nameNum;

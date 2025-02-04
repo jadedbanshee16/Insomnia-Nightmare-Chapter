@@ -143,6 +143,7 @@ public class AchievementManager : MonoBehaviour
         wr.WriteLine("3:Good listener:Follow the rules:0:0:false");
         wr.WriteLine("4:A taste for death:Die 5 times:0:5:false");
         wr.WriteLine("5:Cleaner:Clean up after yourself:0:10:false");
+        wr.WriteLine("6:Cluey:Quickly understand the game:0:0:false");
 
         wr.Close();
     }

@@ -194,6 +194,9 @@ public class FPSController : MonoBehaviour
                 if (menuLocked)
                 {
                     setMenu(false, false);
+                    //In case options had been changed, save current options.
+                    //This is to ensure that menu changes will be saved if you use a button to click out of the menu, rather than selecting an apply button.
+                    GameObject.FindGameObjectWithTag("GameManager").GetComponent<OptionsManager>().saveControls(false);
                 }
                 else
                 {
@@ -491,9 +494,13 @@ public class FPSController : MonoBehaviour
                 //Make the interact happen.
                 if (holdingItem && hitPoint.collider.GetComponent<PositionInteractionClass>().canHoldItem(holdingItem, false))
                 {
-                    //Make sure you cannot interact with sensor objects.
-                    hitPoint.collider.GetComponent<InteractionClass>().Interact(holdingItem.gameObject);
-                    removeHeldItem();
+                    //Make sure this is an interaction type - player so that players CAN interacte with this.
+                    if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.player))
+                    {
+                        //Make sure you cannot interact with sensor objects.
+                        hitPoint.collider.GetComponent<InteractionClass>().Interact(holdingItem.gameObject);
+                        removeHeldItem();
+                    }
 
                     //Potential to still be interacted with in some way, even if this item cannot be held.
                 }

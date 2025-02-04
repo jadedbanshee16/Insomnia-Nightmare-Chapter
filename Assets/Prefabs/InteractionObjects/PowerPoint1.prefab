@@ -96,6 +96,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: 0
   permittedInteractions: 00000000
+  seperateGrid: {fileID: 0}
+  seperateSlot: {fileID: 0}
   isOn: 0
   obj: {fileID: 4689975677026311114}
 --- !u!65 &173203023991723202
@@ -332,10 +334,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectID: 0
-  permittedInteractions: 02000000
+  permittedInteractions: 0200000000000000
   targetPos: {fileID: 2720469415848719792}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: 
+  uniqueKeyOverride: 
   connectedObject: {fileID: 4815225133847792403}
 --- !u!82 &1518620654162377359
 AudioSource:
@@ -623,10 +626,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectID: 0
-  permittedInteractions: 02000000
+  permittedInteractions: 0200000000000000
   targetPos: {fileID: 8695200774068294158}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: 
+  uniqueKeyOverride: 
   connectedObject: {fileID: 5684440000317096464}
 --- !u!82 &840172305497181813
 AudioSource:
@@ -789,6 +793,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: 0
   permittedInteractions: 00000000
+  seperateGrid: {fileID: 0}
+  seperateSlot: {fileID: 0}
   isOn: 0
   obj: {fileID: 3377891645285005002}
 --- !u!65 &8283238009269168009

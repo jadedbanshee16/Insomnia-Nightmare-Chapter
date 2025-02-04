@@ -23,6 +23,16 @@ public class HauntScript : MonoBehaviour
 
     private AudioManager audMan;
     private AudioSource audSource;
+    private EventManager eventMan;
+
+    [SerializeField]
+    private AudioSource extraAud;
+    [SerializeField]
+    private AudioClip[] audios;
+
+    private float audioTimer;
+
+    private bool playerOnce = true;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +40,7 @@ public class HauntScript : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         controller = GetComponent<InteractionControlClass>();
         audMan = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AudioManager>();
+        eventMan = GameObject.FindGameObjectWithTag("GameManager").GetComponent<EventManager>();
         audSource = GetComponent<AudioSource>();
 
         //Get a random position on navmesh.
@@ -41,6 +52,11 @@ public class HauntScript : MonoBehaviour
         interactions = new List<HoldInteractionClass>();
 
         controller.playInbuiltAudio(0, true);
+
+        if (!audMan)
+        {
+            Debug.LogWarning("This haunter could not find an eventManager. It will not complete a throw event.");
+        }
     }
 
     // Update is called once per frame
@@ -108,6 +124,18 @@ public class HauntScript : MonoBehaviour
             stepTimer = 1;
             audSource.PlayOneShot(audMan.getAudio(1, 0, Random.Range(0, audMan.getCurrentClipLength(1, 0))));
         }
+
+        if(audioTimer > 0)
+        {
+            audioTimer -= Time.deltaTime;
+        } else
+        {
+            audioTimer = Random.Range(5, 10);
+
+            int rand = Random.Range(0, audios.Length);
+
+            extraAud.PlayOneShot(audios[rand]);
+        }
     }
 
     Vector3 getRandomPosition()
@@ -128,13 +156,44 @@ public class HauntScript : MonoBehaviour
         GameObject.FindGameObjectWithTag("GameManager").GetComponent<EventManager>().endByKill();
     }
 
+    public void playSound(bool b)
+    {
+        if (playerOnce)
+        {
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<InteractionControlClass>().playInbuiltAudio(0, b);
+            playerOnce = false;
+        }
+
+        if (!b)
+        {
+            playerOnce = true;
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<InteractionControlClass>().playInbuiltAudio(0, b);
+        }
+    }
+
 
     //Make triggers to add hild interactions to this list.
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<HoldInteractionClass>() && !other.GetComponent<HoldInteractionClass>().getCurrentHolder())
+        if (eventMan)
         {
-            interactions.Add(other.GetComponent<HoldInteractionClass>());
+            if (other.GetComponent<HoldInteractionClass>() && !other.GetComponent<HoldInteractionClass>().getCurrentHolder())
+            {
+                bool isExcluded = false;
+                //Check to see if item is not in excluded list so it doesn't throw important items out of the world.
+                for (int v = 0; v < eventMan.getExcludedCount(); v++)
+                {
+                    if (string.Equals(other.gameObject.name, eventMan.getExcludedItem(v)))
+                    {
+                        isExcluded = true;
+                    }
+                }
+
+                if (!isExcluded)
+                {
+                    interactions.Add(other.GetComponent<HoldInteractionClass>());
+                }
+            }
         }
     }
 
