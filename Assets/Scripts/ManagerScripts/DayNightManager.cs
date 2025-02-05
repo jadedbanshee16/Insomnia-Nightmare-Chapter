@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class DayNightManager : MonoBehaviour
 {
     public GameObject sun;
-    private PostProcessVolume pocVol;
+    private Volume pocVol;
     private GameManager manager;
-    private ColorGrading colGrad = null;
+    private ColorAdjustments colGrad = null;
     private LightManager[] lights;
     
     [SerializeField]
@@ -44,8 +45,9 @@ public class DayNightManager : MonoBehaviour
             sunLights[i] = sun.transform.GetChild(0).GetChild(i).GetComponent<Light>();
         }*/
 
-        pocVol = manager.gameObject.GetComponentInChildren<PostProcessVolume>();
-        pocVol.profile.TryGetSettings(out colGrad);
+        pocVol = manager.gameObject.GetComponentInChildren<Volume>();
+        VolumeProfile prof = pocVol.sharedProfile;
+        prof.TryGet<ColorAdjustments>(out colGrad);
         lights = GameObject.FindObjectsByType<LightManager>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
         isDay = manager.getDay();
