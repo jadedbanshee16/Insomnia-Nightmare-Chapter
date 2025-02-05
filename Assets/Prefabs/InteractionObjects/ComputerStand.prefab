@@ -479,8 +479,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c75ab58e6df2c4d4595b791892c4313e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectId: 0
   energyUsage: 20
   isOn: 0
+  amountInteractionsNeeded: 1
+  amountOn: 0
   isPowered: 0
   tex_: {fileID: 8870568309533979022}
   inputSize: 10
@@ -623,7 +626,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a72fbc1d350a7e4883458ee8f8376ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 00000000
+  currentCam: {fileID: 0}
+  useMouse: 0
+  adjustedObject: {fileID: 0}
+  adjustedRotationOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &297419766374309787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -636,9 +644,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eeeafba79d132a4db323a56c0e3424b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   permittedInteractions: 
   input: 
-  screen: {fileID: 3118759462975382400}
+  computer: {fileID: 0}
+  keyboardInput: 0
 --- !u!82 &8830889724257853680
 AudioSource:
   m_ObjectHideFlags: 0

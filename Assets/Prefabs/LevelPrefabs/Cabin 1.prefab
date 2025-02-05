@@ -128,6 +128,7 @@ MonoBehaviour:
   targetPos: {fileID: 7846553862607509013}
   currentHeldItem: {fileID: 0}
   uniqueObjectOverride: BlueKey
+  uniqueKeyOverride: 
   connectedObject: {fileID: 0}
 --- !u!65 &289788667282151252
 BoxCollider:
@@ -259,6 +260,7 @@ MonoBehaviour:
   isPowered: 1
   screenObject: {fileID: 0}
   inputObject: {fileID: 1515162856173202471}
+  computerManager_: {fileID: 0}
   computerInputType: 0
   messages:
   - 'additn granted: Message(1)'
@@ -266,10 +268,9 @@ MonoBehaviour:
   codes:
   - '%BUTTON: message1'
   - '%BUTTON: back'
+  currentString: 
   inputSize: 5
-  affectedObj:
-  - {fileID: 6278920729855881952}
-  - {fileID: 6278920729855881952}
+  objectOffset: 0
   persistantScreenUnlock: 0
 --- !u!1 &854059161651628330
 GameObject:
@@ -497,6 +498,7 @@ MonoBehaviour:
   isPowered: 1
   screenObject: {fileID: 1015045241920923414}
   inputObject: {fileID: 322946011962144253}
+  computerManager_: {fileID: 0}
   computerInputType: 0
   messages:
   - 'access granted: MessageMenu'
@@ -504,9 +506,9 @@ MonoBehaviour:
   - I hav3 managed t0 leave a message for 7ou.
   codes:
   - '%BUTTON: back'
+  currentString: 
   inputSize: 5
-  affectedObj:
-  - {fileID: 6278920729855881952}
+  objectOffset: 0
   persistantScreenUnlock: 0
 --- !u!1 &1820110690517975944
 GameObject:
@@ -1325,10 +1327,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tex_: {fileID: 2325657204992981555}
-  thescreen: {fileID: 4521653875710453012}
-  offText: 
-  screenMatOn: {fileID: 2100000, guid: 266114183705b05469a8970b01a85b99, type: 2}
-  screenMatOff: {fileID: 2100000, guid: c22fd55d7a9c02841a626faade05de5f, type: 2}
   thisScreen: 
 --- !u!1 &4121447231073989760
 GameObject:
@@ -2172,8 +2170,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   managers:
   - {fileID: 5576927903202445950}
+  systemID: 0
   generatorPower: 500
   currentPower: 500
+  hasEssential: 0
 --- !u!1 &5472227899877941365
 GameObject:
   m_ObjectHideFlags: 0
@@ -2756,10 +2756,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tex_: {fileID: 2050377666974469384}
-  thescreen: {fileID: 4521653875710453012}
-  offText: 
-  screenMatOn: {fileID: 2100000, guid: 266114183705b05469a8970b01a85b99, type: 2}
-  screenMatOff: {fileID: 2100000, guid: c22fd55d7a9c02841a626faade05de5f, type: 2}
   thisScreen: 
 --- !u!1 &5920843699978332185
 GameObject:
@@ -3234,6 +3230,7 @@ MonoBehaviour:
   isPowered: 1
   screenObject: {fileID: 5525702191740399392}
   inputObject: {fileID: 3751772164281179914}
+  computerManager_: {fileID: 0}
   computerInputType: 1
   messages:
   - 'access granted: MessageMenu'
@@ -3241,9 +3238,9 @@ MonoBehaviour:
   - Password...
   codes:
   - escape
+  currentString: 
   inputSize: 6
-  affectedObj:
-  - {fileID: 6278920729855881952}
+  objectOffset: 0
   persistantScreenUnlock: 0
 --- !u!1 &7145182102153303904
 GameObject:
@@ -3481,8 +3478,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   managers:
   - {fileID: 4445475716188887697}
+  systemID: 0
   generatorPower: 500
   currentPower: 500
+  hasEssential: 0
 --- !u!1001 &416897015949599592
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5813,6 +5812,7 @@ MonoBehaviour:
   eventDependency: 4
   overrideDialogue: 1
   overrideEvent: 1
+  eventrigger: 0
 --- !u!4 &4115092373799354963 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2200831135630226224, guid: 1fd6d5434247e4b409815323fa2270c5,
@@ -6132,6 +6132,8 @@ MonoBehaviour:
   connectedLockPosition: {fileID: 6221611899459884315}
   pairedLock: {fileID: 0}
   initialLockPosition: 1
+  requiresPower: 0
+  notInitiallyLocked: 0
   lockAgainst: 6
 --- !u!4 &4266896307084590602 stripped
 Transform:
