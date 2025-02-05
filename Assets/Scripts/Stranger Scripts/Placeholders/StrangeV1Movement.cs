@@ -11,14 +11,25 @@ public class StrangeV1Movement : MonoBehaviour
         running
     };
 
+    [SerializeField]
+    GameObject shadowPrefab;
+    [SerializeField]
+    float meshRefreshRate;
+    [SerializeField]
+    public Transform position;
+
     Vector3 currentTarget;
 
     strangerState state;
 
     NavMeshAgent agent_;
     Animator anim_;
+    SkinnedMeshRenderer mesh;
 
     float timer;
+
+    private bool isRunning;
+    private bool changedToRunning;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +41,8 @@ public class StrangeV1Movement : MonoBehaviour
         agent_.SetDestination(currentTarget);
 
         state = strangerState.running;
-        anim_.SetBool("Moving", true);
+        isRunning = true;
+        anim_.SetBool("Moving", isRunning);
 
         timer = Random.Range(1, 10);
     }
@@ -46,7 +58,9 @@ public class StrangeV1Movement : MonoBehaviour
                 agent_.isStopped = true;
 
                 state = strangerState.idle;
-                anim_.SetBool("Moving", false);
+                isRunning = false;
+                changedToRunning = true;
+                anim_.SetBool("Moving", isRunning);
             }
         } else if (state == strangerState.idle)
         {
@@ -59,8 +73,15 @@ public class StrangeV1Movement : MonoBehaviour
                 agent_.SetDestination(currentTarget);
                 agent_.isStopped = false;
                 state = strangerState.running;
-                anim_.SetBool("Moving", true);
+                isRunning = true;
+                anim_.SetBool("Moving", isRunning);
             }
+        }
+
+        if (isRunning && changedToRunning)
+        {
+            changedToRunning = false;
+            StartCoroutine(ActivateTrail());
         }
     }
 
@@ -74,5 +95,30 @@ public class StrangeV1Movement : MonoBehaviour
 
         NavMesh.SamplePosition(returnPosition, out hit, 8, 1);
         return hit.position;
+    }
+
+    IEnumerator ActivateTrail()
+    {
+
+        while (isRunning)
+        {
+            if (!mesh)
+            {
+                mesh = GetComponentInChildren<SkinnedMeshRenderer>();
+            }
+
+            GameObject obj = Instantiate(shadowPrefab, position.position, position.rotation);
+
+            //MeshRenderer mr = obj.GetComponent<MeshRenderer>();
+            //MeshFilter mf = obj.GetComponent<MeshFilter>();
+
+            //Mesh m = new Mesh();
+
+            // mesh.BakeMesh(m);
+
+            // mf.mesh = m;
+
+            yield return new WaitForSeconds(meshRefreshRate);
+        }
     }
 }
