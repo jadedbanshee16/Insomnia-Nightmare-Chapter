@@ -355,10 +355,16 @@ public class GameManager : MonoBehaviour
 
         if(GetComponent<WorldStateManager>().getSaveCount() == 1)
         {
-            eventMan_.setStart(true);
+            if (eventMan_)
+            {
+                eventMan_.setStart(true);
+            }
         } else
         {
-            eventMan_.setStart(false);
+            if (eventMan_)
+            {
+                eventMan_.setStart(false);
+            }
         }
     }
 }

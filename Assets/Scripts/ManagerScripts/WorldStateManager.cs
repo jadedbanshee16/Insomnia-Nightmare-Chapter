@@ -622,7 +622,10 @@ public class WorldStateManager : MonoBehaviour
         GetComponent<DayNightManager>().getSun().transform.position = _state.world.sunPos;
         GetComponent<DayNightManager>().getSun().transform.rotation = _state.world.sunRot;
         GetComponent<GameManager>().setDay(_state.world.isDay);
-        GetComponent<EventManager>().setEventToken(_state.world.storyPoint);
+        if (GetComponent<EventManager>())
+        {
+            GetComponent<EventManager>().setEventToken(_state.world.storyPoint);
+        }
     }
 
     private void getObjectLists()
