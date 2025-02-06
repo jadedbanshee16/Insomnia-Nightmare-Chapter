@@ -29,11 +29,16 @@ public class ShatterToggle : MonoBehaviour
 
         newRots = new Quaternion[shatterPieces.Length];
 
-        //Create and set a given render texture using the given camera.
-        RenderTexture myRenderTexture = new RenderTexture(256, 256, 16, RenderTextureFormat.ARGB32);
-        //myRenderTexture.Create();
-        myRenderTexture.name = "CamRender";
-        cam.targetTexture = myRenderTexture;
+        RenderTexture myRenderTexture = null;
+
+        if (cam)
+        {
+            //Create and set a given render texture using the given camera.
+            myRenderTexture = new RenderTexture(128, 128, 16, RenderTextureFormat.ARGB32);
+            //myRenderTexture.Create();
+            myRenderTexture.name = "CamRender";
+            cam.targetTexture = myRenderTexture;
+        }
 
         for (int i = 0; i < shatterPieces.Length; i++)
         {
@@ -41,9 +46,15 @@ public class ShatterToggle : MonoBehaviour
             float randomY = Random.Range(0, 60);
 
             newRots[i] = Quaternion.AngleAxis(randomX, Vector3.up) * Quaternion.AngleAxis(randomY, Vector3.right);
+            Vector3 dir = Random.insideUnitSphere;
 
-            //Set the shattered pieces with this new renderTexture.
-            shatterPieces[i].GetComponentInChildren<MeshRenderer>().material.SetTexture("_MainTexture", myRenderTexture);
+            newRots[i] = Quaternion.LookRotation(dir, Vector3.forward);
+
+            if (cam)
+            {
+                //Set the shattered pieces with this new renderTexture.
+                shatterPieces[i].GetComponentInChildren<MeshRenderer>().material.SetTexture("_MainTexture", myRenderTexture);
+            }
         }
 
 
@@ -56,9 +67,9 @@ public class ShatterToggle : MonoBehaviour
         if(timer > 0)
         {
             timer -= Time.deltaTime;
-            for(int i = 1; i < shatterPieces.Length; i++)
+            for(int i = 0; i < shatterPieces.Length; i++)
             {
-                shatterPieces[i].rotation = Quaternion.Lerp(newRots[i], oldRot, timer / 2);
+                shatterPieces[i].rotation = Quaternion.Lerp(oldRot, newRots[i], timer / time);
             }
         } else
         {

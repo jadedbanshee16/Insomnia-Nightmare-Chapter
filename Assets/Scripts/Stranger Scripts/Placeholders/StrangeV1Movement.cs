@@ -44,6 +44,7 @@ public class StrangeV1Movement : MonoBehaviour
 
         state = strangerState.running;
         isRunning = true;
+        changedToRunning = true;
         anim_.SetBool("Moving", isRunning);
 
         timer = Random.Range(1, 10);
