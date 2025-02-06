@@ -344,7 +344,13 @@ public class WorldStateManager : MonoBehaviour
         }
 
         //Now set the day data.
-        _state.setWorldData(GetComponent<DayNightManager>().getSun().transform.position, GetComponent<DayNightManager>().getSun().transform.rotation, GetComponent<GameManager>().getDay(), GetComponent<EventManager>().getEventToken());
+        //This is to specifically save world data of the Mind Chapter.
+        //Ensure if eventManager is not here, then do not save.
+        if (GetComponent<EventManager>())
+        {
+            _state.setWorldData(GetComponent<DayNightManager>().getSun().transform.position, GetComponent<DayNightManager>().getSun().transform.rotation, GetComponent<GameManager>().getDay(), GetComponent<EventManager>().getEventToken());
+        }
+        
     }
 
     //A function to load the world based on the current state in the manager.

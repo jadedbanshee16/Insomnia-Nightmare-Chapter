@@ -25,6 +25,7 @@ public class StrangeV1Movement : MonoBehaviour
     NavMeshAgent agent_;
     Animator anim_;
     SkinnedMeshRenderer mesh;
+    PoolManager shadowPool;
 
     float timer;
 
@@ -35,6 +36,7 @@ public class StrangeV1Movement : MonoBehaviour
     {
         agent_ = GetComponent<NavMeshAgent>();
         anim_ = GetComponent<Animator>();
+        shadowPool = GetComponent<PoolManager>();
 
         //Get a random position on navmesh.
         currentTarget = getRandomPosition();
@@ -107,7 +109,9 @@ public class StrangeV1Movement : MonoBehaviour
                 mesh = GetComponentInChildren<SkinnedMeshRenderer>();
             }
 
-            GameObject obj = Instantiate(shadowPrefab, position.position, position.rotation);
+            shadowPool.makeActiveFromPool(position.position, position.rotation);
+
+            //GameObject obj = Instantiate(shadowPrefab, position.position, position.rotation);
 
             //MeshRenderer mr = obj.GetComponent<MeshRenderer>();
             //MeshFilter mf = obj.GetComponent<MeshFilter>();

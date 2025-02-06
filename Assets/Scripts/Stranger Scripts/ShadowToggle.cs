@@ -9,6 +9,8 @@ public class ShadowToggle : MonoBehaviour
     private Quaternion oldRot;
     private Quaternion newRot;
 
+    PoolObject obj;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +21,8 @@ public class ShadowToggle : MonoBehaviour
         Vector3 dir = Random.insideUnitSphere;
 
         newRot = Quaternion.LookRotation(dir, Vector3.up);
+
+        obj = GetComponent<PoolObject>();
     }
 
     // Update is called once per frame
@@ -30,7 +34,8 @@ public class ShadowToggle : MonoBehaviour
             this.transform.rotation = Quaternion.Lerp(newRot, oldRot, timer);
         } else
         {
-            Destroy(this.gameObject);
+            timer = 1;
+            obj.findManager().makeInactiveFromPool(obj.getIndex());
         }
     }
 }

@@ -328,6 +328,7 @@ public class FPSController : MonoBehaviour
             }
         } else
         {
+            m_camera.changeHeadBob((int)currentStatus);
             footstepTimer = 0;
         }
     }
