@@ -25,7 +25,7 @@ public class StrangeV1Movement : MonoBehaviour
     NavMeshAgent agent_;
     Animator anim_;
     SkinnedMeshRenderer mesh;
-    PoolManager shadowPool;
+    PoolManager[] shadowPool;
 
     float timer;
 
@@ -36,7 +36,7 @@ public class StrangeV1Movement : MonoBehaviour
     {
         agent_ = GetComponent<NavMeshAgent>();
         anim_ = GetComponent<Animator>();
-        shadowPool = GetComponent<PoolManager>();
+        shadowPool = GetComponents<PoolManager>();
 
         //Get a random position on navmesh.
         currentTarget = getRandomPosition();
@@ -64,6 +64,11 @@ public class StrangeV1Movement : MonoBehaviour
                 isRunning = false;
                 changedToRunning = true;
                 anim_.SetBool("Moving", isRunning);
+                Vector3 pos = new Vector3(position.position.x, position.position.y + 0.44f, position.position.z);
+                for(int i = 0; i < 6; i++)
+                {
+                    shadowPool[1].makeActiveFromPool(pos, position.rotation  * Quaternion.Euler(i, i, i));
+                }
             }
         } else if (state == strangerState.idle)
         {
@@ -110,7 +115,9 @@ public class StrangeV1Movement : MonoBehaviour
                 mesh = GetComponentInChildren<SkinnedMeshRenderer>();
             }
 
-            shadowPool.makeActiveFromPool(position.position, position.rotation);
+            Vector3 pos = new Vector3(position.position.x, position.position.y + 0.44f, position.position.z);
+
+            shadowPool[0].makeActiveFromPool(pos, position.rotation);
 
             //GameObject obj = Instantiate(shadowPrefab, position.position, position.rotation);
 

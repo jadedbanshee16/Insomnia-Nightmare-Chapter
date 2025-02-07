@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ad0d0d8bd545b7d45a277292b277b5cf, type: 2}
+  - {fileID: 2100000, guid: 0bbc6902150f1184eb060a2f2cd0aee0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -144,7 +144,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ad0d0d8bd545b7d45a277292b277b5cf, type: 2}
+  - {fileID: 2100000, guid: 0bbc6902150f1184eb060a2f2cd0aee0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -181,7 +181,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8517726922546735768
 Transform:
   m_ObjectHideFlags: 0
@@ -213,7 +213,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5431272043582038954
 Transform:
   m_ObjectHideFlags: 0
@@ -291,7 +291,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ad0d0d8bd545b7d45a277292b277b5cf, type: 2}
+  - {fileID: 2100000, guid: 0bbc6902150f1184eb060a2f2cd0aee0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -374,7 +374,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ad0d0d8bd545b7d45a277292b277b5cf, type: 2}
+  - {fileID: 2100000, guid: 0bbc6902150f1184eb060a2f2cd0aee0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -411,7 +411,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8950503113335999528
 Transform:
   m_ObjectHideFlags: 0
@@ -489,7 +489,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ad0d0d8bd545b7d45a277292b277b5cf, type: 2}
+  - {fileID: 2100000, guid: 0bbc6902150f1184eb060a2f2cd0aee0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -526,7 +526,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2941315794889363366
 Transform:
   m_ObjectHideFlags: 0
@@ -558,7 +558,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6400676356576621424
 Transform:
   m_ObjectHideFlags: 0
@@ -668,7 +668,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ad0d0d8bd545b7d45a277292b277b5cf, type: 2}
+  - {fileID: 2100000, guid: 0bbc6902150f1184eb060a2f2cd0aee0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -833,7 +833,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3786614793561667975
 Transform:
   m_ObjectHideFlags: 0
@@ -911,7 +911,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ad0d0d8bd545b7d45a277292b277b5cf, type: 2}
+  - {fileID: 2100000, guid: 0bbc6902150f1184eb060a2f2cd0aee0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -945,7 +945,7 @@ GameObject:
   - component: {fileID: 631137641782714761}
   - component: {fileID: 9087467692590184434}
   m_Layer: 0
-  m_Name: StrangerFracture
+  m_Name: StrangerFracture 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -987,7 +987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectIndex: 0
-  objectID: StrangerV1Shadow
+  objectID: StrangerV1Stop
 --- !u!114 &9087467692590184434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1002,9 +1002,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shatterPieces:
   - {fileID: 7799292905395477913}
+  - {fileID: 8950503113335999528}
+  - {fileID: 8517726922546735768}
+  - {fileID: 2941315794889363366}
+  - {fileID: 5431272043582038954}
+  - {fileID: 6400676356576621424}
+  - {fileID: 3786614793561667975}
   player: {fileID: 0}
   cam: {fileID: 7035295762485918654}
-  time: 5
-  scaled: 1
-  isFacingPlayer: 1
-  shatterStrength: 2
+  time: 3
+  scaled: 4
+  isFacingPlayer: 0
+  shatterStrength: 8

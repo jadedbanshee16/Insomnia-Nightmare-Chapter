@@ -6,11 +6,15 @@ public class ShatterToggle : MonoBehaviour
 {
     private float timer;
 
-    private Quaternion oldRot;
-    private Quaternion[] newRots;
+    private Vector3 oldRot;
+    private Vector3[] newRots;
+    private Vector3 oldScale;
+    private Vector3 newScale;
 
     [SerializeField]
     Transform[] shatterPieces;
+    [SerializeField]
+    Transform player;
 
     [SerializeField]
     Camera cam;
@@ -19,15 +23,32 @@ public class ShatterToggle : MonoBehaviour
 
     [SerializeField]
     float time;
+    [SerializeField]
+    float scaled;
+
+    [SerializeField]
+    bool isFacingPlayer;
+
+    [SerializeField]
+    float shatterStrength;
+
+    PoolManager poolMan_;
 
     // Start is called before the first frame update
     void Start()
     {
         timer = time;
 
-        oldRot = this.transform.rotation;
+        float randomX = Random.Range(shatterPieces[0].localPosition.x - (shatterStrength / 50), shatterPieces[0].localPosition.x + (shatterStrength / 50));
+        float randomY = Random.Range(shatterPieces[0].localPosition.y - (shatterStrength / 50), shatterPieces[0].localPosition.y + (shatterStrength / 50));
+        float randomZ = Random.Range(shatterPieces[0].localPosition.z - (shatterStrength / 50), shatterPieces[0].localPosition.z + (shatterStrength / 50));
 
-        newRots = new Quaternion[shatterPieces.Length];
+        oldRot = new Vector3(randomX, randomY, randomZ);
+        oldScale = shatterPieces[0].localScale;
+
+        newScale = oldScale * scaled;
+
+        newRots = new Vector3[shatterPieces.Length];
 
         RenderTexture myRenderTexture = null;
 
@@ -38,27 +59,34 @@ public class ShatterToggle : MonoBehaviour
             //myRenderTexture.Create();
             myRenderTexture.name = "CamRender";
             cam.targetTexture = myRenderTexture;
+            cam.Render();
+            cam.gameObject.SetActive(false);
         }
 
         for (int i = 0; i < shatterPieces.Length; i++)
         {
-            float randomX = Random.Range(0, 60);
-            float randomY = Random.Range(0, 60);
+            randomX = Random.Range(shatterPieces[i].localPosition.x - (shatterStrength / 10), shatterPieces[i].localPosition.x + (shatterStrength / 10));
+            randomY = Random.Range(shatterPieces[i].localPosition.y - (shatterStrength / 10), shatterPieces[i].localPosition.y + (shatterStrength / 10));
+            randomZ = Random.Range(shatterPieces[i].localPosition.z - (shatterStrength / 10), shatterPieces[i].localPosition.z + (shatterStrength / 10));
 
-            newRots[i] = Quaternion.AngleAxis(randomX, Vector3.up) * Quaternion.AngleAxis(randomY, Vector3.right);
-            Vector3 dir = Random.insideUnitSphere;
+            //Vector3 dir = Random.insideUnitSphere;
 
-            newRots[i] = Quaternion.LookRotation(dir, Vector3.forward);
+            Vector3 dir = new Vector3(randomX, randomY, randomZ);
+
+            newRots[i] = dir;
 
             if (cam)
             {
                 //Set the shattered pieces with this new renderTexture.
                 shatterPieces[i].GetComponentInChildren<MeshRenderer>().material.SetTexture("_MainTexture", myRenderTexture);
+                shatterPieces[i].GetComponentInChildren<MeshRenderer>().material.SetFloat("_Alpha", 1);
             }
         }
 
 
         obj = GetComponent<PoolObject>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        poolMan_ = obj.findManager();
     }
 
     // Update is called once per frame
@@ -69,12 +97,59 @@ public class ShatterToggle : MonoBehaviour
             timer -= Time.deltaTime;
             for(int i = 0; i < shatterPieces.Length; i++)
             {
-                shatterPieces[i].rotation = Quaternion.Lerp(oldRot, newRots[i], timer / time);
+                shatterPieces[i].localPosition = Vector3.Lerp(oldRot, newRots[i], 1 - (timer / time));
+                shatterPieces[i].localScale = Vector3.Lerp(oldScale, newScale, 1 - (timer / time));
+
+                if (isFacingPlayer)
+                {
+                    shatterPieces[i].LookAt(player);
+                } else
+                {
+                    shatterPieces[i].LookAt(this.transform);
+                }
+
+                if (!poolMan_.getIsUsingMasterTime() && timer <= 1)
+                {
+                    shatterPieces[i].GetComponentInChildren<MeshRenderer>().material.SetFloat("_Alpha", timer);
+                }
             }
+
         } else
         {
-            timer = time;
-            obj.findManager().makeInactiveFromPool(obj.getIndex());
+            if (!poolMan_.getIsUsingMasterTime())
+            {
+                timer = time;
+                for (int i = 0; i < shatterPieces.Length; i++)
+                {
+                    shatterPieces[i].GetComponentInChildren<MeshRenderer>().material.SetFloat("_Alpha", 1);
+                    shatterPieces[i].localScale = oldScale;
+                }
+                poolMan_.makeInactiveFromPool(obj.getIndex());
+
+            }
+        }
+
+        //To use if using master timer in the pool manager.
+        if (poolMan_.getIsUsingMasterTime())
+        {
+            if(poolMan_.getTimer() <= 1)
+            {
+                for (int i = 0; i < shatterPieces.Length; i++)
+                {
+                    shatterPieces[i].GetComponentInChildren<MeshRenderer>().material.SetFloat("_Alpha", poolMan_.getTimer());
+                }
+            } if(poolMan_.getTimer() > 1)
+            {
+                for (int i = 0; i < shatterPieces.Length; i++)
+                {
+                    shatterPieces[i].GetComponentInChildren<MeshRenderer>().material.SetFloat("_Alpha", 1);
+                }
+            }
+            
+            if(poolMan_.getTimer() <= 0)
+            {
+                timer = time;
+            }
         }
     }
 }

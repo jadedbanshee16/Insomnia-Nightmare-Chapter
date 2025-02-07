@@ -16,6 +16,15 @@ public class PoolManager : MonoBehaviour
     [SerializeField]
     int poolMaximum;
 
+    [Header("Master time controls")]
+    [SerializeField]
+    bool useMasterTimer;
+
+    [SerializeField]
+    float masterTime;
+    [SerializeField]
+    float masterTimer;
+
     public void Start()
     {
         if(poolMaximum < 0)
@@ -24,6 +33,28 @@ public class PoolManager : MonoBehaviour
         }
 
         pool = new List<PoolObject>();
+
+        if (useMasterTimer)
+        {
+            masterTimer = 0;
+        }
+    }
+
+    public void Update()
+    {
+        if (useMasterTimer)
+        {
+            if(masterTimer > 0)
+            {
+                masterTimer -= Time.deltaTime;
+            } else
+            {
+                for(int i = 0; i < pool.Count; i++)
+                {
+                    makeInactiveFromPool(i);
+                }
+            }
+        }
     }
 
     //Set the current object 
@@ -37,6 +68,12 @@ public class PoolManager : MonoBehaviour
 
     public void makeActiveFromPool(Vector3 pos, Quaternion rot)
     {
+        //If using master time, then thgis is to reset the timer upon making a new item.
+        if (useMasterTimer)
+        {
+            masterTimer = masterTime;
+        }
+
         //Go through pool and see if there is an inactive point.
         int i = 0;
         while(i < pool.Count)
@@ -73,5 +110,20 @@ public class PoolManager : MonoBehaviour
     public string getPoolID()
     {
         return poolID;
+    }
+
+    public bool getIsUsingMasterTime()
+    {
+        return useMasterTimer;
+    }
+
+    public float getTimer()
+    {
+        return masterTimer;
+    }
+
+    public float getTime()
+    {
+        return masterTime;
     }
 }

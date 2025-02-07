@@ -77,6 +77,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTexture:
+        m_Texture: {fileID: 2800000, guid: 074a87947287c8844b45eaee3b13dd69, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -91,6 +99,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Texture:
         m_Texture: {fileID: 8400000, guid: 5ebcd451be49c8049bee248d12bfb248, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_51840565c47a48f1bfeee9f6eeedbcb5_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 8ef691afae2c9d24baeda0ef502bf7db, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2DAsset_a99ec2887c994ee48bd3d91a6cf7ea55_Out_0_Texture2D:
@@ -111,6 +123,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Alpha: 1
     - _AlphaClip: 1
     - _AlphaToMask: 0
     - _Blend: 0
@@ -123,6 +136,8 @@ Material:
     - _Cutoff: 0.834
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DistortionStrength: 2.99
+    - _Distortion_Size: 1
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _EnvironmentReflections: 1
@@ -147,6 +162,9 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Distortion_Speed: {r: 0.1, g: 0.1, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FlickerSpeed: {r: 0.01, g: 0.01, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _TextureColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
