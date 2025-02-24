@@ -84,6 +84,10 @@ public class StrangerAmbience : MonoBehaviour
                 {
                     rightStrength = Mathf.Lerp(rightStrength, 1, -strangerDistForward);
                     leftStrength = Mathf.Lerp(leftStrength, 1, -strangerDistForward);
+                } else
+                {
+                    rightStrength = Mathf.Lerp(rightStrength, 1, strangerDistForward);
+                    leftStrength = Mathf.Lerp(leftStrength, 1, strangerDistForward);
                 }
 
                 rightStrength = rightStrength * 3;

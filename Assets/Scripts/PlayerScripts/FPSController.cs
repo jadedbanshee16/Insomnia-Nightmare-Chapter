@@ -14,6 +14,15 @@ public class FPSController : MonoBehaviour
         die
     }
 
+    private enum controlStatus
+    {
+        fullControl,
+        noMovement,
+        mouseOnlyConfined,
+        UIOnly,
+        noControl
+    }
+
     [SerializeField]
     private float playerID;
 
@@ -43,6 +52,8 @@ public class FPSController : MonoBehaviour
     [SerializeField]
     private Transform camPos;
     private playerStatus currentStatus;
+    [SerializeField]
+    private controlStatus currentControl;
 
     [SerializeField]
     private Transform playerHand;
@@ -73,12 +84,8 @@ public class FPSController : MonoBehaviour
     private float interactionCooldown = 0.5f;
     public float interactionTimer = 0;
 
-    public bool movementLocked;
-    private bool interactionLocked;
-    public bool mouseLocked;
     //This variable is used pick up items but cannot hold them without holding down the pick up button.
     private bool handLocked;
-    public bool menuLocked;
 
     // Start is called before the first frame update
     void Start()
@@ -93,12 +100,9 @@ public class FPSController : MonoBehaviour
         menu_ = GetComponent<MenuManager>();
 
         currentStatus = playerStatus.idle;
+        currentControl = controlStatus.fullControl;
         //Set the default move speed.
         moveSpeed = speedVariations.y;
-
-        movementLocked = false;
-        interactionLocked = false;
-        menuLocked = false;
 
         //Set the audio system.
         audioManager_ = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AudioManager>();
@@ -123,13 +127,13 @@ public class FPSController : MonoBehaviour
 
         //Debug.Log("Constant change: " + GameObject.FindGameObjectWithTag("Player").transform.position);
         //Ensure movement is only moved when not locked.
-        if (!movementLocked)
+        if (currentControl == controlStatus.fullControl)
         {
             Move();
         }
 
         //Ensure interaction is only interacted when not locked.
-        if (!interactionLocked)
+        if (currentControl != controlStatus.noControl)
         {
             makeInteraction();
         } else
@@ -141,12 +145,6 @@ public class FPSController : MonoBehaviour
             {
                 interactionTimer = 0;
             }
-        }
-
-        //If menulocked, then go through and complete interactions with menu.
-        if (menuLocked)
-        {
-
         }
 
         //If holding the item, set the item to current playerHand position.
@@ -164,7 +162,7 @@ public class FPSController : MonoBehaviour
         }
 
         //Work with the exit input to get out of locking positions without touching the interaction.
-        if (Input.GetKey(options.getControl(OptionsManager.theControls.exit)) || (mouseLocked && Input.GetKey(options.getControl(OptionsManager.theControls.interaction))))
+        if (Input.GetKey(options.getControl(OptionsManager.theControls.exit)) || (currentControl == controlStatus.mouseOnlyConfined && Input.GetKey(options.getControl(OptionsManager.theControls.interaction))))
         {
             //If a locking object is found then complete path to locking object,
             if (lockingObject && lockingObject.GetComponent<PlayerControlInteractionClass>())
@@ -192,7 +190,7 @@ public class FPSController : MonoBehaviour
                 interactionTimer = interactionCooldown;
 
                 //If menu is already open, then unlock menu.
-                if (menuLocked)
+                if (currentControl == controlStatus.UIOnly)
                 {
                     setMenu(false, false);
                     //In case options had been changed, save current options.
@@ -341,7 +339,7 @@ public class FPSController : MonoBehaviour
         {
 
             //Make the controls for the mouse button.
-            if (Input.GetKey(options.getControl(OptionsManager.theControls.interaction)))
+            if (Input.GetKey(options.getControl(OptionsManager.theControls.interaction)) && (currentControl != controlStatus.noControl && currentControl != controlStatus.UIOnly))
             {
                 //Reset the locked input.
                 inputLockObject = null;
@@ -356,7 +354,7 @@ public class FPSController : MonoBehaviour
             }
 
             //Controls for dropping items in held hand.
-            if (Input.GetKey(options.getControl(OptionsManager.theControls.drop)) && holdingItem && !inputLockObject && !movementLocked)
+            if (Input.GetKey(options.getControl(OptionsManager.theControls.drop)) && holdingItem && !inputLockObject && currentControl == controlStatus.fullControl)
             {
                 holdingItem.Interact(frontPosition(), Quaternion.identity, null);
                 holdingItem.removeHeld();
@@ -655,13 +653,22 @@ public class FPSController : MonoBehaviour
     //A function to set the locked section.
     public void setLock(bool b, GameObject obj, bool usingMouse)
     {
-        movementLocked = b;
+        if (b && usingMouse)
+        {
+            currentControl = controlStatus.noMovement;
+        } else if(b && !usingMouse)
+        {
+            currentControl = controlStatus.mouseOnlyConfined;
+        } else if (!b)
+        {
+            currentControl = controlStatus.fullControl;
+        }
 
         lockingObject = obj;
 
-        mouseLocked = !usingMouse;
+        //mouseLocked = !usingMouse;
 
-        if (!mouseLocked)
+        if (usingMouse)
         {
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
@@ -675,15 +682,26 @@ public class FPSController : MonoBehaviour
 
     public void setMenu(bool b, bool usingMouse)
     {
-        movementLocked = b;
+        if (b && usingMouse)
+        {
+            currentControl = controlStatus.UIOnly;
+        }
+        else if (b && !usingMouse)
+        {
+            currentControl = controlStatus.mouseOnlyConfined;
+        }
+        else if (!b)
+        {
+            currentControl = controlStatus.fullControl;
+        }
 
-        menuLocked = b;
+        //menuLocked = b;
 
-        interactionLocked = b;
+        //interactionLocked = b;
 
-        mouseLocked = !usingMouse;
+        //mouseLocked = !usingMouse;
 
-        if (!mouseLocked)
+        if (usingMouse)
         {
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
@@ -704,10 +722,10 @@ public class FPSController : MonoBehaviour
         }
     }
 
-    public bool getLock()
+    /*public bool getLock()
     {
         return movementLocked;
-    }
+    }*/
 
     //Player ID functions.
     public float getPlayerID()

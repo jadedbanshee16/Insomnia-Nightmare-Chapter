@@ -7483,6 +7483,11 @@ PrefabInstance:
       propertyPath: messages.Array.data[3]
       value: type door
       objectReference: {fileID: 0}
+    - target: {fileID: 2697863786058545969, guid: b60c1e09f6ff254468e63190b048f29e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3057093505167246776, guid: b60c1e09f6ff254468e63190b048f29e,
         type: 3}
       propertyPath: isPowered
@@ -7562,6 +7567,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Computer
+      objectReference: {fileID: 0}
+    - target: {fileID: 8794198311800626315, guid: b60c1e09f6ff254468e63190b048f29e,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 8816741896963542555, guid: b60c1e09f6ff254468e63190b048f29e,
         type: 3}
@@ -7686,12 +7696,12 @@ PrefabInstance:
     - target: {fileID: 3804410004645118802, guid: 1fd6d5434247e4b409815323fa2270c5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.99779636
+      value: -0.9977964
       objectReference: {fileID: 0}
     - target: {fileID: 3804410004645118802, guid: 1fd6d5434247e4b409815323fa2270c5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.06252614
+      value: 0.0625261
       objectReference: {fileID: 0}
     - target: {fileID: 3804410004645118802, guid: 1fd6d5434247e4b409815323fa2270c5,
         type: 3}
@@ -7701,7 +7711,7 @@ PrefabInstance:
     - target: {fileID: 3804410004645118802, guid: 1fd6d5434247e4b409815323fa2270c5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.022159874
+      value: -0.022159753
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11319,7 +11329,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.3
+  m_Intensity: 0.05
   m_Range: 10
   m_SpotAngle: 101.3142
   m_InnerSpotAngle: 21.80208

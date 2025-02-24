@@ -3590,7 +3590,7 @@ PrefabInstance:
     - target: {fileID: 26049765616513370, guid: a348f63665015a84ea9315af8d36ca4f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 324825619716009158, guid: a348f63665015a84ea9315af8d36ca4f,
         type: 3}
@@ -4301,6 +4301,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659027901104009372, guid: a348f63665015a84ea9315af8d36ca4f,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 7886931835514208447, guid: a348f63665015a84ea9315af8d36ca4f,
         type: 3}
@@ -13710,7 +13715,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.05
   m_Range: 10
   m_SpotAngle: 54.0701
   m_InnerSpotAngle: 21.80208
@@ -15573,7 +15578,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.40392157, g: 0.43529412, b: 0.69803923, a: 1}
-  m_Intensity: 0.5
+  m_Intensity: 0.3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -16750,6 +16755,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5117682036916919467}
     m_Modifications:
+    - target: {fileID: 702881420176354257, guid: b60c1e09f6ff254468e63190b048f29e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1112333606923362873, guid: b60c1e09f6ff254468e63190b048f29e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1215483686831150916, guid: b60c1e09f6ff254468e63190b048f29e,
         type: 3}
       propertyPath: m_fontColor.b
@@ -16789,6 +16804,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.002486102
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697863786058545969, guid: b60c1e09f6ff254468e63190b048f29e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3057093505167246776, guid: b60c1e09f6ff254468e63190b048f29e,
         type: 3}
@@ -16878,13 +16898,18 @@ PrefabInstance:
     - target: {fileID: 8794198311800626315, guid: b60c1e09f6ff254468e63190b048f29e,
         type: 3}
       propertyPath: m_Intensity
-      value: 0.3
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 8818053698192618915, guid: b60c1e09f6ff254468e63190b048f29e,
         type: 3}
       propertyPath: systemManager
       value: 
       objectReference: {fileID: 1477152821}
+    - target: {fileID: 9151334678084152433, guid: b60c1e09f6ff254468e63190b048f29e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22537,6 +22562,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1770735136078208111}
   - component: {fileID: 4592009379284887099}
+  - component: {fileID: 8733515154869902741}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -22544,6 +22570,29 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8733515154869902741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8733515154869902740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!4 &8742720408706791017
 Transform:
   m_ObjectHideFlags: 0
