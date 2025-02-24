@@ -69,6 +69,10 @@ Material:
         m_Texture: {fileID: 8400000, guid: 5631d2d79d1b62846af86fe84e08e7bf, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MaskTexture:
         m_Texture: {fileID: 2800000, guid: 074a87947287c8844b45eaee3b13dd69, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -93,6 +97,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_7f2359316fb547259190dba48e755357_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 795df74bba9116042ab71580d59ce30f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -103,6 +111,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _StretchSubGraph_d9136362d5dd439986533c2dce04dbdf_Tex_2888968316_Texture2D:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2D:
+        m_Texture: {fileID: 8400000, guid: 5631d2d79d1b62846af86fe84e08e7bf, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2DAsset_1dc1b36fcc7741bb8a2e848230f4bab8_Out_0_Texture2D:
@@ -135,12 +147,15 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DissolveScale: 35
+    - _DissolveSpeed: 0.23
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _HeatDistortion: 0.055
     - _Lower_Strength: -0.04
     - _Metallic: 0
     - _OcclusionStrength: 1
@@ -152,7 +167,7 @@ Material:
     - _RippleSize: 4.78
     - _RippleStrength: 10.37
     - _SampleGI: 0
-    - _Scale: 1
+    - _Scale: 0.7
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -161,19 +176,25 @@ Material:
     - _Strength: 1
     - _Surface: 1
     - _Upper_Strength: 0.04
+    - _Value: 0.00293
     - _WorkflowMode: 1
     - _ZWrite: 0
+    - _value: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color1: {r: 0.5377358, g: 0.25618547, b: 0.46832585, a: 0}
+    - _Color2: {r: 0, g: 0.11046505, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FirstDirection: {r: 0.4, g: 0.5, b: 0, a: 0}
+    - _FirstDirection: {r: 0.6, g: 0.6, b: 0, a: 0}
+    - _HeatDirection: {r: 0, g: -0.2, b: 0, a: 0}
+    - _MainTexSoeed: {r: -3, g: 0, b: 0, a: 0}
     - _OutlineColor: {r: 1, g: 1, b: 1, a: 0}
-    - _PinchStrength: {r: 0.3, g: -0.3, b: 0, a: 0}
+    - _PinchStrength: {r: 0.03, g: -0.03, b: 0, a: 0}
     - _Position1: {r: 0.7, g: 0.6, b: 0, a: 0}
     - _Position2: {r: 0.8, g: 0.4, b: 0, a: 0}
     - _RippleSpeed: {r: 0.1, g: 0.1, b: 0, a: 0}
-    - _SecondDirection: {r: 0.6, g: 0.5, b: 0, a: 0}
+    - _SecondDirection: {r: 0.8, g: 0.6, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _Speed: {r: 0.75, g: 0.5, b: 0, a: 0}
     - _StrengthVariance: {r: 0, g: 0, b: 0, a: 0}

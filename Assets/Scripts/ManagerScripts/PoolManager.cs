@@ -98,13 +98,16 @@ public class PoolManager : MonoBehaviour
 
     public void addToPool(Vector3 pos, Quaternion rot)
     {
-        GameObject g = Instantiate(pooledObject, pos, rot);
+        if (pooledObject)
+        {
+            GameObject g = Instantiate(pooledObject, pos, rot);
 
-        PoolObject pObj = g.GetComponent<PoolObject>();
+            PoolObject pObj = g.GetComponent<PoolObject>();
 
-        pObj.setIndex(pool.Count);
+            pObj.setIndex(pool.Count);
 
-        pool.Add(pObj);
+            pool.Add(pObj);
+        }
     }
 
     public string getPoolID()
