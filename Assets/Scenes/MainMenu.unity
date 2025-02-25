@@ -2768,6 +2768,7 @@ GameObject:
   m_Component:
   - component: {fileID: 640224082}
   - component: {fileID: 640224081}
+  - component: {fileID: 640224083}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -2852,6 +2853,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &640224083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640224080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1001 &670846784
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4349,7 +4373,11 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 236470122}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6490143001419344289, guid: c038f12513af4ce42a6470f1977b2d90,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1084022986}
   m_SourcePrefab: {fileID: 100100000, guid: c038f12513af4ce42a6470f1977b2d90, type: 3}
 --- !u!4 &1084022984 stripped
 Transform:
@@ -4357,6 +4385,35 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1084022983}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1084022985 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6490143001419344289, guid: c038f12513af4ce42a6470f1977b2d90,
+    type: 3}
+  m_PrefabInstance: {fileID: 1084022983}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1084022986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084022985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1001 &1090560497
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6900,6 +6957,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1990380074}
   - component: {fileID: 1990380073}
+  - component: {fileID: 1990380075}
   m_Layer: 0
   m_Name: Point Light (1)
   m_TagString: Untagged
@@ -6984,6 +7042,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1990380075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990380072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1001 &2016063115
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9740,6 +9821,7 @@ MonoBehaviour:
   m_camera: {fileID: 3338467311282515136}
   hitBox: {fileID: 0}
   camPos: {fileID: 0}
+  currentControl: 0
   playerHand: {fileID: 0}
   playerHead: {fileID: 0}
   holdingItem: {fileID: 0}
@@ -9747,9 +9829,6 @@ MonoBehaviour:
   torchlight: {fileID: 0}
   interactionCooldown: 0.5
   interactionTimer: 0
-  movementLocked: 0
-  mouseLocked: 0
-  menuLocked: 0
 --- !u!136 &3338467310231286137
 CapsuleCollider:
   m_ObjectHideFlags: 0
