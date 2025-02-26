@@ -3488,6 +3488,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 721605048}
+  - component: {fileID: 721605049}
   m_Layer: 5
   m_Name: Off
   m_TagString: Untagged
@@ -3515,6 +3516,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &721605049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721605047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c52e494df7a7dfc4ebc6d70d9b44ef64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pageItems: []
+  defaultScreen: 
 --- !u!1001 &734429047
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4736,6 +4751,31 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 5014504102069484876}
+    - target: {fileID: 7270725614738263294, guid: a348f63665015a84ea9315af8d36ca4f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.000000003259629
+      objectReference: {fileID: 0}
+    - target: {fileID: 7270725614738263294, guid: a348f63665015a84ea9315af8d36ca4f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.042999744
+      objectReference: {fileID: 0}
+    - target: {fileID: 7270725614738263294, guid: a348f63665015a84ea9315af8d36ca4f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.020000063
+      objectReference: {fileID: 0}
+    - target: {fileID: 7270725614764162903, guid: a348f63665015a84ea9315af8d36ca4f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.000000003259629
+      objectReference: {fileID: 0}
+    - target: {fileID: 7270725614764162903, guid: a348f63665015a84ea9315af8d36ca4f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.020000063
+      objectReference: {fileID: 0}
     - target: {fileID: 7270725615864537838, guid: a348f63665015a84ea9315af8d36ca4f,
         type: 3}
       propertyPath: m_Name
@@ -7019,12 +7059,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3608671127391387925, guid: 7e22e9c9b98606c4ca9059792b9b5ec8,
     type: 3}
   m_PrefabInstance: {fileID: 8873052926557877547}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1477152821 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3722647596653708115, guid: a348f63665015a84ea9315af8d36ca4f,
-    type: 3}
-  m_PrefabInstance: {fileID: 867735059}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1489004791 stripped
 MonoBehaviour:
@@ -15607,13 +15641,14 @@ GameObject:
   - component: {fileID: 5396301485665020928}
   - component: {fileID: 3458957097164643664}
   - component: {fileID: 1379700142361704637}
+  - component: {fileID: 5396301485665020929}
   m_Layer: 5
   m_Name: Message(1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3097498578387122502
 Transform:
   m_ObjectHideFlags: 3
@@ -16564,6 +16599,7 @@ GameObject:
   - component: {fileID: 2660406891044042961}
   - component: {fileID: 8786018864895791647}
   - component: {fileID: 504390636422749871}
+  - component: {fileID: 8786018864895791648}
   m_Layer: 5
   m_Name: MessageMenu
   m_TagString: Untagged
@@ -19903,6 +19939,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -0.39}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5396301485665020929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2993216753795231770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c52e494df7a7dfc4ebc6d70d9b44ef64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pageItems: []
+  defaultScreen: 
 --- !u!65 &5402700917730104441
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21193,7 +21243,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 625973830628810809}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.049025018, y: 0.050586313, z: -0.0024861833, w: 0.99751264}
+  m_LocalRotation: {x: 0.04902503, y: 0.050586373, z: -0.0024861805, w: 0.99751264}
   m_LocalPosition: {x: -0.014000788, y: 0.263, z: -0.24000046}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -23268,13 +23318,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c72ebc59e88057489705bf6e8c01e4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groups:
-  - {fileID: 7778448164462484972}
-  - {fileID: 2993216753795231770}
-  - {fileID: 3896376461505484795}
-  - {fileID: 721605047}
+  menuPages:
+  - {fileID: 8723390216528674222}
+  - {fileID: 5396301485665020929}
+  - {fileID: 8786018864895791648}
+  - {fileID: 721605049}
   externalMessage: []
-  systemManager: {fileID: 1477152821}
 --- !u!114 &7219772899343734597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24589,13 +24638,14 @@ GameObject:
   - component: {fileID: 2332241397551434381}
   - component: {fileID: 5231415084085494338}
   - component: {fileID: 8723390216528674221}
+  - component: {fileID: 8723390216528674222}
   m_Layer: 5
   m_Name: PasswordMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1001 &7805391395392970346
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26312,6 +26362,20 @@ MonoBehaviour:
   inputSize: 6
   objectOffset: 0
   persistantScreenUnlock: 0
+--- !u!114 &8723390216528674222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7778448164462484972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c52e494df7a7dfc4ebc6d70d9b44ef64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pageItems: []
+  defaultScreen: 
 --- !u!1 &8733515154869902740
 GameObject:
   m_ObjectHideFlags: 0
@@ -26507,6 +26571,20 @@ MonoBehaviour:
   clips:
   - {fileID: 8300000, guid: 52104bc3637e70540be457e0ba1ba9cd, type: 3}
   activeObjects: []
+--- !u!114 &8786018864895791648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3896376461505484795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c52e494df7a7dfc4ebc6d70d9b44ef64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pageItems: []
+  defaultScreen: 
 --- !u!4 &8815779352195459150
 Transform:
   m_ObjectHideFlags: 0

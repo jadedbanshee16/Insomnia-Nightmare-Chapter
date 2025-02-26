@@ -14,7 +14,7 @@ public class FPSController : MonoBehaviour
         die
     }
 
-    private enum controlStatus
+    public enum controlStatus
     {
         fullControl,
         noMovement,
@@ -97,7 +97,7 @@ public class FPSController : MonoBehaviour
         options = GameObject.FindGameObjectWithTag("GameManager").GetComponent<OptionsManager>();
         colliderSize = colliderSizes.y;
 
-        menu_ = GetComponent<MenuManager>();
+        menu_ = GetComponentInChildren<MenuManager>();
 
         currentStatus = playerStatus.idle;
         currentControl = controlStatus.fullControl;
@@ -153,7 +153,7 @@ public class FPSController : MonoBehaviour
             holdingItem.GetComponent<InteractionClass>().Interact(playerHand.GetChild(0).position, playerHand.GetChild(0).rotation, playerHand);
         }*/
 
-        if (Input.GetKeyUp(options.getControl(OptionsManager.theControls.interaction)) && handLocked && holdingItem)
+        if (Input.GetKeyUp(options.getControl(OptionsManager.theControls.interaction)) && handLocked && holdingItem && currentControl != controlStatus.noControl)
         {
             holdingItem.Interact(frontPosition(), Quaternion.identity, null);
             holdingItem.removeHeld();
@@ -162,7 +162,7 @@ public class FPSController : MonoBehaviour
         }
 
         //Work with the exit input to get out of locking positions without touching the interaction.
-        if (Input.GetKey(options.getControl(OptionsManager.theControls.exit)) || (currentControl == controlStatus.mouseOnlyConfined && Input.GetKey(options.getControl(OptionsManager.theControls.interaction))))
+        if ((Input.GetKey(options.getControl(OptionsManager.theControls.exit)) && currentControl != controlStatus.noControl) || (currentControl == controlStatus.mouseOnlyConfined && Input.GetKey(options.getControl(OptionsManager.theControls.interaction))))
         {
             //If a locking object is found then complete path to locking object,
             if (lockingObject && lockingObject.GetComponent<PlayerControlInteractionClass>())
@@ -183,7 +183,7 @@ public class FPSController : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(options.getControl(OptionsManager.theControls.exit)) && !lockingObject)
+        if (Input.GetKey(options.getControl(OptionsManager.theControls.exit)) && !lockingObject && currentControl != controlStatus.noControl)
         {
             if (interactionTimer == 0)
             {
@@ -205,7 +205,7 @@ public class FPSController : MonoBehaviour
         }
 
         //Turn on and off the torch.
-        if(Input.GetKey(options.getControl(OptionsManager.theControls.torchControl)) && !lockingObject)
+        if(Input.GetKey(options.getControl(OptionsManager.theControls.torchControl)) && !lockingObject && currentControl != controlStatus.noControl)
         {
             if(interactionTimer == 0)
             {
@@ -736,5 +736,16 @@ public class FPSController : MonoBehaviour
     public void setPlayerID(float ind)
     {
         playerID = ind;
+    }
+
+    public void setCurrentControl(controlStatus c)
+    {
+        currentControl = c;
+        interactionTimer = interactionCooldown;
+    }
+
+    public controlStatus getCurrentControl()
+    {
+        return currentControl;
     }
 }

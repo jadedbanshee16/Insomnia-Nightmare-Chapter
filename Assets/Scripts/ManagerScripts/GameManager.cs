@@ -62,9 +62,6 @@ public class GameManager : MonoBehaviour
         {
             loadingTime = loadTime;
 
-            //Set loading level to the black start.
-            GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>().setToMenuGroup("LoadBlack");
-
             optMan_ = GetComponent<OptionsManager>();
 
             //Start by getting info from player preferences.
@@ -104,6 +101,9 @@ public class GameManager : MonoBehaviour
 
             //Initiate the first state of the world.
             GetComponent<WorldStateManager>().loadWorld();
+
+            //Set loading level to the black start.
+            GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<MenuManager>().setToMenuGroup("LoadBlack");
 
             //Check if this is the initial boot.
             isInitialBoot();
@@ -293,7 +293,7 @@ public class GameManager : MonoBehaviour
                     float newAlpha = (loadingTime / 0.5f);
 
                     //Debug.Log("Loading" + newAlpha);
-                    GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>().adjustLoadValue(newAlpha);
+                    GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<MenuManager>().adjustLoadValue(newAlpha);
                 }
             }
 
@@ -302,7 +302,7 @@ public class GameManager : MonoBehaviour
 
         updateAudio();
 
-        GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>().adjustLoadValue(0);
+        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<MenuManager>().adjustLoadValue(0);
 
         //End this current coroutine. You don't need it to run anymore.
         StopCoroutine(loadingSceneUI());

@@ -17,7 +17,7 @@ public class OptionsManager : MonoBehaviour
         right,
         run,
         crouch,
-        exit
+        exit,
     };
 
     private int controlSize = 11;
@@ -52,7 +52,7 @@ public class OptionsManager : MonoBehaviour
         return controls[(int)c];
     }
 
-    public float getVolume(string s)
+    public float getValues(string s)
     {
         if(string.Equals(s, "Master Volume"))
         {
@@ -137,7 +137,7 @@ public class OptionsManager : MonoBehaviour
     }
 
     //A function to set the master volume.
-    public void setVolume(string s, float f)
+    public void setValue(string s, float f)
     {
         if(string.Equals(s, "Master Volume"))
         {

@@ -80,7 +80,7 @@ public class EventManager : MonoBehaviour
         //randomMultiplier = 1f;
         haunter.SetActive(false);
         objectStateManager = GetComponent<WorldStateManager>();
-        promptManager = GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>();
+        promptManager = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<MenuManager>();
 
         eventChange = true;
 
@@ -369,7 +369,7 @@ public class EventManager : MonoBehaviour
 
                 levelMan_.updateLevelFile("Mind Chapter", 1);
 
-                GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>().adjustLoadValue(1);
+                GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<MenuManager>().adjustLoadValue(1);
 
                 AudioManager audMan_ = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AudioManager>();
 
