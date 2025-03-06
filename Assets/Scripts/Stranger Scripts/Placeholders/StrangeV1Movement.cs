@@ -117,7 +117,7 @@ public class StrangeV1Movement : MonoBehaviour
 
             Vector3 pos = new Vector3(position.position.x, position.position.y + 0.44f, position.position.z);
 
-            shadowPool[0].makeActiveFromPool(pos, position.rotation);
+            shadowPool[0].makeActiveFromPool(pos, Quaternion.identity);
 
             //GameObject obj = Instantiate(shadowPrefab, position.position, position.rotation);
 
