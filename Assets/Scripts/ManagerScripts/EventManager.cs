@@ -201,7 +201,7 @@ public class EventManager : MonoBehaviour
             //Set the loading black image to an alph depending on distance to end of distance.
             float alpha = Mathf.InverseLerp(endingDist - 5, endingDist, Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, this.transform.position));
 
-            GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>().adjustLoadValue(alpha);
+            GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<MenuManager>().adjustLoadValue(alpha);
 
             if (Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, this.transform.position) > endingDist && !isEnding)
             {
@@ -345,7 +345,7 @@ public class EventManager : MonoBehaviour
         storyEvents[endingToken].setMessageOverride(1);
         eventChange = true;
         //eventChange = true;
-        GameObject.FindGameObjectWithTag("Player").GetComponent<MenuManager>().adjustLoadValue(1);
+        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<MenuManager>().adjustLoadValue(1);
 
         //Adjust the level manager script.
         LevelManager levelMan_ = GetComponent<LevelManager>();
