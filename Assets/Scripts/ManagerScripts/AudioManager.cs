@@ -101,7 +101,20 @@ public class AudioManager : MonoBehaviour
 
     public void setAudioVolume(int ind, float percent)
     {
-        audSources[ind].aud.volume = audSources[ind].maxVol * (percent * 2);
+        audSources[ind].aud.volume = audSources[ind].maxVol * (percent);
+    }
+
+    public int returnAudioPosition(AudioSource a)
+    {
+        for(int i = 0; i < audSources.Length; i++)
+        {
+            if (audSources[i].aud == a)
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     public int getAudioSourceLength()
