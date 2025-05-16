@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
+using Steamworks;
 
 public class AchievementManager : MonoBehaviour
 {
@@ -28,9 +29,12 @@ public class AchievementManager : MonoBehaviour
     // Start is called before the first frame update
     public void setAchievements()
     {
-        path = Application.persistentDataPath + " PlayerAchievements.txt";
+        //Create a link to steam stats. This is so achievements stored in text can be added to steam later.
+        SteamUserStats.RequestCurrentStats();
 
         achievements = new List<achievement>();
+
+        path = Application.persistentDataPath + " PlayerAchievements.txt";
 
         //Check if file exists. If not, create the file.
         if (!File.Exists(path))
@@ -42,7 +46,7 @@ public class AchievementManager : MonoBehaviour
         StreamReader re = new StreamReader(path);
 
         string currentLine = "";
-        while((currentLine = re.ReadLine()) != null)
+        while ((currentLine = re.ReadLine()) != null)
         {
             //Go through and add the current line to the achievements list.
             string[] line = currentLine.Split(":");
@@ -80,6 +84,10 @@ public class AchievementManager : MonoBehaviour
                     //Remove and replace at achievements.
                     achievements.RemoveAt(i);
                     achievements.Insert(i, a);
+
+                    //At this point, update the achievement file and the steam file.
+                    SteamUserStats.SetAchievement((a.achievementId).ToString());
+
                     updateAchievementFile();
                 }
             }
@@ -109,6 +117,8 @@ public class AchievementManager : MonoBehaviour
                         if(a.progression >= a.target)
                         {
                             a.isGotten = true;
+                            //At this point, update the achievement file and the steam file.
+                            SteamUserStats.SetAchievement((a.achievementId).ToString());
                         }
                     }
 
