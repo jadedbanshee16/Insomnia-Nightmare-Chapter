@@ -29,8 +29,7 @@ public class AchievementManager : MonoBehaviour
     // Start is called before the first frame update
     public void setAchievements()
     {
-        //Create a link to steam stats. This is so achievements stored in text can be added to steam later.
-        SteamUserStats.RequestCurrentStats();
+        SteamUserStats.RequestUserStats(Steamworks.SteamUser.GetSteamID());
 
         achievements = new List<achievement>();
 
@@ -85,10 +84,10 @@ public class AchievementManager : MonoBehaviour
                     achievements.RemoveAt(i);
                     achievements.Insert(i, a);
 
+                    updateAchievementFile();
+
                     //At this point, update the achievement file and the steam file.
                     SteamUserStats.SetAchievement((a.achievementId).ToString());
-
-                    updateAchievementFile();
                 }
             }
         }
@@ -117,6 +116,7 @@ public class AchievementManager : MonoBehaviour
                         if(a.progression >= a.target)
                         {
                             a.isGotten = true;
+
                             //At this point, update the achievement file and the steam file.
                             SteamUserStats.SetAchievement((a.achievementId).ToString());
                         }
