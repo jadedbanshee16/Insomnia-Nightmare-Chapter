@@ -17,6 +17,9 @@ public class EventManager : MonoBehaviour
 
     AchievementScript[] endAchievements;
 
+    //A queue for all current messages that are set.
+    List<eventClass> messageQueue;
+
 
 
 
@@ -65,6 +68,9 @@ public class EventManager : MonoBehaviour
     [SerializeField]
     GameObject haunter;
 
+    //Used to stop a haunting from occuring at given times, like cutscenes.
+    private bool canHaunt;
+
     [SerializeField]
     GameObject[] excludedHauntitems;
 
@@ -79,6 +85,7 @@ public class EventManager : MonoBehaviour
         eventTimer = eventTime;
         //randomMultiplier = 1f;
         haunter.SetActive(false);
+        canHaunt = true;
         objectStateManager = GetComponent<WorldStateManager>();
         promptManager = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<MenuManager>();
 
@@ -102,6 +109,7 @@ public class EventManager : MonoBehaviour
         //Populate the event list.
         //Debug.Log(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
 
+        //Populate story and optional events.
         TextAsset ass = Resources.Load<TextAsset>("Dialogue_" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
         string eventResources = ass.text;
         string[] sections = eventResources.Split('\n');
@@ -150,6 +158,8 @@ public class EventManager : MonoBehaviour
                 eventMessages[eventMessages.Count - 1].addMessage(line[1]);
             }
         }
+
+        
     }
 
     // Update is called once per frame
@@ -206,6 +216,15 @@ public class EventManager : MonoBehaviour
             if (Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, this.transform.position) > endingDist && !isEnding)
             {
                 isEnding = true;
+                canHaunt = false;
+
+                //Turn off haunt and make it so it can't comes back.
+                if(!canHaunt && haunter.activeSelf)
+                {
+                    haunter.SetActive(false);
+                    //haunter.GetComponent<HauntScript>().playSound(false);
+                    isEndingHaunt = true;
+                }
 
                 //Adjust the level manager script.
                 LevelManager levelMan_ = GetComponent<LevelManager>();
@@ -268,11 +287,14 @@ public class EventManager : MonoBehaviour
             {
                 spawnTimer += Time.deltaTime;
                 //Debug.Log("Common?");
-                haunter.GetComponent<HauntScript>().playSound(true);
+                if (canHaunt)
+                {
+                    haunter.GetComponent<HauntScript>().playSound(true);
+                }
             }
             else
             {
-                if (inHideEvent)
+                if (inHideEvent && canHaunt)
                 {
                     haunter.SetActive(true);
 
@@ -370,6 +392,16 @@ public class EventManager : MonoBehaviour
                 levelMan_.updateLevelFile("Mind Chapter", 1);
 
                 GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<MenuManager>().adjustLoadValue(1);
+
+                canHaunt = false;
+
+                //Turn off haunt and make it so it can't comes back.
+                if (!canHaunt && haunter.activeSelf)
+                {
+                    haunter.SetActive(false);
+                    //haunter.GetComponent<HauntScript>().playSound(false);
+                    isEndingHaunt = true;
+                }
 
                 AudioManager audMan_ = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AudioManager>();
 
@@ -656,6 +688,11 @@ public class EventManager : MonoBehaviour
     {
         return excludedHauntitems[i];
     }
+
+    public bool getCanHaunt()
+    {
+        return canHaunt;
+    }
 }
 
 public class eventClass
@@ -665,12 +702,24 @@ public class eventClass
     float eventTime;
     int messageOverride;
 
+    //Have the ability to change to the next message.
+    int nextMessage;
+
     public eventClass(int i, float f, int m)
     {
         eventID = i;
         eventTime = f;
         messageOverride = m;
         messages = new List<string>();
+    }
+
+    public eventClass(int i, float f, int m, int n)
+    {
+        eventID = i;
+        eventTime = f;
+        messageOverride = m;
+        messages = new List<string>();
+        nextMessage = n;
     }
 
     public void addMessage(string s)
