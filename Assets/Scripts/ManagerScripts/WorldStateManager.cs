@@ -346,9 +346,9 @@ public class WorldStateManager : MonoBehaviour
         //Now set the day data.
         //This is to specifically save world data of the Mind Chapter.
         //Ensure if eventManager is not here, then do not save.
-        if (GetComponent<EventManager>())
+        if (GetComponent<MessageScript>())
         {
-            _state.setWorldData(GetComponent<DayNightManager>().getSun().transform.position, GetComponent<DayNightManager>().getSun().transform.rotation, GetComponent<GameManager>().getDay(), GetComponent<EventManager>().getEventToken());
+            _state.setWorldData(GetComponent<DayNightManager>().getSun().transform.position, GetComponent<DayNightManager>().getSun().transform.rotation, GetComponent<GameManager>().getDay(), GetComponent<MessageScript>().getMessageQueue(), GetComponent<MessageScript>().getLastStoryMessage());
         }
         
     }
@@ -628,9 +628,9 @@ public class WorldStateManager : MonoBehaviour
         GetComponent<DayNightManager>().getSun().transform.position = _state.world.sunPos;
         GetComponent<DayNightManager>().getSun().transform.rotation = _state.world.sunRot;
         GetComponent<GameManager>().setDay(_state.world.isDay);
-        if (GetComponent<EventManager>())
+        if (GetComponent<MessageScript>())
         {
-            GetComponent<EventManager>().setEventToken(_state.world.storyPoint);
+            GetComponent<MessageScript>().setMessageQueue(_state.world.messageQueues, _state.world.initialMessagesPlayed);
         }
     }
 
@@ -934,9 +934,9 @@ public class worldState
         events.Add(il);
     }
 
-    public void setWorldData(Vector3 p, Quaternion r, bool b, int i)
+    public void setWorldData(Vector3 p, Quaternion r, bool b, Vector2[] i, int b2)
     {
-        world = new WorldData(p, r, b, i);
+        world = new WorldData(p, r, b, i, b2);
     }
 
     public void setMenuData(string s, float i, string a)
@@ -1117,14 +1117,25 @@ public class WorldData
     public Vector3 sunPos;
     public Quaternion sunRot;
     public bool isDay;
-    public int storyPoint;
+    public Vector2[] messageQueues;
+    public int initialMessagesPlayed;
 
-    public WorldData(Vector3 p, Quaternion r, bool b, int st)
+    public WorldData(Vector3 p, Quaternion r, bool b, Vector2[] st, int b2)
     {
         sunPos = p;
         sunRot = r;
         isDay = b;
-        storyPoint = st;
+        initialMessagesPlayed = b2;
+
+        messageQueues = new Vector2[st.Length];
+
+        for(int i = 0; i < messageQueues.Length; i++)
+        {
+            if(st[i] != null)
+            {
+                messageQueues[i] = st[i];
+            }
+        }
     }
 }
 

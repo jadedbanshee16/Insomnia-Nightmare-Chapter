@@ -69,25 +69,28 @@ public class AchievementManager : MonoBehaviour
 
     public void changeAchievement(string name)
     {
-        for(int i = 0; i < achievements.Count; i++)
+        if(achievements != null)
         {
-            if(string.Equals(name, achievements[i].achievementName))
+            for (int i = 0; i < achievements.Count; i++)
             {
-                //Only make a change if achievement was false.
-                if (!achievements[i].isGotten)
+                if (string.Equals(name, achievements[i].achievementName))
                 {
-                    //Achievement has been triggered. So set to true.
-                    achievement a = achievements[i];
+                    //Only make a change if achievement was false.
+                    if (!achievements[i].isGotten)
+                    {
+                        //Achievement has been triggered. So set to true.
+                        achievement a = achievements[i];
 
-                    a.isGotten = true;
-                    //Remove and replace at achievements.
-                    achievements.RemoveAt(i);
-                    achievements.Insert(i, a);
+                        a.isGotten = true;
+                        //Remove and replace at achievements.
+                        achievements.RemoveAt(i);
+                        achievements.Insert(i, a);
 
-                    updateAchievementFile();
+                        updateAchievementFile();
 
-                    //At this point, update the achievement file and the steam file.
-                    SteamUserStats.SetAchievement((a.achievementId).ToString());
+                        //At this point, update the achievement file and the steam file.
+                        SteamUserStats.SetAchievement((a.achievementId).ToString());
+                    }
                 }
             }
         }
@@ -95,45 +98,49 @@ public class AchievementManager : MonoBehaviour
 
     public void changeAchievement(string name, float progress, bool persistant)
     {
-        for (int i = 0; i < achievements.Count; i++)
+        if(achievements != null)
         {
-            if (string.Equals(name, achievements[i].achievementName))
+            for (int i = 0; i < achievements.Count; i++)
             {
-                //Only make a change if achievement was false.
-                if (!achievements[i].isGotten)
+                if (string.Equals(name, achievements[i].achievementName))
                 {
-                    //Achievement has been triggered. So set to true.
-                    achievement a = achievements[i];
-
-                    //Test for progression.
-                    if (a.target > 0)
+                    //Only make a change if achievement was false.
+                    if (!achievements[i].isGotten)
                     {
-                        if (a.progression < a.target)
+                        //Achievement has been triggered. So set to true.
+                        achievement a = achievements[i];
+
+                        //Test for progression.
+                        if (a.target > 0)
                         {
-                            a.progression += progress;
+                            if (a.progression < a.target)
+                            {
+                                a.progression += progress;
+                            }
+
+                            if (a.progression >= a.target)
+                            {
+                                a.isGotten = true;
+
+                                //At this point, update the achievement file and the steam file.
+                                SteamUserStats.SetAchievement((a.achievementId).ToString());
+                            }
                         }
 
-                        if(a.progression >= a.target)
-                        {
-                            a.isGotten = true;
+                        //Remove and replace at achievements.
+                        achievements.RemoveAt(i);
+                        achievements.Insert(i, a);
 
-                            //At this point, update the achievement file and the steam file.
-                            SteamUserStats.SetAchievement((a.achievementId).ToString());
-                        }
-                    }
-
-                    //Remove and replace at achievements.
-                    achievements.RemoveAt(i);
-                    achievements.Insert(i, a);
-
-                    if (persistant)
-                    {
-                        updateAchievementFile();
-                    } else
-                    {
-                        if (a.isGotten)
+                        if (persistant)
                         {
                             updateAchievementFile();
+                        }
+                        else
+                        {
+                            if (a.isGotten)
+                            {
+                                updateAchievementFile();
+                            }
                         }
                     }
                 }

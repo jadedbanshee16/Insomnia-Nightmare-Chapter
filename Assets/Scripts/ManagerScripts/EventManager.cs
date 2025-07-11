@@ -11,16 +11,9 @@ public class EventManager : MonoBehaviour
     //[SerializeField]
     //int[] exitTime;
 
-    List<eventClass> eventMessages;
-
-    List<eventClass> storyEvents;
-
     AchievementScript[] endAchievements;
 
-    //A queue for all current messages that are set.
-    List<eventClass> messageQueue;
-
-
+    MessageScript messageManager;
 
 
     [Header("Timers")]
@@ -36,15 +29,8 @@ public class EventManager : MonoBehaviour
     [SerializeField]
     float eventSpeed;
 
-    float storyTime;
-    float storyTimer;
-
     [SerializeField]
     float endingDist = 14;
-    [SerializeField]
-    int endingToken;
-    [SerializeField]
-    int deathToken;
 
 
     [SerializeField]
@@ -52,18 +38,13 @@ public class EventManager : MonoBehaviour
 
     bool isStarting;
     bool isEnding = false;
+    bool endingArea = false;
     bool isEventPlayed = false;
     bool inHideEvent;
 
-    public bool first;
-
-    //A number to say at what point in the story you are at.
-    [SerializeField]
-    int eventToken = 0;
-    bool eventChange;
+    //public bool first;
 
     WorldStateManager objectStateManager;
-    MenuManager promptManager;
 
     [SerializeField]
     GameObject haunter;
@@ -87,13 +68,10 @@ public class EventManager : MonoBehaviour
         haunter.SetActive(false);
         canHaunt = true;
         objectStateManager = GetComponent<WorldStateManager>();
-        promptManager = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<MenuManager>();
-
-        eventChange = true;
 
         endAchievements = GetComponentsInChildren<AchievementScript>();
-
         isEndingHaunt = false;
+        messageManager = GetComponent<MessageScript>();
 
         //Set up starting time [Obsolete]
         /*if (isStarting)
@@ -107,161 +85,12 @@ public class EventManager : MonoBehaviour
         }*/
 
         //Populate the event list.
-        //Debug.Log(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-
-        //Populate story and optional events.
-        TextAsset ass = Resources.Load<TextAsset>("Dialogue_" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-        string eventResources = ass.text;
-        string[] sections = eventResources.Split('\n');
-        storyEvents = new List<eventClass>();
-        int storyBeat = -1;
-
-        for(int i = 0; i < sections.Length; i++)
-        {
-            string[] line = sections[i].Split(';');
-
-            //Check if story beat is the same as the line before.
-            if (storyBeat != int.Parse(line[0]))
-            {
-                //If not the same story beat, then add message to new beat.
-                storyBeat = int.Parse(line[0]);
-                storyEvents.Add(new eventClass(int.Parse(line[0]), float.Parse(line[2]), 0));
-                storyEvents[storyEvents.Count - 1].addMessage(line[1]);
-            } else
-            {
-                //Find the last story event made and add the next message.
-                storyEvents[storyEvents.Count - 1].addMessage(line[1]);
-            }
-        }
-
-        ass = Resources.Load<TextAsset>("OptionalDialogue_" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-        eventResources = ass.text;
-        sections = eventResources.Split('\n');
-        eventMessages = new List<eventClass>();
-        storyBeat = -1;
-
-        for (int i = 0; i < sections.Length; i++)
-        {
-            string[] line = sections[i].Split(';');
-
-            //Check if story beat is the same as the line before.
-            if (storyBeat != int.Parse(line[0]))
-            {
-                //If not the same story beat, then add message to new beat.
-                storyBeat = int.Parse(line[0]);
-                eventMessages.Add(new eventClass(int.Parse(line[0]), 0, 0));
-                eventMessages[eventMessages.Count - 1].addMessage(line[1]);
-            }
-            else
-            {
-                //Find the last story event made and add the next message.
-                eventMessages[eventMessages.Count - 1].addMessage(line[1]);
-            }
-        }
-
-        
+        //Debug.Log(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);        
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        //Run a given event if event changes.
-        if(eventToken < storyEvents.Count)
-        {
-            if (eventChange)
-            {
-                //Ensure only this event runs, and only runs once.
-                eventChange = false;
-
-                if (!string.Equals(storyEvents[eventToken].getMessage(), ""))
-                {
-                    promptManager.updateText("MessagePrompt", storyEvents[eventToken].getMessage());
-                }
-
-                //See if this uses exitTime. If it does, then run the story timer.
-                storyTime = storyEvents[eventToken].getEventTime();
-                storyTimer = 0;
-            }
-
-
-            //If the story prompt has exit time, then run the timer.
-            if (storyTimer < storyTime)
-            {
-                storyTimer += Time.deltaTime;
-            }
-            else
-            {
-                //Ensure this only works in exit time mode.
-                if (storyTime > 0)
-                {
-                    eventToken++;
-                    eventChange = true;
-                }
-            }
-        }
-
-        //This will created unique points for the dialogue.
-
-        //Check if player is far enough away from gameManager (Ending time.)
-        if (Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, this.transform.position) > endingDist - 5)
-        {
-            //Start affecting the load screen.
-            promptManager.setToMenuGroup("LoadingBlack");
-            //Set the loading black image to an alph depending on distance to end of distance.
-            float alpha = Mathf.InverseLerp(endingDist - 5, endingDist, Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, this.transform.position));
-
-            GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<MenuManager>().adjustLoadValue(alpha);
-
-            if (Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, this.transform.position) > endingDist && !isEnding)
-            {
-                isEnding = true;
-                canHaunt = false;
-
-                //Turn off haunt and make it so it can't comes back.
-                if(!canHaunt && haunter.activeSelf)
-                {
-                    haunter.SetActive(false);
-                    //haunter.GetComponent<HauntScript>().playSound(false);
-                    isEndingHaunt = true;
-                }
-
-                //Adjust the level manager script.
-                LevelManager levelMan_ = GetComponent<LevelManager>();
-
-                levelMan_.updateLevelFile("Mind Chapter", 1);
-
-                //Go to the prospective eventToken. For the ending, this is last.
-                eventToken = endingToken;
-                eventChange = true;
-                //promptManager.updateText("MessagePrompt", storyPrompts[7]);
-            }
-        }
-
-        //If the story is over (basically if you run out of prompts), do this.
-        if(eventToken >= storyEvents.Count)
-        {
-            //Load the menu.
-            //Delete the old saves.
-            WorldStateManager stateMan_ = GetComponent<WorldStateManager>();
-
-            //Delete the saves.
-            stateMan_.removeAllSaves();
-
-            string ind = "Mind Chapter";
-
-            //Find the LevelManager and use it to load the specific level
-            if (GameObject.FindGameObjectWithTag("GameManager").GetComponent<LevelManager>())
-            {
-                ind = GameObject.FindGameObjectWithTag("GameManager").GetComponent<LevelManager>().retrieveLevel(ind);
-            }
-
-            if (ind.Contains("1"))
-            {
-                ind = "MainMenu";
-            }
-            UnityEngine.SceneManagement.SceneManager.LoadScene(ind);
-        }
 
 
         //Ensure generic events can occur.
@@ -308,6 +137,10 @@ public class EventManager : MonoBehaviour
                 endHideEvent();
             }
         }
+
+        endLevelEvent();
+        endLevel();
+
 
         //Run an achievement if ending.
         if (isEnding)
@@ -362,28 +195,119 @@ public class EventManager : MonoBehaviour
     public void endByKill()
     {
         //promptManager.updateText("MessagePrompt", eventMessages[0].getMessage());
-        eventToken = deathToken;
+
+        //Add the prompt to the message script.
+        messageManager.runEventMessage(messageManager.getDeathMessageID(), EventScript.eventType.storyEvent);
+
         //Change story override.
-        storyEvents[endingToken].setMessageOverride(1);
-        eventChange = true;
+        messageManager.setMessageOverride(messageManager.getEndingMessageID(), 1);
+
         //eventChange = true;
         GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<MenuManager>().adjustLoadValue(1);
 
         //Adjust the level manager script.
         LevelManager levelMan_ = GetComponent<LevelManager>();
 
-        //levelMan_.updateLevelFile("Mind Chapter", -1);
+        canHaunt = false;
 
         //Set the end achievement for the 3rd achievement object.
         endAchievements[2].triggerAchievement();
     }
 
+    public void endLevel()
+    {
+        if (messageManager == null)
+        {
+            messageManager = GetComponent<MessageScript>();
+        }
+
+        //This should run the end of the meesage
+        if (messageManager.isMessagesFinished())
+        {
+            //Load the menu.
+            //Delete the old saves.
+            WorldStateManager stateMan_ = GetComponent<WorldStateManager>();
+
+            //Delete the saves.
+            stateMan_.removeAllSaves();
+
+            string ind = "Mind Chapter";
+
+            //Find the LevelManager and use it to load the specific level
+            if (GameObject.FindGameObjectWithTag("GameManager").GetComponent<LevelManager>())
+            {
+                ind = GameObject.FindGameObjectWithTag("GameManager").GetComponent<LevelManager>().retrieveLevel(ind);
+            }
+
+            if (ind.Contains("1"))
+            {
+                ind = "MainMenu";
+            }
+            UnityEngine.SceneManagement.SceneManager.LoadScene(ind);
+        }
+    }
+
+    public void endLevelEvent()
+    {
+        //Check if player is far enough away from gameManager (Ending time.)
+        if (Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, this.transform.position) > endingDist - 5)
+        {
+            //Start affecting the load screen.
+            messageManager.setLoadingOnPrompts();
+
+            endingArea = true;
+
+            //Set the loading black image to an alph depending on distance to end of distance.
+            float alpha = Mathf.InverseLerp(endingDist - 5, endingDist, Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, this.transform.position));
+
+            //Debug.Log("Alpha: " + alpha);
+
+            //Set the alpha of the current selected point. (This should be the loading prompt.
+            GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<MenuManager>().adjustLoadValue(alpha);
+
+            if (Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, this.transform.position) > endingDist && !isEnding)
+            {
+                isEnding = true;
+                canHaunt = false;
+
+                //Turn off haunt and make it so it can't comes back.
+                if (!canHaunt && haunter.activeSelf)
+                {
+                    haunter.SetActive(false);
+                    //haunter.GetComponent<HauntScript>().playSound(false);
+                    isEndingHaunt = true;
+                }
+
+                //Run the event for ending.
+                runNextEvent(messageManager.getEndingMessageID(), EventScript.eventType.storyEvent, Vector2.zero, 0);
+
+                //Adjust the level manager script.
+                LevelManager levelMan_ = GetComponent<LevelManager>();
+
+                levelMan_.updateLevelFile("Mind Chapter", 1);
+            }
+        } else
+        {
+            //This will ensure that only if entering ending area that this will prompt.
+            if (endingArea)
+            {
+                //Debug.Log("Worked");
+                //If returning to the play field, then this will reset group to stylus and unlock the system.
+                messageManager.resetLoadingOnPrompts();
+
+                endingArea = false;
+            }
+        }
+    }
+
     public void runNextEvent(int eventInd, EventScript.eventType t, Vector2 dep, int over)
     {
+        //First, test if the ending is the end token. If so, complete the last event stuff and quit.
         if(t == EventScript.eventType.storyEvent)
         {
-            if (eventInd == endingToken)
+            if (eventInd == messageManager.getEndingMessageID())
             {
+                //This should make the ending at the end of the game.
                 isEnding = true;
 
                 //Adjust the level manager script.
@@ -413,48 +337,13 @@ public class EventManager : MonoBehaviour
                 eventTimer = 100;
             }
 
-            //For different dialogues based on when event was done.
-            //If below the needed event, then say this event.
-            //If above this event, then say the next event coming.
-            eventToken = eventInd;
-            eventChange = true;
+            //Add the given information to the queue.
+            messageManager.runEventMessage(eventInd, t);
         } else
         {
-            //Ensure the story events are paused as this event is being made.
-            eventChange = false;
-            eventToken--;
-            storyTimer = 0;
+            messageManager.runEventMessage(eventInd, t);
 
-            //Optional events can run in 2, so check where one is at in the story.
-            storyEvents[(int)dep.x].setMessageOverride((int)dep.y);
-
-            //Change dialogue depending if story event has already passed.
-            if(eventToken >= dep.x - 1)
-            {
-                eventMessages[eventInd].setMessageOverride(over);
-            }
-
-
-            //Say the message of the prompt.
-            if (!string.Equals(eventMessages[eventInd].getMessage(), ""))
-            {
-                promptManager.updateText("MessagePrompt", eventMessages[eventInd].getMessage());
-            }
-
-            //Debug.Log("Ran message: " + eventInd);
-
-            //Ensure all forced interaction based events (that is, first interactions or interactions that only work when not making an interaction.
-            bool changed = false;
-
-            for(int i = 1; i < 4; i++)
-            {
-                if(eventToken <= i - 1 && !changed)
-                {
-                    storyEvents[i].setMessageOverride(1);
-                    changed = true;
-                }
-            }
-
+            messageManager.setMessageOverride((int)dep.x, (int)dep.y);
         }
     }
 
@@ -629,7 +518,8 @@ public class EventManager : MonoBehaviour
         //Debug.Log("Worked?");
         //Set the given prompt.
         //Also, make events stop for a second.
-        promptManager.updateText("MessagePrompt", eventMessages[1].getMessage());
+
+        messageManager.runEventMessage(1, EventScript.eventType.optionalEvent);
 
         eventPauseTimer = Random.Range(3, 15);
 
@@ -640,7 +530,7 @@ public class EventManager : MonoBehaviour
 
     private void endHideEvent()
     {
-        promptManager.updateText("MessagePrompt", eventMessages[2].getMessage());
+        messageManager.runEventMessage(2, EventScript.eventType.optionalEvent);
 
         haunter.SetActive(false);
         //haunter.GetComponent<HauntScript>().playSound(false);
@@ -669,16 +559,6 @@ public class EventManager : MonoBehaviour
         isStarting = b;
     }
 
-    public int getEventToken()
-    {
-        return eventToken;
-    }
-
-    public void setEventToken(int b)
-    {
-        eventToken = b;
-    }
-
     public int getExcludedCount()
     {
         return excludedHauntitems.Length;
@@ -692,69 +572,5 @@ public class EventManager : MonoBehaviour
     public bool getCanHaunt()
     {
         return canHaunt;
-    }
-}
-
-public class eventClass
-{
-    int eventID;
-    List<string> messages;
-    float eventTime;
-    int messageOverride;
-
-    //Have the ability to change to the next message.
-    int nextMessage;
-
-    public eventClass(int i, float f, int m)
-    {
-        eventID = i;
-        eventTime = f;
-        messageOverride = m;
-        messages = new List<string>();
-    }
-
-    public eventClass(int i, float f, int m, int n)
-    {
-        eventID = i;
-        eventTime = f;
-        messageOverride = m;
-        messages = new List<string>();
-        nextMessage = n;
-    }
-
-    public void addMessage(string s)
-    {
-        messages.Add(s);
-    }
-
-    public int getID()
-    {
-        return eventID;
-    }
-
-    public float getEventTime()
-    {
-        return eventTime;
-    }
-
-    public string getMessage()
-    {
-        if(messageOverride < messages.Count && messageOverride >= 0)
-        {
-            return messages[messageOverride];
-        }
-
-        //Say default dialogue.
-        return messages[0];
-    }
-
-    public int getMessageOverride()
-    {
-        return messageOverride;
-    }
-
-    public void setMessageOverride(int i)
-    {
-        messageOverride = i;
     }
 }

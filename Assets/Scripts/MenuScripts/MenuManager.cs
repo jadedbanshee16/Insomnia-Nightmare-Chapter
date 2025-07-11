@@ -23,6 +23,8 @@ public class MenuManager : MonoBehaviour
 
     private float menuID;
 
+    public bool lockMenu = false;
+
     //A function to turn off and on any menu group selected.
     public void updateMenuGroup(int ind, bool isOn)
     {
@@ -32,14 +34,20 @@ public class MenuManager : MonoBehaviour
     //A function to find and set one particular menu to run.
     public void setToMenuGroup(string name)
     {
-        for(int i = 0; i < menuPages.Length; i++)
+        //This may cause lock issues.
+        //Affectively lockMenu should only be true when leaving the playfield or killed by the haunter.
+        if (!lockMenu)
         {
-            if(string.Equals(menuPages[i].gameObject.name, name))
+            for (int i = 0; i < menuPages.Length; i++)
             {
-                updateMenuGroup(i, true);
-            } else
-            {
-                updateMenuGroup(i, false);
+                if (string.Equals(menuPages[i].gameObject.name, name))
+                {
+                    updateMenuGroup(i, true);
+                }
+                else
+                {
+                    updateMenuGroup(i, false);
+                }
             }
         }
     }
@@ -284,7 +292,7 @@ public class MenuManager : MonoBehaviour
     }
 
     //A function which finds the first text of a given menu item and updates that to whatever prompt is given.
-    public void updateText(string ind, string s)
+    public void updateText(string ind, string s, float time)
     {
         //first, add the given menu group.
         externalMessage[0].SetActive(true);
@@ -294,13 +302,15 @@ public class MenuManager : MonoBehaviour
         Color col = externalMessage[0].GetComponentInChildren<Image>().color;
 
         isDisplayingMessage = true;
-        promptTimer = promptTime;
-        StartCoroutine(promptCoRoutine(externalMessage[0].GetComponentInChildren<Image>(), ind));
+        promptTimer = time;
+        StartCoroutine(promptCoRoutine(externalMessage[0].GetComponentInChildren<Image>(), ind, time));
     }
 
-    IEnumerator promptCoRoutine(Image img, string name)
+    IEnumerator promptCoRoutine(Image img, string name, float t)
     {
         Color col = img.color;
+        TextMeshProUGUI tex = img.gameObject.GetComponentInChildren<TextMeshProUGUI>();
+        Color texCol = tex.color;
 
         while (isDisplayingMessage)
         {
@@ -310,18 +320,22 @@ public class MenuManager : MonoBehaviour
                 promptTimer -= Time.deltaTime / 3;
 
                 //Start changing alpha until it is ready.
-                if(promptTimer <= promptTime / 2)
+                if(promptTimer <= t / 2)
                 {
-                    col.a = promptTimer / (promptTime / 2);
+                    col.a = promptTimer / (t / 2);
+                    texCol.a = promptTimer / (t / 2);
                     img.color = col;
+                    tex.color = texCol;
                 }
             } else
             {
                 isDisplayingMessage = false;
                 col.a = 1;
+                texCol.a = 1;
                 img.color = col;
+                tex.color = texCol;
                 externalMessage[0].SetActive(false);
-                StopCoroutine(promptCoRoutine(img, name));
+                StopCoroutine(promptCoRoutine(img, name, t));
             }
 
             yield return null;
@@ -341,5 +355,15 @@ public class MenuManager : MonoBehaviour
     public int getMenuAmount()
     {
         return menuPages.Length;
+    }
+
+    public bool isRunningMessage()
+    {
+        return isDisplayingMessage;
+    }
+
+    public void setisRunningMessage(bool b)
+    {
+        isDisplayingMessage = b;
     }
 }

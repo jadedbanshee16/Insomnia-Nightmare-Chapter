@@ -682,43 +682,47 @@ public class FPSController : MonoBehaviour
 
     public void setMenu(bool b, bool usingMouse)
     {
-        if (b && usingMouse)
+        //If the prompt menu is locked, do not switch to menu.
+        if (!menu_.lockMenu)
         {
-            currentControl = controlStatus.UIOnly;
-        }
-        else if (b && !usingMouse)
-        {
-            currentControl = controlStatus.mouseOnlyConfined;
-        }
-        else if (!b)
-        {
-            currentControl = controlStatus.fullControl;
-        }
+            if (b && usingMouse)
+            {
+                currentControl = controlStatus.UIOnly;
+            }
+            else if (b && !usingMouse)
+            {
+                currentControl = controlStatus.mouseOnlyConfined;
+            }
+            else if (!b)
+            {
+                currentControl = controlStatus.fullControl;
+            }
 
-        //menuLocked = b;
+            //menuLocked = b;
 
-        //interactionLocked = b;
+            //interactionLocked = b;
 
-        //mouseLocked = !usingMouse;
+            //mouseLocked = !usingMouse;
 
-        if (usingMouse)
-        {
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = true;
+            if (usingMouse)
+            {
+                Cursor.lockState = CursorLockMode.Confined;
+                Cursor.visible = true;
 
-            //Set the menu to true.
-            //Menu is index 1, stylus is index 0.
-            menu_.setToMenuGroup("Menu");
-            m_camera.lockHead(true);
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            //Set the menu to true.
-            //Menu is index 1, stylus is index 0.
-            menu_.setToMenuGroup("Stylus");
-            m_camera.lockHead(false);
+                //Set the menu to true.
+                //Menu is index 1, stylus is index 0.
+                menu_.setToMenuGroup("Menu");
+                m_camera.lockHead(true);
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                //Set the menu to true.
+                //Menu is index 1, stylus is index 0.
+                menu_.setToMenuGroup("Stylus");
+                m_camera.lockHead(false);
+            }
         }
     }
 
