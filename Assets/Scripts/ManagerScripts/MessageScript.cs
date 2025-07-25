@@ -83,7 +83,15 @@ public class MessageScript : MonoBehaviour
         {
             messageQueue = new List<eventClass>();
         }
-        return (messageQueue.Count > 0 ? false : true) && lastMessage == endingMessageId && !promptManager.isRunningMessage();
+        return (messageQueue.Count > 0 ? false : true) && (lastMessage == endingMessageId || lastMessage == deathMessageId) && !promptManager.isRunningMessage();
+    }
+
+    public void clearMessageQueue()
+    {
+
+        messageQueue.Clear();
+        //Even current message must be removed.
+        promptManager.setisRunningMessage(false);
     }
 
     public void setLoadingOnPrompts()

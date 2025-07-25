@@ -196,6 +196,9 @@ public class EventManager : MonoBehaviour
     {
         //promptManager.updateText("MessagePrompt", eventMessages[0].getMessage());
 
+        //Make sure everything else in this message queue is cleared.
+        messageManager.clearMessageQueue();
+
         //Add the prompt to the message script.
         messageManager.runEventMessage(messageManager.getDeathMessageID(), EventScript.eventType.storyEvent);
 
@@ -216,11 +219,6 @@ public class EventManager : MonoBehaviour
 
     public void endLevel()
     {
-        if (messageManager == null)
-        {
-            messageManager = GetComponent<MessageScript>();
-        }
-
         //This should run the end of the meesage
         if (messageManager.isMessagesFinished())
         {
@@ -239,6 +237,7 @@ public class EventManager : MonoBehaviour
                 ind = GameObject.FindGameObjectWithTag("GameManager").GetComponent<LevelManager>().retrieveLevel(ind);
             }
 
+            //This should 
             if (ind.Contains("1"))
             {
                 ind = "MainMenu";
@@ -278,13 +277,16 @@ public class EventManager : MonoBehaviour
                     isEndingHaunt = true;
                 }
 
+                //Ensure no other messages would continue playing at this level.
+                messageManager.clearMessageQueue();
                 //Run the event for ending.
                 runNextEvent(messageManager.getEndingMessageID(), EventScript.eventType.storyEvent, Vector2.zero, 0);
 
                 //Adjust the level manager script.
                 LevelManager levelMan_ = GetComponent<LevelManager>();
 
-                levelMan_.updateLevelFile("Mind Chapter", 1);
+                //Debug.Log("Should be once");
+                //levelMan_.updateLevelFile("Mind Chapter", 1);
             }
         } else
         {

@@ -33,6 +33,7 @@ public class HauntScript : MonoBehaviour
     private float audioTimer;
 
     private bool playerOnce = true;
+    private bool killedOnce = false;
 
     // Start is called before the first frame update
     void Start()
@@ -213,9 +214,10 @@ public class HauntScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && !killedOnce)
         {
             kill();
+            killedOnce = true;
         }
     }
 }

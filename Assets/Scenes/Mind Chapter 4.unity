@@ -7683,17 +7683,17 @@ PrefabInstance:
     - target: {fileID: 3804410004645118802, guid: 1fd6d5434247e4b409815323fa2270c5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0625261
+      value: 0.06252614
       objectReference: {fileID: 0}
     - target: {fileID: 3804410004645118802, guid: 1fd6d5434247e4b409815323fa2270c5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0013888478
+      value: 0.0013888627
       objectReference: {fileID: 0}
     - target: {fileID: 3804410004645118802, guid: 1fd6d5434247e4b409815323fa2270c5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.022159753
+      value: -0.022159487
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -22763,6 +22763,7 @@ GameObject:
   - component: {fileID: 6093532391066582193}
   - component: {fileID: 8767832812761682330}
   - component: {fileID: 8767832812761682331}
+  - component: {fileID: 8767832812761682332}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -23386,11 +23387,7 @@ MonoBehaviour:
   eventTime: 30
   eventSpeed: 3
   endingDist: 14
-  endingToken: 5
-  deathToken: 8
   randomMultiplier: 0
-  first: 0
-  eventToken: 0
   haunter: {fileID: 1273036688}
   excludedHauntitems:
   - {fileID: 1989237694}
@@ -29312,6 +29309,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6fbf49e43dc27e4ca642c67d7c5d0fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8767832812761682332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5014504102069484878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0103f7521ff97ee4d892c08d02f96580, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  messageQueueMessages: []
+  endingMessageId: 5
+  deathMessageId: 8
+  lastMessage: 0
 --- !u!4 &8782604889314416414
 Transform:
   m_ObjectHideFlags: 0

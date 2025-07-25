@@ -326,6 +326,12 @@ public class MenuManager : MonoBehaviour
                     texCol.a = promptTimer / (t / 2);
                     img.color = col;
                     tex.color = texCol;
+                } else
+                {
+                    col.a = 1;
+                    texCol.a = 1;
+                    img.color = col;
+                    tex.color = texCol;
                 }
             } else
             {
