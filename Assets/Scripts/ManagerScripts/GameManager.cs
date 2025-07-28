@@ -111,6 +111,12 @@ public class GameManager : MonoBehaviour
             //Set up the groups of this system.
             dayMan_.setIntensity(2);
 
+            //Find and set the inventoryScript.
+            if (GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<InventoryScript>())
+            {
+                GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<InventoryScript>().updateInventorySlots();
+            }
+
             //Run a coroutine to load in the world without updates.
             StartCoroutine(loadingSceneUI());
         }

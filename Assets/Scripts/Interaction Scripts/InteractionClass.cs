@@ -19,7 +19,8 @@ public class InteractionClass : MonoBehaviour
         playerHold,
         unique,
         bookPosition,
-        activeObjects
+        activeObjects,
+        playerInventory
     }
 
     [SerializeField]
@@ -76,7 +77,7 @@ public class InteractionClass : MonoBehaviour
     }
 
     //See if the inputted interaction type is on the list of permitted interactions.
-    public bool isInteractionType(interactionType type)
+    public virtual bool isInteractionType(interactionType type)
     {
         bool isType = false;
 

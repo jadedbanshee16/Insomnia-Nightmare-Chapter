@@ -15,7 +15,6 @@ public class HoldInteractionClass : InteractionClass
     [SerializeField]
     Vector3 dropDirection;
 
-
     public Transform currentHolder;
 
     Rigidbody rig_;
@@ -324,6 +323,13 @@ public class HoldInteractionClass : InteractionClass
     public bool getIsHeld()
     {
         return isHeld;
+    }
+
+    public override bool isInteractionType(interactionType type)
+    {
+        bool returnType = base.isInteractionType(type);
+
+        return returnType;
     }
 
     /*public EnergyObjectClass getConnectedEnergyObject()

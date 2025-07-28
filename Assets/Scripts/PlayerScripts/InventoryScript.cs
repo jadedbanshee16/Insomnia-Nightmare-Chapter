@@ -5,180 +5,107 @@ using UnityEngine;
 public class InventoryScript : MonoBehaviour
 {
     [SerializeField]
-    List<GameObject> inventoryObjects;
+    Transform[] inventoryPositions;
+    [SerializeField]
+    HoldInteractionClass[] inventoryObjects;
 
     [SerializeField]
-    int maximumInventory;
+    int inventorySize;
 
-    //Some special inventory slots.
-    public bool torchSlot;
-    public GameObject activeHand;
-
-    [SerializeField]
-    public int activeObject;
-
+    public int activeHand = 0;
 
     //A function that adds a new given object to your inventory.
     //This should be called when a player selects a holdable object.
-    public void addObject(GameObject newObject, Vector3 front)
+    /*public void addObject(HoldInteractionClass newObject, Vector3 front)
     {
-        if (!isInventoryFilled())
-        {
-            inventoryObjects.Add(newObject);
+        int availableSlot = findAvailableSlot();
 
-            //Set the new active hand to the new item. First, remove the old on.
-            if(activeObject >= 0)
+
+        //If lesser than 0, no available slots and so don't complete the 'add'.
+        if (availableSlot > -1)
+        {
+            //Add the current object in '0' to the given slot, then move the new added object to the old one.
+            //If the hold interaction object is NOT able to be moved, then do nothing.
+            if(inventoryObjects[0].getCurrentHeldItem() != null && inventoryObjects[0].getCurrentHeldItem().isInteractionType(InteractionClass.interactionType.playerInventory))
             {
-                inventoryObjects[activeObject].SetActive(false);
-                inventoryObjects[activeObject].GetComponent<InteractionClass>().Interact(front, Quaternion.identity, null);
-                inventoryObjects[activeObject].GetComponent<HoldInteractionClass>().removeHeld();
-                activeHand.transform.GetChild(0).transform.position = activeHand.transform.position;
+                //Add this object to the available slot.
+                inventoryObjects[0].getCurrentHeldItem().Interact(inventoryObjects[availableSlot].transform.GetChild(0).position, inventoryObjects[availableSlot].transform.GetChild(0).rotation, inventoryObjects[availableSlot].transform);
             }
 
-            activeObject = inventoryObjects.Count - 1;
-            inventoryObjects[activeObject].GetComponent<HoldInteractionClass>().Interact(activeHand.transform.GetChild(0).position, activeHand.transform.GetChild(0).rotation, activeHand.transform);
-            inventoryObjects[activeObject].SetActive(false);
+            //Considering the above is complete, test if inventory active hand is not null and try to put something in it.
+            if(inventoryObjects[0].getCurrentHeldItem() == null)
+            {
+                newObject.Interact(inventoryObjects[0].transform.GetChild(0).position, inventoryObjects[activeHand].transform.GetChild(0).rotation, inventoryObjects[activeHand].transform);
+            }
+
+            //If it got this far, then you are unable to pick up the item. Debug for prosperity.
+            Debug.Log("Unable to pick up item.");
         }
-    }
+    }*/
 
-    public void dropObject(Vector3 front)
+    /*public void dropObject(Vector3 front)
     {
-        if(activeObject >= 0)
+        if(inventoryObjects[activeHand].getCurrentHeldItem() != null)
         {
-            int newActive = 0;
-            if(activeObject - 1 >= 0)
-            {
-                newActive = activeObject - 1;
-            }
-
-            inventoryObjects[activeObject].SetActive(false);
-            inventoryObjects[activeObject].GetComponent<InteractionClass>().Interact(front, Quaternion.identity, null);
-            inventoryObjects[activeObject].GetComponent<HoldInteractionClass>().removeHeld();
-            activeHand.transform.GetChild(0).transform.position = activeHand.transform.position;
-
-            inventoryObjects.Remove(inventoryObjects[activeObject]);
-
-            if(inventoryObjects.Count > 0)
-            {
-                //Switch to new object.
-                activeObject = newActive;
-
-                inventoryObjects[activeObject].GetComponent<HoldInteractionClass>().Interact(activeHand.transform.GetChild(0).position, activeHand.transform.GetChild(0).rotation, activeHand.transform);
-                inventoryObjects[activeObject].SetActive(true);
-            } else
-            {
-                activeObject = -1;
-            }
+            inventoryObjects[activeHand].getCurrentHeldItem().Interact(front, Quaternion.identity, null);
+            inventoryObjects[activeHand].getCurrentHeldItem().removeHeld();
         }
-    }
+    }*/
 
-    public void switchObject(int offset, Vector3 front)
+    //Cycle all currentHeldItems up by removing them 
+    /*public void switchObject(int offset)
     {
-        int newActive = activeObject;
+        //Store all the activeobject.
+        HoldInteractionClass activeObj = inventoryObjects[0].getCurrentHeldItem();
+        HoldInteractionClass newObj = inventoryObjects[offset].getCurrentHeldItem();
 
-        if(offset > 0)
+        //Offset is the new position. This can never be zero (active hand).
+        //This marks the new position that switches with active hand.
+        activeHand = offset;
+
+        //Remove items from current positions.
+        if(activeObj)
         {
-            if(activeObject + offset > inventoryObjects.Count)
-            {
-                newActive = 0;
-            } else
-            {
-                newActive = activeObject + offset;
-            }
-        } else if (offset < 0)
-        {
-            if(activeObject - offset < 0)
-            {
-                newActive = inventoryObjects.Count - 1;
-            } else
-            {
-                newActive = activeObject - offset;
-            }
+            activeObj.removeHeld();
         }
 
-        //De activate the current object.
-        inventoryObjects[activeObject].SetActive(false);
-        inventoryObjects[activeObject].GetComponent<InteractionClass>().Interact(front, Quaternion.identity, null);
-        inventoryObjects[activeObject].GetComponent<HoldInteractionClass>().removeHeld();
-        activeHand.transform.GetChild(0).transform.position = activeHand.transform.position;
+        if(newObj)
+        {
+            
+            newObj.removeHeld();
+        }
 
-        //Activate the new object.
-        activeObject = newActive;
-        inventoryObjects[activeObject].GetComponent<HoldInteractionClass>().Interact(activeHand.transform.GetChild(0).position, activeHand.transform.GetChild(0).rotation, activeHand.transform);
-        inventoryObjects[activeObject].SetActive(true);
-    }
+        activeObj.Interact(inventoryObjects[offset].transform.GetChild(0).position, inventoryObjects[offset].transform.GetChild(0).rotation, inventoryObjects[offset].transform);
+        newObj.Interact(inventoryObjects[0].transform.GetChild(0).position, inventoryObjects[0].transform.GetChild(0).rotation, inventoryObjects[0].transform);
+    }*/
 
-    public HoldInteractionClass returnHeldObject()
+    /*public HoldInteractionClass returnHeldObject()
     {
-        return inventoryObjects[activeObject].GetComponent<HoldInteractionClass>();
-    }
-
-    public bool isHoldingObject()
-    {
-        return activeObject >= 0;
-    }
+        return inventoryObjects[activeHand].getCurrentHeldItem();
+    }*/
 
     //A function to return whether the intentory list is currently filled.
-    public bool isInventoryFilled()
+    /*public int findAvailableSlot()
     {
-        return inventoryObjects.Count == maximumInventory;
-    }
+        //Find and return the first available slot.
+        for(int i = 0; i < inventoryObjects.Length; i++)
+        {
+            if(inventoryObjects[i].getCurrentHeldItem() == null)
+            {
+                return i;
+            }
+        }
 
+        return -1;
+    }*/
 
 
     //Warning: This assumes the given inventory items can be found when searching for interactables.
-    public void updateInventory(List<float> inven, int activeObj, int maximum)
+    public void updateInventorySlots()
     {
+        //All slots would have their items saved in interaction data, so no need to find if more points can be added.
+
         //Set up the interactables. This should be the only objects in the inventory.
-        HoldInteractionClass[] interactables = GameObject.FindObjectsByType<HoldInteractionClass>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-        inventoryObjects = new List<GameObject>();
-
-        activeObject = activeObj;
-        maximumInventory = maximum;
-
-        //First, update the inventory objects with the given list.
-        for (int i = 0; i < inven.Count; i++)
-        {
-            for(int v = 0; v < interactables.Length; v++)
-            {
-                if(interactables[v].getObjectID() == inven[i])
-                {
-                    //Set the object to the list.
-                    inventoryObjects.Add(interactables[v].gameObject);
-
-                    //Set active of this object to false so it's not in the world.
-                    if(i == activeObject)
-                    {
-                        inventoryObjects[i].GetComponent<HoldInteractionClass>().Interact(activeHand.transform.GetChild(0).position, activeHand.transform.GetChild(0).rotation, activeHand.transform);
-                    } else
-                    {
-                        inventoryObjects[i].SetActive(false);
-                    }
-                }
-            }
-        }
-    }
-
-
-    public List<float> getInventory()
-    {
-        List<float> newList = new List<float>();
-
-        for(int i = 0; i < inventoryObjects.Count; i++)
-        {
-            newList.Add(inventoryObjects[i].GetComponent<InteractionClass>().getObjectID());
-        }
-
-        return newList;
-    }
-
-    public int getCurrentActiveHand()
-    {
-        return activeObject;
-    }
-
-    public int setMaximumInventorySize()
-    {
-        return maximumInventory;
+        inventoryPositions = GetComponentsInChildren<Transform>();
     }
 }
