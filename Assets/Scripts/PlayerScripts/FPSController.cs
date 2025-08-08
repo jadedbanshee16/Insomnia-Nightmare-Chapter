@@ -466,17 +466,20 @@ public class FPSController : MonoBehaviour
             if (hitPoint.collider.GetComponent<HoldInteractionClass>())
             {
                 int avSlot = invent_.findAvailableSlot();
+
+                //Holding item is for items you MUST hold the button to hold and the avSlot is returning of there are available spots in the inventory.
+                //Both must be set (available and not holdingItem) in order to interact.
                 //Set up new code for holding an item.
-                if (avSlot > -1)
+                if (avSlot > -1 && !holdingItem)
                 {
                     if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.player))
                     {
                         interactionTimer = interactionCooldown;
                         invent_.addObject(hitPoint.collider.GetComponent<HoldInteractionClass>());
-                        setHeldItem(hitPoint.collider.GetComponent<HoldInteractionClass>());
+                        //setHeldItem(hitPoint.collider.GetComponent<HoldInteractionClass>());
 
                     //Could break something.
-                    } else if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.playerHold) && avSlot == 0)
+                    } else if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.playerHold) && avSlot == 0 && !holdingItem)
                     {
 
                         //Do not reset interaction timer as this will be used for holding the button.

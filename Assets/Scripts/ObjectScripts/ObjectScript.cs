@@ -47,7 +47,7 @@ public class ObjectScript : MonoBehaviour
         if (Vector3.Distance(anchorPointPos, this.transform.position) > 100f && !holdInteractionsystem.getIsHeld())
         {
             this.transform.position = new Vector3(anchorPointPos.x, anchorPointPos.y + 0.1f, anchorPointPos.z);
-            rig_.velocity = Vector3.up + Vector3.right;
+            rig_.linearVelocity = Vector3.up + Vector3.right;
         }
 
         //This is to change the new anchor point, so a player can pick up and change a given anchor point.

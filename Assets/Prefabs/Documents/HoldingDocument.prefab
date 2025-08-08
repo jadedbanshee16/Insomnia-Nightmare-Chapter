@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3762693886340042530}
   - component: {fileID: 8991590918961905096}
   - component: {fileID: 2906723205785810797}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Quad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,6 +58,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -98,7 +101,7 @@ GameObject:
   - component: {fileID: 7903793947587697767}
   - component: {fileID: 3061921225813827612}
   - component: {fileID: 3265837856743957769}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: HoldingDocument
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -198,7 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectID: 0
-  permittedInteractions: 00000000
+  permittedInteractions: 000000000a000000
   isHeld: 0
   connectedObj: {fileID: 0}
   dropDirection: {x: 0, y: 0, z: 0}
@@ -220,6 +223,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.355
   m_Pitch: 1
@@ -317,3 +321,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac9ab8566c92e3e40984fd2f9e5d4746, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anchorPointPos: {x: 0, y: 0, z: 0}

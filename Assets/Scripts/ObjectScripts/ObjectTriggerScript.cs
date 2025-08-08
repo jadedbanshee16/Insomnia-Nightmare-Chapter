@@ -22,7 +22,7 @@ public class ObjectTriggerScript : MonoBehaviour
             {
                 if(throwStrength > 0)
                 {
-                    other.GetComponent<Rigidbody>().velocity = throwDirection * throwStrength;
+                    other.GetComponent<Rigidbody>().linearVelocity = throwDirection * throwStrength;
                 } else
                 {
                     other.gameObject.transform.position = teleportPosition.position;

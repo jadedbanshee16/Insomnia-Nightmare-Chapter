@@ -1,6 +1,6 @@
-using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class FPSCamera : MonoBehaviour
@@ -78,18 +78,18 @@ public class FPSCamera : MonoBehaviour
     {
         if(i == 3)
         {
-            _cam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = runBob.x;
-            _cam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = runBob.y;
+            _cam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().AmplitudeGain = runBob.x;
+            _cam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().FrequencyGain = runBob.y;
         }
         else if (i == 1)
         {
-            _cam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = crouchBob.x;
-            _cam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = crouchBob.y;
+            _cam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().AmplitudeGain = crouchBob.x;
+            _cam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().FrequencyGain = crouchBob.y;
         }
         else
         {
-            _cam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = walkBob.x;
-            _cam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = walkBob.y;
+            _cam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().AmplitudeGain = walkBob.x;
+            _cam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().FrequencyGain = walkBob.y;
         }
     }
 

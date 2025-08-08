@@ -96,7 +96,8 @@ public class InventoryScript : MonoBehaviour
         int newInd = findObjectInSlot(activeHand);
         int actInd = findObjectInSlot(0);
 
-        if(actInd >= 0)
+        //Make sure the item can be but into inventory before trying.
+        if(actInd >= 0 && inventoryObjects[actInd].item.isInteractionType(InteractionClass.interactionType.playerInventory))
         {
             inventoryItem newItem = new inventoryItem(inventoryObjects[actInd].item, activeHand);
 
@@ -108,7 +109,8 @@ public class InventoryScript : MonoBehaviour
             inventoryObjects[actInd] = newItem;
         }
 
-        if (newInd >= 0)
+        //Make sure active hand has been made empty.
+        if (newInd >= 0 && findObjectInSlot(0) < 0)
         {
             inventoryItem newItem = new inventoryItem(inventoryObjects[newInd].item, 0);
             //switch item to main hand.

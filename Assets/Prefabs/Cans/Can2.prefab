@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7988168901151332540}
   - component: {fileID: 7906966526261054514}
   - component: {fileID: 1960074724940630321}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Can.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,6 +58,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -98,7 +101,7 @@ GameObject:
   - component: {fileID: 6755819908666347804}
   - component: {fileID: 3982394885653193140}
   - component: {fileID: 7963648278138628795}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Can2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,6 +225,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.398
   m_Pitch: 1
