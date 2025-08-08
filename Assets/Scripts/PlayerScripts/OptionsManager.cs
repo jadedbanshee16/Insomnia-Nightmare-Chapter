@@ -18,9 +18,11 @@ public class OptionsManager : MonoBehaviour
         run,
         crouch,
         exit,
+        scrollUp,
+        scrollDown
     };
 
-    private int controlSize = 11;
+    private int controlSize = 13;
 
     public KeyCode[] controls;
 

@@ -49,6 +49,7 @@ public class FPSController : MonoBehaviour
     private CapsuleCollider m_collider;
     private CharacterController m_controller;
     private Rigidbody m_rig;
+    private InventoryScript invent_;
     [SerializeField]
     private Transform camPos;
     private playerStatus currentStatus;
@@ -95,6 +96,7 @@ public class FPSController : MonoBehaviour
         m_rig = GetComponent<Rigidbody>();
         m_collider = GetComponent<CapsuleCollider>();
         options = GameObject.FindGameObjectWithTag("GameManager").GetComponent<OptionsManager>();
+        invent_ = GetComponentInChildren<InventoryScript>();
         colliderSize = colliderSizes.y;
 
         menu_ = GetComponentInChildren<MenuManager>();
@@ -155,14 +157,14 @@ public class FPSController : MonoBehaviour
 
         if (Input.GetKeyUp(options.getControl(OptionsManager.theControls.interaction)) && handLocked && holdingItem && currentControl != controlStatus.noControl)
         {
-            holdingItem.Interact(frontPosition(), Quaternion.identity, null);
+            invent_.dropObject(frontPosition());
             holdingItem.removeHeld();
             removeHeldItem();
             handLocked = false;
         }
 
         //Work with the exit input to get out of locking positions without touching the interaction.
-        if ((Input.GetKey(options.getControl(OptionsManager.theControls.exit)) && currentControl != controlStatus.noControl) || (currentControl == controlStatus.mouseOnlyConfined && Input.GetKey(options.getControl(OptionsManager.theControls.interaction))))
+            if ((Input.GetKey(options.getControl(OptionsManager.theControls.exit)) && currentControl != controlStatus.noControl) || (currentControl == controlStatus.mouseOnlyConfined && Input.GetKey(options.getControl(OptionsManager.theControls.interaction))))
         {
             //If a locking object is found then complete path to locking object,
             if (lockingObject && lockingObject.GetComponent<PlayerControlInteractionClass>())
@@ -354,11 +356,23 @@ public class FPSController : MonoBehaviour
             }
 
             //Controls for dropping items in held hand.
-            if (Input.GetKey(options.getControl(OptionsManager.theControls.drop)) && holdingItem && !inputLockObject && currentControl == controlStatus.fullControl)
+            if (Input.GetKey(options.getControl(OptionsManager.theControls.drop)) && !inputLockObject && currentControl == controlStatus.fullControl)
             {
-                holdingItem.Interact(frontPosition(), Quaternion.identity, null);
-                holdingItem.removeHeld();
+                invent_.dropObject(frontPosition());
+
+                //holdingItem.Interact(frontPosition(), Quaternion.identity, null);
+                //holdingItem.removeHeld();
                 removeHeldItem();
+            }
+
+            if (Input.GetKeyDown(options.getControl(OptionsManager.theControls.scrollUp)) && !handLocked && !inputLockObject && currentControl == controlStatus.fullControl)
+            {
+                invent_.switchObject(1);
+            }
+
+            if (Input.GetKeyDown(options.getControl(OptionsManager.theControls.scrollDown)) && !handLocked && !inputLockObject && currentControl == controlStatus.fullControl)
+            {
+                invent_.switchObject(-1);
             }
         }
         else
@@ -451,24 +465,20 @@ public class FPSController : MonoBehaviour
             //This is for interactions with holdable items.
             if (hitPoint.collider.GetComponent<HoldInteractionClass>())
             {
-
-
-                if (!holdingItem)
+                int avSlot = invent_.findAvailableSlot();
+                //Set up new code for holding an item.
+                if (avSlot > -1)
                 {
-                    //Ensure item can be touched by the player.
                     if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.player))
                     {
                         interactionTimer = interactionCooldown;
-
-                        //Make the interact happen.
-                        hitPoint.collider.GetComponent<InteractionClass>().Interact(playerHand.GetChild(0).position, playerHand.GetChild(0).rotation, playerHand);
+                        invent_.addObject(hitPoint.collider.GetComponent<HoldInteractionClass>());
                         setHeldItem(hitPoint.collider.GetComponent<HoldInteractionClass>());
 
-
-                    }
-                    //If for holding then change the position of the right hand to the position of the interaction.
-                    else if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.playerHold))
+                    //Could break something.
+                    } else if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.playerHold) && avSlot == 0)
                     {
+
                         //Do not reset interaction timer as this will be used for holding the button.
                         handLocked = true;
 
@@ -484,21 +494,27 @@ public class FPSController : MonoBehaviour
                         hitPoint.collider.GetComponent<InteractionClass>().secondaryInteract();
                     }
                 }
-
                 //This is interactions with position items that can hold holdable items.
             }
             else if (hitPoint.collider.GetComponent<PositionInteractionClass>())
             {
                 interactionTimer = interactionCooldown;
 
+                int possibleItem = invent_.findObjectInSlot(0);
+
+                //Debug.Log("Working2? " + possibleItem);
+
                 //Make the interact happen.
-                if (holdingItem && hitPoint.collider.GetComponent<PositionInteractionClass>().canHoldItem(holdingItem, false))
+                if (possibleItem > -1 && hitPoint.collider.GetComponent<PositionInteractionClass>().canHoldItem(invent_.getObjectAtInvent(possibleItem), false))
                 {
-                    //Make sure this is an interaction type - player so that players CAN interacte with this.
+                    Debug.Log("Item is valid: " + invent_.getObjectAtInvent(possibleItem).name);
+                    //Make sure this is an interaction type - player so that players CAN interact with this.
                     if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.player))
                     {
                         //Make sure you cannot interact with sensor objects.
-                        hitPoint.collider.GetComponent<InteractionClass>().Interact(holdingItem.gameObject);
+                        invent_.placeObject(hitPoint.collider.GetComponent<InteractionClass>(), possibleItem);
+                        //Drop the item.
+
                         removeHeldItem();
                     }
 
@@ -506,15 +522,14 @@ public class FPSController : MonoBehaviour
                 }
                 else
                 {
-                    if (!holdingItem)
+                    if (invent_.findObjectInSlot(0) > -1)
                     {
                         //If not holding an item, try to pick up item from the positionInteraction.
                         if (hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem() &&
                             hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem().isInteractionType(InteractionClass.interactionType.player))
                         {
-                            setHeldItem(hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem());
-                            hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem().Interact(playerHand.position, playerHand.rotation, playerHand);
-
+                            invent_.addObject(hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem());
+                            //hitPoint.collider.GetComponent<PositionInteractionClass>().getCurrentHeldItem().Interact(playerHand.position, playerHand.rotation, playerHand);
                         }
                     }
 
