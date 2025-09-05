@@ -26,8 +26,8 @@ public class StrangerAmbience : MonoBehaviour
     bool isChanging = true;
     bool isActive;
 
-    float sR;
-    float sL;
+    public float sR;
+    public float sL;
 
     private void Start()
     {

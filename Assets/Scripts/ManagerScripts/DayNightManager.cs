@@ -73,7 +73,7 @@ public class DayNightManager : MonoBehaviour
         //Adjust lights to be brighter at night.
         for (int i = 0; i < lights.Length; i++)
         {
-            lights[i].setIntensity(intensity * 2);
+            //lights[i].setIntensity(intensity * 2);
         }
     }
 
@@ -109,7 +109,7 @@ public class DayNightManager : MonoBehaviour
             //Adjust lights to be brighter at night.
             for (int i = 0; i < lights.Length; i++)
             {
-                lights[i].setIntensity(intensity * 2);
+                //lights[i].setIntensity(intensity * 2);
             }
         }
     }

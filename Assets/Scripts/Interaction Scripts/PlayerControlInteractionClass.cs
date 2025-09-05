@@ -21,6 +21,9 @@ public class PlayerControlInteractionClass : InteractionClass
     Transform adjustedObject;
 
     [SerializeField]
+    Transform animObjectTarget;
+
+    [SerializeField]
     Vector3 adjustedRotationOffset;
 
     Quaternion initialPosition;
@@ -108,9 +111,11 @@ public class PlayerControlInteractionClass : InteractionClass
         if (isOn)
         {
             player_.setLock(isOn, this.gameObject, useMouse);
+            player_.setAnimObjectPosition(animObjectTarget);
         } else
         {
             player_.setLock(isOn, null, false);
+            player_.setAnimObjectPosition(null);
         }
 
         //If current cam hasn't been set, then set it here.

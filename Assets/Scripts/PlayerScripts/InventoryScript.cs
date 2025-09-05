@@ -165,7 +165,7 @@ public class InventoryScript : MonoBehaviour
         {
             if(inventoryObjects[i].place == ind)
             {
-                Debug.Log("Found object: " + inventoryObjects[i].item.name + " in " + inventoryPositions[ind].name);
+                //Debug.Log("Found object: " + inventoryObjects[i].item.name + " in " + inventoryPositions[ind].name);
                 return i;
             }
         }

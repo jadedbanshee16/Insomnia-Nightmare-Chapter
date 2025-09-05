@@ -8,9 +8,10 @@ public class FPSController : MonoBehaviour
     private enum playerStatus
     {
         idle,
-        crouch,
         walk,
+        crouch,
         run,
+        sit,
         die
     }
 
@@ -38,6 +39,8 @@ public class FPSController : MonoBehaviour
 
     [SerializeField]
     private Vector2 colliderSizes;
+    [SerializeField]
+    private Vector3[] camYPositions;
     private float colliderSize;
 
     [HeaderAttribute("Player Objects")]
@@ -50,10 +53,11 @@ public class FPSController : MonoBehaviour
     private CharacterController m_controller;
     private Rigidbody m_rig;
     private InventoryScript invent_;
+    private Animator anim_;
     [SerializeField]
     private Transform camPos;
-    private playerStatus currentStatus;
     [SerializeField]
+    private playerStatus currentStatus;
     private controlStatus currentControl;
 
     [SerializeField]
@@ -97,6 +101,7 @@ public class FPSController : MonoBehaviour
         m_collider = GetComponent<CapsuleCollider>();
         options = GameObject.FindGameObjectWithTag("GameManager").GetComponent<OptionsManager>();
         invent_ = GetComponentInChildren<InventoryScript>();
+        anim_ = GetComponentInChildren<Animator>();
         colliderSize = colliderSizes.y;
 
         menu_ = GetComponentInChildren<MenuManager>();
@@ -116,6 +121,11 @@ public class FPSController : MonoBehaviour
         //Set cursor to middle of screen.
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        //Vector3 pos = new Vector3(playerHead.localPosition.x, camTargets.position.y, playerHead.localPosition.z);
+        //playerHead.position = new Vector3(camTargets.position.x, camTargets.position.y, camTargets.position.z);
+
+        playerHead.localPosition = new Vector3(playerHead.localPosition.x, camYPositions[0].y, playerHead.localPosition.z);
 
         //Debug.Log("After change2: " + GameObject.FindGameObjectWithTag("Player").transform.position);
 
@@ -262,10 +272,14 @@ public class FPSController : MonoBehaviour
             //Ensure to add gravity to the controller;
             m_controller.SimpleMove((moveDirection.normalized * moveSpeed) + gravity);
             didMove = true;
+            currentStatus = playerStatus.walk;
+        } else
+        {
+            currentStatus = playerStatus.idle;
         }
 
         moveSpeed = speedVariations.y;
-        currentStatus = playerStatus.walk;
+        //currentStatus = playerStatus.walk;
 
         //Create the crouch buttons.
         if (Input.GetKey(options.getControl(OptionsManager.theControls.crouch)))
@@ -286,7 +300,11 @@ public class FPSController : MonoBehaviour
         if (Input.GetKey(options.getControl(OptionsManager.theControls.run)) && currentStatus != playerStatus.crouch)
         {
             moveSpeed = speedVariations.z;
-            currentStatus = playerStatus.run;
+
+            if (didMove)
+            {
+                currentStatus = playerStatus.run;
+            }
 
             //didMove = true;
         }
@@ -296,22 +314,44 @@ public class FPSController : MonoBehaviour
             currentStatus = playerStatus.walk;
         }
 
-        if (currentStatus == playerStatus.crouch && colliderSize > colliderSizes.x)
-        {
-            colliderSize -= Time.fixedDeltaTime;
-            m_collider.height = colliderSize;
-            m_controller.height = colliderSize;
-            playerHead.localPosition = new Vector3(0, -0.08f, 0);
-        }
 
         if (currentStatus != playerStatus.crouch && colliderSize < colliderSizes.y && isNothingAbove())
         {
             colliderSize += Time.fixedDeltaTime;
             m_collider.height = colliderSize;
+            m_collider.center = new Vector3(0, (colliderSize / 2), 0);
             m_controller.height = colliderSize;
-            playerHead.localPosition = new Vector3(0, 0.02f, 0);
+            m_controller.center = new Vector3(0, (colliderSize / 2), 0);
+
+            Vector3 newCamPos = new Vector3(playerHead.localPosition.x, camYPositions[0].y, playerHead.localPosition.z);
+            playerHead.localPosition = Vector3.Lerp(playerHead.localPosition, newCamPos, Mathf.InverseLerp(colliderSizes.x, colliderSizes.y, colliderSize));
+            //playerColliders[0].enabled = true;
+            //playerColliders[1].enabled = false;
+            //playerHead.localPosition = new Vector3(playerHead.localPosition.x, camYPositions.y, playerHead.localPosition.z);
+            //playerCam.localPosition = new Vector3(playerCam.localPosition.x, 0.584f, playerCam.localPosition.z);
+        } else if (!isNothingAbove())
+        {
+            currentStatus = playerStatus.crouch;
         }
 
+        if (currentStatus == playerStatus.crouch && colliderSize > colliderSizes.x)
+        {
+            colliderSize -= Time.fixedDeltaTime;
+            m_collider.height = colliderSize;
+            m_collider.center = new Vector3(0, (colliderSize / 2), 0);
+            m_controller.height = colliderSize;
+            m_controller.center = new Vector3(0, (colliderSize / 2), 0);
+            //playerColliders[0].enabled = false;
+            //playerColliders[1].enabled = true;
+
+            Vector3 newCamPos = new Vector3(playerHead.localPosition.x, camYPositions[1].y, playerHead.localPosition.z);
+            playerHead.localPosition = Vector3.Lerp(playerHead.localPosition, newCamPos, Mathf.InverseLerp(colliderSizes.y, colliderSizes.x, colliderSize));
+
+            //playerHead.localPosition = new Vector3(playerHead.localPosition.x, camYPositions.x, playerHead.localPosition.z);
+            //playerCam.localPosition = new Vector3(playerCam.localPosition.x, 0.18f, playerCam.localPosition.z);
+        }
+
+        //If input makes a new direction, movement has been made.
         if (didMove)
         {
             m_camera.changeHeadBob((int)currentStatus);
@@ -326,11 +366,36 @@ public class FPSController : MonoBehaviour
                 makeRandomFootstep();
                 footstepTimer = footstepTime;
             }
+
+            //Run the animation. Add crouch and run later.
+            float forwardDot = Vector3.Dot(moveDirection.normalized, transform.forward.normalized);
+            float sideDot = Vector3.Dot(moveDirection.normalized, transform.right.normalized);
+
+            //Find the direction the player is moving and set the animation.
+            //This prioritizes forward walking.
+            if(forwardDot > 0.5)
+            {
+                anim_.SetInteger("Dir", 0);
+            } else if (sideDot > 0.5)
+            {
+                anim_.SetInteger("Dir", 1);
+            } else if (sideDot < -0.5)
+            {
+                anim_.SetInteger("Dir", 3);
+            } else
+            {
+                anim_.SetInteger("Dir", 2);
+            }
+
         } else
         {
             m_camera.changeHeadBob((int)currentStatus);
+            //If an idle animation is available in this system, then use this.
+            anim_.SetInteger("Dir", 4);
             footstepTimer = 0;
         }
+
+        anim_.SetInteger("WalkState", (int)currentStatus);
     }
 
     //Keep all player interaction.
@@ -510,7 +575,7 @@ public class FPSController : MonoBehaviour
                 //Make the interact happen.
                 if (possibleItem > -1 && hitPoint.collider.GetComponent<PositionInteractionClass>().canHoldItem(invent_.getObjectAtInvent(possibleItem), false))
                 {
-                    Debug.Log("Item is valid: " + invent_.getObjectAtInvent(possibleItem).name);
+                    //Debug.Log("Item is valid: " + invent_.getObjectAtInvent(possibleItem).name);
                     //Make sure this is an interaction type - player so that players CAN interact with this.
                     if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.player))
                     {
@@ -641,8 +706,11 @@ public class FPSController : MonoBehaviour
     //This is used to ensure a player cannot get up if they crouched under something.
     private bool isNothingAbove()
     {
+        Vector3 truePos = playerHead.parent.position;
+
+        //Debug.DrawRay(truePos, Vector3.up.normalized * 0.6f, Color.white, 3);
         //Send a new ray up.
-        if (Physics.Raycast(playerHead.position, Vector3.up, 0.15f))
+        if (Physics.Raycast(truePos, Vector3.up, 0.6f, ~LayerMask.GetMask(new string[] { "PlayerLayer", "MovementLayer" })))
         {
             //Something is above. if so, return false.
             return false;
@@ -696,6 +764,23 @@ public class FPSController : MonoBehaviour
             Cursor.visible = false;
         }
 
+    }
+
+    public void setAnimObjectPosition(Transform tar)
+    {
+        if (tar)
+        {
+            anim_.transform.position = tar.position;
+            anim_.transform.rotation = tar.rotation;
+            currentStatus = playerStatus.sit;
+            anim_.SetInteger("WalkState", (int)currentStatus);
+        } else
+        {
+            anim_.transform.position = this.transform.position;
+            anim_.transform.rotation = this.transform.rotation;
+            currentStatus = playerStatus.idle;
+            anim_.SetInteger("WalkState", (int)currentStatus);
+        }
     }
 
     public void setMenu(bool b, bool usingMouse)

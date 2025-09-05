@@ -68,7 +68,12 @@ public class OptionChangeButton : ButtonClass
             yield return null;
         }
 
-        eventSystem_.SetActive(true);
+
+        if (eventSystem_)
+        {
+            eventSystem_.SetActive(true);
+        }
+
         playerController.setCurrentControl(oldStat);
 
         base.useButton();
