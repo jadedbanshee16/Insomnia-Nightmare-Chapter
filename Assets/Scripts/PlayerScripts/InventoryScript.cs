@@ -11,6 +11,10 @@ public class InventoryScript : MonoBehaviour
     List<inventoryItem> inventoryObjects;
     [SerializeField]
     Transform actualActiveHand;
+    [SerializeField]
+    Animator anim_;
+    [SerializeField]
+    HoldInteractionClass activeHandObject;
 
     public int activeHand = 0;
 
@@ -31,20 +35,16 @@ public class InventoryScript : MonoBehaviour
             {
                 newObject.Interact(inventoryPositions[availableSlot].transform.GetChild(0).position, inventoryPositions[availableSlot].transform.GetChild(0).rotation, inventoryPositions[availableSlot].transform);
                 inventoryObjects.Add(new inventoryItem(newObject, availableSlot));
+                setInActiveHand();
                 return;
             }
 
             //Set the activeHand to the availableSlot. It is now no longer available but store the last position the object has been moved.
             //activeHand = availableSlot;
-
-            for(int i = 0; i < inventoryObjects.Count; i++)
-            {
-                Debug.Log("Object " + i + ": " + inventoryObjects[i].item);
-            }
         }
 
         //If it got this far, then you are unable to pick up the item. Debug for prosperity.
-        Debug.Log("Unable to pick up item.");
+        //Debug.Log("Unable to pick up item.");
     }
 
     public void dropObject(Vector3 front)
@@ -59,12 +59,22 @@ public class InventoryScript : MonoBehaviour
             inventoryObjects[obj].item.removeHeld();
             inventoryObjects.RemoveAt(obj);
         }
+
+        setInActiveHand();
     }
 
-    public void placeObject(InteractionClass newParent, int ind)
+    public void placeObject(PositionInteractionClass newParent, int ind)
     {
+        inventoryObjects[ind].item.removeHeld();
         newParent.Interact(inventoryObjects[ind].item.gameObject);
         inventoryObjects.RemoveAt(ind);
+
+        setInActiveHand();
+
+        /*for (int i = 0; i < inventoryObjects.Count; i++)
+        {
+            Debug.Log("Object " + i + ": " + inventoryObjects[i].item);
+        }*/
     }
 
     public HoldInteractionClass getObjectAtInvent(int ind)
@@ -107,6 +117,7 @@ public class InventoryScript : MonoBehaviour
 
             //Add new struct with the new data.
             inventoryObjects[actInd] = newItem;
+
         }
 
         //Make sure active hand has been made empty.
@@ -119,6 +130,14 @@ public class InventoryScript : MonoBehaviour
 
             inventoryObjects[newInd] = newItem;
         }
+
+        //Retest if an item is in the active hand slot.
+        setInActiveHand();
+
+        /*for (int i = 0; i < inventoryObjects.Count; i++)
+        {
+            Debug.Log("Object " + i + ": " + inventoryObjects[i].item);
+        }*/
     }
 
     /*public HoldInteractionClass returnHeldObject()
@@ -131,7 +150,7 @@ public class InventoryScript : MonoBehaviour
     {
         List<int> positions = new List<int>();
 
-
+        //Debug.Log("Find available slot");
         //Populate positions so that the final positions will match the index.
         for(int i = 0; i < inventoryPositions.Length; i++)
         {
@@ -140,6 +159,8 @@ public class InventoryScript : MonoBehaviour
                 positions.Add(i);
             }
         }
+
+        //Debug.Log("Slots found: " + positions.Count + " | " + positions[0]);
 
         //If any more positions left, then assume they are available.
         if(positions.Count > 0)
@@ -173,6 +194,21 @@ public class InventoryScript : MonoBehaviour
         return -1;
     }
 
+    private void setInActiveHand()
+    {
+        //Retest if an item is in the active hand slot.
+        int actInd = findObjectInSlot(0);
+
+        if (actInd >= 0)
+        {
+            activeHandObject = inventoryObjects[actInd].item;
+        }
+        else
+        {
+            activeHandObject = null;
+        }
+    }
+
 
     //Warning: This assumes the given inventory items can be found when searching for interactables.
     public void updateInventorySlots()
@@ -185,6 +221,7 @@ public class InventoryScript : MonoBehaviour
         inventoryPositions = new Transform[transform.childCount + 1];
         inventoryObjects = new List<inventoryItem>();
 
+        //Make the active hand either where current transform is OR in active hand spot so I can decide where the active hand is.
         if (actualActiveHand)
         {
             inventoryPositions[0] = actualActiveHand;
@@ -211,6 +248,18 @@ public class InventoryScript : MonoBehaviour
                 }
             }
         }
+
+        setInActiveHand();
+
+        /*for (int i = 0; i < inventoryObjects.Count; i++)
+        {
+            Debug.Log("Object " + i + ": " + inventoryObjects[i].item + " | " + inventoryObjects[i].place);
+        }*/
+    }
+
+    public HoldInteractionClass getActiveHandObject()
+    {
+        return activeHandObject;
     }
 
     //A struct to keep item data.

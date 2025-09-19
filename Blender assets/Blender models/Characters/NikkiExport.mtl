@@ -1,13 +1,46 @@
 # Blender 4.1.1 MTL File: 'NikkiExport.blend'
 # www.blender.org
 
-newmtl NikkiTex
+newmtl NikkiBodyTex
+Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd D:/Users/Jerome/Documents/LocalGitHub/Insomnia-Nightmare-Chapter/Assets/Textures/Characters/NikkiTex_.png
-map_Ns D:/Users/Jerome/Documents/LocalGitHub/Insomnia-Nightmare-Chapter/Assets/Textures/Characters/NikkiMetal_.png
-map_Bump -bm 0.400000 D:/Users/Jerome/Documents/LocalGitHub/Insomnia-Nightmare-Chapter/Assets/Textures/Characters/NikkiNorm_.png
+map_Kd D:/Users/Jerome/Documents/LocalGitHub/Insomnia-Nightmare-Chapter/Assets/Textures/Characters/Nikki/NikkiBodyTex_.png
+map_Bump -bm 0.700000 D:/Users/Jerome/Documents/LocalGitHub/Insomnia-Nightmare-Chapter/Assets/Textures/Characters/Nikki/NikkiBodyNorm_.png
+
+newmtl NikkiHairTex
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 2
+map_Kd D:/Users/Jerome/Documents/LocalGitHub/Insomnia-Nightmare-Chapter/Assets/Textures/Characters/Nikki/NikkiHairTex_.png
+map_d D:/Users/Jerome/Documents/LocalGitHub/Insomnia-Nightmare-Chapter/Assets/Textures/Characters/Nikki/NikkiHairTex_.png
+map_Bump -bm 1.000000 D:/Users/Jerome/Documents/LocalGitHub/Insomnia-Nightmare-Chapter/Assets/Textures/Characters/Nikki/NikkiHairNorm_.png
+
+newmtl NikkiJacketTex
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd D:/Users/Jerome/Documents/LocalGitHub/Insomnia-Nightmare-Chapter/Assets/Textures/Characters/Nikki/NikkiJacketTex_.png
+map_Ns D:/Users/Jerome/Documents/LocalGitHub/Insomnia-Nightmare-Chapter/Assets/Textures/Characters/Nikki/NikkiJacketRough_.png
+map_Bump -bm 0.300000 D:/Users/Jerome/Documents/LocalGitHub/Insomnia-Nightmare-Chapter/Assets/Textures/Characters/Nikki/NikkiJacketNorm_.png
+
+newmtl NikkiSkinTex
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd D:/Users/Jerome/Documents/LocalGitHub/Insomnia-Nightmare-Chapter/Assets/Textures/Characters/Nikki/NikkiSkinTex_.png
+map_Ns D:/Users/Jerome/Documents/LocalGitHub/Insomnia-Nightmare-Chapter/Assets/Textures/Characters/Nikki/NikkiSkinRough_.png
+map_Bump -bm 0.400000 D:/Users/Jerome/Documents/LocalGitHub/Insomnia-Nightmare-Chapter/Assets/Textures/Characters/Nikki/NikkiSkinNorm_.png

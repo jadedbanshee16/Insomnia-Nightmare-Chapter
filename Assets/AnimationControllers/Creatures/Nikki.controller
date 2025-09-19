@@ -809,12 +809,12 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: 2859481002592194040}
-    second:
-    - {fileID: 2631615367128727425}
   - first: {fileID: 1524907434476586987}
     second:
     - {fileID: 5853811781285029445}
+  - first: {fileID: 2859481002592194040}
+    second:
+    - {fileID: 2631615367128727425}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: -150, y: 30, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
@@ -1323,38 +1323,6 @@ AnimatorController:
     m_BlendingMode: 0
     m_SyncedLayerIndex: -1
     m_DefaultWeight: 0
-    m_IKPass: 0
-    m_SyncedLayerAffectsTiming: 0
-    m_Controller: {fileID: 9100000}
-  - serializedVersion: 5
-    m_Name: OtherLayer
-    m_StateMachine: {fileID: -8271224164277847635}
-    m_Mask: {fileID: 0}
-    m_Motions:
-    - serializedVersion: 2
-      m_State: {fileID: 5533792009288142382}
-      m_Motion: {fileID: 5203117320324273533, guid: 9f6ef77b2701e714092a3ec948646172,
-        type: 3}
-    - serializedVersion: 2
-      m_State: {fileID: -4807006624485229173}
-      m_Motion: {fileID: 815551247712337505, guid: 9f6ef77b2701e714092a3ec948646172,
-        type: 3}
-    - serializedVersion: 2
-      m_State: {fileID: -3821471747949235898}
-      m_Motion: {fileID: 4035479523409383198, guid: 9f6ef77b2701e714092a3ec948646172,
-        type: 3}
-    - serializedVersion: 2
-      m_State: {fileID: 6307149875083202590}
-      m_Motion: {fileID: 695737369729074865, guid: 9f6ef77b2701e714092a3ec948646172,
-        type: 3}
-    - serializedVersion: 2
-      m_State: {fileID: 6910427876602138851}
-      m_Motion: {fileID: 3508736014166282699, guid: 9f6ef77b2701e714092a3ec948646172,
-        type: 3}
-    m_Behaviours: []
-    m_BlendingMode: 0
-    m_SyncedLayerIndex: 0
-    m_DefaultWeight: 1
     m_IKPass: 1
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}

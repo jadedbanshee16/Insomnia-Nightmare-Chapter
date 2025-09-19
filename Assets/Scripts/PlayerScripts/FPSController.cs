@@ -90,7 +90,7 @@ public class FPSController : MonoBehaviour
     public float interactionTimer = 0;
 
     //This variable is used pick up items but cannot hold them without holding down the pick up button.
-    private bool handLocked;
+    public bool handLocked;
 
     // Start is called before the first frame update
     void Start()
@@ -532,16 +532,21 @@ public class FPSController : MonoBehaviour
             {
                 int avSlot = invent_.findAvailableSlot();
 
+                //Debug.Log("Test for holding: " + avSlot + " | " + holdingItem);
+
+                //Update held item to ensure that active hand is free.
+                setHeldItem(invent_.getActiveHandObject());
+
                 //Holding item is for items you MUST hold the button to hold and the avSlot is returning of there are available spots in the inventory.
                 //Both must be set (available and not holdingItem) in order to interact.
                 //Set up new code for holding an item.
-                if (avSlot > -1 && !holdingItem)
+                if (avSlot > -1)
                 {
                     if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.player))
                     {
                         interactionTimer = interactionCooldown;
                         invent_.addObject(hitPoint.collider.GetComponent<HoldInteractionClass>());
-                        //setHeldItem(hitPoint.collider.GetComponent<HoldInteractionClass>());
+                        setHeldItem(invent_.getActiveHandObject());
 
                     //Could break something.
                     } else if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.playerHold) && avSlot == 0 && !holdingItem)
@@ -552,7 +557,11 @@ public class FPSController : MonoBehaviour
 
                         playerHand.GetChild(0).transform.position = hitPoint.point;
                         hitPoint.collider.GetComponent<InteractionClass>().Interact(playerHand.GetChild(0).position, playerHand.GetChild(0).rotation, playerHand.GetComponentInChildren<Transform>());
-                        setHeldItem(hitPoint.collider.GetComponent<HoldInteractionClass>());
+                        hitPoint.collider.GetComponent<HoldInteractionClass>().setPickUpPosition(playerHand.GetChild(0));
+                        invent_.addObject(hitPoint.collider.GetComponent<HoldInteractionClass>());
+
+                        //Set holding item to whatever is in the active hand.
+                        setHeldItem(invent_.getActiveHandObject());
                     }
                     //If available for a secondary interaction, then interact.
                     else if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.secondaryInteraction))
@@ -580,7 +589,7 @@ public class FPSController : MonoBehaviour
                     if (hitPoint.collider.GetComponent<InteractionClass>().isInteractionType(InteractionClass.interactionType.player))
                     {
                         //Make sure you cannot interact with sensor objects.
-                        invent_.placeObject(hitPoint.collider.GetComponent<InteractionClass>(), possibleItem);
+                        invent_.placeObject(hitPoint.collider.GetComponent<PositionInteractionClass>(), possibleItem);
                         //Drop the item.
 
                         removeHeldItem();
@@ -665,6 +674,7 @@ public class FPSController : MonoBehaviour
     //A function to make holding item equal to an object.
     public void setHeldItem(HoldInteractionClass obj)
     {
+        //Debug.Log(obj);
         holdingItem = obj;
     }
 

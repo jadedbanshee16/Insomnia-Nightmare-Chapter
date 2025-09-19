@@ -422,7 +422,8 @@ public class WorldStateManager : MonoBehaviour
                     else if (connObj && connObj.GetComponentInParent<FPSController>())
                     {
                         //Debug.Log("Working2? " + interactionablesItems[v].gameObject.name);
-                        connObj.GetComponentInParent<FPSController>().setHeldItem(interactionablesItems[v]);
+                        //Deprecated, as interactions can handle their own set item due to what is in active hand.
+                        //connObj.GetComponentInParent<FPSController>().setHeldItem(interactionablesItems[v]);
                         interactionablesItems[v].GetComponent<InteractionClass>().Interact(connObj.transform.GetChild(0).position, connObj.transform.GetChild(0).rotation, connObj.transform);
 
                     }

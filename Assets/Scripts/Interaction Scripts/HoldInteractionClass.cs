@@ -22,6 +22,9 @@ public class HoldInteractionClass : InteractionClass
     [SerializeField]
     private interactionType type;
 
+    [SerializeField]
+    Transform pickUpPosition;
+
     [Header("Anchor Settings")]
     //An object that this object may be anchored to.
     //If there is no anchor, then this item is free to move.
@@ -323,6 +326,22 @@ public class HoldInteractionClass : InteractionClass
     public bool getIsHeld()
     {
         return isHeld;
+    }
+
+    public Transform getpickUpPosition()
+    {
+        if (pickUpPosition)
+        {
+            return pickUpPosition;
+        } else
+        {
+            return transform;
+        }
+    }
+
+    public void setPickUpPosition(Transform newPos)
+    {
+        pickUpPosition = newPos;
     }
 
     public override bool isInteractionType(interactionType type)
