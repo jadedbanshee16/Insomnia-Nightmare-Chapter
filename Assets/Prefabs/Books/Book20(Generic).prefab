@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4204605085902928491
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7299382153481585920}
+  m_Layer: 11
+  m_Name: HoldPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7299382153481585920
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4204605085902928491}
+  serializedVersion: 2
+  m_LocalRotation: {x: 3.7210318e-10, y: -2.7996358e-10, z: -0.7990856, w: 0.60121727}
+  m_LocalPosition: {x: 0.062, y: 0.009, z: -0.011}
+  m_LocalScale: {x: 1.0000119, y: 1.0000119, z: 1.0000119}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7392245057970180307}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -106.086}
 --- !u!1 &6409517649830867326
 GameObject:
   m_ObjectHideFlags: 0
@@ -32,10 +63,11 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 4.6566123e-10, z: -0, w: 1}
   m_LocalPosition: {x: -0.9071483, y: 0.21, z: 1.122}
-  m_LocalScale: {x: 0.41204506, y: 0.41204506, z: 0.41204506}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.74999994, y: 0.74999994, z: 0.74999994}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7217035170357687914}
+  - {fileID: 7299382153481585920}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &2680516492693292629
@@ -57,8 +89,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.27613884, y: 0.3486258, z: 0.067025036}
-  m_Center: {x: 0.029458445, y: 0.17688254, z: 0.004275876}
+  m_Size: {x: 0.12111658, y: 0.15263341, z: 0.028269649}
+  m_Center: {x: 0.0062051117, y: 0.07888632, z: 0.0026149154}
 --- !u!54 &285645312645610944
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -121,6 +153,7 @@ MonoBehaviour:
   dropDirection: {x: 85, y: 0, z: 0}
   currentHolder: {fileID: 0}
   type: 3
+  pickUpPosition: {fileID: 7299382153481585920}
   anchorObject: {fileID: 0}
   anchorThreshold: 0
   stretchThreshold: 0
@@ -263,8 +296,8 @@ Transform:
   m_GameObject: {fileID: 8492707103469222365}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0.7071068, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0.186, z: 0}
-  m_LocalScale: {x: 105.4035, y: 105.4035, z: 105.4035}
+  m_LocalPosition: {x: -0.008, y: 0.086, z: -0}
+  m_LocalScale: {x: 45.9, y: 45.9, z: 45.9}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7392245057970180307}
@@ -300,7 +333,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 4560549028521240671, guid: 88fa290f70a716d45a855b0b73765593, type: 3}
+  - {fileID: 2100000, guid: 0f35548f268bbc14598418092cc7bd6c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

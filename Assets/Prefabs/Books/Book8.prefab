@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 327279402597084620, guid: 88fa290f70a716d45a855b0b73765593, type: 3}
+  - {fileID: 2100000, guid: 7edd4853f5b95d6438d240874443aeb7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -118,10 +118,11 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.9071483, y: 0.509, z: 0.8921}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.74999994, y: 0.74999994, z: 0.74999994}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7788121698101358369}
+  - {fileID: 5896626918377597180}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &2219873520728941725
@@ -207,6 +208,7 @@ MonoBehaviour:
   dropDirection: {x: 85, y: 0, z: 0}
   currentHolder: {fileID: 0}
   type: 8
+  pickUpPosition: {fileID: 5896626918377597180}
   anchorObject: {fileID: 0}
   anchorThreshold: 0
   stretchThreshold: 0
@@ -322,3 +324,34 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &5845444403135735988
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5896626918377597180}
+  m_Layer: 11
+  m_Name: HoldPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5896626918377597180
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5845444403135735988}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0.7990856, w: 0.60121727}
+  m_LocalPosition: {x: 0.0837, y: 0, z: -0.0062}
+  m_LocalScale: {x: 0.41204998, y: 0.41204998, z: 0.41204998}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3287501958789560907}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -106.086}

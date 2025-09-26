@@ -27,9 +27,9 @@ Transform:
   m_GameObject: {fileID: 535512223920684285}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0.7071068, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0.162, z: 0}
-  m_LocalScale: {x: 91.15049, y: 91.15048, z: 91.15048}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: -0.0069, y: 0.0606, z: -0}
+  m_LocalScale: {x: 34.1, y: 34.1, z: 34.1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5801468791989635677}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 90}
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8731968989944991245, guid: 88fa290f70a716d45a855b0b73765593, type: 3}
+  - {fileID: 2100000, guid: 5a90b456bd0c3094a8952cb80ad1d56c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86,6 +86,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6957524198403267207
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4775095788651907647}
+  m_Layer: 11
+  m_Name: HoldPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4775095788651907647
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6957524198403267207}
+  serializedVersion: 2
+  m_LocalRotation: {x: 3.7210318e-10, y: -2.7996358e-10, z: -0.7990856, w: 0.60121727}
+  m_LocalPosition: {x: 0.047, y: 0, z: -0.013}
+  m_LocalScale: {x: 1.0000119, y: 1.0000119, z: 1.0000119}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5801468791989635677}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -106.086}
 --- !u!1 &8343699963878454148
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,10 +149,11 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 4.6566123e-10, z: -0, w: 1}
   m_LocalPosition: {x: -0.9071483, y: 0.4555, z: 0.7567}
-  m_LocalScale: {x: 0.41204506, y: 0.41204506, z: 0.41204506}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.74999994, y: 0.74999994, z: 0.74999994}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8911601721628730926}
+  - {fileID: 4775095788651907647}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &6869931697655908358
@@ -143,8 +175,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.24129473, y: 0.29727408, z: 0.05723343}
-  m_Center: {x: 0.023759183, y: 0.15401614, z: 0.0043202154}
+  m_Size: {x: 0.0889135, y: 0.10964829, z: 0.01991558}
+  m_Center: {x: 0.0025087297, y: 0.060203224, z: 0.0022469754}
 --- !u!54 &4762229416623665169
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -207,6 +239,7 @@ MonoBehaviour:
   dropDirection: {x: 85, y: 0, z: 0}
   currentHolder: {fileID: 0}
   type: 3
+  pickUpPosition: {fileID: 4775095788651907647}
   anchorObject: {fileID: 0}
   anchorThreshold: 0
   stretchThreshold: 0
